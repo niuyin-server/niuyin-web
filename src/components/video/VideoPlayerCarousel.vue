@@ -289,7 +289,7 @@ export default {
   width: 100%;
   border-radius: 1rem;
   height: 100%;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
 }
 
 .video-box {

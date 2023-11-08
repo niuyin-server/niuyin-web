@@ -10,7 +10,7 @@ a {
 }
 
 .backdrop-filter {
-    backdrop-filter: contrast(0.6) brightness(2.5) saturate(1.5) blur(20px);
+    backdrop-filter: blur(10px);
 }
 
 .one-line {
@@ -58,7 +58,7 @@ a {
 /*el抽屉drawer*/
 .el-drawer {
     background-color: rgba(0, 0, 0, 0.80);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
 }
 
 .el-drawer__header {

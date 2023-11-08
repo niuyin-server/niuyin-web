@@ -61,7 +61,7 @@ export default {
 .video-container {
   width: 90%;
   float: left;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
   border-radius: 1rem;
   margin: 0 auto;
   height: calc(100vh - 160px);

@@ -1,6 +1,6 @@
 <template>
   <!--  导航栏-->
-  <el-header class="niuyin-header">
+  <el-header class="niuyin-header backdrop-filter">
 
     <div class="nav-left"></div>
     <!-- 导航栏中间区域 -->
@@ -184,9 +184,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  //background-color: aliceblue;
   justify-content: space-between;
-  backdrop-filter: blur(20px);
 
   .nav-right {
     display: inline-flex;

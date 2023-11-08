@@ -97,7 +97,6 @@ export default {
 }
 
 .tab_left_item2:hover {
-  /*backdrop-filter: blur(10px);*/
   background-color: rgba(37, 38, 50, .08);
 }
 
