@@ -1,0 +1,144 @@
+
+.main-container {
+  border-radius: 1rem;
+  height: 100%;
+  padding: 1rem;
+}
+
+.user-container {
+  display: flex;
+  margin: 28px auto 21px;
+  max-width: 1208px;
+  position: relative;
+  width: 100%;
+
+  .avatar-area {
+    flex: none;
+    position: relative;
+    width: 112px;
+
+    .user-avatar {
+      width: 112px;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 112px;
+    }
+  }
+
+  .user-info {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex: 1 1;
+    flex-wrap: wrap;
+    margin-left: 32px;
+    min-height: 120px;
+
+    .username {
+      display: flex;
+      position: relative;
+      width: 100%;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 28px;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .follow-fans-like {
+      display: flex;
+      margin-top: 8px;
+      width: 100%;
+      cursor: pointer;
+
+    }
+
+    .user-profile {
+      align-items: center;
+      display: flex;
+      height: 20px;
+      margin-top: 10px;
+      width: 100%;
+
+      .userid {
+        font-size: 12px;
+        line-height: 20px;
+        margin-right: 20px;
+        color: grey;
+      }
+
+      .gender-age {
+        align-items: center;
+        background: #f2f2f4;
+        border-radius: 4px;
+        color: rgba(22, 24, 35, .75);
+        display: flex;
+        font-size: 12px;
+        height: 20px;
+        line-height: 20px;
+        margin-right: 4px;
+        padding: 0 8px;
+      }
+
+      .city {
+        align-items: center;
+        background: #f2f2f4;
+        border-radius: 4px;
+        color: rgba(22, 24, 35, .75);
+        display: flex;
+        font-size: 12px;
+        height: 20px;
+        line-height: 20px;
+        margin-right: 4px;
+        padding: 0 8px;
+      }
+
+      .school {
+        align-items: center;
+        background: #f2f2f4;
+        border-radius: 4px;
+        color: rgba(22, 24, 35, .75);
+        display: flex;
+        font-size: 12px;
+        height: 20px;
+        line-height: 20px;
+        margin-right: 4px;
+        padding: 0 8px;
+      }
+    }
+  }
+
+  .trust-login-switch {
+    align-items: center;
+    display: inline-flex;
+    position: relative !important;
+    height: 100%;
+
+    .trust-login-switch-title {
+      font-size: 12px;
+      font-style: normal;
+      color: grey;
+      font-weight: 400;
+      height: 22px;
+      letter-spacing: .6px;
+      line-height: 22px;
+      margin: 0 8px;
+      width: 76px;
+    }
+  }
+
+  .user-edit {
+    bottom: 0;
+    display: flex;
+    position: absolute;
+    right: 0;
+  }
+}
+
+.user-works {
+  margin: 0 auto;
+  max-width: 1208px;
+}
+

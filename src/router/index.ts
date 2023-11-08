@@ -40,6 +40,16 @@ const router = createRouter({
                 {path: "hotVideo", component: () => import("@/Layout/HotVideo.vue")},
             ],
         },
+        {
+            path: '/404',
+            component: () => import('@/Layout/error/404.vue'),
+            hidden: true
+        },
+        {
+            path: '/401',
+            component: () => import('@/Layout/error/401.vue'),
+            hidden: true
+        },
     ],
 });
 

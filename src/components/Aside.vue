@@ -52,10 +52,10 @@ export default {
   data() {
     return {
       tabsLeftList: [
-        {id: 1, name: "首页", background: "rgba(67,56,58,0.3)", class: "icon-index", link: "/index"},
-        {id: 2, name: "热门", background: "rgba(255,92,124,0.3)", class: "icon-hotVideo", link: "/hotVideo",},
-        {id: 3, name: "关注", background: "rgba(109,216,255,0.3)", class: "icon-follow", link: "/follow"},
-        {id: 4, name: "频道", background: "rgba(109,199,129,0.3)", class: "icon-channel", link: "/channel",},
+        {id: 1, name: "首页", '--color': "red", class: "icon-index", link: "/index"},
+        {id: 2, name: "热门", '--color': "rgba(0,0,0,1)", class: "icon-hotVideo", link: "/hotVideo",},
+        {id: 3, name: "关注", '--color': "rgba(0,0,0,1)", class: "icon-follow", link: "/follow"},
+        {id: 4, name: "频道", '--color': "red", class: "icon-channel", link: "/channel",},
       ],
     }
   },
@@ -69,12 +69,11 @@ export default {
 
 <style>
 .el-aside {
-//background-color: aliceblue
 }
 
 .tab_left_item {
   width: 100%;
-  margin: 10px 0;
+  margin: 0.3rem 0;
   text-align: center;
   font-size: 0.9rem;
   border-radius: 0.5rem;
@@ -82,7 +81,7 @@ export default {
 
 .router-link {
   border-radius: 0.5rem;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   text-decoration: none;
   color: grey;
 }
@@ -90,7 +89,7 @@ export default {
 .tab_left_item2 {
   margin: 1px 1rem;
   display: flex;
-  padding: 0.2rem 0;
+  padding: 0.1rem 0;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -110,7 +109,6 @@ export default {
 }
 
 .round i {
-  color: #fff;
   border-radius: 50%;
   padding: 5px;
   font-size: 20px;

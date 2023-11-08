@@ -24,17 +24,17 @@
             <div class="operate-area">
               <div class="video-author"></div>
               <div class="op">
-                <i class="iconfont icon-like icon-36" style="font-size: 30px;text-align: center"
+                <i class="iconfont icon-like icon-36 operate-icon"
                    @click="videoLikeClick(item.videoId)"></i>
                 <div style="text-align: center;color: white">{{ item.likeNum }}</div>
               </div>
               <div class="op">
-                <i class="iconfont icon-comment icon-36" style="font-size: 30px;text-align: center"
+                <i class="iconfont icon-comment icon-36 operate-icon"
                    @click="videoCommentClick(item.videoId)"></i>
                 <div style="text-align: center;color: white">{{ item.commentNum }}</div>
               </div>
               <div class="op">
-                <i class="iconfont icon-favorite icon-36" style="font-size: 30px;text-align: center"
+                <i class="iconfont icon-favorite icon-36 operate-icon"
                    @click="videoFavoriteClick(item.videoId)"></i>
                 <div class="video-nums" style="text-align: center;color: white">{{ item.favoritesNum }}</div>
               </div>
@@ -72,7 +72,7 @@
                   <el-image class="user-avatar" :src="item.avatar" alt="" lazy></el-image>
                   <div class="user-nickname">
                     <p class="nickname">{{ item.nickName }}</p>
-                    <span style="color: gray;font-size: 0.7rem" class="create-time">{{
+                    <span style="color: grey;font-size: 0.7rem" class="create-time">{{
                         item.createTime
                       }}</span>
                   </div>
@@ -91,7 +91,7 @@
                               '@' + child.replayUserNickName
                             }}</span>
                         </p>
-                        <span style="color: gray;" class="create-time">{{ parseTime(child.createTime) }}</span>
+                        <span style="color: grey;" class="create-time">{{ parseTime(child.createTime) }}</span>
                       </div>
                     </div>
                     <div class="comment-content">
@@ -359,7 +359,7 @@ export default {
         .op {
           vertical-align: bottom;
           position: relative;
-          padding: 10px 0;
+          padding: 10px;
           cursor: pointer;
 
           .video-nums {
@@ -418,6 +418,20 @@ export default {
   }
 
 }
+
+.operate-icon {
+  font-size: 30px;
+  text-align: center;
+  transition: font-size 0.2s linear, width 0.2s linear;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.operate-icon:hover {
+  font-size: 35px;
+  color: red;
+}
+
 
 .video-box:hover .videoinfo-container {
   display: block;

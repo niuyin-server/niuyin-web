@@ -154,7 +154,6 @@ export default {
 .hot-container {
   border-radius: 1rem;
   height: 100%;
-  padding: 0 1rem 1rem 0;
 }
 
 </style>
