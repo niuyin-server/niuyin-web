@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {videoCategoryPage} from "@/api/video.js";
+// import {videoCategoryPage} from "@/api/video.js";
 import {Close, UserFilled} from "@element-plus/icons-vue";
 
 export default {
