@@ -49,22 +49,7 @@ export default {
 
 </script>
 
-<style lang='scss'>
-//@import "~@/assets/styles/index.scss";
-.niuyin {
-  background-image: url("../assets/images/index-bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  //background-color: aliceblue
-}
-
-.el-footer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 60px;
-  right: 20px;
-}
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "@/assets/styles/index.scss";
 
 </style>
