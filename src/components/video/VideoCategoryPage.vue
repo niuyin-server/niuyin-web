@@ -1,10 +1,9 @@
 <template>
-  <div class="video-page-container">
-    <div v-loading="loading"
-         :element-loading-svg="svg"
-         class="custom-loading-svg"
-         element-loading-svg-view-box="-10, -10, 50, 50"
-         style="display: flex;flex-flow: row wrap;justify-content: space-between">
+  <div class="video-page-container custom-loading-svg" v-loading="loading"
+       :element-loading-svg="svg"
+       element-loading-svg-view-box="-10, -10, 50, 50">
+    <div
+        style="display: flex;flex-flow: row wrap;justify-content: space-between;">
       <el-card v-for="item in videoList"
                :key="item.videoId"
                style="padding:1rem;background-color: white;width: 32.66%;border-radius:0.5rem;height: 300px;margin-bottom: 0.5rem">
@@ -128,7 +127,5 @@ export default {
 <style scoped>
 .video-page-container {
   border-radius: 1rem;
-  height: 100%;
-  backdrop-filter: blur(20px);
 }
 </style>

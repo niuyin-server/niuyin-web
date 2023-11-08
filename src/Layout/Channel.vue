@@ -50,6 +50,6 @@ export default {
   border-radius: 1rem;
   height: 100%;
   //backdrop-filter: blur(20px);
-  background-color: aliceblue
+  //background-color: aliceblue
 }
 </style>

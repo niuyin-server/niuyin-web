@@ -55,7 +55,7 @@
 <script>
 import {reactive} from 'vue'
 import {ElMessage} from 'element-plus'
-import {userLogin, register, getInfo} from '@/api/user'
+import {userLogin, register, getInfo} from '@/api/member.js'
 import {useUserStore} from '@/store/useUserStore'
 
 export default {

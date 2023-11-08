@@ -67,7 +67,7 @@ export default {
 
 <style>
 .el-aside {
-  background-color: aliceblue
+  //background-color: aliceblue
 }
 
 .tab_left_item {

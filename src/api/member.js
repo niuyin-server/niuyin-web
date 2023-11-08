@@ -8,14 +8,14 @@ export function login(username, password) {
         password
     }
     return request({
-        url: '/user/api/v1/login',
+        url: '/member/api/v1/login',
         method: 'post',
         data: data
     })
 }
 
 export const userLogin = (username, password) => {
-    return request.post('user/api/v1/login', {
+    return request.post('member/api/v1/login', {
         username,
         password
     })
@@ -24,7 +24,7 @@ export const userLogin = (username, password) => {
 // 注册方法
 export function register(data) {
     return request({
-        url: '/user/api/v1/register',
+        url: '/member/api/v1/register',
         method: 'post',
         data: data
     })
@@ -33,7 +33,7 @@ export function register(data) {
 // 获取用户详细信息
 export function getInfo() {
     return request({
-        url: '/user/api/v1/userinfo',
+        url: '/member/api/v1/userinfo',
         method: 'get'
     })
 }
@@ -49,7 +49,7 @@ export function logout() {
 
 //更新用户信息
 export function userupdate(nickname, email, telephone, avatar, sex) {
-    return request.put('/user/api/v1/update', {
+    return request.put('/member/api/v1/update', {
         nickName: nickname,
         email,
         telephone,

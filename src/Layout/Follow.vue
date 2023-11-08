@@ -91,12 +91,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .follow-container {
   width: 100%;
   height: 100%;
   border-radius: 1rem;
-  background-color: aliceblue
+  //background-color: aliceblue
 }
 
 .user-card {

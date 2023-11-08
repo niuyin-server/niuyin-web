@@ -95,7 +95,7 @@ import {
   Star, UserFilled,
 } from '@element-plus/icons-vue'
 import {useUserStore} from "@/store/useUserStore";
-import {getInfo} from "@/api/user.js";
+import {getInfo} from "@/api/member.js";
 
 export default {
   name: "Header",
@@ -184,7 +184,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  background-color: aliceblue;
+  //background-color: aliceblue;
   justify-content: space-between;
   backdrop-filter: blur(20px);
 

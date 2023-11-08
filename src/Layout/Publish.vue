@@ -167,7 +167,7 @@ export default {
 .publish-container {
   border-radius: 1rem;
   height: 100%;
-  background-color: aliceblue;
+  //background-color: aliceblue;
   padding: 1rem;
 }
 
