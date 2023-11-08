@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+a {
+    text-decoration: none
+}
+
+.backdrop-filter {
+    backdrop-filter: contrast(0.6) brightness(2.5) saturate(1.5) blur(20px);
+}
+
+.one-line {
+    /* 一行显示 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.el-main {
+    padding: 0 1rem 1rem 0 !important;
+}
+
+.el-upload {
+    width: 100%;
+}
+
+.niuyin-header {
+    .el-input__wrapper {
+        border-radius: 1rem 0 0 1rem;
+    }
+}
+
+.el-input__inner {
+    height: 38px;
+}
+
+.keyword-hint {
+    color: red;
+}
+
+.video-player {
+    .el-carousel__container {
+        height: 100%;
+    }
+}
+
+/*el抽屉drawer*/
+.el-drawer {
+    background-color: rgba(0, 0, 0, 0.80);
+    backdrop-filter: blur(20px);
+}
+
+.el-drawer__header {
+    margin-bottom: 0 !important;
+}
+
+.el-drawer__body {
+    padding: 0 !important;
+    margin: 1rem;
+}
+
+/*el卡片card*/
+.el-card {
+    background-color: transparent;
+    border: none;
+}
+
+.el-card__body {
+}
+
+.el-pagination button {
+    background-color: transparent;
+}
+
+.el-pagination {
+    margin: 0 0 2rem 0;
+    float: right;
+}
+
+.el-tabs {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.el-tabs__header {
+    background-color: transparent !important;
+}
+
+.el-tabs__item {
+    background-color: transparent !important;
+}
+
+.el-tabs__item.is-active {
+    color: blue !important;
+}
+
+.el-card__body {
+    height: 100%;
+    padding: 0.5rem;
+}
+
+.el-loading-mask {
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+    border-radius: 0.5rem;
+}
+
+.el-dialog {
+    margin: 3vh auto !important;
+    background-color: white;
+    border-radius: 1rem;
+}
+
+.el-dialog__header {
+    margin: 0;
+    color: black;
+    display: flex;
+    justify-content: space-between
+}
+
+.el-dialog__body {
+    height: 90%;
+}
+
+.custom-loading-svg {
+    justify-content: center;
+}
+
+.router-is-focus .tab_left_item2 {
+    backdrop-filter: blur(10px);
+    background-color: rgba(150, 150, 150, 0.5);
+    color: black !important;
+    font-weight: 600;
+}
+
+.el-autocomplete {
+    width: 100%;
+}
+
+/*分割线背景色*/
+.el-divider__text {
+    background-color: transparent;
+}

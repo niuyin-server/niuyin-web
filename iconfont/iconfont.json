@@ -1,0 +1,100 @@
+{
+  "id": "4305779",
+  "name": "七牛云项目",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "77848",
+      "name": "返回2",
+      "font_class": "fanhui2",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "77849",
+      "name": "返回3",
+      "font_class": "fanhui3",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "77850",
+      "name": "返回4",
+      "font_class": "fanhui4",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "1718321",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "5387655",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "eb26",
+      "unicode_decimal": 60198
+    },
+    {
+      "icon_id": "6345965",
+      "name": "ellipsis",
+      "font_class": "ellipsis",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "6966957",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "7594045",
+      "name": "24gl-pause",
+      "font_class": "24gl-pause",
+      "unicode": "ea6d",
+      "unicode_decimal": 60013
+    },
+    {
+      "icon_id": "7594048",
+      "name": "24gl-play",
+      "font_class": "24gl-play",
+      "unicode": "ea6e",
+      "unicode_decimal": 60014
+    },
+    {
+      "icon_id": "11372706",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e8b9",
+      "unicode_decimal": 59577
+    },
+    {
+      "icon_id": "12865677",
+      "name": "go home",
+      "font_class": "gohome",
+      "unicode": "e6eb",
+      "unicode_decimal": 59115
+    },
+    {
+      "icon_id": "37863502",
+      "name": "41-user-health-plus",
+      "font_class": "a-41-user-health-plus",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "37867426",
+      "name": "资源管理",
+      "font_class": "ziyuanguanli",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    }
+  ]
+}
