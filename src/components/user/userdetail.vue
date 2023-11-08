@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { reactive } from 'vue'
-import { userupdate } from '@/api/user'
+import { userupdate } from '@/api/member.js'
 import request from '@/utils/request'
 
 export default {

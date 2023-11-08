@@ -69,6 +69,12 @@
       </div>
     </div>
 
+    <el-dialog v-model="editDialog"
+               style="height: calc(100% - 10vh);"
+               width="80%"
+               :show-close="false">
+
+    </el-dialog>
 
     <!--    <el-scrollbar>-->
 

@@ -7,7 +7,6 @@
 
     <el-col :span="6" :offset="3" style="height: 100%; margin-top: 250px;">
       <div style="height: 90px;width: 90px; transform: translateX(200px);">
-        <img id="loginHead" src="../assets/268303cadd2e4579bf35faecb5d5914b.jpeg">
       </div>
       <!-- 登陆页面的表单 -->
       <el-form :model="loginform" label-width="120px" v-if="login">
@@ -66,7 +65,7 @@ export default {
       token: '',
     }
   },
-  async created() {
+  created() {
 
   },
   methods: {
@@ -157,9 +156,7 @@ export default {
 
 <style lang='less' scoped>
 .bgimage {
-  background-image: url(../assets/affeade4eb186004825a19e2eab59088.jpg);
   background-size: 100% auto;
-
 }
 
 .el-button + .el-button {

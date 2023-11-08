@@ -1,4 +1,4 @@
-[class^="icon"], [class*="icon"] {
+[class^="iconfont"], [class*="iconfont"] {
     font-family: "iconfont" !important;
     font-size: 16px;
     font-style: normal;
@@ -17,7 +17,7 @@ a {
     text-decoration: none
 }
 
-.mr-5r {
+mr-5r {
     margin-right: 0.5rem;
 }
 
@@ -25,13 +25,16 @@ a {
     margin-left: 0.5rem;
 }
 
-.follow-right:after {
-    border-left: 1px solid #f2f2f4;
-    content: "";
-    height: 16px;
-    margin: 0 16px;
-    width: 0;
+.icon-30 {
+    width: 30px;
+    height: 30px;
 }
+
+.icon-36 {
+    width: 36px;
+    height: 36px;
+}
+
 
 .backdrop-filter {
     backdrop-filter: blur(10px);
@@ -175,4 +178,8 @@ a {
 /*分割线背景色*/
 .el-divider__text {
     background-color: transparent;
+}
+
+.el-popper {
+    border-radius: 1rem;
 }

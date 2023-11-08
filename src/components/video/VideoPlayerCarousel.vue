@@ -21,19 +21,24 @@
                  x5-playsinline
                  controls/>
           <div class="video-operate">
-            <el-button @click="videoLikeClick(item.videoId)"
-                       :icon="Apple"
-                       circle/>
-            <span style="text-align: center;color: white">{{ item.likeNum }}</span>
-            <el-button style="margin-left: 0;margin-top: 0.5rem"
-                       @click="videoCommentClick(item.videoId)"
-                       :icon="ChatDotRound"
-                       circle/>
-            <span style="text-align: center;color: white">{{ item.commentNum }}</span>
-            <el-button style="margin-left: 0;margin-top: 0.5rem"
-                       @click="videoFavoriteClick(item.videoId)"
-                       :icon="Star" circle/>
-            <span style="text-align: center;color: white">{{ item.favoritesNum }}</span>
+            <div class="operate-area">
+              <div class="video-author"></div>
+              <div class="op">
+                <i class="iconfont icon-like icon-36" style="font-size: 30px;text-align: center"
+                   @click="videoLikeClick(item.videoId)"></i>
+                <div style="text-align: center;color: white">{{ item.likeNum }}</div>
+              </div>
+              <div class="op">
+                <i class="iconfont icon-comment icon-36" style="font-size: 30px;text-align: center"
+                   @click="videoCommentClick(item.videoId)"></i>
+                <div style="text-align: center;color: white">{{ item.commentNum }}</div>
+              </div>
+              <div class="op">
+                <i class="iconfont icon-favorite icon-36" style="font-size: 30px;text-align: center"
+                   @click="videoFavoriteClick(item.videoId)"></i>
+                <div class="video-nums" style="text-align: center;color: white">{{ item.favoritesNum }}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="videoinfo-container">
@@ -67,7 +72,7 @@
                   <el-image class="user-avatar" :src="item.avatar" alt="" lazy></el-image>
                   <div class="user-nickname">
                     <p class="nickname">{{ item.nickName }}</p>
-                    <span style="color: grey;font-size: 0.7rem" class="create-time">{{
+                    <span style="color: gray;font-size: 0.7rem" class="create-time">{{
                         item.createTime
                       }}</span>
                   </div>
@@ -81,11 +86,12 @@
                     <div class="user-info">
                       <el-image class="user-avatar" :src="child.avatar" alt="" lazy></el-image>
                       <div class="user-nickname">
-                        <p class="nickname">{{ child.nickName }}<span class="aite" v-if="child.replayUserId != null">{{
-                            '@' + child.replayUserNickName
-                          }}</span>
+                        <p class="nickname">{{ child.nickName }}
+                          <span class="aite" v-if="child.replayUserId != null">{{
+                              '@' + child.replayUserNickName
+                            }}</span>
                         </p>
-                        <span style="color: grey;" class="create-time">{{ parseTime(child.createTime) }}</span>
+                        <span style="color: gray;" class="create-time">{{ parseTime(child.createTime) }}</span>
                       </div>
                     </div>
                     <div class="comment-content">
@@ -289,7 +295,16 @@ export default {
   width: 100%;
   border-radius: 1rem;
   height: 100%;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+}
+
+.video-container * {
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 
 .video-box {
@@ -315,12 +330,52 @@ export default {
     }
 
     .video-operate {
-      position: absolute;
-      right: 1rem;
-      cursor: pointer;
-      top: 40%;
+      bottom: 60px;
+      padding-right: 38px;
+      z-index: 11;
+      align-items: center;
       display: flex;
       flex-direction: column;
+      height: 100%;
+      justify-content: flex-end;
+      position: absolute;
+      right: 0;
+
+      .operate-area {
+        align-items: center;
+        display: flex;
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, .3));
+        flex-direction: column;
+        flex-shrink: 0;
+        justify-content: center;
+        margin-bottom: 3rem;
+        position: relative;
+
+        .video-author {
+          vertical-align: bottom;
+          position: relative;
+        }
+
+        .op {
+          vertical-align: bottom;
+          position: relative;
+          padding: 10px 0;
+          cursor: pointer;
+
+          .video-nums {
+            align-items: center;
+            color: #fff;
+            display: flex;
+            font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            justify-content: center;
+            line-height: 23px;
+            opacity: .9;
+          }
+
+        }
+      }
     }
   }
 
@@ -383,7 +438,7 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  box-shadow: 0 0 2px grey;
+  box-shadow: 0 0 2px gray;
 }
 
 .user-info {
@@ -394,7 +449,7 @@ export default {
     padding-left: 10px;
 
     .nickname {
-      color: grey;
+      color: gray;
       font-size: 0.8rem;
     }
 
