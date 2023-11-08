@@ -67,7 +67,7 @@
                   <el-image class="user-avatar" :src="item.avatar" alt="" lazy></el-image>
                   <div class="user-nickname">
                     <p class="nickname">{{ item.nickName }}</p>
-                    <span style="color: gray;font-size: 0.7rem" class="create-time">{{
+                    <span style="color: grey;font-size: 0.7rem" class="create-time">{{
                         item.createTime
                       }}</span>
                   </div>
@@ -85,7 +85,7 @@
                             '@' + child.replayUserNickName
                           }}</span>
                         </p>
-                        <span style="color: gray;" class="create-time">{{ parseTime(child.createTime) }}</span>
+                        <span style="color: grey;" class="create-time">{{ parseTime(child.createTime) }}</span>
                       </div>
                     </div>
                     <div class="comment-content">
@@ -383,7 +383,7 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  box-shadow: 0 0 2px gray;
+  box-shadow: 0 0 2px grey;
 }
 
 .user-info {
@@ -394,7 +394,7 @@ export default {
     padding-left: 10px;
 
     .nickname {
-      color: gray;
+      color: grey;
       font-size: 0.8rem;
     }
 

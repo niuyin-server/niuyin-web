@@ -1,3 +1,11 @@
+[class^="icon"], [class*="icon"] {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +15,22 @@
 
 a {
     text-decoration: none
+}
+
+.mr-5r {
+    margin-right: 0.5rem;
+}
+
+.ml-5r {
+    margin-left: 0.5rem;
+}
+
+.follow-right:after {
+    border-left: 1px solid #f2f2f4;
+    content: "";
+    height: 16px;
+    margin: 0 16px;
+    width: 0;
 }
 
 .backdrop-filter {

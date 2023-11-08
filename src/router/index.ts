@@ -19,20 +19,20 @@ const router = createRouter({
                     //     {path: "self", component: () => import("@/Layout/UserSelf.vue")},
                     // ]
                 },
-                {
-                    path: "useredit",
-                    component: () => import("@/components/user/Edit.vue"),
-                    children: [
-                        {
-                            path: "userdetail",
-                            component: () => import("@/components/user/userdetail.vue"),
-                        },
-                        {
-                            path: "useraccount",
-                            component: () => import("@/components/user/useraccount.vue"),
-                        },
-                    ],
-                },
+                // {
+                //     path: "useredit",
+                //     component: () => import("@/components/user/Edit.vue"),
+                //     children: [
+                //         {
+                //             path: "userdetail",
+                //             component: () => import("@/components/user/userdetail.vue"),
+                //         },
+                //         {
+                //             path: "useraccount",
+                //             component: () => import("@/components/user/useraccount.vue"),
+                //         },
+                //     ],
+                // },
                 {path: "publish", component: () => import("@/Layout/Publish.vue")},
                 {path: "videoSearch", component: () => import("@/Layout/VideoSearch.vue")},
                 {path: "follow", component: () => import("@/Layout/Follow.vue")},

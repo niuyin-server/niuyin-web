@@ -31,7 +31,9 @@
           </li>
         </ul>
         <el-divider>
-          <el-icon><star-filled /></el-icon>
+          <el-icon>
+            <star-filled/>
+          </el-icon>
         </el-divider>
       </div>
     </el-scrollbar>
@@ -50,10 +52,10 @@ export default {
   data() {
     return {
       tabsLeftList: [
-        {id: 1, name: "首页", background: "#ff5c7c", link: "/index"},
-        {id: 2, name: "热门", background: "#73c9e5", link: "/hotVideo",},
-        {id: 3, name: "关注", background: "#ff716d", link: "/follow"},
-        {id: 4, name: "频道", background: "#6dc781", link: "/channel",},
+        {id: 1, name: "首页", background: "rgba(67,56,58,0.3)", class: "icon-index", link: "/index"},
+        {id: 2, name: "热门", background: "rgba(255,92,124,0.3)", class: "icon-hotVideo", link: "/hotVideo",},
+        {id: 3, name: "关注", background: "rgba(109,216,255,0.3)", class: "icon-follow", link: "/follow"},
+        {id: 4, name: "频道", background: "rgba(109,199,129,0.3)", class: "icon-channel", link: "/channel",},
       ],
     }
   },
@@ -67,7 +69,7 @@ export default {
 
 <style>
 .el-aside {
-  //background-color: aliceblue
+//background-color: aliceblue
 }
 
 .tab_left_item {

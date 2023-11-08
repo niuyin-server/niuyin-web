@@ -15,7 +15,7 @@
         </div>
         <div style="height:20%;margin-top:10px;display: flex;justify-content: space-between;align-items: center">
           <div class="one-line" style="font-size: 0.8rem;color: black">{{ item.videoTitle }}
-            <p class="one-line" style="font-size: 0.7rem;color: gray;">{{ item.videoDesc }}</p>
+            <p class="one-line" style="font-size: 0.7rem;color: grey;">{{ item.videoDesc }}</p>
           </div>
           <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
           <el-avatar v-else :icon="UserFilled"/>
