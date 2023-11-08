@@ -63,6 +63,7 @@ export default {
   data() {
     return {
       login: true,
+      token: '',
     }
   },
   async created() {
@@ -74,9 +75,8 @@ export default {
     handleUserLogin() {
       userLogin(this.loginform.name, this.loginform.password).then(res => {
         if (res.code === 200) {
-          const userstore = useUserStore()
-          userstore.settoken(res.data.token)
-          this.getUserInfo();
+          const userStore = useUserStore()
+          userStore.settoken(res.data.token)
           ElMessage({
             message: res.msg,
             type: 'success',
