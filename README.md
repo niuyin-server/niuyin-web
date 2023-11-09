@@ -8,3 +8,6 @@
 npm install swiper
 
 npm install vue-video-player
+
+## vue图片预览组件
+npm install viewerjs

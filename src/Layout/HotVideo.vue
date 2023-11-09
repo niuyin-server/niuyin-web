@@ -1,29 +1,48 @@
 <template>
   <div class="hot-container">
     <el-scrollbar>
-      <div v-loading="loading"
-           :element-loading-svg="svg"
-           class="custom-loading-svg"
-           element-loading-svg-view-box="-10, -10, 50, 50"
-           style="display: flex;flex-flow: row wrap;justify-content: space-between">
-        <el-card v-for="item in hotVideoList"
-                 :key="item.videoId"
-                 style="padding:1rem;background-color: white;width: 32.66%;border-radius:0.5rem;height: 300px;margin-bottom: 0.5rem">
-          <div style="height: 80%;border-radius: 0.5rem;text-align: center">
-            <el-image
-                style="height:100%;border-radius: 0.5rem"
-                @click="videoDialog(item.videoId)"
-                :src="item.coverImage"/>
-          </div>
-          <div style="height:20%;margin-top:10px;display: flex;justify-content: space-between;align-items: center">
-            <div class="one-line" style="font-size: 0.8rem;color: black">{{ item.videoTitle }}
-              <p class="one-line" style="font-size: 0.7rem;color: grey;">{{ item.videoDesc }}</p>
+      <el-skeleton style="width: 100%" :loading="loading" animated>
+        <template #template>
+          <div class="loading-container" v-for="i in 2">
+            <div class="loading-item" v-for="i in 4">
+              <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
+              <div style="padding: 14px">
+                <el-skeleton-item variant="h2" style="width: 70%"/>
+                <div>
+                  <el-skeleton-item variant="text"/>
+                </div>
+              </div>
             </div>
-            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
-            <el-avatar v-else :icon="UserFilled"/>
           </div>
-        </el-card>
-      </div>
+        </template>
+        <template #default>
+          <div class="hotVideo-list">
+            <div v-loading="loadingIcon"
+                 :element-loading-svg="svg"
+                 class="custom-loading-svg hotVideos"
+                 element-loading-svg-view-box="-10, -10, 50, 50">
+              <el-card v-for="item in hotVideoList"
+                       :key="item.videoId"
+                       class="hotVideo-item">
+                <div class="video-cover">
+                  <el-image
+                      style="height:100%;border-radius: 0.5rem"
+                      lazy
+                      @click="videoDialog(item.videoId)"
+                      :src="item.coverImage"/>
+                </div>
+                <div class="user-info">
+                  <div class="one-line fs8 cb">{{ item.videoTitle }}
+                    <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
+                  </div>
+                  <el-avatar v-if="item.userAvatar" lazy :src="item.userAvatar"/>
+                  <el-avatar v-else :icon="UserFilled"/>
+                </div>
+              </el-card>
+            </div>
+          </div>
+        </template>
+      </el-skeleton>
       <div v-if="dataNotMore">
         <el-divider>暂无更多数据</el-divider>
       </div>
@@ -34,7 +53,7 @@
                  :show-close="false">
         <template #header="{ close, titleId, titleClass }">
           <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>
-          <el-button circle :icon="Close" type="info" @click="close">
+          <el-button circle :icon="Close" class="cb" type="info" @click="close">
           </el-button>
         </template>
         <video class="dialog-video"
@@ -66,6 +85,7 @@ export default {
     return {
       dialogVisible: false,
       loading: true,
+      loadingIcon: false,
       svg: `
         <path class="path" d="
           M 30 15
@@ -80,7 +100,7 @@ export default {
       hotVideoTotal: undefined,
       hotVideoQueryParams: {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 12
       },
       video: {},
       loadingData: true,
@@ -123,24 +143,26 @@ export default {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 1) {
         //加载更多
         if (this.loadingData) {
-          this.loading = true
+          this.loadingIcon = true
           this.loadingData = false
           this.hotVideoQueryParams.pageNum += 1
           hotVideoPage(this.hotVideoQueryParams).then(res => {
             if (res.code === 200) {
               if (res.rows.length == 0) {
                 this.dataNotMore = true
-                this.loading = false
+                this.loadingIcon = false
                 this.loadingData = false
                 return;
               }
               this.hotVideoList = this.hotVideoList.concat(res.rows)
               // this.hotVideoTotal = res.total
-              this.loading = false
+              this.loadingIcon = false
               setTimeout(() => {
                 // 流控
                 this.loadingData = true
               }, 2000);
+            } else {
+              this.loadingIcon = false
             }
           })
         }
@@ -150,11 +172,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
-.hot-container {
-  border-radius: 1rem;
-  height: 100%;
-}
-
+<style scoped>
+@import "@/assets/styles/hotVideo.scss";
 </style>
 

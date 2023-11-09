@@ -23,17 +23,17 @@
               <div v-if="loginType === 'up'">
                 <el-form-item prop="username">
                   <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-<!--                    <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>-->
-<!--                    <User slot="prefix" style="width: 1em; height: 1em; margin-right: 8px" />-->
                     <template #prefix>
-                      <el-icon class="el-input__icon"><User /></el-icon>
+                      <el-icon class="el-input__icon">
+                        <User/>
+                      </el-icon>
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                   <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码"
                             @keyup.enter.native="handleLogin">
-<!--                    <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>-->
+                    <!--                    <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>-->
                   </el-input>
                 </el-form-item>
               </div>
@@ -42,19 +42,17 @@
               <div v-if="loginType === 'sms'">
                 <el-form-item prop="telephone">
                   <el-input v-model="loginForm.telephone" type="text" auto-complete="off" placeholder="请输入手机号">
-<!--                    <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon"/>-->
+                    <!--                    <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon"/>-->
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="phoneCode">
                   <el-input v-model="loginForm.phoneCode" type="text" auto-complete="off" placeholder="短信验证码"
                             class="sms-login-mobile-code-prefix" @keyup.enter.native="handleLogin">
-<!--                    <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon prefix-svg-icon"/>-->
+                    <!--                    <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon prefix-svg-icon"/>-->
                     <template slot="append">
                       <span v-if="mobileCodeTimer <= 0" class="getMobileCode" @click="getSmsCode"
                             style="cursor: pointer;">获取验证码</span>
-                      <span v-if="mobileCodeTimer > 0" class="getMobileCode">{{
-                          mobileCodeTimer
-                        }}秒后重试</span>
+                      <span v-if="mobileCodeTimer > 0" class="getMobileCode">{{ mobileCodeTimer }}秒后重试</span>
                     </template>
                   </el-input>
                 </el-form-item>
@@ -84,8 +82,9 @@
   </div>
 </template>
 <script>
-import {userLogin} from "@/api/member.js";
+import {userLogin, getInfo} from "@/api/member.js";
 import {useUserStore} from "@/store/useUserStore";
+
 export default {
   name: "Login",
   data() {
@@ -146,20 +145,24 @@ export default {
     handleLogin() {
       let validate = this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          userLogin(this.loginForm.username,this.loginForm.password).then(res=>{
-              if (res.code === 200) {
-                const userstore = useUserStore()
-                userstore.settoken(res.data.token)
-                this.$message.success(res.msg)
-                this.$router.push('/index')
-              } else {
-                this.$message.error(res.msg)
-              }
-            })
+          userLogin(this.loginForm.username, this.loginForm.password).then(res => {
+            if (res.code === 200) {
+              const userstore = useUserStore()
+              userstore.settoken(res.data.token)
+              this.$message.success(res.msg)
+              getInfo().then(res => {
+                if (res.code === 200) {
+                  this.user = res.data
+                  localStorage.setItem("userInfo", JSON.stringify(res.data))
+                }
+              })
+              this.$router.push('/index')
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       });
-
-
     },
     /** ========== 手机短信登录 ========== */
     getSmsCode() {

@@ -40,8 +40,8 @@
       <div style="align-items: center;display: flex;justify-content: center">
         <!--通知 -->
         <router-link class="link-type" :to="'/notice'">
-          <div class="flex-center icon-click"
-               style=" cursor: pointer; flex-direction: column;margin: 0 10px;color: gray">
+          <div class="flex-center icon-click cg"
+               style=" cursor: pointer; flex-direction: column;margin: 0 10px;">
             <div style="height: 20px; justify-content: center; width: 20px;">
               <!--              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>-->
               <i class="iconfont icon-notice"></i>
@@ -53,8 +53,8 @@
         </router-link>
         <!--消息 -->
         <router-link class="link-type" :to="'/message'">
-          <div class="flex-center icon-click"
-               style=" cursor: pointer; flex-direction: column;margin: 0 10px;color: gray">
+          <div class="flex-center icon-click cg"
+               style=" cursor: pointer; flex-direction: column;margin: 0 10px;">
             <div style="height: 20px; justify-content: center; width: 20px;">
               <!--              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>-->
               <i class="iconfont icon-message"></i>
@@ -66,8 +66,8 @@
         </router-link>
         <!--发布视频-->
         <router-link class="link-type" :to="'/publish'">
-          <div class="flex-center icon-click"
-               style=" cursor: pointer; flex-direction: column;margin: 0 10px;color: gray">
+          <div class="flex-center icon-click cg"
+               style=" cursor: pointer; flex-direction: column;margin: 0 10px;">
             <div style="    height: 20px;justify-content: center;width: 20px;">
               <!--              <Plus style="width: 20px; height: 20px;font-weight: 600"/>-->
               <i class="iconfont icon-upload"></i>
@@ -82,8 +82,7 @@
         <router-link class="user-container" :to="'/user'">
           <el-avatar v-if="user.avatar" :src="user.avatar"/>
           <el-avatar v-else :icon="UserFilled"/>
-
-          <span style="padding-left: 10px">{{ user.nickName }}</span>
+          <!--          <span style="padding-left: 10px">{{ user.nickName }}</span>-->
         </router-link>
         <template #dropdown>
           <el-dropdown-menu>

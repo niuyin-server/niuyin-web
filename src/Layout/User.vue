@@ -1,8 +1,9 @@
 <template>
   <div class="main-container">
     <div class="user-container">
-      <div class="avatar-area">
+      <div v-viewer class="avatar-area">
         <img class="user-avatar" :src="user.avatar"/>
+<!--        <image-preview class="user-avatar" :src="user.avatar"  />-->
       </div>
       <div class="user-info">
         <div class="username"><h1>{{ user.nickName }}</h1></div>
@@ -61,22 +62,26 @@
     <div>
       <div class="user-works">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="作品" name="first">作品</el-tab-pane>
-          <el-tab-pane label="喜欢" name="second">喜欢</el-tab-pane>
-          <el-tab-pane label="收藏" name="third">收藏</el-tab-pane>
-          <el-tab-pane label="观看历史" name="fourth">观看历史</el-tab-pane>
+          <el-tab-pane label="作品" name="/user/videoPost">
+            <!--            <router-link to="/index">-->
+            <!--              回首页-->
+            <!--            </router-link>-->
+            <router-view/>
+          </el-tab-pane>
+          <el-tab-pane label="喜欢" name="/user/videoLike">喜欢</el-tab-pane>
+          <el-tab-pane label="收藏" name="/user/videoFavorite">收藏</el-tab-pane>
+          <el-tab-pane label="观看历史" name="/user/videoViewHistory">观看历史</el-tab-pane>
         </el-tabs>
       </div>
     </div>
-
-
+    <!--  编辑信息弹框  -->
     <el-dialog v-model="editDialogVisible"
                style="height: 60vh;overflow: hidden"
                width="480px"
                :show-close="false">
       <template #header="{ close, titleId, titleClass }">
         <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">编辑资料</h3>
-        <el-button circle :icon="Close" type="info" @click="close">
+        <el-button circle :icon="Close" class="cb" type="info" @click="close">
         </el-button>
       </template>
       <el-scrollbar>
@@ -99,7 +104,7 @@
           <div class="N3OJZMVX">昵称</div>
           <el-input
               v-model="userForm.nickName"
-              maxlength="10"
+              maxlength="20"
               class="w-50 m-2"
               placeholder="记得填写昵称"
               show-word-limit
@@ -144,7 +149,7 @@ export default {
     return {
       user: {},
       editDialogVisible: false, //编辑信息弹框
-      activeName: 'second',
+      activeName: this.$route.path,
       saveLogin: true,
       userForm: {},
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
@@ -167,7 +172,11 @@ export default {
       })
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab.props.name);
+      const route = tab.props.name
+      console.log(this.$route.path)
+      // console.log(this.$route.matched[1].path)
+      this.$router.push(route)
     },
     handleEditProfile() {
       this.editDialogVisible = true
