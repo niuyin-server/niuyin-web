@@ -1,0 +1,48 @@
+.hot-container {
+  border-radius: 1rem;
+  height: 100%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .loading-item {
+    width: 24.5%;
+  }
+}
+
+.hotVideo-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .hotVideos {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+    .hotVideo-item {
+      background-color: white;
+      width: 24.5%;
+      border-radius: 0.5rem;
+      height: 300px;
+      margin-bottom: 0.5rem;
+
+      .video-cover {
+        height: 80%;
+        border-radius: 0.5rem;
+        text-align: center
+      }
+
+      .user-info {
+        height: 20%;
+        padding-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+    }
+  }
+}

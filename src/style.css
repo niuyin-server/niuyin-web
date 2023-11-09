@@ -3,6 +3,9 @@
     --el-color-info: #ebedef; /*按钮背景色*/
     --el-input-bg-color: rgb(242, 242, 243);
     --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
+    --el-loading-spinner-size: 100px; /*加载图标大小*/
+    --el-fill-color: rgba(240, 242, 245, 0.41); /*加载中图片背景色*/
+    --el-fill-color-darker: rgba(230, 232, 235, 0.47);
 }
 
 * {
@@ -68,6 +71,10 @@ a {
 
 .fw600 {
     font-weight: 600;
+}
+
+.el-skeleton__image {
+    border-radius: 1rem;
 }
 
 .backdrop-filter {
