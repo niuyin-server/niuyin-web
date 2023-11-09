@@ -8,16 +8,16 @@
         <div class="username"><h1>{{ user.nickName }}</h1></div>
         <div class="follow-fans-like">
           <div class="user-info-follow flex-center">
-            <div class="mr-5r ">关注</div>
-            <div class="follow-right">17</div>
+            <div class="mr-5r cg fs8">关注</div>
+            <div class="follow-right fw600">17</div>
           </div>
           <div class="=user-info-fans flex-center">
-            <div class="mr-5r ">粉丝</div>
-            <div class="follow-right">34</div>
+            <div class="mr-5r cg fs8">粉丝</div>
+            <div class="follow-right fw600">34</div>
           </div>
           <div class="user-info-like flex-center">
-            <div class="mr-5r ">获赞</div>
-            <div>45</div>
+            <div class="mr-5r cg fs8">获赞</div>
+            <div class="fw600">45</div>
           </div>
         </div>
         <div class="user-profile">
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="user-edit">
-        <el-button type="primary">编辑资料</el-button>
+        <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
       </div>
     </div>
     <!--  作品，喜欢，收藏  -->
@@ -70,6 +70,58 @@
     </div>
 
 
+    <el-dialog v-model="editDialogVisible"
+               style="height: 60vh;overflow: hidden"
+               width="480px"
+               :show-close="false">
+      <template #header="{ close, titleId, titleClass }">
+        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">编辑资料</h3>
+        <el-button circle :icon="Close" type="info" @click="close">
+        </el-button>
+      </template>
+      <el-scrollbar>
+        <div class="edit-avatar">
+          <el-tooltip content="上传头像" placement="top">
+            <el-upload
+                class="avatar-uploader"
+                :action="avatarUploadUrl"
+                :headers="headers"
+                :show-file-list="false"
+                :on-success="handleUploadAvatarSuccess"
+            >
+              <img v-if="user.avatar" :src="userForm.avatar" class="avatar"/>
+              <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
+            </el-upload>
+          </el-tooltip>
+          <div class="I5fCASKY cg">点击修改头像</div>
+        </div>
+        <div class="edit-nickname">
+          <div class="N3OJZMVX">昵称</div>
+          <el-input
+              v-model="userForm.nickName"
+              maxlength="10"
+              class="w-50 m-2"
+              placeholder="记得填写昵称"
+              show-word-limit
+              type="text"
+          />
+        </div>
+        <div class="edit-gender">
+          <div class="N3OJZMVX">性别</div>
+          <el-radio-group v-model="userForm.sex">
+            <el-radio-button :label="'1'"><i class="iconfont icon-man"></i>男</el-radio-button>
+            <el-radio-button :label="'0'"><i class="iconfont icon-woman"></i>女</el-radio-button>
+            <el-radio-button :label="'2'"><i class="iconfont icon-sex-primary"></i>保密</el-radio-button>
+          </el-radio-group>
+        </div>
+        <!--      确认按钮-->
+        <div class="edit-button">
+          <el-button type="info" class="cg fw600" @click="cancelUpdateProfile">取消</el-button>
+          <el-button type="primary" class="fw600" @click="confirmUpdateProfile">保存</el-button>
+        </div>
+      </el-scrollbar>
+    </el-dialog>
+
     <!--    <el-scrollbar>-->
 
     <!--    </el-scrollbar>-->
@@ -77,16 +129,28 @@
 </template>
 
 <script>
-import {getInfo} from "@/api/member.js";
+import {getInfo, updateUserProfile} from "@/api/member.js";
+import {Close} from "@element-plus/icons-vue";
+import {useUserStore} from "@/store/useUserStore";
 
 export default {
   name: 'User',
+  computed: {
+    Close() {
+      return Close
+    }
+  },
   data() {
     return {
       user: {},
-      editDialog: false, //编辑信息弹框
+      editDialogVisible: false, //编辑信息弹框
       activeName: 'second',
       saveLogin: true,
+      userForm: {},
+      avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
+      headers: {
+        Authorization: 'Bearer ' + useUserStore().token,
+      },
     }
   },
   created() {
@@ -97,11 +161,36 @@ export default {
       getInfo().then(res => {
         if (res.code === 200) {
           this.user = res.data
+          this.userForm = {...this.user}
+          localStorage.setItem("userInfo", JSON.stringify(this.user))
         }
       })
     },
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    handleEditProfile() {
+      this.editDialogVisible = true
+
+    },
+    handleUploadAvatarSuccess(res) {
+      this.userForm.avatar = res.data
+    },
+    confirmUpdateProfile() {
+      // console.log(this.userForm)
+      updateUserProfile(this.userForm).then(res => {
+        if (res.code === 200) {
+          this.editDialogVisible = false
+          this.$message.success(res.msg)
+          this.getUserInfo()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    cancelUpdateProfile() {
+      this.editDialogVisible = false
+      this.userForm = {}
     }
 
   }
@@ -110,147 +199,5 @@ export default {
 </script>
 
 <style scoped>
-.main-container {
-  border-radius: 1rem;
-  height: 100%;
-  padding: 1rem;
-}
-
-.user-container {
-  display: flex;
-  margin: 28px auto 21px;
-  max-width: 1208px;
-  position: relative;
-  width: 100%;
-
-  .avatar-area {
-    flex: none;
-    position: relative;
-    width: 112px;
-
-    .user-avatar {
-      width: 112px;
-      border-radius: 50%;
-      cursor: pointer;
-      height: 112px;
-    }
-  }
-
-  .user-info {
-    align-content: center;
-    align-items: center;
-    display: flex;
-    flex: 1 1;
-    flex-wrap: wrap;
-    margin-left: 32px;
-    min-height: 120px;
-
-    .username {
-      display: flex;
-      position: relative;
-      width: 100%;
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 28px;
-      max-width: 300px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .follow-fans-like {
-      display: flex;
-      margin-top: 8px;
-      width: 100%;
-      cursor: pointer;
-
-    }
-
-    .user-profile {
-      align-items: center;
-      display: flex;
-      height: 20px;
-      margin-top: 10px;
-      width: 100%;
-
-      .userid {
-        font-size: 12px;
-        line-height: 20px;
-        margin-right: 20px;
-        color: grey;
-      }
-
-      .gender-age {
-        align-items: center;
-        background: #f2f2f4;
-        border-radius: 4px;
-        color: rgba(22, 24, 35, .75);
-        display: flex;
-        font-size: 12px;
-        height: 20px;
-        line-height: 20px;
-        margin-right: 4px;
-        padding: 0 8px;
-      }
-
-      .city {
-        align-items: center;
-        background: #f2f2f4;
-        border-radius: 4px;
-        color: rgba(22, 24, 35, .75);
-        display: flex;
-        font-size: 12px;
-        height: 20px;
-        line-height: 20px;
-        margin-right: 4px;
-        padding: 0 8px;
-      }
-
-      .school {
-        align-items: center;
-        background: #f2f2f4;
-        border-radius: 4px;
-        color: rgba(22, 24, 35, .75);
-        display: flex;
-        font-size: 12px;
-        height: 20px;
-        line-height: 20px;
-        margin-right: 4px;
-        padding: 0 8px;
-      }
-    }
-  }
-
-  .trust-login-switch {
-    align-items: center;
-    display: inline-flex;
-    position: relative !important;
-    height: 100%;
-
-    .trust-login-switch-title {
-      font-family: DFP King Gothic GB;
-      font-size: 12px;
-      font-style: normal;
-      color: grey;
-      font-weight: 400;
-      height: 22px;
-      letter-spacing: .6px;
-      line-height: 22px;
-      margin: 0 8px;
-      width: 76px;
-    }
-  }
-
-  .user-edit {
-    bottom: 0;
-    display: flex;
-    position: absolute;
-    right: 0;
-  }
-}
-
-.user-works {
-  margin: 0 auto;
-  max-width: 1208px;
-}
+@import "@/assets/styles/user.scss";
 </style>

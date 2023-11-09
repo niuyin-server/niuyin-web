@@ -1,9 +1,8 @@
-[class^="icon"], [class*="icon"] {
-    font-family: "iconfont" !important;
-    font-size: 16px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+
+:root {
+    --el-color-info: #ebedef; /*按钮背景色*/
+    --el-input-bg-color: rgb(242, 242, 243);
+    --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
 }
 
 * {
@@ -25,12 +24,34 @@ a {
     margin-left: 0.5rem;
 }
 
-.follow-right:after {
-    border-left: 1px solid #f2f2f4;
-    content: "";
-    height: 16px;
-    margin: 0 16px;
-    width: 0;
+.icon-30 {
+    width: 30px;
+    height: 30px;
+}
+
+.icon-36 {
+    width: 36px;
+    height: 36px;
+}
+
+.cg {
+    color: grey;
+}
+
+.cb {
+    color: black;
+}
+
+.cr {
+    color: red;
+}
+
+.fs8 {
+    font-size: 0.8rem;
+}
+
+.fw600 {
+    font-weight: 600;
 }
 
 .backdrop-filter {
@@ -141,7 +162,7 @@ a {
 }
 
 .el-dialog {
-    margin: 3vh auto !important;
+    margin: 3vh auto;
     background-color: white;
     border-radius: 1rem;
 }
@@ -175,4 +196,13 @@ a {
 /*分割线背景色*/
 .el-divider__text {
     background-color: transparent;
+}
+
+.el-popper {
+    border-radius: 1rem;
+}
+
+.avatar-uploader .el-upload {
+    height: 100%;
+    width: 100%;
 }

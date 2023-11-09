@@ -223,7 +223,7 @@ export default {
 
 <style lang='less' scoped>
 .bgimage {
-  background-image: url(../assets/images/login.png);
+  background-image: url(../assets/affeade4eb186004825a19e2eab59088.jpg);
   background-size: 100% auto;
 }
 
