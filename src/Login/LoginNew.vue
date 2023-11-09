@@ -71,8 +71,10 @@
               </div>
 
               <!-- 登录按钮 -->
-              <el-form-item style="width:100%;" v-if="loginType != 'qr'">
-                <el-button :loading="loading" type="primary" style="width:100%;"
+              <el-form-item class="w100" v-if="loginType != 'qr'">
+                <el-button :loading="loading"
+                           type="primary"
+                           class="w100"
                            @click.native.prevent="handleLogin">
                   <span v-if="!loading">登 录</span>
                   <span v-else>登 录 中...</span>
@@ -117,6 +119,8 @@ export default {
       loginForm: {
         username: "",
         password: "",
+        telephone: "",
+        phoneCode: "",
       },
       loginRules: {
         username: [

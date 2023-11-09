@@ -12,7 +12,7 @@ $buttonH: 50;
 
 // container
 $containerBgColor: #e0e4eb;
-$containerBgImage: "@/assets/images/bg.png";
+$containerBgImage: "@/assets/images/index-bg.png";
 // container-logo
 $logoWidth: 600px;
 $logoHeight: 100px;
@@ -24,7 +24,7 @@ $contentBgColor: #ffffff;
 // container-content-pic
 $picWidth: round(math.div($picW , $H )* 100) * 1vw;
 $picHeight: inherit;
-$picImage: "@/assets/images/login-form-left-gif-n.gif";
+$picImage: "@/assets/images/login.png";
 // container-content-field
 $fieldWidth: $contentWidth - $picWidth;
 $fieldHeight: inherit;
