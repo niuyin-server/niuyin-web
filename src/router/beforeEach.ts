@@ -17,8 +17,8 @@ export default {
             // } else {
             //
             // }
-            router.push('/404')
-            return
+
+            return router.push('/404')
         }
     },
 }

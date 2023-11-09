@@ -48,8 +48,8 @@
                           class="demo-rich-conent"
                           style="display: flex; gap: 16px; flex-direction: column"
                       >
-<!--                        <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
-<!--                        <el-avatar v-else :icon="UserFilled"/>-->
+                        <!--                        <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
+                        <!--                        <el-avatar v-else :icon="UserFilled"/>-->
                         <div>
                           <p
                               class="demo-rich-content__name"
@@ -180,7 +180,7 @@ export default {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 1) {
         //加载更多
         if (this.loadingData) {
-          this.loading = true
+          // this.loading = true
           this.loadingData = false
           this.hotVideoQueryParams.pageNum += 1
           hotVideoPage(this.hotVideoQueryParams).then(res => {
@@ -194,6 +194,7 @@ export default {
               this.hotVideoList = this.hotVideoList.concat(res.rows)
               // this.hotVideoTotal = res.total
               this.loadingIcon = false
+              // this.loading = false
               setTimeout(() => {
                 // 流控
                 this.loadingData = true

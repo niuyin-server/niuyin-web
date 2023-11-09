@@ -198,7 +198,8 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-//background-color: aliceblue; justify-content: space-between;
+  justify-content: space-between;
+  overflow: hidden;
 
   .nav-right {
     display: inline-flex;
@@ -212,7 +213,7 @@ export default {
 
 /* nav中间部分 */
 .nav-center {
-  margin: 0 2rem;
+  margin: 0;
 }
 
 .nav_center_search {
