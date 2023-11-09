@@ -68,15 +68,14 @@
         </el-tabs>
       </div>
     </div>
-
-
+    <!--  编辑信息弹框  -->
     <el-dialog v-model="editDialogVisible"
                style="height: 60vh;overflow: hidden"
                width="480px"
                :show-close="false">
       <template #header="{ close, titleId, titleClass }">
         <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">编辑资料</h3>
-        <el-button circle :icon="Close" type="info" @click="close">
+        <el-button circle :icon="Close" class="cb" type="info" @click="close">
         </el-button>
       </template>
       <el-scrollbar>
@@ -99,7 +98,7 @@
           <div class="N3OJZMVX">昵称</div>
           <el-input
               v-model="userForm.nickName"
-              maxlength="10"
+              maxlength="20"
               class="w-50 m-2"
               placeholder="记得填写昵称"
               show-word-limit
