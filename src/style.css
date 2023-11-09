@@ -1,3 +1,10 @@
+
+:root {
+    --el-color-info: #ebedef; /*按钮背景色*/
+    --el-input-bg-color: rgb(242, 242, 243);
+    --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +16,7 @@ a {
     text-decoration: none
 }
 
-mr-5r {
+.mr-5r {
     margin-right: 0.5rem;
 }
 
@@ -27,6 +34,25 @@ mr-5r {
     height: 36px;
 }
 
+.cg {
+    color: grey;
+}
+
+.cb {
+    color: black;
+}
+
+.cr {
+    color: red;
+}
+
+.fs8 {
+    font-size: 0.8rem;
+}
+
+.fw600 {
+    font-weight: 600;
+}
 
 .backdrop-filter {
     backdrop-filter: blur(10px);
@@ -136,7 +162,7 @@ mr-5r {
 }
 
 .el-dialog {
-    margin: 3vh auto !important;
+    margin: 3vh auto;
     background-color: white;
     border-radius: 1rem;
 }
@@ -174,4 +200,9 @@ mr-5r {
 
 .el-popper {
     border-radius: 1rem;
+}
+
+.avatar-uploader .el-upload {
+    height: 100%;
+    width: 100%;
 }

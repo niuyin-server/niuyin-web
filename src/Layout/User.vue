@@ -8,16 +8,16 @@
         <div class="username"><h1>{{ user.nickName }}</h1></div>
         <div class="follow-fans-like">
           <div class="user-info-follow flex-center">
-            <div class="mr-5r ">关注</div>
-            <div class="follow-right">17</div>
+            <div class="mr-5r cg fs8">关注</div>
+            <div class="follow-right fw600">17</div>
           </div>
           <div class="=user-info-fans flex-center">
-            <div class="mr-5r ">粉丝</div>
-            <div class="follow-right">34</div>
+            <div class="mr-5r cg fs8">粉丝</div>
+            <div class="follow-right fw600">34</div>
           </div>
           <div class="user-info-like flex-center">
-            <div class="mr-5r ">获赞</div>
-            <div>45</div>
+            <div class="mr-5r cg fs8">获赞</div>
+            <div class="fw600">45</div>
           </div>
         </div>
         <div class="user-profile">
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="user-edit">
-        <el-button type="primary">编辑资料</el-button>
+        <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
       </div>
     </div>
     <!--  作品，喜欢，收藏  -->
@@ -69,11 +69,56 @@
       </div>
     </div>
 
-    <el-dialog v-model="editDialog"
-               style="height: calc(100% - 10vh);"
-               width="80%"
-               :show-close="false">
 
+    <el-dialog v-model="editDialogVisible"
+               style="height: 60vh;overflow: hidden"
+               width="480px"
+               :show-close="false">
+      <template #header="{ close, titleId, titleClass }">
+        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">编辑资料</h3>
+        <el-button circle :icon="Close" type="info" @click="close">
+        </el-button>
+      </template>
+      <el-scrollbar>
+        <div class="edit-avatar">
+          <el-tooltip content="上传头像" placement="top">
+            <el-upload
+                class="avatar-uploader"
+                action="http://localhost:9090/member/api/v1/avatar"
+                :show-file-list="false"
+                :on-success="handleUploadAvatarSuccess"
+            >
+              <img v-if="user.avatar" :src="userForm.avatar" class="avatar"/>
+              <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
+            </el-upload>
+          </el-tooltip>
+          <div class="I5fCASKY cg">点击修改头像</div>
+        </div>
+        <div class="edit-nickname">
+          <div class="N3OJZMVX">昵称</div>
+          <el-input
+              v-model="userForm.nickName"
+              maxlength="10"
+              class="w-50 m-2"
+              placeholder="记得填写昵称"
+              show-word-limit
+              type="text"
+          />
+        </div>
+        <div class="edit-gender">
+          <div class="N3OJZMVX">性别</div>
+          <el-radio-group v-model="userForm.sex">
+            <el-radio-button :label="'1'"><i class="iconfont icon-man"></i>男</el-radio-button>
+            <el-radio-button :label="'0'"><i class="iconfont icon-woman"></i>女</el-radio-button>
+            <el-radio-button :label="'2'"><i class="iconfont icon-sex-primary"></i>保密</el-radio-button>
+          </el-radio-group>
+        </div>
+        <!--      确认按钮-->
+        <div class="edit-button">
+          <el-button type="info" class="cg fw600" @click="cancelUpdateProfile">取消</el-button>
+          <el-button type="primary" class="fw600" @click="confirmUpdateProfile">保存</el-button>
+        </div>
+      </el-scrollbar>
     </el-dialog>
 
     <!--    <el-scrollbar>-->
@@ -84,15 +129,22 @@
 
 <script>
 import {getInfo} from "@/api/member.js";
+import {Close} from "@element-plus/icons-vue";
 
 export default {
   name: 'User',
+  computed: {
+    Close() {
+      return Close
+    }
+  },
   data() {
     return {
       user: {},
-      editDialog: false, //编辑信息弹框
+      editDialogVisible: false, //编辑信息弹框
       activeName: 'second',
       saveLogin: true,
+      userForm: {},
     }
   },
   created() {
@@ -103,11 +155,26 @@ export default {
       getInfo().then(res => {
         if (res.code === 200) {
           this.user = res.data
+          this.userForm = this.user
         }
       })
     },
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    handleEditProfile() {
+      this.editDialogVisible = true
+
+    },
+    handleUploadAvatarSuccess() {
+
+    },
+    confirmUpdateProfile() {
+
+    },
+    cancelUpdateProfile() {
+      this.editDialogVisible = false
+
     }
 
   }

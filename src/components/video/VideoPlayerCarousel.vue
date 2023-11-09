@@ -24,7 +24,9 @@
             <div class="operate-area">
               <div class="video-author"></div>
               <div class="op">
-                <i class="iconfont icon-like icon-36 operate-icon"
+                <i v-if="item.weatherLike" class="iconfont icon-like-ed icon-36 operate-icon"
+                   @click="videoLikeClick(item.videoId)"></i>
+                <i v-else class="iconfont icon-like icon-36 operate-icon"
                    @click="videoLikeClick(item.videoId)"></i>
                 <div style="text-align: center;color: white">{{ item.likeNum }}</div>
               </div>
@@ -34,7 +36,9 @@
                 <div style="text-align: center;color: white">{{ item.commentNum }}</div>
               </div>
               <div class="op">
-                <i class="iconfont icon-favorite icon-36 operate-icon"
+                <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
+                   @click="videoFavoriteClick(item.videoId)"></i>
+                <i v-else class="iconfont icon-favorite icon-36 operate-icon"
                    @click="videoFavoriteClick(item.videoId)"></i>
                 <div class="video-nums" style="text-align: center;color: white">{{ item.favoritesNum }}</div>
               </div>
@@ -361,6 +365,10 @@ export default {
           position: relative;
           padding: 10px;
           cursor: pointer;
+
+          .iconfont {
+            color: white;
+          }
 
           .video-nums {
             align-items: center;

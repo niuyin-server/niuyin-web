@@ -53,6 +53,15 @@
       width: 100%;
       cursor: pointer;
 
+
+      .follow-right:after {
+        border-left: 2px solid white;
+        content: "";
+        height: 16px;
+        margin: 0 16px;
+        width: 0;
+      }
+
     }
 
     .user-profile {
@@ -142,3 +151,56 @@
   max-width: 1208px;
 }
 
+/*弹编辑用户窗*/
+.edit-avatar {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+
+  .avatar-uploader {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: aliceblue;
+
+    .el-upload {
+      height: 100%;
+      width: 100%;
+    }
+
+    .avatar {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  .I5fCASKY {
+    margin: 10px auto;
+    font-size: 0.7rem;
+  }
+}
+
+.edit-nickname {
+  width: 100%;
+}
+
+.edit-gender {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.edit-button {
+  width: 100%;
+  bottom: 0;
+  margin: 2rem 0 0;
+  text-align: center;
+}
+
+.N3OJZMVX {
+  margin-bottom: 10px;
+  text-align: left;
+}

@@ -2,9 +2,9 @@
   font-family: "iconfont"; /* Project id 4322290 */
   /* Color fonts */
   src:
-          url('//at.alicdn.com/t/c/font_4322290_3wulwwplrwf.woff2?t=1699458178061') format('woff2'),
-          url('//at.alicdn.com/t/c/font_4322290_3wulwwplrwf.woff?t=1699458178061') format('woff'),
-          url('//at.alicdn.com/t/c/font_4322290_3wulwwplrwf.ttf?t=1699458178061') format('truetype');
+          url('//at.alicdn.com/t/c/font_4322290_8y4w1mqv64n.woff2?t=1699491834214') format('woff2'),
+          url('//at.alicdn.com/t/c/font_4322290_8y4w1mqv64n.woff?t=1699491834214') format('woff'),
+          url('//at.alicdn.com/t/c/font_4322290_8y4w1mqv64n.ttf?t=1699491834214') format('truetype');
 }
 
 .iconfont {
@@ -15,186 +15,146 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-weitongguotougao:before {
-  content: "\e654";
-  color: var(--color);
+.icon-divider:before {
+  content: "\e6f9";
+}
+
+.icon-erciyuan:before {
+  content: "\e608";
 }
 
 .icon-iconfontzhizuobiaozhunbduan36:before {
   content: "\e6e9";
-  color: var(--color);
 }
 
-.icon-zhibo:before {
+.icon-live:before {
   content: "\e6ab";
-  color: var(--color);
 }
 
-.icon-yulezhongxin:before {
+.icon-entertainment:before {
   content: "\e61f";
-  color: var(--color);
 }
 
-.icon-meishi_caomei:before {
-  content: "\e70c";
-  color: var(--color);
-}
-
-.icon-meishi_mangguo:before {
+.icon-food:before {
   content: "\e70d";
-  color: var(--color);
 }
 
-.icon-shishangshoudai:before {
+.icon-fashin:before {
   content: "\e6b3";
-  color: var(--color);
 }
 
-.icon-tongzhi:before {
+.icon-notice:before {
   content: "\e628";
-  color: var(--color);
 }
 
-.icon-wode:before {
+.icon-mine:before {
   content: "\e603";
-  color: var(--color);
 }
 
-.icon-yule:before {
+.icon-game:before {
   content: "\e662";
-  color: var(--color);
 }
 
-.icon-tiyu:before {
+.icon-sport:before {
   content: "\e644";
-  color: var(--color);
 }
 
-.icon-tougao:before {
-  content: "\e648";
-  color: var(--color);
-}
-
-.icon-tougao1:before {
+.icon-upload:before {
   content: "\e664";
 }
 
-.icon-zhishi:before {
+.icon-knowledge:before {
   content: "\e813";
-  color: var(--color);
 }
 
-.icon-hezuo:before {
+.icon-join-in:before {
   content: "\e6cc";
-  color: var(--color);
 }
 
 .icon-message:before {
   content: "\e68f";
-  color: var(--color);
 }
 
-.icon-yule1:before {
+.icon-music:before {
   content: "\f83e";
-  color: var(--color);
 }
 
-.icon-fangyingting:before {
+.icon-vs:before {
   content: "\e604";
-  color: var(--color);
 }
 
 .icon-share:before {
   content: "\e60a";
-  color: var(--color);
 }
 
-.icon-tougaotuijian:before {
+.icon-suggest:before {
   content: "\e641";
-  color: var(--color);
 }
 
 .icon-view-num:before {
   content: "\e694";
-  color: var(--color);
 }
 
-.icon-guanzhu1:before {
+.icon-attention:before {
   content: "\e7d2";
-  color: var(--color);
 }
 
 .icon-woman:before {
   content: "\e605";
-  color: var(--color);
 }
 
 .icon-man:before {
   content: "\e606";
-  color: var(--color);
 }
 
 .icon-comment:before {
   content: "\e6ba";
-  color: var(--color);
 }
 
 .icon-search:before {
   content: "\e609";
-  color: var(--color);
 }
 
 .icon-follow:before {
   content: "\e600";
-  color: var(--color);
 }
 
 .icon-fire:before {
   content: "\e729";
-  color: var(--color);
 }
 
 .icon-like:before {
   content: "\e61d";
-  color: var(--color);
 }
 
 .icon-channel:before {
   content: "\e64f";
-  color: var(--color);
 }
 
 .icon-like-num:before {
   content: "\e601";
-  color: var(--color);
 }
 
 .icon-favorite-num:before {
   content: "\e60d";
-  color: var(--color);
 }
 
 .icon-favorite:before {
   content: "\e660";
-  color: var(--color);
 }
 
 .icon-hotVideo:before {
   content: "\e68e";
-  color: var(--color);
 }
 
-.icon-douyin:before {
-  content: "\e637";
-  color: var(--color);
-}
-
-.icon-m_tiktok:before {
-  content: "\e602";
-  color: var(--color);
+.icon-like-ed:before {
+  content: "\f83f";
 }
 
 .icon-index:before {
   content: "\e61e";
-  color: var(--color);
+}
+
+.icon-favorite-ed:before {
+  content: "\f840";
 }
