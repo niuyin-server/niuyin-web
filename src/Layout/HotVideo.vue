@@ -35,8 +35,45 @@
                   <div class="one-line fs8 cb">{{ item.videoTitle }}
                     <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
                   </div>
-                  <el-avatar v-if="item.userAvatar" lazy :src="item.userAvatar"/>
-                  <el-avatar v-else :icon="UserFilled"/>
+                  <el-popover
+                      :width="300"
+                      popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+                  >
+                    <template #reference>
+                      <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
+                      <el-avatar v-else :icon="UserFilled"/>
+                    </template>
+                    <template #default>
+                      <div
+                          class="demo-rich-conent"
+                          style="display: flex; gap: 16px; flex-direction: column"
+                      >
+<!--                        <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
+<!--                        <el-avatar v-else :icon="UserFilled"/>-->
+                        <div>
+                          <p
+                              class="demo-rich-content__name"
+                              style="margin: 0; font-weight: 500"
+                          >
+                            Element Plus
+                          </p>
+                          <p
+                              class="demo-rich-content__mention"
+                              style="margin: 0; font-size: 14px; color: var(--el-color-info)"
+                          >
+                            @element-plus
+                          </p>
+                        </div>
+
+                        <p class="demo-rich-content__desc" style="margin: 0">
+                          Element Plus, a Vue 3 based component library for developers,
+                          designers and product managers
+                        </p>
+                      </div>
+                    </template>
+                  </el-popover>
+                  <!--                  <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
+                  <!--                  <el-avatar v-else :icon="UserFilled"/>-->
                 </div>
               </el-card>
             </div>
@@ -53,7 +90,7 @@
                  :show-close="false">
         <template #header="{ close, titleId, titleClass }">
           <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>
-          <el-button circle :icon="Close" class="cb" type="info" @click="close">
+          <el-button circle :icon="Close" type="info" @click="close">
           </el-button>
         </template>
         <video class="dialog-video"
@@ -124,7 +161,7 @@ export default {
           this.hotVideoList = res.rows
           this.hotVideoTotal = res.total
           this.loading = false
-          // console.log(this.hotVideoList)
+          console.log(this.hotVideoList)
         }
       })
     },
@@ -143,7 +180,7 @@ export default {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 1) {
         //加载更多
         if (this.loadingData) {
-          this.loadingIcon = true
+          this.loading = true
           this.loadingData = false
           this.hotVideoQueryParams.pageNum += 1
           hotVideoPage(this.hotVideoQueryParams).then(res => {
