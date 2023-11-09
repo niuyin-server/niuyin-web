@@ -16,6 +16,8 @@
     "pinia": "^2.1.7",
     "qiniu-js": "^3.4.1",
     "swiper": "^11.0.3",
+    "v-viewer": "^3.0.11",
+    "viewerjs": "^1.11.6",
     "vue": "^3.3.4",
     "vue-router": "^4.0.13",
     "vue-video-player": "^6.0.0"

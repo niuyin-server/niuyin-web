@@ -27,6 +27,7 @@
                 <div class="video-cover">
                   <el-image
                       style="height:100%;border-radius: 0.5rem"
+                      lazy
                       @click="videoDialog(item.videoId)"
                       :src="item.coverImage"/>
                 </div>
@@ -34,7 +35,7 @@
                   <div class="one-line fs8 cb">{{ item.videoTitle }}
                     <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
                   </div>
-                  <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
+                  <el-avatar v-if="item.userAvatar" lazy :src="item.userAvatar"/>
                   <el-avatar v-else :icon="UserFilled"/>
                 </div>
               </el-card>
@@ -160,6 +161,8 @@ export default {
                 // 流控
                 this.loadingData = true
               }, 2000);
+            } else {
+              this.loadingIcon = false
             }
           })
         }

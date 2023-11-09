@@ -1,8 +1,9 @@
 <template>
   <div class="main-container">
     <div class="user-container">
-      <div class="avatar-area">
+      <div v-viewer class="avatar-area">
         <img class="user-avatar" :src="user.avatar"/>
+<!--        <image-preview class="user-avatar" :src="user.avatar"  />-->
       </div>
       <div class="user-info">
         <div class="username"><h1>{{ user.nickName }}</h1></div>
@@ -61,12 +62,15 @@
     <div>
       <div class="user-works">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="作品" name="videoPost">
+          <el-tab-pane label="作品" name="/user/videoPost">
+            <!--            <router-link to="/index">-->
+            <!--              回首页-->
+            <!--            </router-link>-->
             <router-view/>
           </el-tab-pane>
-          <el-tab-pane label="喜欢" name="videoLike">喜欢</el-tab-pane>
-          <el-tab-pane label="收藏" name="videoFavorite">收藏</el-tab-pane>
-          <el-tab-pane label="观看历史" name="videoViewHistory">观看历史</el-tab-pane>
+          <el-tab-pane label="喜欢" name="/user/videoLike">喜欢</el-tab-pane>
+          <el-tab-pane label="收藏" name="/user/videoFavorite">收藏</el-tab-pane>
+          <el-tab-pane label="观看历史" name="/user/videoViewHistory">观看历史</el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -145,7 +149,7 @@ export default {
     return {
       user: {},
       editDialogVisible: false, //编辑信息弹框
-      activeName: '',
+      activeName: this.$route.path,
       saveLogin: true,
       userForm: {},
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
@@ -168,8 +172,10 @@ export default {
       })
     },
     handleClick(tab, event) {
-      console.log(tab.props.name);
+      // console.log(tab.props.name);
       const route = tab.props.name
+      console.log(this.$route.path)
+      // console.log(this.$route.matched[1].path)
       this.$router.push(route)
     },
     handleEditProfile() {
