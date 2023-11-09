@@ -1,7 +1,7 @@
 <template>
   <div class="video-card">
     <div class="video-cover-image">
-      <img class="cover-image" :src="video.coverImage">
+      <el-image class="cover-image" :src="video.coverImage"/>
       <div class="video-like">
         <i class="iconfont icon-like-num "></i>
         <span class="ml-5r">{{ video.likeNum }}</span>
@@ -46,13 +46,15 @@ export default {
   border-radius: 1rem;
   width: 24.5%;
   box-shadow: 0 0 1px 0 grey;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
   height: 240px;
   margin-bottom: 10px;
 
   .video-cover-image {
     width: 100%;
     height: 70%;
+    overflow: hidden;
+    border-radius: 1rem 1rem 0 0;
     position: relative;
 
     .cover-image {
@@ -60,6 +62,11 @@ export default {
       width: 100%;
       cursor: pointer;
       border-radius: 1rem 1rem 0 0;
+    }
+
+    .cover-image:hover {
+      transition: all 0.5s ease;
+      transform: scale(1.1);
     }
 
     .video-like {
@@ -92,7 +99,7 @@ export default {
 }
 
 .video-card:hover {
-
+  box-shadow: 1px 1px 0 0 grey;
 }
 
 </style>
