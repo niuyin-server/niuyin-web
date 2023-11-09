@@ -84,7 +84,8 @@
           <el-tooltip content="上传头像" placement="top">
             <el-upload
                 class="avatar-uploader"
-                action="http://localhost:9090/member/api/v1/avatar"
+                :action="avatarUploadUrl"
+                :headers="headers"
                 :show-file-list="false"
                 :on-success="handleUploadAvatarSuccess"
             >
@@ -128,8 +129,9 @@
 </template>
 
 <script>
-import {getInfo} from "@/api/member.js";
+import {getInfo, updateUserProfile} from "@/api/member.js";
 import {Close} from "@element-plus/icons-vue";
+import {useUserStore} from "@/store/useUserStore";
 
 export default {
   name: 'User',
@@ -145,6 +147,10 @@ export default {
       activeName: 'second',
       saveLogin: true,
       userForm: {},
+      avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
+      headers: {
+        Authorization: 'Bearer ' + useUserStore().token,
+      },
     }
   },
   created() {
@@ -155,7 +161,8 @@ export default {
       getInfo().then(res => {
         if (res.code === 200) {
           this.user = res.data
-          this.userForm = this.user
+          this.userForm = {...this.user}
+          localStorage.setItem("userInfo", JSON.stringify(this.user))
         }
       })
     },
@@ -166,15 +173,24 @@ export default {
       this.editDialogVisible = true
 
     },
-    handleUploadAvatarSuccess() {
-
+    handleUploadAvatarSuccess(res) {
+      this.userForm.avatar = res.data
     },
     confirmUpdateProfile() {
-
+      // console.log(this.userForm)
+      updateUserProfile(this.userForm).then(res => {
+        if (res.code === 200) {
+          this.editDialogVisible = false
+          this.$message.success(res.msg)
+          this.getUserInfo()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     cancelUpdateProfile() {
       this.editDialogVisible = false
-
+      this.userForm = {}
     }
 
   }
