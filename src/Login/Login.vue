@@ -1,22 +1,11 @@
 <template>
-  <div
-      style="
-      /* background-color: aquamarine; */
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      background-image: linear-gradient(to bottom right,rgb(113, 165, 244), rgb(239, 253, 246));
-    "
-  >
-    <div class="login">
+  <div class="container">
+  <div class="login-container">
+    <div class="login-from">
       <div class="login-image">
-        <!-- <img src="../assets/images/login.png" alt="handsome" /> -->
       </div>
       <!-- 登陆页面的表单 -->
       <div class="logon-form-big">
-
         <div class="logon-form-top">
           <div>
             <span class="title">欢迎使用本系统</span>
@@ -28,14 +17,14 @@
               <el-tab-pane label="二维码登录" name="qr"></el-tab-pane>
             </el-tabs>
           </div>
-
-          <el-form :model="loginform" label-width="120px" v-if="login">
+          <!--登录表单-->
+          <el-form :model="loginForm" label-width="120px" v-if="login">
             <div class="div-if" v-if="loginType==='up'">
               <el-form-item label="账号">
-                <el-input v-model="loginform.name" placeholder="请输入账号"/>
+                <el-input v-model="loginForm.name" placeholder="请输入账号"/>
               </el-form-item>
               <el-form-item label="密码">
-                <el-input v-model="loginform.password" placeholder="请输入密码"/>
+                <el-input v-model="loginForm.password" placeholder="请输入密码"/>
               </el-form-item>
             </div>
 
@@ -113,11 +102,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
 </template>
 
 <script>
-
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/store/useUserStore";
 import {userLogin, register, getInfo} from '@/api/member.js';
@@ -126,18 +114,16 @@ export default {
   name: "LoginIndex",
   data() {
     return {
-
       loginType: "up",
       login: true,
-      loginform: {
-        name: "",
+      loginForm: {
+        username: "",
         password: "",
-        inputPhone: "",
       },
       registerform: {
         name: "",
         password: "",
-        checkPass: "",
+        confirmPassword: "",
       },
       rules: {
         name: [
@@ -153,7 +139,7 @@ export default {
           {required: true, message: "请输入密码", trigger: "blur"},
           {min: 3, max: 18, message: "长度必须3到18位", trigger: "blur"},
         ],
-        checkPass: [
+        confirmPassword: [
           {required: true, message: "请再次输入密码", trigger: "blur"},
           {min: 3, max: 18, message: "长度必须3到18位", trigger: "blur"},
         ],
@@ -165,20 +151,14 @@ export default {
   methods: {
     // 登录
     handleUserLogin() {
-      userLogin(this.loginform.name, this.loginform.password).then(res => {
+      userLogin(this.loginForm).then(res => {
         if (res.code === 200) {
           const userStore = useUserStore()
           userStore.settoken(res.data.token)
-          ElMessage({
-            message: res.msg,
-            type: 'success',
-          })
+          this.$message.success(res.msg)
           this.$router.push('/index')
         } else {
-          ElMessage({
-            message: res.msg,
-            type: 'warning',
-          })
+          this.$message.error(res.msg)
         }
       })
     },
@@ -221,92 +201,6 @@ export default {
 };
 </script>
 
-<style lang='less' scoped>
-.bgimage {
-  background-image: url(../assets/affeade4eb186004825a19e2eab59088.jpg);
-  background-size: 100% auto;
-}
-
-.el-button + .el-button {
-  margin-left: 0;
-}
-
-#loginHead {
-  max-width: 100%;
-  height: auto;
-  background-repeat: no-repeat;
-}
-
-.login {
-  width: 80vw;
-  height: 60vh;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  border-radius: 2rem;
-  display: flex;
-}
-
-.login-image {
-  width: 40vw;
-  height: 50vh;
-  background: url(../assets/images/login.png) no-repeat;
-  background-size: cover;
-  border-radius: 2rem 0 0 2rem;
-}
-
-.logon-form-big {
-  /* background-color: #f8f7f7; */
-  width: 40vw;
-  height: 50vh;
-  display: grid;
-  align-items: center;
-  border-radius: 2rem;
-}
-
-.logon-form-top {
-  background-color: #f8f7f7;
-  width: 40vw;
-  height: 30vh;
-  display: grid;
-  align-items: center;
-  border-radius: 0 2rem 0 0;
-}
-.title{
-  display: flex;
-  margin-left: 50px;
-  font-weight: bold;
-  margin-top: 25px;
-}
-.login-if {
-  background-color: #f8f7f7;
-  margin-left: 50px;
-  width: 30vw;
-  height: 10vh;
-  display: grid;
-  align-items: center;
-  border-radius: 0 2rem 0 0;
-}
-.logon-form-bottom {
-  background-color: #f8f7f7;
-  width: 40vw;
-  height: 20vh;
-  display: grid;
-  align-items: center;
-  /* 水平居中把这个打开 */
-  justify-content: center;
-  border-radius: 0 0 2rem 0;
-}
-.div-if{
-  margin-left: 20px;
-  width: 60%;
-
-}
-.el-divider-horizontal {
-  height: 1px;
-  width: 400px;
-}
+<style scoped>
+@import "@/assets/styles/login.scss";
 </style>

@@ -3,13 +3,30 @@
     --el-color-info: #ebedef; /*按钮背景色*/
     --el-input-bg-color: rgb(242, 242, 243);
     --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
+    --el-messagebox-border-radius: 16px; /*弹框radius*/
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    /*font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;*/
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+#app {
+    height: 100%;
 }
 
 a {
