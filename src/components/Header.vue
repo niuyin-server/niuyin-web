@@ -82,8 +82,7 @@
         <router-link class="user-container" :to="'/user'">
           <el-avatar v-if="user.avatar" :src="user.avatar"/>
           <el-avatar v-else :icon="UserFilled"/>
-
-          <span style="padding-left: 10px">{{ user.nickName }}</span>
+          <!--          <span style="padding-left: 10px">{{ user.nickName }}</span>-->
         </router-link>
         <template #dropdown>
           <el-dropdown-menu>

@@ -1,11 +1,9 @@
 <template>
-123
+  videoViewHistory
 </template>
-
-<script>
-
+<script >
 export default {
-  name: "VideoPost",
+  name: "VideoViewHistory",
   data() {
     return {}
   },
@@ -13,9 +11,7 @@ export default {
   },
   methods: {}
 }
-
 </script>
-
 <style scoped>
 
 </style>

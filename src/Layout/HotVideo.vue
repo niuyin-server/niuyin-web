@@ -52,7 +52,7 @@
                  :show-close="false">
         <template #header="{ close, titleId, titleClass }">
           <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>
-          <el-button circle :icon="Close" type="info" @click="close">
+          <el-button circle :icon="Close" class="cb" type="info" @click="close">
           </el-button>
         </template>
         <video class="dialog-video"
