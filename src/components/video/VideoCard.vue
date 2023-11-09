@@ -1,0 +1,98 @@
+<template>
+  <div class="video-card">
+    <div class="video-cover-image">
+      <img class="cover-image" :src="video.coverImage">
+      <div class="video-like">
+        <i class="iconfont icon-like-num "></i>
+        <span class="ml-5r">{{ video.likeNum }}</span>
+      </div>
+    </div>
+    <div class="video-info">
+      <p v-html="video.videoTitle" class="video-title two-line fs8"></p>
+      <div class="video-author one-line">
+        <span v-if="video.userNickName">{{ video.userNickName }} · </span>
+        <span class="cg fs8">{{ video.createTime }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: "VideoCard",
+  props: {
+    video: Object,
+  },
+  data() {
+    return {}
+  },
+  created() {
+  },
+  methods: {},
+  filters: {
+    //计算时间，类似于几分钟前，几小时前，几天前等
+    // changeTime(val) {
+    //   let time = new Date(val); //先将接收到的json格式的日期数据转换成可用的js对象日期
+    //   return new timeago().format(time, 'zh_CN'); //转换成类似于几天前的格式
+    // }
+  }
+}
+</script>
+
+<style scoped>
+.video-card {
+  background: rgba(249, 249, 249, 1);
+  border-radius: 1rem;
+  width: 24.5%;
+  box-shadow: 0 0 1px 0 grey;
+  transition: opacity 0.3s ease;
+  height: 240px;
+  margin-bottom: 10px;
+
+  .video-cover-image {
+    width: 100%;
+    height: 70%;
+    position: relative;
+
+    .cover-image {
+      height: 100%;
+      width: 100%;
+      cursor: pointer;
+      border-radius: 1rem 1rem 0 0;
+    }
+
+    .video-like {
+      position: absolute;
+      bottom: 5%;
+      color: white;
+      left: 5%;
+
+    }
+  }
+
+  .video-info {
+    width: 100%;
+    height: 30%;
+    padding: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+
+    .video-title {
+
+    }
+
+    .video-author {
+
+    }
+  }
+
+}
+
+.video-card:hover {
+
+}
+
+</style>

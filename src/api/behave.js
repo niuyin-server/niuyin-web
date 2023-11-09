@@ -25,3 +25,21 @@ export function likeVideo(videoId) {
         method: 'get'
     })
 }
+
+// 分页查询我喜欢的视频
+export function videoLikePage(data) {
+    return request({
+        url: '/behave/api/v1/like/mylikepage',
+        method: 'post',
+        data: data
+    })
+}
+
+// 分页查询我收藏的视频
+export function videoFavoritePage(data) {
+    return request({
+        url: '/behave/api/v1/favorite/myfavoritepage',
+        method: 'post',
+        data: data
+    })
+}

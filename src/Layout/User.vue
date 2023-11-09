@@ -1,29 +1,30 @@
 <template>
   <div class="main-container">
-    <div class="user-container">
-      <div v-viewer class="avatar-area">
-        <img class="user-avatar" :src="user.avatar"/>
-<!--        <image-preview class="user-avatar" :src="user.avatar"  />-->
-      </div>
-      <div class="user-info">
-        <div class="username"><h1>{{ user.nickName }}</h1></div>
-        <div class="follow-fans-like">
-          <div class="user-info-follow flex-center">
-            <div class="mr-5r cg fs8">关注</div>
-            <div class="follow-right fw600">17</div>
-          </div>
-          <div class="=user-info-fans flex-center">
-            <div class="mr-5r cg fs8">粉丝</div>
-            <div class="follow-right fw600">34</div>
-          </div>
-          <div class="user-info-like flex-center">
-            <div class="mr-5r cg fs8">获赞</div>
-            <div class="fw600">45</div>
-          </div>
+    <el-scrollbar>
+      <div class="user-container">
+        <div v-viewer class="avatar-area">
+          <img class="user-avatar" :src="user.avatar"/>
+          <!--        <image-preview class="user-avatar" :src="user.avatar"  />-->
         </div>
-        <div class="user-profile">
-          <span class="userid">牛音ID：{{ user.userId }}</span>
-          <span class="gender-age">
+        <div class="user-info">
+          <div class="username"><h1>{{ user.nickName }}</h1></div>
+          <div class="follow-fans-like">
+            <div class="user-info-follow flex-center">
+              <div class="mr-5r cg fs8">关注</div>
+              <div class="follow-right fw600">17</div>
+            </div>
+            <div class="=user-info-fans flex-center">
+              <div class="mr-5r cg fs8">粉丝</div>
+              <div class="follow-right fw600">34</div>
+            </div>
+            <div class="user-info-like flex-center">
+              <div class="mr-5r cg fs8">获赞</div>
+              <div class="fw600">45</div>
+            </div>
+          </div>
+          <div class="user-profile">
+            <span class="userid">牛音ID：{{ user.userId }}</span>
+            <span class="gender-age">
             <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 12 12"
                  style="margin-right: 4px;">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -33,47 +34,51 @@
             </svg>
             <span>23岁</span>
           </span>
-          <span class="city">河南·郑州</span>
-          <span class="school">中原工学院</span>
+            <span class="city">河南·郑州</span>
+            <span class="school">中原工学院</span>
+          </div>
+        </div>
+        <div class="trust-login-switch">
+          <div class="trust-login-tips">
+            <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
+              <el-icon :size="20">
+                <QuestionFilled/>
+              </el-icon>
+            </el-tooltip>
+          </div>
+          <div class="trust-login-switch-title">保存登录信息</div>
+          <div class="trust-login-switch-button">
+            <el-switch
+                v-model="saveLogin"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+            </el-switch>
+          </div>
+        </div>
+        <div class="user-edit">
+          <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
         </div>
       </div>
-      <div class="trust-login-switch">
-        <div class="trust-login-tips">
-          <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
-            <el-icon :size="20">
-              <QuestionFilled/>
-            </el-icon>
-          </el-tooltip>
+      <!--  作品，喜欢，收藏  -->
+      <div>
+        <div class="user-works">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="作品" name="/user/videoPost">
+              <router-view/>
+            </el-tab-pane>
+            <el-tab-pane label="喜欢" name="/user/videoLike">
+              <router-view/>
+            </el-tab-pane>
+            <el-tab-pane label="收藏" name="/user/videoFavorite">
+              <router-view/>
+            </el-tab-pane>
+            <el-tab-pane label="观看历史" name="/user/videoViewHistory">
+              <router-view/>
+            </el-tab-pane>
+          </el-tabs>
         </div>
-        <div class="trust-login-switch-title">保存登录信息</div>
-        <div class="trust-login-switch-button">
-          <el-switch
-              v-model="saveLogin"
-              active-color="#13ce66"
-              inactive-color="#ff4949">
-          </el-switch>
-        </div>
       </div>
-      <div class="user-edit">
-        <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
-      </div>
-    </div>
-    <!--  作品，喜欢，收藏  -->
-    <div>
-      <div class="user-works">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="作品" name="/user/videoPost">
-            <!--            <router-link to="/index">-->
-            <!--              回首页-->
-            <!--            </router-link>-->
-            <router-view/>
-          </el-tab-pane>
-          <el-tab-pane label="喜欢" name="/user/videoLike">喜欢</el-tab-pane>
-          <el-tab-pane label="收藏" name="/user/videoFavorite">收藏</el-tab-pane>
-          <el-tab-pane label="观看历史" name="/user/videoViewHistory">观看历史</el-tab-pane>
-        </el-tabs>
-      </div>
-    </div>
+    </el-scrollbar>
     <!--  编辑信息弹框  -->
     <el-dialog v-model="editDialogVisible"
                style="height: 60vh;overflow: hidden"
@@ -174,7 +179,7 @@ export default {
     handleClick(tab, event) {
       // console.log(tab.props.name);
       const route = tab.props.name
-      console.log(this.$route.path)
+      // console.log(this.$route.path)
       // console.log(this.$route.matched[1].path)
       this.$router.push(route)
     },

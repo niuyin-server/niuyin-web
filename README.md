@@ -10,4 +10,7 @@ npm install swiper
 npm install vue-video-player
 
 ## vue图片预览组件
-npm install viewerjs
+npm install v-viewer@next
+
+## vue智能显示几天前插件
+npm install timeago.js
