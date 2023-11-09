@@ -20,7 +20,7 @@
 //引入video样式
 import {videoPlayer} from 'vue-video-player';
 import {swiper, swiperSlide} from "vue-awesome-swiper";
-import 'video.js/dist/video-js.css'
+// import 'video.js/dist/video-js.css'
 
 export default {
   name: 'Test',
