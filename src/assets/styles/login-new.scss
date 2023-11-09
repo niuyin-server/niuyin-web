@@ -1,10 +1,12 @@
+@use "sass:list";
+@use "sass:math";
 
 $W: 1000;
 $H: 1920;
 $picW: 500;
 $picH: 560;
 $formW: 320;
-$tabW: $formW / 2;
+$tabW: math.div($formW, 2);
 $rowH: 56;
 $buttonH: 50;
 
@@ -16,11 +18,11 @@ $logoWidth: 600px;
 $logoHeight: 100px;
 $logoImage: "@/assets/logo/login-niuyin.png";
 // container-content
-$contentWidth: round($W / $H * 100) * 1vw;
-$contentHeight: round($picH / $W * 100) / 100 * $contentWidth;
+$contentWidth: round(math.div($W , $H) * 100) * 1vw;
+$contentHeight: math.div( round(math.div($picH , $W) * 100) , 100) * $contentWidth;
 $contentBgColor: #ffffff;
 // container-content-pic
-$picWidth: round($picW / $H * 100) * 1vw;
+$picWidth: round(math.div($picW , $H )* 100) * 1vw;
 $picHeight: inherit;
 $picImage: "@/assets/images/login-form-left-gif-n.gif";
 // container-content-field
@@ -74,7 +76,7 @@ $buttonHeight: $buttonH * 1px;
     position: absolute;
     top: 50px;
     left: 50%;
-    margin-left: -$logoWidth/2;
+    margin-left: math.div(-$logoWidth, 2);
   }
 
   .content {
@@ -306,10 +308,10 @@ $mobileButtonH: 48;
 // container
 $mobileContainerBgImage: "../assets/images/bg-mobile.png";
 // container-content
-$mobileContentWidth: round($mobileContentW / $mobileW * 100) * 1vw;
-$mobileContentHeight: round($mobileContentH / $mobileW * 100) / 100 * $mobileContentWidth;
+$mobileContentWidth: round(math.div($mobileContentW , $mobileW)* 100) * 1vw;
+$mobileContentHeight: math.div(round(math.div($mobileContentH , $mobileW) * 100),  100) * $mobileContentWidth;
 // container-content-field-form
-$mobileFormWidth: round($mobileFormW / $mobileW * 100) * 1vw;
+$mobileFormWidth: round(math.div($mobileFormW , $mobileW) * 100) * 1vw;
 $mobileRowHeight: $mobileRowH * 1px;
 $mobileButtonHeight: $mobileButtonH * 1px;
 $iconBgImage: "../assets/images/icon.png";

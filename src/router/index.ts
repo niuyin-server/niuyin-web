@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
+// import beforeEach from "@/router/beforeEach.ts";
 
 // 创建路由
 const router = createRouter({
@@ -43,5 +44,14 @@ const router = createRouter({
         },
     ],
 });
+
+
+/**
+ * 路由守卫
+ */
+// router.beforeEach((guard) => {
+//     beforeEach.checkAuth(guard, router)
+// })
+
 
 export default router;

@@ -33,7 +33,11 @@
                 <el-form-item prop="password">
                   <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码"
                             @keyup.enter.native="handleLogin">
-                    <!--                    <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>-->
+                    <template #prefix>
+                      <el-icon class="el-input__icon">
+                        <Lock/>
+                      </el-icon>
+                    </template>
                   </el-input>
                 </el-form-item>
               </div>
@@ -42,15 +46,23 @@
               <div v-if="loginType === 'sms'">
                 <el-form-item prop="telephone">
                   <el-input v-model="loginForm.telephone" type="text" auto-complete="off" placeholder="请输入手机号">
-                    <!--                    <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon"/>-->
+                    <template #prefix>
+                      <el-icon class="el-input__icon">
+                        <Iphone/>
+                      </el-icon>
+                    </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="phoneCode">
                   <el-input v-model="loginForm.phoneCode" type="text" auto-complete="off" placeholder="短信验证码"
                             class="sms-login-mobile-code-prefix" @keyup.enter.native="handleLogin">
-                    <!--                    <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon prefix-svg-icon"/>-->
-                    <template slot="append">
-                      <span v-if="mobileCodeTimer <= 0" class="getMobileCode" @click="getSmsCode"
+                    <template #prefix>
+                      <el-icon class="el-input__icon">
+                        <Key/>
+                      </el-icon>
+                    </template>
+                    <template #append>
+                      <span v-if="mobileCodeTimer <= 0" class="getMobileCode cb" @click="getSmsCode"
                             style="cursor: pointer;">获取验证码</span>
                       <span v-if="mobileCodeTimer > 0" class="getMobileCode">{{ mobileCodeTimer }}秒后重试</span>
                     </template>

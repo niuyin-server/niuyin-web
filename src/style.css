@@ -7,6 +7,7 @@
     --el-fill-color: rgba(240, 242, 245, 0.41); /*加载中图片背景色*/
     --el-fill-color-darker: rgba(230, 232, 235, 0.47);
     --el-messagebox-border-radius: 16px; /*弹框radius*/
+    --el-border-radius-base: 8px; /*输入框圆角*/
 }
 
 * {

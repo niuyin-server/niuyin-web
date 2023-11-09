@@ -1,9 +1,7 @@
 <template>
-  <div class="video-page-container custom-loading-svg" v-loading="loading"
-       :element-loading-svg="svg"
-       element-loading-svg-view-box="-10, -10, 50, 50">
-    <div
-        style="display: flex;flex-flow: row wrap;justify-content: space-between;">
+  <div class="video-page-container custom-loading-svg"
+       v-loading="loading">
+    <div class="flex-between">
       <el-card v-for="item in videoList"
                :key="item.videoId"
                style="padding:1rem;background-color: white;width: 32.66%;border-radius:0.5rem;height: 300px;margin-bottom: 0.5rem">
@@ -51,7 +49,7 @@
 </template>
 
 <script>
-// import {videoCategoryPage} from "@/api/video.js";
+import {videoCategoryPage} from "@/api/video.js";
 import {Close, UserFilled} from "@element-plus/icons-vue";
 
 export default {
@@ -77,16 +75,6 @@ export default {
       videoList: [],
       videoTotal: undefined,
       loading: true,
-      svg: `
-        <path class="path" d="
-          M 30 15
-          L 28 17
-          M 25.61 25.61
-          A 15 15, 0, 0, 1, 15 30
-          A 15 15, 0, 1, 1, 27.99 7.5
-          L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `,
       dialogVisible: false,
       video: {},
     }
