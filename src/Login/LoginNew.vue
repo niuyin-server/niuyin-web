@@ -204,7 +204,7 @@ export default {
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" scoped>
 @import "@/assets/styles/login-new.scss";
 
 .logo {
