@@ -48,14 +48,11 @@ export function logout() {
 
 
 //更新用户信息
-export function userupdate(nickname, email, telephone, avatar, sex) {
-    return request.put('/member/api/v1/update', {
-        nickName: nickname,
-        email,
-        telephone,
-        avatar,
-        sex
-
+export function updateUserProfile(data) {
+    return request({
+        url: '/member/api/v1/update',
+        method: 'put',
+        data: data
     })
 }
 
