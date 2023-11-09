@@ -61,7 +61,9 @@
     <div>
       <div class="user-works">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="作品" name="first">作品</el-tab-pane>
+          <el-tab-pane label="作品" name="first">
+            <router-view/>
+          </el-tab-pane>
           <el-tab-pane label="喜欢" name="second">喜欢</el-tab-pane>
           <el-tab-pane label="收藏" name="third">收藏</el-tab-pane>
           <el-tab-pane label="观看历史" name="fourth">观看历史</el-tab-pane>
@@ -143,7 +145,7 @@ export default {
     return {
       user: {},
       editDialogVisible: false, //编辑信息弹框
-      activeName: 'second',
+      activeName: 'first',
       saveLogin: true,
       userForm: {},
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",

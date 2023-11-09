@@ -16,9 +16,11 @@ const router = createRouter({
                 {path: "index", component: () => import("@/Layout/Video.vue")},
                 {
                     path: "user", component: () => import("@/Layout/User.vue"),
-                    // children: [
-                    //     {path: "self", component: () => import("@/Layout/UserSelf.vue")},
-                    // ]
+                    children: [
+                        {path: "videoPost", component: () => import("@/Layout/user/VideoPost.vue")},
+                        {path: "videoLike", component: () => import("@/Layout/user/VideoLike.vue")},
+                        {path: "videoFavorite", component: () => import("@/Layout/user/VideoFavorite.vue")},
+                    ]
                 },
                 // {
                 //     path: "useredit",
