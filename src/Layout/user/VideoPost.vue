@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-between">
-    <el-skeleton style="width: 100%" :loading="loading" animated>
+  <div class="flex-between" v-loading="loadingIcon">
+    <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
         <div class="loading-container" v-for="i in 2">
           <div class="loading-item" v-for="i in 4">
@@ -15,9 +15,13 @@
         </div>
       </template>
       <template #default>
-        <VideoCard v-for="item in postVideoList" :video="item" @click="handleVideoClick(item)"/>
+        <VideoCard
+            v-for="item in postVideoList"
+            :video="item"
+            @click="handleVideoClick(item)"/>
       </template>
     </el-skeleton>
+    <!--  视频播放弹框  -->
     <el-dialog v-model="dialogVisible"
                @close="dialogDestroy"
                style="height: calc(100% - 10vh);"
@@ -136,5 +140,13 @@ export default {
 </script>
 
 <style scoped>
+.loading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
+  .loading-item {
+    width: 24.5%;
+  }
+}
 </style>
