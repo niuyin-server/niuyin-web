@@ -6,6 +6,7 @@
       </div>
       <!-- 登陆页面的表单 -->
       <div class="logon-form-big">
+
         <div class="logon-form-top">
           <div>
             <span class="title">欢迎使用本系统</span>
@@ -106,6 +107,7 @@
 </template>
 
 <script>
+
 import {ElMessage} from "element-plus";
 import {useUserStore} from "@/store/useUserStore";
 import {userLogin, register, getInfo} from '@/api/member.js';
@@ -139,7 +141,7 @@ export default {
           {required: true, message: "请输入密码", trigger: "blur"},
           {min: 3, max: 18, message: "长度必须3到18位", trigger: "blur"},
         ],
-        confirmPassword: [
+        checkPass: [
           {required: true, message: "请再次输入密码", trigger: "blur"},
           {min: 3, max: 18, message: "长度必须3到18位", trigger: "blur"},
         ],
@@ -201,6 +203,87 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "@/assets/styles/login.scss";
+<style lang='less' scoped>
+.el-button + .el-button {
+  margin-left: 0;
+}
+
+#loginHead {
+  max-width: 100%;
+  height: auto;
+  background-repeat: no-repeat;
+}
+
+.login {
+  width: 80vw;
+  height: 60vh;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 2rem;
+  display: flex;
+}
+
+.login-image {
+  width: 40vw;
+  height: 50vh;
+  background: url(../assets/images/login.png) no-repeat;
+  background-size: cover;
+  border-radius: 2rem 0 0 2rem;
+}
+
+.logon-form-big {
+  /* background-color: #f8f7f7; */
+  width: 40vw;
+  height: 50vh;
+  display: grid;
+  align-items: center;
+  border-radius: 2rem;
+}
+
+.logon-form-top {
+  background-color: #f8f7f7;
+  width: 40vw;
+  height: 30vh;
+  display: grid;
+  align-items: center;
+  border-radius: 0 2rem 0 0;
+}
+.title{
+  display: flex;
+  margin-left: 50px;
+  font-weight: bold;
+  margin-top: 25px;
+}
+.login-if {
+  background-color: #f8f7f7;
+  margin-left: 50px;
+  width: 30vw;
+  height: 10vh;
+  display: grid;
+  align-items: center;
+  border-radius: 0 2rem 0 0;
+}
+.logon-form-bottom {
+  background-color: #f8f7f7;
+  width: 40vw;
+  height: 20vh;
+  display: grid;
+  align-items: center;
+  /* 水平居中把这个打开 */
+  justify-content: center;
+  border-radius: 0 0 2rem 0;
+}
+.div-if{
+  margin-left: 20px;
+  width: 60%;
+
+}
+.el-divider-horizontal {
+  height: 1px;
+  width: 400px;
+}
 </style>
