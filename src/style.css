@@ -46,8 +46,24 @@ a {
     color: red;
 }
 
+.fs5 {
+    font-size: 0.5rem;
+}
+
+.fs6 {
+    font-size: 0.6rem;
+}
+
+.fs7 {
+    font-size: 0.7rem;
+}
+
 .fs8 {
     font-size: 0.8rem;
+}
+
+.fs9 {
+    font-size: 0.9rem;
 }
 
 .fw600 {

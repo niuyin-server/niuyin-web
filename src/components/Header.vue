@@ -38,15 +38,29 @@
     </div>
     <div class="nav-right">
       <div style="align-items: center;display: flex;justify-content: center">
+        <!--通知 -->
+        <router-link class="link-type" :to="'/notice'">
+          <div class="flex-center icon-click"
+               style=" cursor: pointer; flex-direction: column;margin: 0 10px;color: gray">
+            <div style="height: 20px; justify-content: center; width: 20px;">
+              <!--              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>-->
+              <i class="iconfont icon-notice"></i>
+            </div>
+            <p>
+              <span class="cg fs7">通知</span>
+            </p>
+          </div>
+        </router-link>
         <!--消息 -->
         <router-link class="link-type" :to="'/message'">
           <div class="flex-center icon-click"
                style=" cursor: pointer; flex-direction: column;margin: 0 10px;color: gray">
             <div style="height: 20px; justify-content: center; width: 20px;">
-              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>
+              <!--              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>-->
+              <i class="iconfont icon-message"></i>
             </div>
             <p>
-              <span style="font-size: 0.66rem;font-weight: 600">消息</span>
+              <span class="cg fs7">消息</span>
             </p>
           </div>
         </router-link>
@@ -55,10 +69,11 @@
           <div class="flex-center icon-click"
                style=" cursor: pointer; flex-direction: column;margin: 0 10px;color: gray">
             <div style="    height: 20px;justify-content: center;width: 20px;">
-              <Plus style="width: 20px; height: 20px;font-weight: 600"/>
+              <!--              <Plus style="width: 20px; height: 20px;font-weight: 600"/>-->
+              <i class="iconfont icon-upload"></i>
             </div>
             <p>
-              <span style="font-size: 0.66rem;font-weight: 600">投稿</span>
+              <span class="cg fs7">投稿</span>
             </p>
           </div>
         </router-link>
