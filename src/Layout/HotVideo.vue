@@ -36,10 +36,13 @@
                     <p class="one-line fs9 cb">{{ item.videoTitle }}</p>
                     <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
                   </div>
+                  <!--鼠标悬停在视频发布者头像上时展示该视频发布者的信息-->
                   <el-popover
                       :width="300"
                       popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+                      :show-after=handleSocialBahaveNums(item.userId)
                   >
+                    <!--视频发布者的头像-->
                     <template #reference>
                       <div>
                         <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
@@ -47,20 +50,84 @@
                       </div>
                     </template>
                     <template #default>
-                      <div class="demo-rich-conent" style="display: flex; gap: 16px; flex-direction: column">
-                        <div><p class="demo-rich-content__name"
-                                style="margin: 0; font-weight: 500">
-                          Element Plus
-                        </p>
-                          <p class="demo-rich-content__mention"
-                             style="margin: 0; font-size: 14px; color: var(--el-color-info)">
-                            @element-plus
-                          </p>
+                      <!--视频发布者的头像、名称和关注粉丝等信息展示模块-->
+                      <div
+                          class="demo-rich-conent"
+                          style="display: flex; gap: 16px; flex-direction: column"
+                      >
+                        <!--视频发布者的头像div-->
+                        <div style="display: flex;">
+                          <div>
+                            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
+                            <el-avatar v-else :icon="UserFilled"/>
+                          </div>
+                          <!--名称和关注粉丝等信息展示模块-->
+                          <div style="display: grid;  margin-left: 20px;">
+                            <!--名称展示模块-->
+                            <div>
+                              <p>{{ item.userNickName }}</p>
+                            </div>
+                            <!--点赞、关注、粉丝等信息展示模块-->
+                            <div style="display: flex;">
+                              <!--关注信息展示模块-->
+                              <div style="display: flex">
+                                <p
+                                    class="demo-rich-content__name"
+                                    style="margin: 0; font-weight: 500"
+                                >{{ userVideoLikes }}</p>
+                                <p class="demo-rich-content__mention"
+                                   style="margin: 0; font-size: 14px; color: var(--el-color-info)">
+                                  关注
+                                </p>
+                              </div>
+                              <!--粉丝信息展示模块-->
+                              <div style="display: flex">
+                                <p
+                                    class="demo-rich-content__mention"
+                                    style="margin-left: 10px; font-weight: 500"
+                                >
+                                  {{ followedNums }}</p>
+                                <p class="demo-rich-content__mention"
+                                   style="margin: 0; font-size: 14px; color: var(--el-color-info)">
+                                  粉丝
+                                </p>
+                              </div>
+                              <!--获赞信息展示模块-->
+                              <div style="display: flex">
+                                <p class="demo-rich-content__desc" style="margin-left: 10px;">
+                                  {{ fanNums }}
+                                </p>
+                                <p class="demo-rich-content__mention"
+                                   style="margin: 0; font-size: 14px; color: var(--el-color-info)">
+                                  获赞
+                                </p>
+                              </div>
+                            </div>
+                            <!--关注以及私信功能模块展示-->
+                            <div style="display: flex; margin-top: 10px;">
+                              <div v-if="item.weatherFollow">
+                                <el-button
+                                    :type="'primary'"
+                                    text
+                                    bg
+                                    style="color: #8c8c8c;background-color: #e3e5e7;"
+                                >
+                                  已关注
+                                </el-button>
+                              </div>
+                              <div v-else>
+                                <el-button
+                                    :type="'primary'"
+                                    text
+                                    bg
+                                    style="color: #fbfdfd;background-color: #4d97e1;">+关注
+                                </el-button>
+                              </div>
+                            </div>
+
+                          </div>
                         </div>
-                        <p class="demo-rich-content__desc" style="margin: 0">
-                          Element Plus, a Vue 3 based component library for developers,
-                          designers and product managers
-                        </p>
+
                       </div>
                     </template>
                   </el-popover>
@@ -97,8 +164,9 @@
 </template>
 
 <script>
-import {hotVideoPage} from "@/api/video";
+import {hotVideoPage, userLikeNums} from "@/api/video";
 import {Close, UserFilled} from "@element-plus/icons-vue";
+import {followAndFans} from "@/api/social.js";
 
 export default {
   name: "HotVideo",
@@ -112,6 +180,9 @@ export default {
   },
   data() {
     return {
+      userVideoLikes: "",
+      followedNums: "",
+      fanNums: "",
       dialogVisible: false,
       loading: true,
       loadingIcon: false,
@@ -146,6 +217,23 @@ export default {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+
+    handleSocialBahaveNums(userId) {
+      userLikeNums(userId).then(res => {
+        if (res.code === 200) {
+          this.userVideoLikes = res.data
+          // console.log(this.userVideoLikes)
+          console.log(res.data)
+        }
+      })
+      followAndFans(userId).then(res => {
+        if (res.code === 200) {
+          this.followedNums = res.data.followedNums
+          this.fanNums = res.data.fanNums
+          console.log(res.data)
+        }
+      })
+    },
     getHotVideoPage() {
       this.loading = true
       hotVideoPage(this.hotVideoQueryParams).then(res => {

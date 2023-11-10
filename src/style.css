@@ -1,6 +1,6 @@
 
 :root {
-    --el-color-info: #ebedef; /*按钮背景色*/
+    --el-color-info: #a5a7a8; /*按钮背景色*/
     --el-input-bg-color: rgb(242, 242, 243);
     --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
     --el-loading-spinner-size: 100px; /*加载图标大小*/

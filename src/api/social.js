@@ -16,3 +16,12 @@ export function followUser(userId) {
         method: 'get'
     })
 }
+
+// 关注用户
+export function followAndFans(userId) {
+    return request({
+        url: '/social/api/v1/follow/followFans/' + userId,
+        method: 'get'
+    })
+}
+
