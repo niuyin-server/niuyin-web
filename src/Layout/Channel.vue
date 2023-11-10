@@ -18,7 +18,7 @@
 
 <script>
 import {videoCategory} from "@/api/video"
-import VideoCategoryPage from "@/components/video/VideoCategoryPage.vue"
+import VideoCategoryPage from "@/components/channel/VideoCategoryPage.vue"
 
 export default {
   name: "Channel",

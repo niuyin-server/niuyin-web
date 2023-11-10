@@ -42,7 +42,7 @@ export default {
 
 <style scoped>
 .video-card {
-  background: rgba(249, 249, 249, 1);
+  background: rgba(250, 250, 250, 1);
   border-radius: 1rem;
   width: 24.5%;
   box-shadow: 0 0 1px 0 grey;

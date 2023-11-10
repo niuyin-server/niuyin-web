@@ -10,27 +10,28 @@
           <div class="follow-fans-like">
             <div class="user-info-follow flex-center">
               <div class="mr-5r cg fs8">关注</div>
-              <div class="follow-right fw600">17</div>
+              <div class="follow-right fw600">{{followNum}}</div>
             </div>
             <div class="=user-info-fans flex-center">
               <div class="mr-5r cg fs8">粉丝</div>
-              <div class="follow-right fw600">34</div>
+              <div class="follow-right fw600">{{fansNum}}</div>
             </div>
             <div class="user-info-like flex-center">
               <div class="mr-5r cg fs8">获赞</div>
-              <div class="fw600">45</div>
+              <div class="fw600">{{ likeAllNum}}</div>
             </div>
           </div>
           <div class="user-profile">
             <span class="userid">牛音ID：{{ user.userId }}</span>
             <span class="gender-age">
-            <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 12 12"
-                 style="margin-right: 4px;">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M8 1.25a.75.75 0 000 1.5h1.09L7.54 4.298a.757.757 0 00-.058.066 4 4 0 10.968 1.112.752.752 0 00.15-.117L10.25 3.71V5a.75.75 0 001.5 0V2a.75.75 0 00-.75-.75H8zM5 10a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"
-                  fill="#168EF9">
-            </path>
-            </svg>
+              <i class="iconfont icon-man"></i>
+<!--            <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 12 12"-->
+<!--                 style="margin-right: 4px;">-->
+<!--            <path fill-rule="evenodd" clip-rule="evenodd"-->
+<!--                  d="M8 1.25a.75.75 0 000 1.5h1.09L7.54 4.298a.757.757 0 00-.058.066 4 4 0 10.968 1.112.752.752 0 00.15-.117L10.25 3.71V5a.75.75 0 001.5 0V2a.75.75 0 00-.75-.75H8zM5 10a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"-->
+<!--                  fill="#168EF9">-->
+<!--            </path>-->
+<!--            </svg>-->
             <span>23岁</span>
           </span>
             <span class="city">河南·郑州</span>
@@ -61,16 +62,16 @@
       <div>
         <div class="user-works">
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="作品" name="/user/videoPost">
+            <el-tab-pane label="作品" :lazy="true" name="/user/videoPost">
               <router-view/>
             </el-tab-pane>
-            <el-tab-pane label="喜欢" name="/user/videoLike">
+            <el-tab-pane label="喜欢" :lazy="true" name="/user/videoLike">
               <router-view/>
             </el-tab-pane>
-            <el-tab-pane label="收藏" name="/user/videoFavorite">
+            <el-tab-pane label="收藏" :lazy="true" name="/user/videoFavorite">
               <router-view/>
             </el-tab-pane>
-            <el-tab-pane label="观看历史" name="/user/videoViewHistory">
+            <el-tab-pane label="观看历史" :lazy="true" name="/user/videoViewHistory">
               <router-view/>
             </el-tab-pane>
           </el-tabs>
@@ -130,6 +131,8 @@
 
 <script>
 import {getInfo, updateUserProfile} from "@/api/member.js";
+import {followAndFans} from "@/api/social.js";
+import {userLikeNums} from "@/api/video.js";
 import {Close} from "@element-plus/icons-vue";
 import {useUserStore} from "@/store/useUserStore";
 
@@ -151,6 +154,9 @@ export default {
       headers: {
         Authorization: 'Bearer ' + useUserStore().token,
       },
+      followNum: 0, // 关注数
+      fansNum: 0, //粉丝数
+      likeAllNum: 0, //获赞数
     }
   },
   created() {
@@ -163,6 +169,22 @@ export default {
           this.user = res.data
           this.userForm = {...this.user}
           localStorage.setItem("userInfo", JSON.stringify(this.user))
+          this.getUserFollowFansLike(res.data.userId)
+        }
+      })
+    },
+    getUserFollowFansLike(userId) {
+      // 查询关注、粉丝
+      followAndFans(userId).then(res => {
+        if (res.code === 200) {
+          this.followNum = res.data.followedNums
+          this.fansNum = res.data.fanNums
+        }
+      })
+      // 查询获赞
+      userLikeNums(userId).then(res => {
+        if (res.code === 200) {
+          this.likeAllNum = res.data
         }
       })
     },

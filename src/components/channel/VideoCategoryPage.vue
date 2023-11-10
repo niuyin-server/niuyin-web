@@ -4,19 +4,23 @@
     <div class="flex-between">
       <el-card v-for="item in videoList"
                :key="item.videoId"
-               style="padding:1rem;background-color: white;width: 32.66%;border-radius:0.5rem;height: 300px;margin-bottom: 0.5rem">
-        <div style="height: 80%;border-radius: 0.5rem;text-align: center">
+               class="video-card-transition"
+               style="width: 24.4%;border-radius:0.5rem;height: 300px;margin-bottom: 1rem">
+        <div class="w100" style="height: 80%;border-radius: 0.5rem 0.5rem 0 0;text-align: center;overflow: hidden">
           <el-image
-              style="height:100%;border-radius: 0.5rem"
+              class="h100"
               @click="videoDialog(item.videoId)"
               :src="item.coverImage"/>
         </div>
-        <div style="height:20%;margin-top:10px;display: flex;justify-content: space-between;align-items: center">
-          <div class="one-line" style="font-size: 0.8rem;color: black">{{ item.videoTitle }}
-            <p class="one-line" style="font-size: 0.7rem;color: grey;">{{ item.videoDesc }}</p>
+        <div style="height:20%;padding:10px;display: flex;justify-content: space-between;align-items: center">
+          <div class="w100">
+            <p class="one-line cb fs9">{{ item.videoTitle }}</p>
+            <marquee class="one-line cg fs7">{{ item.videoDesc }}</marquee>
           </div>
-          <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
-          <el-avatar v-else :icon="UserFilled"/>
+          <div>
+            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
+            <el-avatar v-else :icon="UserFilled"/>
+          </div>
         </div>
       </el-card>
       <el-empty v-show="videoTotal<=0" description="暂无数据"/>
@@ -70,7 +74,7 @@ export default {
       videoQueryParams: {
         categoryId: undefined,
         pageNum: 1,
-        pageSize: 6,
+        pageSize: 8,
       },
       videoList: [],
       videoTotal: undefined,

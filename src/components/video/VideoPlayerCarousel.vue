@@ -76,9 +76,7 @@
                   <el-image class="user-avatar" :src="item.avatar" alt="" lazy></el-image>
                   <div class="user-nickname">
                     <p class="nickname">{{ item.nickName }}</p>
-                    <span style="color: grey;font-size: 0.7rem" class="create-time">{{
-                        item.createTime
-                      }}</span>
+                    <span style="color: grey;font-size: 0.7rem" class="create-time">{{ item.createTime }}</span>
                   </div>
                 </div>
                 <div class="comment-content">
@@ -91,15 +89,16 @@
                       <el-image class="user-avatar" :src="child.avatar" alt="" lazy></el-image>
                       <div class="user-nickname">
                         <p class="nickname">{{ child.nickName }}
-                          <span class="aite" v-if="child.replayUserId != null">{{
-                              '@' + child.replayUserNickName
-                            }}</span>
+                          <span class="aite"
+                                v-if="child.replayUserId != null">
+                            {{ '@' + child.replayUserNickName }}
+                          </span>
                         </p>
                         <span style="color: grey;" class="create-time">{{ parseTime(child.createTime) }}</span>
                       </div>
                     </div>
                     <div class="comment-content">
-                      <p style="color: white">{{ child.content }}</p>
+                      <p class="cg" style="color: white">{{ child.content }}</p>
                     </div>
                   </div>
                 </div>
@@ -115,13 +114,10 @@
                          :limit.sync="commentQueryParams.pageSize" @pagination="getCommentList"/>
         </el-scrollbar>
         <div class="comment-input-area">
-          <el-input
-              slot="reference"
-              v-model="commentInput"
-              clearable
-              @input="change($event)"
-              placeholder="留下你的精彩评论吧"
-          >
+          <el-input slot="reference"
+                    v-model="commentInput"
+                    clearable
+                    placeholder="留下你的精彩评论吧">
             <template #append>
               <el-button @click="handleCommentClick(item.videoId)" :icon="ChromeFilled"/>
             </template>
@@ -189,9 +185,10 @@ export default {
         }
       })
     },
-    change(e) {
-      this.$forceUpdate()
-    },
+    // change(e) {
+    // @input="change($event)"
+    //   this.$forceUpdate()
+    // },
     videoLikeClick(videoId) {
       likeVideo(videoId).then(res => {
         if (res.code === 200) {

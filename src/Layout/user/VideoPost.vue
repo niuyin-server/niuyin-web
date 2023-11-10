@@ -107,7 +107,7 @@ export default {
       this.dialogVisible = false
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 1) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
         //加载更多
         if (this.loadingData) {
           this.loadingIcon = true
@@ -123,14 +123,15 @@ export default {
               }
               this.postVideoList = this.postVideoList.concat(res.rows)
               this.loadingIcon = false
-              setTimeout(() => {
-                // 流控
-                this.loadingData = true
-              }, 2000);
+
             } else {
               this.loadingIcon = false
             }
           })
+          setTimeout(() => {
+            // 流控
+            this.loadingData = true
+          }, 2000);
         }
       }
     },

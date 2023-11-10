@@ -1,7 +1,22 @@
 .el-card {
   --el-card-padding: 0;
+  --el-card-bg-color: rgba(242, 242, 243, 1)
 }
 
 .el-card__body {
   height: 100%;
+}
+
+.el-tabs__header {
+  position: sticky;
+  top: -2px;
+  z-index: 1;
+  border-radius: 0 0 6px 6px;
+  background: white;
+}
+
+.channel-container .el-tabs__header {
+  position: sticky;
+  top: 0;
+  border-radius: 6px;
 }

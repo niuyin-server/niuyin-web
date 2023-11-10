@@ -19,8 +19,8 @@ import "@/assets/styles/element.scss"
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
 // 高德地图
-import VueAMap, {initAMapApiLoader} from '@vuemap/vue-amap';
-import '@vuemap/vue-amap/dist/style.css';
+import VueAMap, {initAMapApiLoader} from "@vuemap/vue-amap";
+import "@vuemap/vue-amap/dist/style.css";
 
 initAMapApiLoader({
     key: '267b4c199024ffc545d85b93d24a09f1',

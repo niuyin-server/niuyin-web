@@ -68,7 +68,7 @@ export function hotVideoPage(data) {
 // 用户视频点赞总数
 export function userLikeNums(userId) {
     return request({
-        url: '/video/api/v1/videoLikecNums/'+ userId,
+        url: '/video/api/v1/likeNums/'+ userId,
         method: 'get',
     })
 }
