@@ -33,6 +33,11 @@ body {
     height: 100%;
 }
 
+.video-card-transition{
+    background-color: rgba(250,250,250,1);
+    box-shadow: 0 0 1px 0 grey;
+}
+
 a {
     text-decoration: none
 }
