@@ -44,27 +44,16 @@
                       <el-avatar v-else :icon="UserFilled"/>
                     </template>
                     <template #default>
-                      <div
-                          class="demo-rich-conent"
-                          style="display: flex; gap: 16px; flex-direction: column"
-                      >
-                        <!--                        <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
-                        <!--                        <el-avatar v-else :icon="UserFilled"/>-->
-                        <div>
-                          <p
-                              class="demo-rich-content__name"
-                              style="margin: 0; font-weight: 500"
-                          >
+                      <div class="demo-rich-conent" style="display: flex; gap: 16px; flex-direction: column">
+                        <div><p class="demo-rich-content__name"
+                              style="margin: 0; font-weight: 500">
                             Element Plus
                           </p>
-                          <p
-                              class="demo-rich-content__mention"
-                              style="margin: 0; font-size: 14px; color: var(--el-color-info)"
-                          >
+                          <p class="demo-rich-content__mention"
+                              style="margin: 0; font-size: 14px; color: var(--el-color-info)">
                             @element-plus
                           </p>
                         </div>
-
                         <p class="demo-rich-content__desc" style="margin: 0">
                           Element Plus, a Vue 3 based component library for developers,
                           designers and product managers
@@ -182,6 +171,7 @@ export default {
         if (this.loadingData) {
           // this.loading = true
           this.loadingData = false
+          this.loadingIcon = true
           this.hotVideoQueryParams.pageNum += 1
           hotVideoPage(this.hotVideoQueryParams).then(res => {
             if (res.code === 200) {

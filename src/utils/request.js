@@ -5,9 +5,13 @@ import {useUserStore} from "@/store/useUserStore";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 const instance = axios.create({
-    baseURL: 'http://localhost:9090',
-    // baseURL: 'http://39.101.67.45:9090',
-    timeout: 20000,
+    // baseURL: 'http://localhost:9090',
+    baseURL: 'http://39.101.67.45:9090', timeout: 20000,
+    //     外网面板地址: http://39.101.67.45:22333/07c086f9
+// 内网面板地址: http://172.25.39.45:22333/07c086f9
+//     username: j1oyh4xy
+// password: 1f890916
+
 });
 const userstore = useUserStore()
 const token = userstore.token
@@ -38,13 +42,11 @@ instance.interceptors.response.use(res => {
         if (loginDialog) {
             loginDialog = false
             ElMessageBox.confirm('登录状态已过期，是否选择重新登录', '提示', {
-                confirmButtonText: '重新登录',
-                cancelButtonText: '取消',
-                type: 'warning'
+                confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning'
             }).then(() => {
                 location.href = '/login';
-            }).catch(()=>{
-                loginDialog =true
+            }).catch(() => {
+                loginDialog = true
             });
             return Promise.reject('请重新登录。')
         }
