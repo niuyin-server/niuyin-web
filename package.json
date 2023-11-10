@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@vuemap/vue-amap": "^1.1.4",
     "axios": "^1.5.1",
     "element-plus": "^2.4.1",
     "path": "^0.12.7",

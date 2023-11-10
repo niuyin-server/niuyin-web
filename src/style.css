@@ -281,3 +281,39 @@ a {
     height: 100%;
     width: 100%;
 }
+
+/*高德地图页面美化*/
+.amap-sug-result {
+    border-radius: 0.4rem;
+    background-color: rgba(242, 242, 243, 0.5) !important;
+    backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: 0px 1px 1px 0 grey;
+}
+
+.el-vue-search-box-container {
+    background: rgba(242, 242, 243, 0.5) !important;
+    border-radius: 0.5rem !important;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+
+    & input {
+        background: none;
+    }
+}
+
+.amap-ctrl-icon-layer, .amap-ctrl-list-layer {
+    background-color: rgba(242, 242, 243, 0.5) !important;
+    border-radius: 0.5rem !important;
+    backdrop-filter: blur(10px);
+}
+
+.amap-controls .amap-hawkeye {
+    border-radius: 1rem 0 1rem 0 !important;
+}
+
+.amap-controls .amap-control {
+    background-color: rgba(242, 242, 243, 0.5) !important;
+    border-radius: 0.5rem !important;
+    backdrop-filter: blur(10px);
+}

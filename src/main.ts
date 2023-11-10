@@ -16,6 +16,17 @@ import {parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon";
 // 图片预览组件
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
+// 高德地图
+import VueAMap, {initAMapApiLoader} from '@vuemap/vue-amap';
+import '@vuemap/vue-amap/dist/style.css';
+
+initAMapApiLoader({
+    key: '267b4c199024ffc545d85b93d24a09f1',
+    securityJsCode: '7e84f711a9dac457c627dccc92e01da6',
+    plugins: [
+        'AMap.Geocoder',
+    ]
+});
 
 // import VueVideoPlayer from "vue-video-player";
 // import "video.js/dist/video-js.css";
@@ -35,13 +46,15 @@ app.config.globalProperties.resetForm = resetForm;
 app.config.globalProperties.addDateRange = addDateRange;
 app.config.globalProperties.handleTree = handleTree;
 
-app.use(router);
-app.use(pinia);
-app.use(ElementPlus);
+app.use(router)
+app.use(pinia)
+app.use(ElementPlus)
 app.use(VueViewer)
 VueViewer.setDefaults({
     zIndexInline: 2023
 })
+app.use(VueAMap)
+
 // app.use(VueVideoPlayer);
 
 app.mount("#app");

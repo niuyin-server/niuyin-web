@@ -32,7 +32,8 @@
                       :src="item.coverImage"/>
                 </div>
                 <div class="user-info">
-                  <div class="one-line fs8 cb">{{ item.videoTitle }}
+                  <div>
+                    <p class="one-line fs9 cb">{{ item.videoTitle }}</p>
                     <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
                   </div>
                   <el-popover
@@ -40,17 +41,19 @@
                       popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
                   >
                     <template #reference>
-                      <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
-                      <el-avatar v-else :icon="UserFilled"/>
+                      <div>
+                        <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
+                        <el-avatar v-else :icon="UserFilled"/>
+                      </div>
                     </template>
                     <template #default>
                       <div class="demo-rich-conent" style="display: flex; gap: 16px; flex-direction: column">
                         <div><p class="demo-rich-content__name"
-                              style="margin: 0; font-weight: 500">
-                            Element Plus
-                          </p>
+                                style="margin: 0; font-weight: 500">
+                          Element Plus
+                        </p>
                           <p class="demo-rich-content__mention"
-                              style="margin: 0; font-size: 14px; color: var(--el-color-info)">
+                             style="margin: 0; font-size: 14px; color: var(--el-color-info)">
                             @element-plus
                           </p>
                         </div>

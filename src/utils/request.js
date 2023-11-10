@@ -5,13 +5,9 @@ import {useUserStore} from "@/store/useUserStore";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 const instance = axios.create({
-    // baseURL: 'http://localhost:9090',
-    baseURL: 'http://39.101.67.45:9090', timeout: 20000,
-    //     外网面板地址: http://39.101.67.45:22333/07c086f9
-// 内网面板地址: http://172.25.39.45:22333/07c086f9
-//     username: j1oyh4xy
-// password: 1f890916
-
+    baseURL: 'http://localhost:9090',
+    // baseURL: 'http://39.101.67.45:9090',
+    timeout: 20000,
 });
 const userstore = useUserStore()
 const token = userstore.token
