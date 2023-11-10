@@ -25,14 +25,15 @@
                          type="circle"
                          :percentage="videoUploadPercent"
                          style="margin-top:30px;"></el-progress>
-            <img v-if="videoForm.videoUrl !== '' && videoFlag === false"
-                 :src="videoForm.coverImage"
-                 class="video"
-            />
+
           </el-upload>
         </el-form-item>
-        <el-form-item label="视频标题" prop="videoTitle">
-          <el-input v-model="videoForm.videoTitle"></el-input>
+        <el-form-item label="视频封面" prop="coverImage">
+          <div v-viewer>
+            <img v-if="videoForm.videoUrl !== '' && videoFlag === false"
+                 :src="videoForm.coverImage"
+                 class="video"/>
+          </div>
         </el-form-item>
         <el-form-item label="视频分类" prop="categoryId">
           <el-radio-group v-model="videoForm.categoryId">
@@ -167,7 +168,6 @@ export default {
 .publish-container {
   border-radius: 1rem;
   height: 100%;
-  //background-color: aliceblue;
   padding: 1rem;
 }
 
@@ -181,7 +181,7 @@ export default {
     color: black;
     width: 100%;
     height: 100%;
-    line-height: 180px;
+    line-height: 200px;
     text-align: center;
   }
 
@@ -193,7 +193,7 @@ export default {
 
 .video {
   width: 320px;
-  height: 180px;
+  height: 200px;
   border-radius: 1rem;
   display: block;
 }

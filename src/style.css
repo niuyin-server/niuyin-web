@@ -196,9 +196,6 @@ a {
     border: none;
 }
 
-.el-card__body {
-}
-
 .el-pagination button {
     background-color: transparent;
 }
@@ -223,11 +220,6 @@ a {
 
 .el-tabs__item.is-active {
     color: blue !important;
-}
-
-.el-card__body {
-    height: 100%;
-    padding: 0.5rem;
 }
 
 .el-loading-mask {

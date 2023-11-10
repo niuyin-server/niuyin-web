@@ -1,14 +1,11 @@
 <template>
   <!--  导航栏-->
   <el-header class="niuyin-header backdrop-filter">
-
     <div class="nav-left"></div>
     <!-- 导航栏中间区域 -->
     <div class="nav-center">
-      <div
-          class="nav_center_search"
-          ref="NavSearch"
-      >
+      <div class="nav_center_search"
+           ref="NavSearch">
         <!-- 输入框 -->
         <el-autocomplete
             class="search-input"
@@ -18,45 +15,40 @@
             :fetch-suggestions="querySearch"
             @select="handleSelect"
             @keyup.enter.native="searchConfirm"
-            clearable
-        >
+            clearable>
           <template #default="{row,$index}">
-            <el-tag
-                class="mx-1"
-                effect="plain"
-            >
+            <el-tag class="mx-1"
+                    effect="plain">
               {{ $index }}
             </el-tag>
           </template>
-
         </el-autocomplete>
         <el-button class="search-btn" type="info" plain @click="searchConfirm">
-          <i class="iconfont icon-search search-logo"></i>
-          搜索
+          <i class="iconfont icon-search search-logo"></i><span>搜索</span>
         </el-button>
       </div>
     </div>
     <div class="nav-right">
-      <div style="align-items: center;display: flex;justify-content: center">
+      <div class="flex-center">
         <!--通知 -->
         <router-link class="link-type" :to="'/notice'">
           <div class="flex-center icon-click cg"
-               style=" cursor: pointer; flex-direction: column;margin: 0 10px;">
-            <div style="height: 20px; justify-content: center; width: 20px;">
-              <!--              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>-->
-              <i class="iconfont icon-notice"></i>
-            </div>
-            <p>
-              <span class="cg fs7">通知</span>
-            </p>
+               style="cursor: pointer; flex-direction: column;margin: 0 10px;">
+            <el-badge :value="2" class="item">
+              <div style="height: 20px; justify-content: center; width: 20px;">
+                <i class="iconfont icon-notice"></i>
+              </div>
+              <p>
+                <span class="cg fs7">通知</span>
+              </p>
+            </el-badge>
           </div>
         </router-link>
         <!--消息 -->
         <router-link class="link-type" :to="'/message'">
           <div class="flex-center icon-click cg"
-               style=" cursor: pointer; flex-direction: column;margin: 0 10px;">
+               style="cursor: pointer; flex-direction: column;margin: 0 10px;">
             <div style="height: 20px; justify-content: center; width: 20px;">
-              <!--              <ChatLineRound style="width: 20px; height: 20px;font-weight: 600"/>-->
               <i class="iconfont icon-message"></i>
             </div>
             <p>
@@ -67,8 +59,8 @@
         <!--发布视频-->
         <router-link class="link-type" :to="'/publish'">
           <div class="flex-center icon-click cg"
-               style=" cursor: pointer; flex-direction: column;margin: 0 10px;">
-            <div style="    height: 20px;justify-content: center;width: 20px;">
+               style="cursor: pointer; flex-direction: column;margin: 0 10px;">
+            <div style="height: 20px;justify-content: center;width: 20px;">
               <!--              <Plus style="width: 20px; height: 20px;font-weight: 600"/>-->
               <i class="iconfont icon-upload"></i>
             </div>

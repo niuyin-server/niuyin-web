@@ -195,7 +195,17 @@ export default {
     videoLikeClick(videoId) {
       likeVideo(videoId).then(res => {
         if (res.code === 200) {
-          this.$message.success('点赞成功')
+          this.videoList.forEach((item, index) => {
+            if (item.videoId === videoId) {
+              // 设置为已点赞
+              item.weatherLike = !item.weatherLike
+              if (item.weatherLike) {
+                item.likeNum += 1
+              } else {
+                item.likeNum -= 1
+              }
+            }
+          })
         }
       })
     },
@@ -460,7 +470,7 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  box-shadow: 0 0 2px gray;
+  box-shadow: 0 0 2px grey;
 }
 
 .user-info {

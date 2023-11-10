@@ -23,8 +23,8 @@
       <el-amap-control-geolocation :visible="true" position="RB" :offset="[180, 20]"></el-amap-control-geolocation>
     </el-amap>
     <div class="amap-dialog" v-if="amap.address">
-      <h5>经纬: {{ amap.center }}</h5>
-      <h6>地址: {{ amap.address }}</h6>
+      <h5>{{ amap.center }}</h5>
+      <h6>{{ amap.address }}</h6>
     </div>
     <div class="amap-button" v-if="amap.address">
       <el-button type="primary" @click="handleSelectAddress">选择此地址</el-button>
@@ -35,7 +35,7 @@
 <script setup>
 import {ref, reactive} from 'vue';
 
-const amap = reactive({
+let amap = reactive({
   center: null,
   address: '',
   zoom: 16,
@@ -43,8 +43,9 @@ const amap = reactive({
   geocoder: null,
 });
 
-const addressResult = reactive({
-  position: [], //经纬度
+let addressResult = reactive({
+  longitude: null, //经度
+  latitude: null, //纬度
   address: '', //完整地址
   adcode: null, //编码
   province: null,
@@ -83,7 +84,9 @@ const zoomchange = (e) => {
 const addPointer = (position) => {
   // 改变中心位置
   amap.center = position;
-  addressResult.position = position
+  addressResult = {}
+  addressResult.longitude = position[0]
+  addressResult.latitude = position[1]
   // 添加标点
   amap.markers = [{
     position,
@@ -125,19 +128,20 @@ const handleSelectAddress = (e) => {
   .amap-dialog {
     position: absolute;
     left: 50%;
-    top: 1%;
+    top: 16px;
     text-align: center;
     padding: 0.5rem;
     transform: translate(-50%, 0);
     background-color: rgba(242, 242, 243, 0.5) !important;
     border-radius: 0.5rem !important;
     backdrop-filter: blur(10px);
+    box-shadow: 0 0 2px grey;
   }
 
   .amap-button {
     position: absolute;
     left: 50%;
-    bottom: 1%;
+    bottom: 1rem;
     text-align: center;
     padding: 0.5rem;
     transform: translate(-50%, 0);

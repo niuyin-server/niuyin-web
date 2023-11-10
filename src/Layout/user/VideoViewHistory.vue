@@ -1,5 +1,4 @@
 <template>
-  videoViewHistory
   <MapView/>
 </template>
 <script >

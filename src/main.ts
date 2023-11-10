@@ -13,6 +13,8 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate"; //pinia 自
 
 import {parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon";
 
+import "@/assets/styles/element.scss"
+
 // 图片预览组件
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'

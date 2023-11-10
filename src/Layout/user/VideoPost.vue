@@ -6,7 +6,7 @@
           <div class="loading-item" v-for="i in 4">
             <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
             <div style="padding: 14px">
-              <el-skeleton-item variant="h2" style="width: 70%"/>
+              <el-skeleton-item variant="h1" style="width: 70%"/>
               <div>
                 <el-skeleton-item variant="text"/>
               </div>

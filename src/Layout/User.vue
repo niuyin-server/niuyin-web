@@ -4,7 +4,6 @@
       <div class="user-container">
         <div v-viewer class="avatar-area">
           <img class="user-avatar" :src="user.avatar"/>
-          <!--        <image-preview class="user-avatar" :src="user.avatar"  />-->
         </div>
         <div class="user-info">
           <div class="username"><h1>{{ user.nickName }}</h1></div>
@@ -48,10 +47,9 @@
           </div>
           <div class="trust-login-switch-title">保存登录信息</div>
           <div class="trust-login-switch-button">
-            <el-switch
-                v-model="saveLogin"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
+            <el-switch v-model="saveLogin"
+                       active-color="#13ce66"
+                       inactive-color="#ff4949">
             </el-switch>
           </div>
         </div>
@@ -92,13 +90,11 @@
       <el-scrollbar>
         <div class="edit-avatar">
           <el-tooltip content="上传头像" placement="top">
-            <el-upload
-                class="avatar-uploader"
-                :action="avatarUploadUrl"
-                :headers="headers"
-                :show-file-list="false"
-                :on-success="handleUploadAvatarSuccess"
-            >
+            <el-upload class="avatar-uploader"
+                       :action="avatarUploadUrl"
+                       :headers="headers"
+                       :show-file-list="false"
+                       :on-success="handleUploadAvatarSuccess">
               <img v-if="user.avatar" :src="userForm.avatar" class="avatar"/>
               <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
             </el-upload>
@@ -107,14 +103,12 @@
         </div>
         <div class="edit-nickname">
           <div class="N3OJZMVX">昵称</div>
-          <el-input
-              v-model="userForm.nickName"
-              maxlength="20"
-              class="w-50 m-2"
-              placeholder="记得填写昵称"
-              show-word-limit
-              type="text"
-          />
+          <el-input v-model="userForm.nickName"
+                    maxlength="20"
+                    class="w-50 m-2"
+                    placeholder="记得填写昵称"
+                    show-word-limit
+                    type="text"/>
         </div>
         <div class="edit-gender">
           <div class="N3OJZMVX">性别</div>
@@ -124,17 +118,13 @@
             <el-radio-button :label="'2'"><i class="iconfont icon-sex-primary"></i>保密</el-radio-button>
           </el-radio-group>
         </div>
-        <!--      确认按钮-->
+        <!--  确认按钮  -->
         <div class="edit-button">
           <el-button type="info" class="cg fw600" @click="cancelUpdateProfile">取消</el-button>
           <el-button type="primary" class="fw600" @click="confirmUpdateProfile">保存</el-button>
         </div>
       </el-scrollbar>
     </el-dialog>
-
-    <!--    <el-scrollbar>-->
-
-    <!--    </el-scrollbar>-->
   </div>
 </template>
 
