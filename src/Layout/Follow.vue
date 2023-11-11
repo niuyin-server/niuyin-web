@@ -100,7 +100,7 @@ export default {
 
 .user-card {
   border-radius: 1rem;
-  padding: 2px 0.5rem;
+  padding: 0.5rem;
   cursor: pointer;
 
   .user-info {

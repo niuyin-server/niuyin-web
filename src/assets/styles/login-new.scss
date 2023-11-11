@@ -12,11 +12,11 @@ $buttonH: 50;
 
 // container
 $containerBgColor: #e0e4eb;
-$containerBgImage: "../assets/images/index-bg.png";
+$containerBgImage: "@/assets/images/index-bg.png";
 // container-logo
 $logoWidth: 600px;
 $logoHeight: 100px;
-$logoImage: "../assets/logo/login-tiktok.png";
+$logoImage: "@/assets/logo/login-tiktok.png";
 // container-content
 $contentWidth: round(math.div($W , $H) * 100) * 1vw;
 $contentHeight: math.div( round(math.div($picH , $W) * 100) , 100) * $contentWidth;
@@ -24,7 +24,7 @@ $contentBgColor: #ffffff;
 // container-content-pic
 $picWidth: round(math.div($picW , $H )* 100) * 1vw;
 $picHeight: inherit;
-$picImage: "../assets/images/login.png";
+$picImage: "@/assets/images/login.png";
 // container-content-field
 $fieldWidth: $contentWidth - $picWidth;
 $fieldHeight: inherit;
@@ -65,7 +65,6 @@ $buttonHeight: $buttonH * 1px;
   align-items: center;
   // 文字
   font-size: 14px;
-  font-family: Microsoft YaHei;
   font-weight: 600;
 
   .logo {
@@ -83,7 +82,7 @@ $buttonHeight: $buttonH * 1px;
     width: $contentWidth;
     height: $contentHeight;
     background-color: #ffffff;
-    box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 20px 40px 1px rgba(0, 0, 0, 0.2);
     border-radius: 2rem;
     position: relative;
 
@@ -419,7 +418,6 @@ $iconBgImage: "../assets/images/icon.png";
     .footer {
       // 元素
       font-size: 12px;
-      font-family: PingFang SC;
       font-weight: 600;
       line-height: 16px;
       color: #686868;

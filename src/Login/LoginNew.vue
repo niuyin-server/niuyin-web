@@ -166,12 +166,12 @@ export default {
               const userstore = useUserStore()
               userstore.settoken(res.data.token)
               this.$message.success(res.msg)
-              getInfo().then(res => {
-                if (res.code === 200) {
-                  this.user = res.data
-                  localStorage.setItem("userInfo", JSON.stringify(res.data))
-                }
-              })
+              // getInfo().then(res => {
+              //   if (res.code === 200) {
+              //     this.user = res.data
+              //     localStorage.setItem("userInfo", JSON.stringify(res.data))
+              //   }
+              // })
               this.$router.push('/index')
             } else {
               this.$message.error(res.msg)

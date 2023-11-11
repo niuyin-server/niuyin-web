@@ -19,3 +19,6 @@ npm install timeago.js
 npm i @vuemap/vue-amap
 npm install -D unplugin-vue-components unplugin-auto-import @vuemap/unplugin-resolver
 
+## vue瀑布流组件
+
+[//]: # (npm i vue-waterfall2@latest --save)

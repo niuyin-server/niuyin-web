@@ -14,11 +14,9 @@
       <div class="video-box">
         <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
           <video class="videoPlayer"
+                 id="videoPlayer"
                  :src="item.videoUrl"
-                 webkit-playsinline="true"
-                 playsinline="true"
-                 x-webkit-airplay="allow"
-                 x5-playsinline
+                 v-if="videoDisplay"
                  controls/>
           <div class="video-operate">
             <div class="operate-area">
@@ -72,8 +70,9 @@
         <el-button circle class="cb" :icon="Close" type="info" @click="close">
         </el-button>
       </template>
-      <VideoComment :video-id="videoId" :show="true"
-                    @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"></VideoComment>
+      <VideoComment :video-id="videoId"
+                    :show="true"
+                    @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
     </el-drawer>
   </el-carousel>
 </template>
@@ -118,6 +117,7 @@ export default {
       videoId: '',
       videoCommentTree: [],
       showVideoComment: false, // 控制评论子组件显隐
+      videoDisplay: true
     }
   },
   emits: ['reloadVideoFeed'],
@@ -177,7 +177,6 @@ export default {
         if (!_that.timeOut) {
           _that.timeOut = setTimeout(() => {
             _that.timeOut = null;
-            console.log("keyDown")
             _that.$refs.carousel.next()
           }, 1000);
         }
@@ -190,16 +189,15 @@ export default {
       if (e.keyCode === 39) {
         console.log("按下了方向键--右")
       }
-
     },
     // 切换视频暂停视频
     carouselChange(newVal, oldVal) {
-      // console.log(newVal + "carouselChange" + oldVal)
+      console.log(newVal + "carouselChange" + oldVal)
       const videos = document.getElementsByClassName("videoPlayer");
       for (let i = 0; i < videos.length; i++) {
         setTimeout(() => {
           videos[i].pause();
-          // videos[i].load();
+          videos[i].load();
         }, 10);
       }
       if (oldVal - newVal === videos.length - 1) {

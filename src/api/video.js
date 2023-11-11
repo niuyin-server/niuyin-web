@@ -68,7 +68,16 @@ export function hotVideoPage(data) {
 // 用户视频点赞总数
 export function userLikeNums(userId) {
     return request({
-        url: '/video/api/v1/likeNums/'+ userId,
+        url: '/video/api/v1/likeNums/' + userId,
         method: 'get',
+    })
+}
+
+// 保存标签
+export function saveVideoTag(data) {
+    return request({
+        url: '/video/api/v1/tag/save',
+        method: 'post',
+        data: data
     })
 }

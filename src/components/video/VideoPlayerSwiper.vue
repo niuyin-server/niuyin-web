@@ -1,5 +1,6 @@
 <template>
-  <swiper class="video-swiper" ref="videoSwiper"
+  <swiper class="video-swiper"
+          ref="videoSwiper"
           @swiper="onSwiper"
           :options="swiperOptionVideos"
           @slideChange="slideChange"
@@ -22,7 +23,7 @@
 // import {videoPlayer} from 'vue-video-player';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 // import 'video.js/dist/video-js.css'
-import 'swiper/css';
+import 'swiper/scss';
 
 export default {
   name: 'VideoPlayerSwiper',

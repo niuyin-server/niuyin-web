@@ -10,7 +10,8 @@ import "@/assets/styles/element.scss"
 import "@/style.scss";
 import App from "./App.vue";
 
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate"; //pinia 自动存储话插件
+//pinia 自动存储话插件
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import {parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon";
 
@@ -28,7 +29,7 @@ initAMapApiLoader({
         'AMap.Geocoder',
     ]
 });
-
+// 瀑布流
 // import VueVideoPlayer from "vue-video-player";
 // import "video.js/dist/video-js.css";
 // import 'vue-video-player/src/custom-theme.css'

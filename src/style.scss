@@ -1,387 +1,391 @@
 :root {
-    --el-color-info: #a5a7a8; /*按钮背景色*/
-    --el-input-bg-color: rgb(242, 242, 243);
-    --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
-    --el-loading-spinner-size: 100px; /*加载图标大小*/
-    --el-fill-color: rgba(240, 242, 245, 0.8); /*加载中图片背景色*/
-    --el-fill-color-darker: rgba(230, 232, 235, 0.6);
-    --el-messagebox-border-radius: 16px; /*弹框radius*/
-    --el-border-radius-small: 16px;
-    --el-border-radius-base: 8px; /*输入框圆角*/
-    ---primary-red-color: rgb(210, 27, 70);
-    ---primary-blue-color: rgb(17, 72, 210);
+  --el-color-info: #a5a7a8; /*按钮背景色*/
+  --el-input-bg-color: rgb(242, 242, 243);
+  --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
+  --el-loading-spinner-size: 100px; /*加载图标大小*/
+  --el-fill-color: rgba(240, 242, 245, 0.8); /*加载中图片背景色*/
+  --el-fill-color-darker: rgba(230, 232, 235, 0.6);
+  --el-messagebox-border-radius: 16px; /*弹框radius*/
+  --el-border-radius-small: 16px;
+  --el-border-radius-base: 8px; /*输入框圆角*/
+  ---primary-red-color: rgb(210, 27, 70);
+  ---primary-blue-color: rgb(17, 72, 210);
 }
 
 /*空状态颜色填充*/
 .el-empty {
-    --el-empty-fill-color-0: #f4f3f3;
-    --el-empty-fill-color-1: #7294d8;
-    --el-empty-fill-color-2: #bec8dc;
-    --el-empty-fill-color-3: #757d9f;
-    --el-empty-fill-color-4: #8e9dd9;
-    --el-empty-fill-color-5: #e5d3db;
-    --el-empty-fill-color-6: #98a1b2;
-    --el-empty-fill-color-7: #d1b8be;
-    --el-empty-fill-color-8: #a4b3d2;
-    --el-empty-fill-color-9: #7280b1;
+  --el-empty-fill-color-0: #f4f3f3;
+  --el-empty-fill-color-1: #7294d8;
+  --el-empty-fill-color-2: #bec8dc;
+  --el-empty-fill-color-3: #757d9f;
+  --el-empty-fill-color-4: #8e9dd9;
+  --el-empty-fill-color-5: #e5d3db;
+  --el-empty-fill-color-6: #98a1b2;
+  --el-empty-fill-color-7: #d1b8be;
+  --el-empty-fill-color-8: #a4b3d2;
+  --el-empty-fill-color-9: #7280b1;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "PingFang SC", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
 }
 
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    height: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 #app {
-    height: 100%;
+  height: 100%;
 }
 
 .video-card-transition {
-    background-color: rgba(242, 242, 243, 1);
-    box-shadow: 0 0 1px 0 grey;
+  background-color: rgba(242, 242, 243, 1);
+  box-shadow: 0 0 1px 0 grey;
 }
 
 a {
-    text-decoration: none
+  text-decoration: none
+}
+
+.w100p {
+  width: 100px;
 }
 
 .cbx {
-    box-shadow: rgba(0, 0, 0, 0.2) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
 }
 
 .mr-5r {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .ml-5r {
-    margin-left: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 .icon-30 {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .icon-36 {
-    width: 36px;
-    height: 36px;
+  width: 36px;
+  height: 36px;
 }
 
 .cw {
-    color: white;
+  color: white;
 }
 
 .cg {
-    color: grey;
+  color: grey;
 }
 
 .cb {
-    color: black;
+  color: black;
 }
 
 .cr {
-    color: red;
+  color: red;
 }
 
 .fs5 {
-    font-size: 0.5rem;
+  font-size: 0.5rem;
 }
 
 .fs6 {
-    font-size: 0.6rem;
+  font-size: 0.6rem;
 }
 
 .fs7 {
-    font-size: 0.7rem;
+  font-size: 0.7rem;
 }
 
 .fs8 {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .fs9 {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .fw400 {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .fw500 {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .fw600 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .mtb5 {
-    margin: 0.5rem 0;
+  margin: 0.5rem 0;
 }
 
 .mlr5 {
-    margin: 0 0.5rem;
+  margin: 0 0.5rem;
 }
 
 .ml2 {
-    margin-left: 0.2rem;
+  margin-left: 0.2rem;
 }
 
 .aite {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .el-skeleton__image {
-    border-radius: 1rem;
+  border-radius: 1rem;
 }
 
 /*输入框提示文字颜色*/
 .el-input__count-inner {
-    color: black;
+  color: black;
 }
 
 .backdrop-filter {
-    backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .one-line {
-    /* 一行显示 */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
+  /* 一行显示 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .two-line {
-    /* 两行显示 */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+  /* 两行显示 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .oh {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .w100 {
-    width: 100%;
+  width: 100%;
 }
 
 .h100 {
-    height: 100%;
+  height: 100%;
 }
 
 .wh100 {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .fs125 {
-    /*20px*/
-    font-size: 1.25rem;
+  /*20px*/
+  font-size: 1.25rem;
 }
 
 .cp {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .flex-center {
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-items: center;
 }
 
 .flex-between {
-    display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  align-items: center;
 }
 
 .flex-row {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
 }
 
 .flex-column {
-    display: flex;
-    flex-flow: column;
-    /*align-items: center;*/
-    justify-content: center;
+  display: flex;
+  flex-flow: column;
+  /*align-items: center;*/
+  justify-content: center;
 }
 
 .tac {
-    text-align: center;
+  text-align: center;
 }
 
 .el-main {
-    padding: 0 1rem 1rem 0 !important;
+  padding: 0 1rem 1rem 0 !important;
 }
 
 .el-upload {
-    width: 100%;
+  width: 100%;
 }
 
 .niuyin-header {
-    .el-input__wrapper {
-        border-radius: 1rem 0 0 1rem;
-    }
+  .el-input__wrapper {
+    border-radius: 1rem 0 0 1rem;
+  }
 }
 
 .el-input__inner {
-    height: 38px;
+  height: 38px;
 }
 
 .keyword-hint {
-    color: red;
+  color: red;
 }
 
 .video-player {
-    .el-carousel__container {
-        height: 100%;
-    }
+  .el-carousel__container {
+    height: 100%;
+  }
 }
 
 /*el抽屉drawer*/
 .el-drawer {
-    background-color: rgba(0, 0, 0, 0.80);
-    backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.80);
+  backdrop-filter: blur(10px);
 }
 
 /*el卡片card*/
 .el-card {
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border: none;
 }
 
 .el-pagination button {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .el-pagination {
-    margin: 0 0 2rem 0;
-    float: right;
+  margin: 0 0 2rem 0;
+  float: right;
 }
 
 .el-tabs {
-    background-color: transparent !important;
-    border: none !important;
+  background-color: transparent !important;
+  border: none !important;
 }
 
 .el-tabs__header {
-    /*background-color: transparent !important;*/
+  /*background-color: transparent !important;*/
 }
 
 .el-tabs__item {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .el-tabs__item.is-active {
-    color: blue !important;
+  color: blue !important;
 }
 
 .el-loading-mask {
-    background-color: transparent;
-    backdrop-filter: blur(10px);
-    border-radius: 0.5rem;
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
 }
 
 .el-dialog {
-    margin: 3vh auto;
-    background-color: white;
-    border-radius: 1rem;
+  margin: 3vh auto;
+  background-color: white;
+  border-radius: 1rem;
 }
 
 .el-dialog__header {
-    margin: 0;
-    color: black;
-    display: flex;
-    justify-content: space-between
+  margin: 0;
+  color: black;
+  display: flex;
+  justify-content: space-between
 }
 
 .el-dialog__body {
-    height: 90%;
+  height: 90%;
 }
 
 .custom-loading-svg {
-    justify-content: center;
+  justify-content: center;
 }
 
 .router-is-focus .tab-item {
-    backdrop-filter: blur(10px);
-    background-color: rgba(150, 150, 150, 0.5);
-    color: black !important;
-    font-weight: 600;
+  backdrop-filter: blur(10px);
+  background-color: rgba(150, 150, 150, 0.5);
+  color: black !important;
+  font-weight: 600;
 }
 
 .el-autocomplete {
-    width: 100%;
+  width: 100%;
 }
 
 /*分割线背景色*/
 .el-divider__text {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .el-popper {
-    border-radius: 1rem;
+  border-radius: 1rem;
 }
 
 .avatar-uploader .el-upload {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 /*高德地图页面美化*/
 .amap-sug-result {
-    border-radius: 0.4rem;
-    background-color: rgba(242, 242, 243, 0.5) !important;
-    backdrop-filter: blur(10px);
-    border: none;
-    box-shadow: 0px 1px 1px 0 grey;
+  border-radius: 0.4rem;
+  background-color: rgba(242, 242, 243, 0.5) !important;
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0px 1px 1px 0 grey;
 }
 
 .el-vue-search-box-container {
-    background: rgba(242, 242, 243, 0.5) !important;
-    border-radius: 0.5rem !important;
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-    width: 250px !important;
+  background: rgba(242, 242, 243, 0.5) !important;
+  border-radius: 0.5rem !important;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  width: 250px !important;
 
-    & input {
-        background: none;
-    }
+  & input {
+    background: none;
+  }
 }
 
 .amap-ctrl-icon-layer, .amap-ctrl-list-layer {
-    background-color: rgba(242, 242, 243, 0.5) !important;
-    border-radius: 0.5rem !important;
-    backdrop-filter: blur(10px);
+  background-color: rgba(242, 242, 243, 0.5) !important;
+  border-radius: 0.5rem !important;
+  backdrop-filter: blur(10px);
 }
 
 .amap-controls .amap-hawkeye {
-    border-radius: 1rem 0 1rem 0 !important;
+  border-radius: 1rem 0 1rem 0 !important;
 }
 
 .amap-controls .amap-control {
-    background-color: rgba(242, 242, 243, 0.5) !important;
-    border-radius: 0.5rem !important;
-    backdrop-filter: blur(10px);
+  background-color: rgba(242, 242, 243, 0.5) !important;
+  border-radius: 0.5rem !important;
+  backdrop-filter: blur(10px);
 }
 
 /*平板适配*/
@@ -391,15 +395,15 @@ a {
 
 /*移动端适配*/
 @media (max-width: 500px) {
-    .video-card {
-        width: 49.5%;
-        height: 160px;
-    }
+  .video-card {
+    width: 49.5%;
+    height: 160px;
+  }
 }
 
 /*移动端适配*/
 @media (max-width: 500px) {
-    .dn-phone {
-        display: none !important;
-    }
+  .dn-phone {
+    display: none !important;
+  }
 }

@@ -4,8 +4,8 @@
       <div v-for="(img, index) in waterfallList" :key="index" class="v-waterfall-item"
            :style="{top:img.top+'px',left:img.left+'px',width:waterfallImgWidth+'px',height:img.height}">
         <img :src="img.src" alt="">
-        <p style="font-size: small;color: #666;margin: 4px;">{{ img.title }}</p>
-        <p style="font-size: x-small;color: #9e9e9e;margin: 4px;padding-bottom: 6px;">{{ img.info }}</p>
+        <p style="font-size: 16px;color: #666;margin: 4px;">{{ img.title }}</p>
+        <p style="font-size: 12px;color: #9e9e9e;margin: 4px;padding-bottom: 6px;">{{ img.info }}</p>
       </div>
     </div>
   </div>
@@ -30,16 +30,15 @@ export default {
       waterfallImgRight: 10,// 每个盒子的右padding
       waterfallImgBottom: 10,// 每个盒子的下padding
       waterfallDeviationHeight: [],
-      // imgList: []
+      imgList: []
     }
   },
   created() {
     // 触发入口
-    // for (let i = 0; i < this.imgArr.length; i++) {
-    //   // this.imgList.push(this.imgArr[Math.round(Math.random() * 8)]);// 图片随机显示
-    //   this.imgList.push(this.imgArr[i]);
-    // }
-    console.log("123")
+    for (let i = 0; i < this.videoList.length; i++) {
+      // this.imgList.push(this.imgArr[Math.round(Math.random() * 8)]);// 图片随机显示
+      this.imgList.push(this.videoList[i]);
+    }
     // this.calculationWidth()
   },
   mounted() {

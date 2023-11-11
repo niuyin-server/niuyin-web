@@ -2,53 +2,80 @@
   <div class="publish-container">
     <el-scrollbar>
       <el-form :model="videoForm" :rules="rules" ref="ruleForm" label-width="100px">
-        <el-form-item label="上传视频" prop="videoUrl">
-          <!-- action必选参数, 上传的地址 -->
-          <el-upload class="video-uploader"
-                     :action="videoUploadUrl"
-                     :show-file-list="false"
-                     :headers="headers"
-                     :limit="1"
-                     v-loading="loading"
-                     :on-success="handleVideoSuccess"
-                     :before-upload="beforeUploadVideo"
-                     :on-progress="uploadVideoProcess">
-            <video v-if="videoForm.videoUrl !== '' && videoFlag === false"
-                   :src="videoForm.videoUrl"
-                   class="video"
-                   controls
-            ></video>
-            <div v-else-if="videoForm.videoUrl === '' && videoFlag === false" class="el-icon-plus video-uploader-icon">
-              <Plus style="width: 1em; height: 1em;"/>
-            </div>
-            <el-progress v-if="videoFlag === true"
-                         type="circle"
-                         :percentage="videoUploadPercent"
-                         style="margin-top:30px;"></el-progress>
+        <el-row>
+          <el-col :lg="12" :xs="24">
+            <el-form-item label="上传视频" prop="videoUrl">
+              <!-- action必选参数, 上传的地址 -->
+              <el-upload class="video-uploader"
+                         :action="videoUploadUrl"
+                         :show-file-list="false"
+                         :headers="headers"
+                         :limit="1"
+                         v-loading="loading"
+                         :on-success="handleVideoSuccess"
+                         :before-upload="beforeUploadVideo"
+                         :on-progress="uploadVideoProcess">
+                <video v-if="videoForm.videoUrl !== '' && videoFlag === false"
+                       :src="videoForm.videoUrl"
+                       class="video"
+                       controls
+                ></video>
+                <div v-else-if="videoForm.videoUrl === '' && videoFlag === false"
+                     class="el-icon-plus video-uploader-icon">
+                  <Plus style="width: 1em; height: 1em;"/>
+                </div>
+                <el-progress v-if="videoFlag === true"
+                             type="circle"
+                             :percentage="videoUploadPercent"
+                             style="margin-top:30px;"></el-progress>
 
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="视频封面" prop="coverImage">
-          <div v-viewer>
-            <img v-if="videoForm.videoUrl !== '' && videoFlag === false"
-                 :src="videoForm.coverImage"
-                 class="video"/>
-          </div>
-        </el-form-item>
-        <el-form-item label="视频标题" prop="videoTitle">
-          <el-input v-model="videoForm.videoTitle"></el-input>
-        </el-form-item>
-        <el-form-item label="视频分类" prop="categoryId">
-          <el-radio-group v-model="videoForm.categoryId">
-            <el-radio-button :label="item.id" v-for="item in categoryList">{{ item.name }}</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="视频简介" prop="videoDesc">
-          <el-input type="textarea" v-model="videoForm.videoDesc"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">发布</el-button>
-        </el-form-item>
+              </el-upload>
+            </el-form-item>
+            <el-form-item label="视频封面" prop="coverImage" v-if="videoForm.coverImage">
+              <div v-viewer>
+                <img v-if="videoForm.videoUrl !== '' && videoFlag === false"
+                     :src="videoForm.coverImage"
+                     class="video"/>
+              </div>
+            </el-form-item>
+          </el-col>
+          <el-col :lg="12" :xs="24">
+            <el-form-item label="视频标题" prop="videoTitle">
+              <el-input v-model="videoForm.videoTitle"></el-input>
+            </el-form-item>
+            <el-form-item label="视频分类" prop="categoryId">
+              <el-radio-group v-model="videoForm.categoryId">
+                <el-radio-button :label="item.id" v-for="item in categoryList">{{ item.name }}</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="视频标签" prop="videoTags">
+              <el-tag v-for="item in videoTags"
+                      :key="item.tag"
+                      class="mx-1 mr-5r"
+                      effect="dark"
+                      round
+                      closable
+                      @close="handleTagClose(item)">
+                {{ item.tag }}
+              </el-tag>
+              <el-input
+                  v-if="tagInputVisible"
+                  ref="RefTagInput"
+                  v-model="tagInputValue"
+                  class="ml-1 w100p"
+                  @keyup.enter.native="handleInputConfirm"/>
+              <el-button v-else class="button-new-tag ml-1" v-show="tagBtn" size="small" @click="showTagInput">
+                + 标签
+              </el-button>
+            </el-form-item>
+            <el-form-item label="视频简介" prop="videoDesc">
+              <el-input type="textarea" v-model="videoForm.videoDesc"></el-input>
+            </el-form-item>
+            <div style="text-align: center">
+              <el-button type="primary" @click="submitForm('ruleForm')">发布</el-button>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
     </el-scrollbar>
   </div>
@@ -56,7 +83,7 @@
 
 <script>
 // 接口引入
-import {publishVideo, videoCategory} from "@/api/video";
+import {publishVideo, videoCategory, saveVideoTag} from "@/api/video";
 // 七牛引入
 import * as qiniu from "qiniu-js";
 import {ElMessage} from "element-plus";
@@ -79,7 +106,8 @@ export default {
         videoUrl: '',
         categoryId: undefined,
         coverImage: '',
-        videoDesc: ''
+        videoDesc: '',
+        videoTags: [],
       },
       categoryList: [],//视频分类集合
       rules: {
@@ -91,7 +119,17 @@ export default {
           {required: true, message: '请填写视频简介', trigger: 'blur'},
           {min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur'}
         ]
-      }
+      },
+      // 视频标签对象
+      videoTags: [],
+      videoTagIds: [],
+      videoTag: {
+        tagId: null,
+        tag: ''
+      },
+      tagInputVisible: false,
+      tagInputValue: undefined,
+      tagBtn: true
     };
   },
   created() {
@@ -99,7 +137,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.showVideoPlayer = true;
+      // this.showVideoPlayer = true;
     });
   },
   methods: {
@@ -114,6 +152,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // console.log(this.videoForm)
+          this.videoForm.videoTags = this.videoTagIds
           publishVideo(this.videoForm).then(res => {
             if (res.code === 200) {
               ElMessage({
@@ -163,6 +202,44 @@ export default {
         this.$message.error('视频上传失败，请重新上传！')
       }
     },
+    // 添加视频标签
+    handleInputConfirm() {
+      if (this.videoTags.length > 5) {
+        this.tagInputVisible = false
+        this.tagBtn = false
+      } else {
+        this.videoTag.tag = this.tagInputValue
+        saveVideoTag(this.videoTag).then(res => {
+          if (res.code === 200) {
+            this.videoTag.tagId = res.data
+            if (!this.videoTagIds.includes(res.data)) {
+              this.videoTags.push(this.videoTag)
+              this.videoTagIds.push(res.data)
+              console.log(this.videoTagIds)
+            }
+            this.tagInputVisible = false
+            this.tagInputValue = null
+            this.videoTag = {}
+            if (this.videoTagIds.length >= 5) {
+              this.tagBtn = false
+            }
+          }
+        })
+      }
+    },
+    // 展示标签输入框
+    showTagInput() {
+      this.tagInputVisible = true
+      this.$nextTick(() => {
+        this.$refs.RefTagInput.focus()
+      })
+    },
+    // 删除标签
+    handleTagClose(item) {
+      this.videoTagIds.splice(this.videoTagIds.indexOf(item.tagId), 1)
+      this.videoTags.splice(this.videoTags.indexOf(item), 1)
+    },
+
   }
 };
 </script>
