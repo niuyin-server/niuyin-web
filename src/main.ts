@@ -6,14 +6,13 @@ import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
 import router from "./router/index.ts";
-import "./style.css";
+import "@/assets/styles/element.scss"
+import "@/style.scss";
 import App from "./App.vue";
 
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate"; //pinia 自动存储话插件
 
 import {parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon";
-
-import "@/assets/styles/element.scss"
 
 // 图片预览组件
 import 'viewerjs/dist/viewer.css'

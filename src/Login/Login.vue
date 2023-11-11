@@ -203,7 +203,7 @@ export default {
 };
 </script>
 
-<style lang='less' scoped>
+<style scoped>
 .el-button + .el-button {
   margin-left: 0;
 }

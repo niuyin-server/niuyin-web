@@ -2,19 +2,10 @@
   border-radius: 1rem;
   height: 100%;
 }
-.el-popper.is-customized {
-  /* Set padding to ensure the height is 32px */
-  padding: 6px 12px;
-  background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
-}
 
-.el-popper.is-customized .el-popper__arrow::before {
-  background: linear-gradient(45deg, #b2e68d, #bce689);
-  right: 0;
-}
 .user-container {
   display: flex;
-  margin: 28px auto 21px;
+  margin: 20px auto;
   max-width: 1208px;
   position: relative;
   width: 100%;
@@ -212,4 +203,5 @@
   text-align: left;
 }
 
-.edit-info-dialog{}
+.edit-info-dialog {
+}

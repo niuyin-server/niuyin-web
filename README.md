@@ -17,3 +17,5 @@ npm install timeago.js
 
 ## 高德地图
 npm i @vuemap/vue-amap
+npm install -D unplugin-vue-components unplugin-auto-import @vuemap/unplugin-resolver
+

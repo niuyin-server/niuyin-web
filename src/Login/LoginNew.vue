@@ -204,24 +204,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import "@/assets/styles/login-new.scss";
-
-.logo {
-  display: block;
-}
-
-.oauth-login {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.oauth-login-item {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
 
 .oauth-login-item img {
   height: 25px;
@@ -237,36 +221,5 @@ export default {
   :deep(.el-input__prefix) {
     top: 22%;
   }
-}
-
-.prefix-svg-icon {
-  height: 100%;
-}
-
-.login-qr-code {
-  position: relative;
-  text-align: center;
-}
-
-.login-qr-code-img {
-  width: 160px;
-}
-
-.mask-qrcode {
-  width: 160px;
-  height: 160px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ff9e9e85;
-  backdrop-filter: blur(2px);
-}
-
-.br10 {
-  border-radius: 10px;
 }
 </style>

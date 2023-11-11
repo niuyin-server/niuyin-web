@@ -107,7 +107,7 @@ export default {
       this.dialogVisible = false
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 0.5) {
         //加载更多
         if (this.loadingData) {
           this.loadingIcon = true
