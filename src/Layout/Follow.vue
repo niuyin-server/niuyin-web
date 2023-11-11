@@ -11,7 +11,7 @@
                      :src="item.avatar"
                      lazy/>
           <el-avatar v-else :icon="UserFilled"/>
-          <div class="user-nickname">
+          <div class="user-nickname dn-phone">
             <p class="nickname">{{ item.nickName }}</p>
           </div>
         </div>

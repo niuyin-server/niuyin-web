@@ -43,3 +43,20 @@ export function videoFavoritePage(data) {
         data: data
     })
 }
+
+// 回复评论
+export function replayVideoComment(data) {
+    return request({
+        url: '/behave/api/v1/comment/replay',
+        method: 'post',
+        data: data
+    })
+}
+
+// 删除评论
+export function deleteVideoComment(commentId) {
+    return request({
+        url: '/behave/api/v1/comment/' + commentId,
+        method: 'delete',
+    })
+}

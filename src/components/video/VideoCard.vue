@@ -45,7 +45,7 @@ export default {
   background: rgba(250, 250, 250, 1);
   border-radius: 1rem;
   width: 24.5%;
-  box-shadow: 0 0 1px 0 grey;
+  box-shadow: rgba(0, 0, 0, 0.133) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
   transition: all 0.3s ease;
   height: 240px;
   margin-bottom: 10px;
@@ -100,6 +100,14 @@ export default {
 
 .video-card:hover {
   box-shadow: 1px 1px 0 0 grey;
+}
+
+/*移动端适配*/
+@media (max-width: 500px) {
+  .video-card {
+    width: 49%;
+    height: 160px;
+  }
 }
 
 </style>

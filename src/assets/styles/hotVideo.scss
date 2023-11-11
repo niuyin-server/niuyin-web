@@ -28,7 +28,7 @@
       width: 24.4%;
       border-radius: 0.5rem;
       height: 300px;
-      box-shadow: 0 0 1px 0 grey;
+      box-shadow: rgba(0, 0, 0, 0.133) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
       margin-bottom: 1rem;
 
       .video-cover {
@@ -43,8 +43,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: rgba(242,242,243,1);
+        background-color: rgba(242, 242, 243, 1);
       }
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .hotVideo-list .hotVideos .hotVideo-item {
+    width: 49%;
+    height: 100px;
   }
 }

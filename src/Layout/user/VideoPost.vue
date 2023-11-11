@@ -115,7 +115,7 @@ export default {
           this.videoQueryParams.pageNum += 1
           videoMypage(this.videoQueryParams).then(res => {
             if (res.code === 200) {
-              if (res.rows.length == 0) {
+              if (res.rows.length === 0) {
                 this.dataNotMore = true
                 this.loadingIcon = false
                 this.loadingData = false

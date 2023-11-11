@@ -135,7 +135,7 @@ const handleSelectAddress = (e) => {
     background-color: rgba(242, 242, 243, 0.5) !important;
     border-radius: 0.5rem !important;
     backdrop-filter: blur(10px);
-    box-shadow: 0 0 2px grey;
+    box-shadow: rgba(0, 0, 0, 0.133) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
   }
 
   .amap-button {

@@ -7,6 +7,12 @@
   height: 100%;
 }
 
+
+/*popover*/
+.el-popover {
+  --el-popover-border-radius: 8px;
+}
+
 .el-tabs__header {
   position: sticky;
   top: -2px;
@@ -19,4 +25,27 @@
   position: sticky;
   top: 0;
   border-radius: 6px;
+}
+
+/*按钮*/
+.el-button.is-text {
+  background-color: rgb(242 242 242);
+}
+
+/*抽屉*/
+.el-drawer {
+  --el-drawer-padding-primary: var(--el-dialog-padding-primary, 10px);
+}
+
+.el-drawer__header {
+  margin-bottom: 0;
+}
+
+.el-drawer__body {
+}
+
+@media (max-width: 500px) {
+  .channel-container .el-avatar {
+    --el-avatar-size: 24px;
+  }
 }

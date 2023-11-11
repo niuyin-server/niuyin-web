@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="nav-right">
-      <div class="flex-center">
+      <div class="flex-center dn-phone">
         <!--通知 -->
         <router-link class="link-type" :to="'/notice'">
           <div class="flex-center icon-click cg"
@@ -215,7 +215,12 @@ export default {
   align-items: center;
   border-radius: 1.1rem;
   border: 2px solid black;
+}
 
+@media (max-width: 500px) {
+  .nav_center_search {
+    width: 50vw;
+  }
 }
 
 .search-input {
@@ -262,5 +267,6 @@ export default {
   color: black !important;
   font-weight: 700 !important;
 }
+
 
 </style>

@@ -2,7 +2,7 @@
   <div class="main-container">
     <el-scrollbar>
       <div class="user-container">
-        <div v-viewer class="avatar-area">
+        <div v-viewer class="avatar-area dn-phone">
           <img class="user-avatar" :src="user.avatar"/>
         </div>
         <div class="user-info">
@@ -10,35 +10,27 @@
           <div class="follow-fans-like">
             <div class="user-info-follow flex-center">
               <div class="mr-5r cg fs8">关注</div>
-              <div class="follow-right fw600">{{followNum}}</div>
+              <div class="follow-right fw600">{{ followNum }}</div>
             </div>
             <div class="=user-info-fans flex-center">
               <div class="mr-5r cg fs8">粉丝</div>
-              <div class="follow-right fw600">{{fansNum}}</div>
+              <div class="follow-right fw600">{{ fansNum }}</div>
             </div>
             <div class="user-info-like flex-center">
               <div class="mr-5r cg fs8">获赞</div>
-              <div class="fw600">{{ likeAllNum}}</div>
+              <div class="fw600">{{ likeAllNum }}</div>
             </div>
           </div>
           <div class="user-profile">
             <span class="userid">牛音ID：{{ user.userId }}</span>
             <span class="gender-age">
               <i class="iconfont icon-man"></i>
-<!--            <svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 12 12"-->
-<!--                 style="margin-right: 4px;">-->
-<!--            <path fill-rule="evenodd" clip-rule="evenodd"-->
-<!--                  d="M8 1.25a.75.75 0 000 1.5h1.09L7.54 4.298a.757.757 0 00-.058.066 4 4 0 10.968 1.112.752.752 0 00.15-.117L10.25 3.71V5a.75.75 0 001.5 0V2a.75.75 0 00-.75-.75H8zM5 10a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"-->
-<!--                  fill="#168EF9">-->
-<!--            </path>-->
-<!--            </svg>-->
-            <span>23岁</span>
-          </span>
+              <span>23岁</span></span>
             <span class="city">河南·郑州</span>
             <span class="school">中原工学院</span>
           </div>
         </div>
-        <div class="trust-login-switch">
+        <div class="trust-login-switch dn-phone">
           <div class="trust-login-tips">
             <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
               <el-icon :size="20">
@@ -79,9 +71,9 @@
       </div>
     </el-scrollbar>
     <!--  编辑信息弹框  -->
-    <el-dialog v-model="editDialogVisible"
-               style="height: 60vh;overflow: hidden"
-               width="480px"
+    <el-dialog class="oh edit-info-dialog"
+               v-model="editDialogVisible"
+               width="400px"
                :show-close="false">
       <template #header="{ close, titleId, titleClass }">
         <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">编辑资料</h3>
@@ -90,7 +82,7 @@
       </template>
       <el-scrollbar>
         <div class="edit-avatar">
-          <el-tooltip content="上传头像" placement="top">
+          <el-tooltip content="上传头像" placement="top" effect="customized">
             <el-upload class="avatar-uploader"
                        :action="avatarUploadUrl"
                        :headers="headers"
@@ -133,11 +125,12 @@
 import {getInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
-import {Close} from "@element-plus/icons-vue";
+import {Close, QuestionFilled} from "@element-plus/icons-vue";
 import {useUserStore} from "@/store/useUserStore";
 
 export default {
   name: 'User',
+  components: {QuestionFilled},
   computed: {
     Close() {
       return Close
@@ -226,4 +219,10 @@ export default {
 
 <style scoped>
 @import "@/assets/styles/user.scss";
+
+@media (max-width: 500px) {
+  .user-container .user-info {
+    margin-left: 0 !important;
+  }
+}
 </style>

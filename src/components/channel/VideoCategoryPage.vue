@@ -4,8 +4,7 @@
     <div class="flex-between">
       <el-card v-for="item in videoList"
                :key="item.videoId"
-               class="video-card-transition"
-               style="width: 24.4%;border-radius:0.5rem;height: 300px;margin-bottom: 1rem">
+               class="video-card-transition video-card">
         <div class="w100" style="height: 80%;border-radius: 0.5rem 0.5rem 0 0;text-align: center;overflow: hidden">
           <el-image
               class="h100"
@@ -119,5 +118,20 @@ export default {
 <style scoped>
 .video-page-container {
   border-radius: 1rem;
+}
+
+.video-card {
+  width: 24.4%;
+  border-radius: 0.5rem;
+  height: 300px;
+  margin-bottom: 1rem
+}
+
+@media (max-width: 500px) {
+  .video-card {
+    width: 49%;
+    border-radius: 0.5rem;
+    height: 120px;
+  }
 }
 </style>

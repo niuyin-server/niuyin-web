@@ -35,6 +35,9 @@
                  class="video"/>
           </div>
         </el-form-item>
+        <el-form-item label="视频标题" prop="videoTitle">
+          <el-input v-model="videoForm.videoTitle"></el-input>
+        </el-form-item>
         <el-form-item label="视频分类" prop="categoryId">
           <el-radio-group v-model="videoForm.categoryId">
             <el-radio-button :label="item.id" v-for="item in categoryList">{{ item.name }}</el-radio-button>

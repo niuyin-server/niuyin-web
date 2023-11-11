@@ -1,16 +1,13 @@
 <template>
   <!--  侧边栏-->
-  <el-aside width="160px">
+  <el-aside class="niuyin-aside">
     <el-scrollbar>
       <!-- logo -->
-      <div style="width:100%;overflow:hidden;height: 60px;text-align: center">
-        <router-link
-            style="display:flex;justify-content: center;align-items: center;width: 100%;height: 100%;text-decoration: none"
-            class="link-type"
-            :to="'/index'">
-          <img style="width: 32px;height: 32px;display: inline-block"
-               src="@/assets/logo/logo-tiktok.png">
-          <span style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
+      <div class="oh w100" style="width:100%;overflow:hidden;height: 60px;text-align: center">
+        <router-link class="link-type flex-center wh100"
+                     :to="'/index'">
+          <img style="width: 32px;height: 32px;display: inline-block" src="@/assets/logo/logo-tiktok.png">
+          <span  class="dn-phone" style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
         </router-link>
       </div>
       <!-- tab栏区域 -->
@@ -22,11 +19,11 @@
             <router-link class="router-link"
                          active-class="router-is-focus"
                          :to="item.link">
-              <div class="tab_left_item2">
+              <div class="tab-item">
                 <div class="round">
                   <i class="iconfont" :class="item.class" :style="item"></i>
                 </div>
-                <span>{{ item.name }}</span>
+                <span class="dn-phone">{{ item.name }}</span>
               </div>
             </router-link>
           </li>
@@ -42,11 +39,11 @@
             <router-link class="router-link"
                          active-class="router-is-focus"
                          :to="item.link">
-              <div class="tab_left_item2">
+              <div class="tab-item">
                 <div class="round">
                   <i class="iconfont" :class="item.class" :style="item"></i>
                 </div>
-                <span>{{ item.name }}</span>
+                <span class="dn-phone">{{ item.name }}</span>
               </div>
             </router-link>
           </li>
@@ -103,7 +100,14 @@ export default {
 </script>
 
 <style>
-.el-aside {
+.niuyin-aside {
+  width: 160px;
+}
+
+@media (max-width: 500px) {
+  .niuyin-aside {
+    width: 60px;
+  }
 }
 
 .tab-top-item {
@@ -129,7 +133,7 @@ export default {
   color: grey;
 }
 
-.tab_left_item2 {
+.tab-item {
   margin: 1px 1rem;
   display: flex;
   padding: 0.1rem 0;
@@ -140,7 +144,7 @@ export default {
   transition: all .3s ease-in;
 }
 
-.tab_left_item2:hover {
+.tab-item:hover {
   background-color: rgba(37, 38, 50, .08);
 }
 

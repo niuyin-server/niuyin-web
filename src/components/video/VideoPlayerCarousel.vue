@@ -40,7 +40,7 @@
                    @click="videoFavoriteClick(item.videoId)"></i>
                 <i v-else class="iconfont icon-favorite icon-36 operate-icon"
                    @click="videoFavoriteClick(item.videoId)"></i>
-                <div class="video-nums" style="text-align: center;color: white">{{ item.favoritesNum }}</div>
+                <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
               </div>
             </div>
           </div>
@@ -58,91 +58,37 @@
           </div>
         </div>
       </div>
-      <el-drawer class="video-sidebar"
-                 v-model="drawer"
-                 :show-close="false"
-                 @mousewheel.stop
-                 :before-close="videoCommentTree=null">
-        <template #header="{ close, titleId, titleClass }">
-          <h2 :id="titleId" :class="titleClass">评论<span>({{ item.commentNum }})</span></h2>
-          <el-button circle :icon="Close" type="info" @click="close">
-          </el-button>
-        </template>
-        <el-scrollbar>
-          <div class="video-comment-tree" v-for="(item, index) in videoCommentTree" :key="item.commentId">
-            <div class="comment-container">
-              <el-card class="comment-info">
-                <div class="user-info">
-                  <el-image class="user-avatar" :src="item.avatar" alt="" lazy></el-image>
-                  <div class="user-nickname">
-                    <p class="nickname">{{ item.nickName }}</p>
-                    <span style="color: grey;font-size: 0.7rem" class="create-time">{{ item.createTime }}</span>
-                  </div>
-                </div>
-                <div class="comment-content">
-                  <p style="color: white;font-size: 0.8rem">{{ item.content }}</p>
-                </div>
-                <!-- 二级评论 -->
-                <div class="comment-children">
-                  <div class="comment-container" v-for="(child, index) in item.children" :key="child.commentId">
-                    <div class="user-info">
-                      <el-image class="user-avatar" :src="child.avatar" alt="" lazy></el-image>
-                      <div class="user-nickname">
-                        <p class="nickname">{{ child.nickName }}
-                          <span class="aite"
-                                v-if="child.replayUserId != null">
-                            {{ '@' + child.replayUserNickName }}
-                          </span>
-                        </p>
-                        <span style="color: grey;" class="create-time">{{ parseTime(child.createTime) }}</span>
-                      </div>
-                    </div>
-                    <div class="comment-content">
-                      <p class="cg" style="color: white">{{ child.content }}</p>
-                    </div>
-                  </div>
-                </div>
-              </el-card>
-            </div>
-          </div>
-          <el-empty v-show="commentTotal<=0" description="暂无评论"/>
-          <el-pagination v-show="commentTotal>0"
-                         :total="commentTotal"
-                         background
-                         layout="prev, pager, next"
-                         :page.sync="commentQueryParams.pageNum"
-                         :limit.sync="commentQueryParams.pageSize" @pagination="getCommentList"/>
-        </el-scrollbar>
-        <div class="comment-input-area">
-          <el-input slot="reference"
-                    v-model="commentInput"
-                    clearable
-                    placeholder="留下你的精彩评论吧">
-            <template #append>
-              <el-button @click="handleCommentClick(item.videoId)" :icon="ChromeFilled"/>
-            </template>
-          </el-input>
-        </div>
-      </el-drawer>
     </el-carousel-item>
+    <!-- 视频评论抽屉 -->
+    <el-drawer class="video-sidebar"
+               v-model="drawer"
+               v-if="showVideoComment"
+               :show-close="false"
+               @mousewheel.stop
+               :before-close="videoCommentTree=null">
+      <template #header="{ close, titleId, titleClass }">
+        <!--                <h2 class="cw" :id="titleId" :class="titleClass">评论<span>({{ item.commentNum }})</span></h2>-->
+        <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>
+        <el-button circle class="cb" :icon="Close" type="info" @click="close">
+        </el-button>
+      </template>
+      <VideoComment :video-id="videoId" :show="true"
+                    @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"></VideoComment>
+    </el-drawer>
   </el-carousel>
 </template>
 <script>
 import {
-  Apple, ChatDotRound, ChromeFilled, Close, Star
+  ChatDotRound, ChromeFilled, Close
 } from '@element-plus/icons-vue'
-import {videoCommentPageList, addVideoComment, likeVideo} from '@/api/behave.js'
+import {likeVideo} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
+import VideoComment from "@/components/video/comment/VideoComment.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
+  components: {VideoComment},
   computed: {
-    Apple() {
-      return Apple
-    },
-    Star() {
-      return Star
-    },
     ChatDotRound() {
       return ChatDotRound
     },
@@ -171,6 +117,7 @@ export default {
       commentTotal: 0,
       videoId: '',
       videoCommentTree: [],
+      showVideoComment: false, // 控制评论子组件显隐
     }
   },
   emits: ['reloadVideoFeed'],
@@ -178,17 +125,12 @@ export default {
   },
   methods: {
     handleFollow(userId) {
-      console.log(userId)
       followUser(userId).then(res => {
         if (res.code === 200) {
           this.$message.success('关注成功')
         }
       })
     },
-    // change(e) {
-    // @input="change($event)"
-    //   this.$forceUpdate()
-    // },
     videoLikeClick(videoId) {
       likeVideo(videoId).then(res => {
         if (res.code === 200) {
@@ -209,43 +151,29 @@ export default {
     videoFavoriteClick(videoId) {
     },
     videoCommentClick(videoId) {
-      this.commentQueryParams.videoId = videoId
       this.videoId = videoId
       this.drawer = true
-      videoCommentPageList(this.commentQueryParams).then(res => {
-        if (res.code === 200) {
-          this.videoCommentTree = res.rows
-          this.commentTotal = res.total
-        }
-      })
+      this.showVideoComment = true
     },
-    getCommentList() {
-      this.commentQueryParams.videoId = this.videoId
-      videoCommentPageList(this.commentQueryParams).then(res => {
-        this.drawer = true
-        this.videoCommentTree = res.rows;
-        this.commentTotal = res.total;
-      })
-    },
-    handleCommentClick(videoId) {
-      const data = {
-        "videoId": videoId,
-        "content": this.commentInput
-      }
-      addVideoComment(data).then(res => {
-        if (res.code === 200) {
-          this.getCommentList();
+    // 接收子组件增加视频评论传值
+    updateVideoCommentNumEmit(videoId) {
+      this.videoList.forEach((item, index) => {
+        if (item.videoId === videoId) {
+          // 评论数+1
+          item.commentNum += 1
         }
       })
     },
     keyDown(e) {
       // 方向键--上
-      if (e.keyCode == 38) {
+      if (e.keyCode === 38) {
         console.log("按下了方向键--上")
       }
       // 方向键--下
-      if (e.keyCode == 40) {
+      if (e.keyCode === 40) {
         const _that = this;
+        this.drawer = false
+        this.showVideoComment = false
         if (!_that.timeOut) {
           _that.timeOut = setTimeout(() => {
             _that.timeOut = null;
@@ -255,11 +183,11 @@ export default {
         }
       }
       // 方向键--左
-      if (e.keyCode == 37) {
+      if (e.keyCode === 37) {
         console.log("按下了方向键--左")
       }
       // 方向键--右
-      if (e.keyCode == 39) {
+      if (e.keyCode === 39) {
         console.log("按下了方向键--右")
       }
 
@@ -288,6 +216,8 @@ export default {
       const scrollVal = event.wheelDelta || event.detail;
       // 节流
       if (!_that.timeOut) {
+        this.drawer = false
+        this.showVideoComment = false
         _that.timeOut = setTimeout(() => {
           _that.timeOut = null;
           scrollVal > 0
@@ -311,8 +241,6 @@ export default {
 
 .video-container * {
   border: 0;
-  font-size: 100%;
-  font: inherit;
   margin: 0;
   padding: 0;
   vertical-align: baseline;
@@ -332,6 +260,7 @@ export default {
     position: relative;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
 
     .videoPlayer {
       height: 100%;
@@ -467,7 +396,7 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  box-shadow: 0 0 2px grey;
+  box-shadow: rgba(0, 0, 0, 0.133) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
 }
 
 .user-info {
