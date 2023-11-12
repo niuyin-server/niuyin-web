@@ -29,10 +29,9 @@ initAMapApiLoader({
         'AMap.Geocoder',
     ]
 });
-// 瀑布流
-// import VueVideoPlayer from "vue-video-player";
-// import "video.js/dist/video-js.css";
-// import 'vue-video-player/src/custom-theme.css'
+// vue3视频播放器
+// import vue3videoPlay from "vue3-video-play";
+// import "vue3-video-play/dist/style.css";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -56,7 +55,6 @@ VueViewer.setDefaults({
     zIndexInline: 2023
 })
 app.use(VueAMap)
-
-// app.use(VueVideoPlayer);
+// app.use(vue3videoPlay)
 
 app.mount("#app");

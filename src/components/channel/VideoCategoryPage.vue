@@ -123,7 +123,7 @@ export default {
 .video-card {
   width: 24.4%;
   border-radius: 0.5rem;
-  height: 300px;
+  height: 280px;
   margin-bottom: 1rem
 }
 

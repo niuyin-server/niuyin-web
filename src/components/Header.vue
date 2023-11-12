@@ -16,10 +16,10 @@
             @select="handleSelect"
             @keyup.enter.native="searchConfirm"
             clearable>
-          <template #default="{row,$index}">
+          <template #default="{item}">
             <el-tag class="mx-1"
                     effect="plain">
-              {{ $index }}
+              {{ item }}
             </el-tag>
           </template>
         </el-autocomplete>
@@ -142,22 +142,32 @@ export default {
   methods: {
     getUserInfo() {
       if (localStorage.getItem("userInfo") == null) {
-        getInfo().then(res => {
-          if (res.code === 200) {
-            this.user = res.data
-            localStorage.setItem("userInfo", JSON.stringify(res.data))
-          }
-        })
+        // getInfo().then(res => {
+        //   if (res.code === 200) {
+        //     this.user = res.data
+        //     localStorage.setItem("userInfo", JSON.stringify(res.data))
+        //   }
+        // })
       }
     },
     // 输入框获取焦点时调用的方法
     querySearch(queryString, cb) {
-      const results = this.searchHistory
-      cb(results);
+      let results = this.searchHistory
+      // results = queryString ? results.filter(this.createFilter(queryString)) : results;
+      let res = results.map((item, index) => {
+        return item.keyword
+      })
+      console.log(res)
+      cb(res);
+    },
+    createFilter(queryString) {
+      return (item) => {
+        return item.value.toUpperCase().match(queryString.toUpperCase());
+      };
     },
     // 判断选中了哪个搜索历史
     handleSelect(item) {
-      this.searchData = item.keyword;
+      this.searchData = item;
       this.routerJump();
     },
     // 确认搜索

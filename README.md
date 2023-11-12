@@ -7,7 +7,8 @@
 
 npm install swiper
 
-npm install vue-video-player
+## vue3视频播放器
+npm i vue3-video-play --save
 
 ## vue图片预览组件
 npm install v-viewer@next
@@ -17,8 +18,8 @@ npm install timeago.js
 
 ## 高德地图
 npm i @vuemap/vue-amap
-npm install -D unplugin-vue-components unplugin-auto-import @vuemap/unplugin-resolver
 
 ## vue瀑布流组件
 
 [//]: # (npm i vue-waterfall2@latest --save)
+

@@ -18,6 +18,7 @@
                  :src="item.videoUrl"
                  v-if="videoDisplay"
                  controls/>
+          <!--          <VideoPlayer :video-url="item.videoUrl"/>-->
           <div class="video-operate">
             <div class="operate-area">
               <div class="video-author"></div>
