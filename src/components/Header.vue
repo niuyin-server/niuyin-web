@@ -18,6 +18,9 @@
             clearable>
           <template #default="{item}">
             <el-tag class="mx-1"
+                    closable
+                    type="info"
+                    @close="handleDelSearchHistory(item)"
                     effect="plain">
               {{ item }}
             </el-tag>
@@ -70,38 +73,94 @@
           </div>
         </router-link>
       </div>
-      <el-dropdown>
-        <router-link class="user-container" :to="'/user'">
-          <el-avatar v-if="user.avatar" :src="user.avatar"/>
-          <el-avatar v-else :icon="UserFilled"/>
-          <!--          <span style="padding-left: 10px">{{ user.nickName }}</span>-->
-        </router-link>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <router-link class="link-type" @click="handleLogout" :to="'/login'"><span>退出登录</span>
-              </router-link>
-            </el-dropdown-item>
-          </el-dropdown-menu>
+      <el-popover class="user-popover"
+                  :width="400"
+                  trigger="hover"
+                  @show="handlePopoverShow"
+                  popper-style="padding: 20px;">
+        <template #reference>
+          <router-link class="user-container" :to="'/user'">
+            <el-avatar v-if="user.avatar" :src="user.avatar"/>
+            <el-avatar v-else :icon="UserFilled"/>
+          </router-link>
         </template>
-      </el-dropdown>
-      <!--      <el-image :src="user.avatar"></el-image>-->
+        <template #default>
+          <div class="userinfo-area">
+            <div class="userinfo-header flex-between">
+              <p class="one-line fw600 cp">
+                <router-link class="cg flex-center" to="/user/videoPost">
+                  <span>{{ user.nickName }}</span>
+                  <el-icon>
+                    <ArrowRightBold/>
+                  </el-icon>
+                </router-link>
+              </p>
+              <div class="trust-login flex-center">
+                <div class="trust-login-title mr-5r cg fs7">保存登录信息</div>
+                <div class="ml-5r">
+                  <el-switch v-model="saveLogin"
+                             active-color="#13ce66"
+                             inactive-color="#ff4949">
+                  </el-switch>
+                </div>
+              </div>
+            </div>
+            <div class="userinfo-center">
+              <div class="flex-between dn-phone">
+                <!-- 我的作品 -->
+                <router-link class="link-type flex-center" :to="item.url" v-for="item in userPostInfo">
+                  <div class="flex-center icon-click cg cp"
+                       style="flex-direction: column;padding: 0 10px;">
+                    <div class="tac wh32">
+                      <i :class="item.icon" class="icon-style"></i>
+                    </div>
+                    <div>
+                      <h4>{{ item.num }}</h4>
+                    </div>
+                    <p>
+                      <span class="cg fs7">{{ item.title }}</span>
+                    </p>
+                  </div>
+                </router-link>
+              </div>
+            </div>
+            <el-divider/>
+            <div class="userinfo-footer flex-between">
+              <div class="flex-center">
 
+              </div>
+              <div class="flex-center">
+                <router-link class="link-type flex-center mr-5r" :to="'/'">
+                  <el-icon>
+                    <Sunrise/>
+                  </el-icon>
+                  <span class="ml-5r">换肤</span>
+                </router-link>
+                <router-link class="link-type flex-center" @click="handleLogout" :to="'/login'">
+                  <el-icon>
+                    <SwitchButton/>
+                  </el-icon>
+                  <span class="ml-5r">退出登录</span>
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </template>
+      </el-popover>
     </div>
   </el-header>
 </template>
 
 <script>
 import {
-  Check,
-  Delete,
-  Edit,
-  Message,
-  Search,
-  Star, UserFilled,
+  ArrowRightBold,
+  Message, QuestionFilled,
+  Sunrise, SwitchButton, UserFilled,
 } from '@element-plus/icons-vue'
 import {useUserStore} from "@/store/useUserStore";
 import {getInfo} from "@/api/member.js";
+import {myVideoCount} from "@/api/video.js";
+import {myLikeCount, myFavoriteCount} from "@/api/behave.js";
 
 export default {
   name: "Header",
@@ -110,7 +169,7 @@ export default {
       return UserFilled
     }
   },
-  components: {Message},
+  components: {Sunrise, SwitchButton, ArrowRightBold, QuestionFilled, Message},
   props: {
     // user: Object,
     // 热搜数据
@@ -134,6 +193,13 @@ export default {
       searchData: "",
       // 默认搜索词
       searchDefaults: "输入你感兴趣的内容",
+      saveLogin: true, // 保存登录信息
+      userPostInfo: [
+        {id: 1, icon: "iconfont icon-videoPost", num: 0, title: "我的作品", url: "/user/videoPost"},
+        {id: 2, icon: "iconfont icon-like-ed", num: 0, title: "我的喜欢", url: "/user/videoLike"},
+        {id: 3, icon: "iconfont icon-favorite-ed", num: 0, title: "我的收藏", url: "/user/videoFavorite"},
+        {id: 4, icon: "iconfont icon-history", num: 0, title: "观看历史", url: "/user/videoViewHistory"},
+      ]
     }
   },
   created() {
@@ -142,12 +208,12 @@ export default {
   methods: {
     getUserInfo() {
       if (localStorage.getItem("userInfo") == null) {
-        // getInfo().then(res => {
-        //   if (res.code === 200) {
-        //     this.user = res.data
-        //     localStorage.setItem("userInfo", JSON.stringify(res.data))
-        //   }
-        // })
+        getInfo().then(res => {
+          if (res.code === 200) {
+            this.user = res.data
+            localStorage.setItem("userInfo", JSON.stringify(res.data))
+          }
+        })
       }
     },
     // 输入框获取焦点时调用的方法
@@ -177,106 +243,51 @@ export default {
       }
       this.routerJump();
     },
-
     // 路由跳转
     routerJump() {
       // 跳转到搜索页面
       this.$router.push(`/videoSearch?keyword=${this.searchData}`);
     },
-
+    // 退出登录
     handleLogout() {
       localStorage.removeItem("userInfo")
       useUserStore().removetoken();
       this.$router.push('/login');
+    },
+    // 用户popover的show时间
+    handlePopoverShow() {
+      // 封装用户作品量、喜欢量、收藏量
+      myVideoCount().then(res => {
+        if (res.code === 200) {
+          this.userPostInfo.forEach((item, index) => {
+            return item.id === 1 ? item.num = res.data : 0
+          })
+        }
+      })
+      myLikeCount().then(res => {
+        if (res.code === 200) {
+          this.userPostInfo.forEach((item, index) => {
+            return item.id === 2 ? item.num = res.data : 0
+          })
+        }
+      })
+      myFavoriteCount().then(res => {
+        if (res.code === 200) {
+          this.userPostInfo.forEach((item, index) => {
+            return item.id === 3 ? item.num = res.data : 0
+          })
+        }
+      })
+    },
+    // 删除搜索历史记录
+    handleDelSearchHistory(item) {
+      console.log(item)
     }
-
   },
 }
 </script>
 
 <style scoped>
-.niuyin-header {
-  text-align: right;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  overflow: hidden;
-
-  .nav-right {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    right: 20px;
-  }
-
-}
-
-/* nav中间部分 */
-.nav-center {
-  margin: 0;
-}
-
-.nav_center_search {
-  width: 30vw;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-radius: 1.1rem;
-  border: 2px solid black;
-}
-
-@media (max-width: 500px) {
-  .nav_center_search {
-    width: 50vw;
-  }
-}
-
-.search-input {
-  flex: 1;
-  height: 40px;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-.search-history {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  text-align: center;
-  font-size: 12px
-}
-
-.search-btn {
-  width: 90px;
-  font-weight: 600;
-  color: black;
-  height: 40px;
-  border-radius: 0 1rem 1rem 0;
-  margin: 0;
-  padding: 0;
-}
-
-.search-logo {
-  font-size: 20px;
-  margin-right: 5px;
-  font-weight: 600;
-  color: darkblue;
-}
-
-.user-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 10px;
-}
-
-.icon-click:hover {
-  transition: all .3s ease-in;
-  color: black !important;
-  font-weight: 700 !important;
-}
-
+@import "@/assets/styles/header.scss";
 
 </style>

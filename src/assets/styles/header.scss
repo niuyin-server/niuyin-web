@@ -1,0 +1,109 @@
+.niuyin-header {
+  text-align: right;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+
+  .nav-right {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    right: 20px;
+  }
+
+}
+
+/* nav中间部分 */
+.nav-center {
+  margin: 0;
+}
+
+.nav_center_search {
+  width: 30vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 1.1rem;
+  border: 2px solid black;
+}
+
+@media (max-width: 500px) {
+  .nav_center_search {
+    width: 50vw;
+  }
+}
+
+.search-input {
+  flex: 1;
+  height: 40px;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.search-history {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  font-size: 12px
+}
+
+.search-btn {
+  width: 90px;
+  font-weight: 600;
+  color: black;
+  height: 40px;
+  border-radius: 0 1rem 1rem 0;
+  margin: 0;
+  padding: 0;
+}
+
+.search-logo {
+  font-size: 20px;
+  margin-right: 5px;
+  font-weight: 600;
+  color: darkblue;
+}
+
+.user-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.icon-click:hover {
+  transition: all .3s ease-in;
+  color: black !important;
+  font-weight: 700 !important;
+}
+
+/*用户头像hover弹出层区域*/
+.userinfo-area {
+
+  .userinfo-header {
+
+    .trust-login {
+
+      .trust-login-title {
+
+      }
+    }
+
+  }
+
+  .userinfo-center {
+    margin-top: 20px;
+
+    .icon-style{
+      font-size: 24px;
+    }
+  }
+
+  .userinfo-footer {
+
+  }
+}

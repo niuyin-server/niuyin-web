@@ -81,3 +81,11 @@ export function saveVideoTag(data) {
         data: data
     })
 }
+
+// 我的作品数量
+export function myVideoCount() {
+    return request({
+        url: '/video/api/v1/videoCount',
+        method: 'get'
+    })
+}

@@ -60,3 +60,19 @@ export function deleteVideoComment(commentId) {
         method: 'delete',
     })
 }
+
+// 我的喜欢数
+export function myLikeCount() {
+    return request({
+        url: '/behave/api/v1/like/likeCount',
+        method: 'get',
+    })
+}
+
+// 我的收藏数
+export function myFavoriteCount() {
+    return request({
+        url: '/behave/api/v1/favorite/favoriteCount',
+        method: 'get',
+    })
+}

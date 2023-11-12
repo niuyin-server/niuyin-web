@@ -54,16 +54,8 @@
       <div>
         <div class="user-works">
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="作品" :lazy="true" name="/user/videoPost">
-              <router-view/>
-            </el-tab-pane>
-            <el-tab-pane label="喜欢" :lazy="true" name="/user/videoLike">
-              <router-view/>
-            </el-tab-pane>
-            <el-tab-pane label="收藏" :lazy="true" name="/user/videoFavorite">
-              <router-view/>
-            </el-tab-pane>
-            <el-tab-pane label="观看历史" :lazy="true" name="/user/videoViewHistory">
+            <el-tab-pane v-for="item in userVideoTabShow" :key="item.id" :label="item.tabName" :lazy="true"
+                         :name="item.tabUrl">
               <router-view/>
             </el-tab-pane>
           </el-tabs>
@@ -150,6 +142,12 @@ export default {
       followNum: 0, // 关注数
       fansNum: 0, //粉丝数
       likeAllNum: 0, //获赞数
+      userVideoTabShow: [
+        {id: 1, tabName: "作品", tabUrl: "/user/videoPost"},
+        {id: 2, tabName: "喜欢", tabUrl: "/user/videoLike"},
+        {id: 3, tabName: "收藏", tabUrl: "/user/videoFavorite"},
+        {id: 4, tabName: "观看历史", tabUrl: "/user/videoViewHistory"}
+      ]
     }
   },
   created() {
