@@ -1,6 +1,7 @@
 <template>
   <div class="flex-between">
     <VideoCard v-for="item in likeVideoList" :video="item" @click="handleVideoClick(item)"/>
+<!--    <VideoWaterfall :video-list="likeVideoList"></VideoWaterfall>-->
     <el-dialog v-model="dialogVisible"
                @close="dialogDestroy"
                style="height: calc(100% - 10vh);"
@@ -27,10 +28,11 @@
 import {videoLikePage} from "@/api/behave.js"
 import {Close} from "@element-plus/icons-vue";
 import VideoCard from "@/components/video/VideoCard.vue";
+import VideoWaterfall from "@/components/video/VideoWaterfall.vue";
 
 export default {
   name: "VideoLike",
-  components: {VideoCard},
+  components: {VideoWaterfall, VideoCard},
   computed: {
     Close() {
       return Close

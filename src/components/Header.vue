@@ -3,72 +3,7 @@
   <el-header class="niuyin-header backdrop-filter">
     <div class="nav-left"></div>
     <!-- 导航栏中间区域 -->
-    <div class="nav-center">
-      <div class="nav_center_search"
-           ref="NavSearch">
-        <!-- 输入框 -->
-        <el-popover
-            :width="430"
-            trigger="click"
-            popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
-        >
-          <template #reference>
-            <div class="flex-center wh100">
-              <el-input
-                  class="search-input"
-                  v-model="searchData"
-                  :placeholder="searchDefaults"
-                  @keyup.enter.native="searchConfirm"
-                  clearable>
-                <!--          <template #default="{item}">-->
-                <!--            <el-tag class="mx-1"-->
-                <!--                    closable-->
-                <!--                    type="info"-->
-                <!--                    @close="handleDelSearchHistory(item)"-->
-                <!--                    effect="plain">-->
-                <!--              {{ item }}-->
-                <!--            </el-tag>-->
-                <!--          </template>-->
-              </el-input>
-            </div>
-          </template>
-          <template #default>
-            <div
-                class="demo-rich-conent"
-                style="display: flex; gap: 16px; flex-direction: column"
-            >
-              <el-avatar
-                  :size="60"
-                  src="https://avatars.githubusercontent.com/u/72015883?v=4"
-                  style="margin-bottom: 8px"
-              />
-              <div>
-                <p
-                    class="demo-rich-content__name"
-                    style="margin: 0; font-weight: 500"
-                >
-                  Element Plus
-                </p>
-                <p
-                    class="demo-rich-content__mention"
-                    style="margin: 0; font-size: 14px; color: var(--el-color-info)"
-                >
-                  @element-plus
-                </p>
-              </div>
-
-              <p class="demo-rich-content__desc" style="margin: 0">
-                Element Plus, a Vue 3 based component library for developers,
-                designers and product managers
-              </p>
-            </div>
-          </template>
-        </el-popover>
-        <el-button class="search-btn" type="info" plain @click="searchConfirm">
-          <i class="iconfont icon-search search-logo"></i><span>搜索</span>
-        </el-button>
-      </div>
-    </div>
+    <NavCenter/>
     <div class="nav-right">
       <div class="flex-center dn-phone">
         <!--通知 -->
@@ -114,6 +49,7 @@
       <el-popover class="user-popover"
                   :width="400"
                   trigger="hover"
+                  :inert="60"
                   @show="handlePopoverShow"
                   popper-style="padding: 20px;">
         <template #reference>
@@ -195,6 +131,7 @@ import {
   Message, QuestionFilled,
   Sunrise, SwitchButton, UserFilled,
 } from '@element-plus/icons-vue'
+import NavCenter from "@/components/nav/NavCenter.vue"
 import {useUserStore} from "@/store/useUserStore";
 import {getInfo} from "@/api/member.js";
 import {myVideoCount} from "@/api/video.js";
@@ -207,30 +144,11 @@ export default {
       return UserFilled
     }
   },
-  components: {Sunrise, SwitchButton, ArrowRightBold, QuestionFilled, Message},
-  props: {
-    // user: Object,
-    // 热搜数据
-    hotsearch: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-    searchHistory: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-  },
+  components: {Sunrise, SwitchButton, ArrowRightBold, QuestionFilled, Message,NavCenter},
+  props: {},
   data() {
     return {
-      user: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {},
-      // 输入框的数据
-      searchData: "",
-      // 默认搜索词
-      searchDefaults: "输入你感兴趣的内容",
+      user: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : null,
       saveLogin: true, // 保存登录信息
       userPostInfo: [
         {id: 1, icon: "iconfont icon-videoPost", num: 0, title: "我的作品", url: "/user/videoPost"},
@@ -245,29 +163,14 @@ export default {
   },
   methods: {
     getUserInfo() {
-      if (localStorage.getItem("userInfo") == null) {
+      if (this.user === null) {
         getInfo().then(res => {
           if (res.code === 200) {
             this.user = res.data
-            localStorage.setItem("userInfo", JSON.stringify(res.data))
+            localStorage.setItem("userInfo", JSON.stringify(this.user))
           }
         })
       }
-    },
-    // 输入框获取焦点时调用的方法
-    querySearch(queryString, cb) {
-      let results = this.searchHistory
-      // results = queryString ? results.filter(this.createFilter(queryString)) : results;
-      let res = results.map((item, index) => {
-        return item.keyword
-      })
-      console.log(res)
-      cb(res);
-    },
-    createFilter(queryString) {
-      return (item) => {
-        return item.value.toUpperCase().match(queryString.toUpperCase());
-      };
     },
     // 判断选中了哪个搜索历史
     handleSelect(item) {
@@ -289,7 +192,7 @@ export default {
     // 退出登录
     handleLogout() {
       localStorage.removeItem("userInfo")
-      useUserStore().removetoken();
+      useUserStore().removetoken;
       this.$router.push('/login');
     },
     // 用户popover的show时间

@@ -16,3 +16,11 @@ export function searchHistoryLoad() {
         method: 'get',
     })
 }
+
+// 删除搜索记录
+export function delSearchHistory(id) {
+    return request({
+        url: '/search/api/v1/history/del/' + id,
+        method: 'delete',
+    })
+}

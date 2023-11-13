@@ -1,5 +1,5 @@
 :root {
-  --el-color-info: #a5a7a8; /*按钮背景色*/
+  --el-color-info: #e2e3e3; /*按钮背景色*/
   --el-input-bg-color: rgb(242, 242, 243);
   --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
   --el-loading-spinner-size: 100px; /*加载图标大小*/
@@ -135,8 +135,37 @@ a {
   margin: 0.5rem 0;
 }
 
+.mb5 {
+  margin-bottom: 0.5rem;
+}
+
 .mlr5 {
-  margin: 0 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.p5px {
+  padding: 5px;
+}
+
+.p10px {
+  padding: 10px;
+}
+
+.w49 {
+  width: 49%;
+}
+
+.w24 {
+  width: 24%;
+}
+
+.w33 {
+  width: 33%;
+}
+
+.mtlrb5 {
+  margin: 0.5rem;
 }
 
 .ml2 {

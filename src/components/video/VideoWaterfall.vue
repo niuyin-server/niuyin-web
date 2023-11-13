@@ -26,7 +26,7 @@ export default {
     return {
       waterfallList: [],
       waterfallImgWidth: 200,// 每个盒子的宽度
-      waterfallImgCol: 3,// 瀑布流的列数
+      waterfallImgCol: 5,// 瀑布流的列数
       waterfallImgRight: 10,// 每个盒子的右padding
       waterfallImgBottom: 10,// 每个盒子的下padding
       waterfallDeviationHeight: [],
@@ -36,10 +36,8 @@ export default {
   created() {
     // 触发入口
     for (let i = 0; i < this.videoList.length; i++) {
-      // this.imgList.push(this.imgArr[Math.round(Math.random() * 8)]);// 图片随机显示
-      this.imgList.push(this.videoList[i]);
+      this.imgList.push(this.videoList[i].coverImage);
     }
-    // this.calculationWidth()
   },
   mounted() {
     this.calculationWidth();

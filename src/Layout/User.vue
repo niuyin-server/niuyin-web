@@ -153,6 +153,11 @@ export default {
   created() {
     this.getUserInfo()
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.activeName = this.$route.path
+    })
+  },
   methods: {
     getUserInfo() {
       getInfo().then(res => {

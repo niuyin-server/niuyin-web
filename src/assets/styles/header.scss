@@ -6,6 +6,41 @@
   justify-content: space-between;
   overflow: hidden;
 
+  /* nav中间部分 */
+  .nav-center {
+    margin: 0;
+
+    .nav-center-search {
+      width: 30vw;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-radius: 1.1rem;
+      border: 2px solid black;
+
+      .search-input {
+        flex: 1;
+        height: 40px;
+        border: none !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+
+      .search-btn {
+        width: 80px;
+        height: 40px;
+        border-radius: 0 1rem 1rem 0;
+        margin: 0;
+        padding: 0;
+
+        .icon-search {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  /*nav右侧区域*/
   .nav-right {
     display: inline-flex;
     align-items: center;
@@ -15,57 +50,17 @@
   }
 
 }
+/*搜索框弹出层*/
+.search-pop {
+    .search-hover-item {
+      line-height: 1.8;
+      border-radius: 6px;
+      transition: all .3s ease-in;
 
-/* nav中间部分 */
-.nav-center {
-  margin: 0;
-}
-
-.nav_center_search {
-  width: 30vw;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-radius: 1.1rem;
-  border: 2px solid black;
-}
-
-@media (max-width: 500px) {
-  .nav_center_search {
-    width: 50vw;
-  }
-}
-
-.search-input {
-  flex: 1;
-  height: 40px;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-.search-history {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  text-align: center;
-  font-size: 12px
-}
-
-.search-btn {
-  width: 90px;
-  font-weight: 600;
-  color: black;
-  height: 40px;
-  border-radius: 0 1rem 1rem 0;
-  margin: 0;
-  padding: 0;
-}
-
-.search-logo {
-  font-size: 20px;
-  margin-right: 5px;
-  font-weight: 600;
-  color: darkblue;
+      &:hover {
+        background-color: rgba(211, 211, 211, 0.5)
+      }
+    }
 }
 
 .user-container {
@@ -78,7 +73,7 @@
 .icon-click:hover {
   transition: all .3s ease-in;
   color: black !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
 /*用户头像hover弹出层区域*/
@@ -98,7 +93,7 @@
   .userinfo-center {
     margin-top: 20px;
 
-    .icon-style{
+    .icon-style {
       font-size: 24px;
     }
   }
@@ -107,3 +102,10 @@
 
   }
 }
+
+@media (max-width: 500px) {
+  .nav-center-search {
+    width: 50vw;
+  }
+}
+
