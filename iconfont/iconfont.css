@@ -1,160 +1,176 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 4322290 */
-  /* Color fonts */
-  src:
-          url('//at.alicdn.com/t/c/font_4322290_8y4w1mqv64n.woff2?t=1699491834214') format('woff2'),
-          url('//at.alicdn.com/t/c/font_4322290_8y4w1mqv64n.woff?t=1699491834214') format('woff'),
-          url('//at.alicdn.com/t/c/font_4322290_8y4w1mqv64n.ttf?t=1699491834214') format('truetype');
+    font-family: "iconfont"; /* Project id 4322290 */
+    /* Color fonts */
+    src:
+            url('//at.alicdn.com/t/c/font_4322290_1zq1lfvik83.woff2?t=1699866419318') format('woff2'),
+            url('//at.alicdn.com/t/c/font_4322290_1zq1lfvik83.woff?t=1699866419318') format('woff'),
+            url('//at.alicdn.com/t/c/font_4322290_1zq1lfvik83.ttf?t=1699866419318') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-history:before {
+    content: "\e619";
+}
+
+.icon-videoPost:before {
+    content: "\e64c";
+}
+
+.icon-replay:before {
+    content: "\e61b";
+}
+
+.icon-shared:before {
+    content: "\e6b4";
+}
+
+.icon-sex-primary:before {
+    content: "\e663";
+}
+
+.icon-camera:before {
+    content: "\e639";
 }
 
 .icon-divider:before {
-  content: "\e6f9";
+    content: "\e6f9";
 }
 
 .icon-erciyuan:before {
-  content: "\e608";
+    content: "\e608";
 }
 
 .icon-iconfontzhizuobiaozhunbduan36:before {
-  content: "\e6e9";
+    content: "\e6e9";
 }
 
 .icon-live:before {
-  content: "\e6ab";
+    content: "\e6ab";
 }
 
 .icon-entertainment:before {
-  content: "\e61f";
+    content: "\e61f";
 }
 
 .icon-food:before {
-  content: "\e70d";
+    content: "\e70d";
 }
 
 .icon-fashin:before {
-  content: "\e6b3";
+    content: "\e6b3";
 }
 
 .icon-notice:before {
-  content: "\e628";
+    content: "\e628";
 }
 
 .icon-mine:before {
-  content: "\e603";
+    content: "\e603";
 }
 
 .icon-game:before {
-  content: "\e662";
+    content: "\e662";
 }
 
 .icon-sport:before {
-  content: "\e644";
+    content: "\e644";
 }
 
 .icon-upload:before {
-  content: "\e664";
+    content: "\e664";
 }
 
 .icon-knowledge:before {
-  content: "\e813";
-}
-
-.icon-join-in:before {
-  content: "\e6cc";
+    content: "\e813";
 }
 
 .icon-message:before {
-  content: "\e68f";
+    content: "\e68f";
 }
 
 .icon-music:before {
-  content: "\f83e";
+    content: "\f83e";
 }
 
 .icon-vs:before {
-  content: "\e604";
-}
-
-.icon-share:before {
-  content: "\e60a";
-}
-
-.icon-suggest:before {
-  content: "\e641";
+    content: "\e604";
 }
 
 .icon-view-num:before {
-  content: "\e694";
+    content: "\e694";
 }
 
 .icon-attention:before {
-  content: "\e7d2";
+    content: "\e7d2";
 }
 
 .icon-woman:before {
-  content: "\e605";
+    content: "\e605";
 }
 
 .icon-man:before {
-  content: "\e606";
+    content: "\e606";
 }
 
 .icon-comment:before {
-  content: "\e6ba";
+    content: "\e6ba";
 }
 
 .icon-search:before {
-  content: "\e609";
+    content: "\e60b";
+}
+
+.icon-like-grey:before {
+    content: "\f841";
 }
 
 .icon-follow:before {
-  content: "\e600";
+    content: "\e600";
 }
 
 .icon-fire:before {
-  content: "\e729";
+    content: "\e729";
 }
 
 .icon-like:before {
-  content: "\e61d";
+    content: "\e61d";
 }
 
 .icon-channel:before {
-  content: "\e64f";
+    content: "\e64f";
 }
 
 .icon-like-num:before {
-  content: "\e601";
+    content: "\e601";
 }
 
 .icon-favorite-num:before {
-  content: "\e60d";
+    content: "\e60d";
 }
 
 .icon-favorite:before {
-  content: "\e660";
+    content: "\e660";
 }
 
 .icon-hotVideo:before {
-  content: "\e68e";
+    content: "\e68e";
 }
 
 .icon-like-ed:before {
-  content: "\f83f";
+    content: "\f83f";
 }
 
 .icon-index:before {
-  content: "\e61e";
+    content: "\e61e";
 }
 
 .icon-favorite-ed:before {
-  content: "\f840";
+    content: "\f840";
 }

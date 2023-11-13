@@ -14,7 +14,6 @@
 // vue3视频播放器
 import videoPlay from 'vue3-video-play/lib/index' // 引入组件
 
-
 export default {
   name: "VideoPlayer",
   components: {
