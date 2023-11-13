@@ -5,6 +5,7 @@
         :poster="options.poster"
         @play="onPlay"
         @pause="onPause"
+        @ended="onEnded"
         @timeupdate="onTimeupdate"
         @canplay="onCanplay"/>
   </div>
@@ -46,8 +47,8 @@ export default {
           "audioTrack",
           "quality",
           "speedRate",
-          "volume",
           "setting",
+          "volume",
           "pip",
           "fullScreen",
         ], //显示所有按钮,
@@ -56,10 +57,13 @@ export default {
   },
   methods: {
     onPlay(ev) {
-      console.log('播放')
+      // console.log('播放')
     },
     onPause(ev) {
-      console.log('暂停')
+      // console.log('暂停')
+    },
+    onEnded(ev){
+      console.log('end')
     },
     onTimeupdate(ev) {
       // console.log(ev, '时间更新')
@@ -67,7 +71,10 @@ export default {
     onCanplay(ev) {
       // console.log(ev, '可以播放')
     },
-  }
+  },
+  beforeDestroy() {
+    console.log("beforeDestroy")
+  },
 }
 
 </script>
@@ -76,5 +83,9 @@ export default {
 /*@import 'vue3-video-play/dist/style.css'; */
 .d-player-wrap {
   background-color: transparent;
+}
+
+.d-player-wrap .d-player-control {
+  z-index: 200;
 }
 </style>

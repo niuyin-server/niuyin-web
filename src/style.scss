@@ -232,6 +232,11 @@ a {
   font-size: 1.25rem;
 }
 
+.fs24px {
+  /*20px*/
+  font-size: 24px;
+}
+
 .wh20 {
   width: 20px;
   height: 20px;
@@ -307,8 +312,7 @@ a {
 
 /*el抽屉drawer*/
 .el-drawer {
-  background-color: rgba(0, 0, 0, 0.80);
-  backdrop-filter: blur(10px);
+  --el-drawer-bg-color: rgba(0, 0, 0, 0.60);
 }
 
 /*el卡片card*/

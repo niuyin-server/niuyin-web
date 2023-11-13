@@ -20,9 +20,35 @@
           <!--                 controls/>-->
           <VideoPlayer v-if="videoDisplay" class="videoPlayer" id="videoPlayer" :video-url="item.videoUrl"
                        :cover-image="item.coverImage"/>
+          <!--          视频简介区域-->
+          <div class="videoinfo-area">
+            <div class="video-title one-line cw fs125 fw600">
+              <span>@ </span><span v-html="item.userNickName" class="cp"
+                                   @click="handleLinkUserInfo(item.userId)"></span>
+              <span class="fs9 fw400 cg"> · {{ parseTime(item.createTime) }}</span>
+            </div>
+            <div v-html="item.videoTitle" class="video-title one-line cw fw400"></div>
+            <div>
+              <span v-for="tag in item.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
+            </div>
+          </div>
+          <!--          视频点赞等操作区域-->
           <div class="video-operate">
             <div class="operate-area">
-              <div class="video-author"></div>
+              <div class="video-author">
+                <el-avatar v-if="item.userAvatar"
+                           class="user-avatar cp"
+                           :size="64"
+                           :src="item.userAvatar"
+                           lazy/>
+                <el-avatar v-else
+                           class="user-avatar cp"
+                           :icon="UserFilled"/>
+                <span v-if="!item.weatherFollow" class="user-att cp operate-icon">
+                  <i class="iconfont icon-attention fs24px" @click="handleAttUser(item.userId)"></i>
+                </span>
+              </div>
+              <!--            点赞  -->
               <div class="op">
                 <i v-if="item.weatherLike" class="iconfont icon-like-ed icon-36 operate-icon"
                    @click="videoLikeClick(item.videoId)"></i>
@@ -30,11 +56,13 @@
                    @click="videoLikeClick(item.videoId)"></i>
                 <div style="text-align: center;color: white">{{ item.likeNum }}</div>
               </div>
+              <!--              评论-->
               <div class="op">
                 <i class="iconfont icon-comment icon-36 operate-icon"
                    @click="videoCommentClick(item.videoId)"></i>
                 <div style="text-align: center;color: white">{{ item.commentNum }}</div>
               </div>
+              <!--              收藏-->
               <div class="op">
                 <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
                    @click="videoFavoriteClick(item.videoId)"></i>
@@ -42,18 +70,18 @@
                    @click="videoFavoriteClick(item.videoId)"></i>
                 <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="videoinfo-container">
-          <div class="video-info" :title="item.videoTitle">
-            <p class="video-title">{{ item.videoTitle }}</p>
-            <div class="userinfo">
-              <div class="user-avatar">
-                <img class="user-avatar" :src="item.userAvatar">
-                <el-button v-if="!item.weatherFollow" @click="handleFollow(item.userId)">关注</el-button>
+              <!--              分享-->
+              <div class="op">
+                <i class="iconfont icon-share icon-36 operate-icon"></i>
+                <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
               </div>
-              <span class="username">{{ item.userNickName }}</span>
+              <div class="op">
+                <el-icon class="operate-icon"
+                         :size="24"
+                         color="white">
+                  <MoreFilled/>
+                </el-icon>
+              </div>
             </div>
           </div>
         </div>
@@ -80,7 +108,7 @@
 </template>
 <script>
 import {
-  ChatDotRound, ChromeFilled, Close
+  ChatDotRound, ChromeFilled, Close, MoreFilled, UserFilled
 } from '@element-plus/icons-vue'
 import {likeVideo} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
@@ -89,8 +117,11 @@ import VideoComment from "@/components/video/comment/VideoComment.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {VideoPlayer, VideoComment},
+  components: {MoreFilled, VideoPlayer, VideoComment},
   computed: {
+    UserFilled() {
+      return UserFilled
+    },
     ChatDotRound() {
       return ChatDotRound
     },
@@ -191,7 +222,6 @@ export default {
     },
     // 切换视频暂停视频
     carouselChange(newVal, oldVal) {
-      console.log(newVal + "carouselChange" + oldVal)
       const videos = document.getElementsByClassName("d-player-video-main");
       for (let i = 0; i < videos.length; i++) {
         setTimeout(() => {
@@ -201,13 +231,13 @@ export default {
         }, 1);
       }
       if (oldVal - newVal === videos.length - 1) {
-        console.log("一个轮回")
         this.$emit("reloadVideoFeed", true)
       }
     },
     carouselEnd() {
       console.log("end")
     },
+    // 鼠标滚轮事件
     rollScroll(event) {
       const _that = this;
       // chrome、ie使用的wheelDelta，火狐使用detail
@@ -225,6 +255,15 @@ export default {
       } else {
       }
     },
+    // 跳转用户详情页面
+    handleLinkUserInfo(userId) {
+      console.log(userId)
+    },
+    // 关注用户
+    handleAttUser(userId) {
+      console.log(userId)
+      // 将数组此条数据改为已关注 weatherFollow = true
+    }
 
   },
 }
@@ -267,16 +306,31 @@ export default {
       border-radius: 1rem;
     }
 
-    .video-operate {
+    .videoinfo-area {
+      position: absolute;
       bottom: 60px;
-      padding-right: 38px;
-      z-index: 11;
-      align-items: center;
+      padding: 10px;
+      left: 0;
+      z-index: 3;
       display: flex;
       flex-direction: column;
-      height: 100%;
       justify-content: flex-end;
+      align-items: self-start;
+
+      .video-title {
+        max-width: 95%;
+      }
+    }
+
+    .video-operate {
       position: absolute;
+      bottom: 60px;
+      padding-right: 16px;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
       right: 0;
 
       .operate-area {
@@ -286,12 +340,24 @@ export default {
         flex-direction: column;
         flex-shrink: 0;
         justify-content: center;
-        margin-bottom: 3rem;
         position: relative;
 
         .video-author {
           vertical-align: bottom;
           position: relative;
+          padding: 10px 0;
+
+          .user-avatar {
+          //position: relative;
+          }
+
+          .user-att {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 10%);
+          }
+
         }
 
         .op {
@@ -319,43 +385,6 @@ export default {
         }
       }
     }
-  }
-
-  .videoinfo-container {
-    display: none;
-    transition: all 0.5s;
-
-    .video-info {
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: white;
-      width: 100%;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-
-      .video-title {
-
-      }
-
-      .userinfo {
-        text-align: center;
-        display: flex;
-        border-radius: 10px;
-
-        .user-avatar {
-          width: 50px;
-          height: 50px;
-          border-radius: 32px;
-        }
-
-        .username {
-          line-height: 50px;
-          padding: 0 10px;
-        }
-      }
-    }
 
   }
 
@@ -374,65 +403,20 @@ export default {
   color: red;
 }
 
-
-.video-box:hover .videoinfo-container {
-  display: block;
-  transition: all 0.5s;
-}
-
 .video-sidebar {
-  backdrop-filter: blur(10px);
-  background-color: #00000059;
-}
-
-/*评论抽屉*/
-.comment-container {
-  margin: 1rem 0;
+  backdrop-filter: blur(6px);
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
   box-shadow: rgba(0, 0, 0, 0.133) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-
-  .user-nickname {
-    padding-left: 10px;
-
-    .nickname {
-      color: gray;
-      font-size: 0.8rem;
-    }
-
-    .create-time {
-      padding-left: 0;
-    }
-  }
+.video-tag {
+  color: gold;
 }
 
-.comment-children {
-  padding-left: 50px;
-}
-
-.comment-content {
-  padding-left: 50px;
-}
-
-.aite {
-  padding-left: 10px;
-  color: blue;
-}
-
-.comment-input-area {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
 </style>
 

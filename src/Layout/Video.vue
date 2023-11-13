@@ -17,7 +17,7 @@
   <!--        <el-skeleton-item variant="image" style="width: 240px; height: 240px"/>-->
   <!--      </template>-->
   <!--      <template #default>-->
-  <div style="height: 100%;width: 100%;">
+  <div class="wh100">
     <VideoPlayerCarousel
         v-loading="loading"
         :element-loading-svg="svg"
@@ -74,10 +74,11 @@ export default {
       this.loading = true
       videoFeed(this.publishTime).then(res => {
         if (res.code === 200 && res.data != null) {
-          // console.log(res.data)
+          const len = this.videoList.length
           this.videoList = res.data
+          // this.videoList = [...this.videoList, ...res.data];
           this.loading = false
-          this.publishTime = res.data[this.videoList.length - 1].createTime
+          this.publishTime = res.data[len - 1].createTime
         } else {
           this.$message.error(res.msg)
         }

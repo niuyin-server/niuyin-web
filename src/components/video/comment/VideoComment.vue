@@ -120,12 +120,12 @@
               placeholder="留下你的精彩评论吧">
       <template #prepend v-if="replayVisible">
         <el-tooltip content="点击此处取消回复哦 0.o" placement="bottom">
-          <span class="cp" style="max-width: 100px; overflow: hidden" @click="handleCancelReplay">
+          <span class="cp cg" style="max-width: 100px; overflow: hidden" @click="handleCancelReplay">
             @{{ replayNickName }}</span>
         </el-tooltip>
       </template>
       <template #append>
-        <el-button @click="handleCommentClick" :icon="ChromeFilled"/>
+        <el-button @click="handleCommentClick" class="cb" :color="'#f2f2f2'" :icon="ChromeFilled"/>
       </template>
     </el-input>
   </div>
