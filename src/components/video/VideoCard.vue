@@ -1,7 +1,7 @@
 <template>
   <div class="video-card">
     <div class="video-cover-image">
-      <el-image class="cover-image" :src="video.coverImage"/>
+      <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
       <div class="video-like">
         <i class="iconfont icon-like-num "></i>
         <span class="ml-5r">{{ video.likeNum }}</span>
@@ -42,17 +42,18 @@ export default {
 
 <style scoped>
 .video-card {
-  background: rgba(250, 250, 250, 1);
+  background-color: rgba(242, 242, 243, 0.8);
   border-radius: 1rem;
-  width: 24.5%;
-  box-shadow: rgba(0, 0, 0, 0.133) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
+  width: 19%;
+  box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
   transition: all 0.3s ease;
-  height: 240px;
-  margin-bottom: 10px;
+  height: 380px;
+  margin-bottom: 1.2rem;
 
   .video-cover-image {
-    width: 100%;
-    height: 70%;
+    width: auto;
+    object-fit: contain;
+    height: 80%;
     overflow: hidden;
     border-radius: 1rem 1rem 0 0;
     position: relative;
@@ -60,7 +61,7 @@ export default {
     .cover-image {
       height: 100%;
       width: 100%;
-      cursor: pointer;
+      object-fit: cover;
       border-radius: 1rem 1rem 0 0;
     }
 
@@ -80,7 +81,7 @@ export default {
 
   .video-info {
     width: 100%;
-    height: 30%;
+    height: 20%;
     padding: 10px;
     display: flex;
     flex-flow: column;

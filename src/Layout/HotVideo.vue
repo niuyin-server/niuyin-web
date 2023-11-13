@@ -1,10 +1,10 @@
 <template>
-  <div class="hot-container">
+  <div class="hot-container wh100">
     <el-scrollbar>
       <el-skeleton style="width: 100%" :loading="loading" animated>
         <template #template>
-          <div class="loading-container" v-for="i in 2">
-            <div class="loading-item" v-for="i in 4">
+          <div class="loading-container" v-for="i in 3">
+            <div class="loading-item" v-for="i in 5">
               <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
               <div style="padding: 14px">
                 <el-skeleton-item variant="h1" style="width: 70%"/>
@@ -25,7 +25,8 @@
                        :key="item.videoId"
                        class="hotVideo-item">
                 <div class="video-cover">
-                  <el-image style="height:100%;border-radius: 0.5rem 0.5rem 0 0"
+                  <el-image class="eli-ofc"
+                            style="height:100%;border-radius: 1rem 1rem 0 0"
                             lazy
                             @click="videoDialog(item.videoId)"
                             :src="item.coverImage"/>

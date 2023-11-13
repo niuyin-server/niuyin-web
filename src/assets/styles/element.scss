@@ -63,3 +63,28 @@
 .el-tabs__header {
   z-index: 100;
 }
+
+.cover-image {
+
+  .el-image__inner {
+    object-fit: cover;
+  }
+}
+
+.video-cover {
+  .el-image__inner {
+    object-fit: cover;
+  }
+}
+
+//.video-page-container {
+//  .el-image__inner {
+//    object-fit: cover;
+//  }
+//}
+
+.eli-ofc {
+  .el-image__inner {
+    object-fit: cover;
+  }
+}

@@ -1,127 +1,132 @@
 <template>
-  <el-carousel class="video-player"
-               ref="carousel"
-               :element-loading-spinner="true"
-               direction="vertical"
-               :autoplay="false"
-               :loop="true"
-               indicator-position="none"
-               @keydown="keyDown"
-               @mousewheel="rollScroll($event)"
-               @change="carouselChange"
-               @ended="carouselEnd">
-    <el-carousel-item v-for="item in videoList" :key="item">
-      <div class="video-box">
-        <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
-          <VideoPlayer v-if="videoDisplay"
-                       class="videoPlayer"
-                       id="videoPlayer"
-                       :video-url="item.videoUrl"
-                       :cover-image="item.coverImage"/>
-          <!--          视频简介区域-->
-          <div class="videoinfo-area">
-            <div class="video-title one-line cw fs125 fw600">
-              <span>@ </span><span v-html="item.userNickName" class="cp"
-                                   @click="handleLinkUserInfo(item.userId)"></span>
-              <span class="fs9 fw400 cg"> · {{ parseTime(item.createTime) }}</span>
+  <div class="wh100 pr flex-between custom-loading-svg"
+       v-loading="loading"
+       :element-loading-svg="svg"
+       element-loading-svg-view-box="-10, -10, 50, 50">
+    <el-carousel class="video-player"
+                 ref="carousel"
+                 :element-loading-spinner="true"
+                 direction="vertical"
+                 :autoplay="false"
+                 :loop="true"
+                 indicator-position="none"
+                 @keydown="keyDown"
+                 @mousewheel="rollScroll($event)"
+                 @change="carouselChange"
+                 @ended="carouselEnd">
+      <el-carousel-item v-for="item in videoList" :key="item">
+        <div class="video-box">
+          <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
+            <VideoPlayer v-if="videoDisplay"
+                         class="videoPlayer"
+                         id="videoPlayer"
+                         :video-url="item.videoUrl"
+                         :cover-image="item.coverImage"/>
+            <!--          视频简介区域-->
+            <div class="videoinfo-area">
+              <div class="video-title one-line cw fs125 fw600">
+                <span>@ </span><span v-html="item.userNickName" class="cp"
+                                     @click="handleLinkUserInfo(item.userId)"></span>
+                <span class="fs9 fw400 cg"> · {{ parseTime(item.createTime) }}</span>
+              </div>
+              <div v-html="item.videoTitle" class="video-title one-line cw fw400"></div>
+              <div>
+                <span v-for="tag in item.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
+              </div>
             </div>
-            <div v-html="item.videoTitle" class="video-title one-line cw fw400"></div>
-            <div>
-              <span v-for="tag in item.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
-            </div>
-          </div>
-          <!--          视频点赞等操作区域-->
-          <div class="video-operate">
-            <div class="operate-area">
-              <div class="video-author">
-                <el-avatar v-if="item.userAvatar"
-                           class="user-avatar cp"
-                           :size="64"
-                           :src="item.userAvatar"
-                           lazy/>
-                <el-avatar v-else
-                           class="user-avatar cp"
-                           :icon="UserFilled"/>
-                <span v-if="!item.weatherFollow" class="user-att cp operate-icon">
+            <!--          视频点赞等操作区域-->
+            <div class="video-operate">
+              <div class="operate-area">
+                <div class="video-author">
+                  <el-avatar v-if="item.userAvatar"
+                             class="user-avatar cp"
+                             :size="64"
+                             :src="item.userAvatar"
+                             lazy/>
+                  <el-avatar v-else
+                             class="user-avatar cp"
+                             :icon="UserFilled"/>
+                  <span v-if="!item.weatherFollow" class="user-att cp operate-icon">
                   <i class="iconfont icon-attention fs24px" @click="handleAttUser(item.userId)"></i>
                 </span>
-              </div>
-              <!--            点赞  -->
-              <div class="op">
-                <i v-if="item.weatherLike" class="iconfont icon-like-ed icon-36 operate-icon"
-                   @click="videoLikeClick(item.videoId)"></i>
-                <i v-else class="iconfont icon-like icon-36 operate-icon"
-                   @click="videoLikeClick(item.videoId)"></i>
-                <div style="text-align: center;color: white">{{ item.likeNum }}</div>
-              </div>
-              <!--              评论-->
-              <div class="op">
-                <i class="iconfont icon-comment icon-36 operate-icon"
-                   @click="videoCommentClick(item.videoId)"></i>
-                <div style="text-align: center;color: white">{{ item.commentNum }}</div>
-              </div>
-              <!--              收藏-->
-              <div class="op">
-                <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
-                   @click="videoFavoriteClick(item.videoId)"></i>
-                <i v-else class="iconfont icon-favorite icon-36 operate-icon"
-                   @click="videoFavoriteClick(item.videoId)"></i>
-                <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
-              </div>
-              <!--              分享-->
-              <div class="op">
-                <i class="iconfont icon-share icon-36 operate-icon"></i>
-                <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
-              </div>
-              <div class="op">
-                <el-icon class="operate-icon"
-                         :size="24"
-                         color="white">
-                  <MoreFilled/>
-                </el-icon>
+                </div>
+                <!--            点赞  -->
+                <div class="op">
+                  <i v-if="item.weatherLike" class="iconfont icon-like-ed icon-36 operate-icon"
+                     @click="videoLikeClick(item.videoId)"></i>
+                  <i v-else class="iconfont icon-like icon-36 operate-icon"
+                     @click="videoLikeClick(item.videoId)"></i>
+                  <div style="text-align: center;color: white">{{ item.likeNum }}</div>
+                </div>
+                <!--              评论-->
+                <div class="op">
+                  <i class="iconfont icon-comment icon-36 operate-icon"
+                     @click="videoCommentClick(item.videoId)"></i>
+                  <div style="text-align: center;color: white">{{ item.commentNum }}</div>
+                </div>
+                <!--              收藏-->
+                <div class="op">
+                  <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
+                     @click="videoFavoriteClick(item.videoId)"></i>
+                  <i v-else class="iconfont icon-favorite icon-36 operate-icon"
+                     @click="videoFavoriteClick(item.videoId)"></i>
+                  <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
+                </div>
+                <!--              分享-->
+                <div class="op">
+                  <i class="iconfont icon-share icon-36 operate-icon"></i>
+                  <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
+                </div>
+                <div class="op">
+                  <el-icon class="operate-icon"
+                           :size="24"
+                           color="white">
+                    <MoreFilled/>
+                  </el-icon>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </el-carousel-item>
-    <!-- 视频评论抽屉 -->
-    <el-drawer class="video-sidebar"
-               v-model="drawer"
-               v-if="showVideoComment"
-               :show-close="false"
-               @mousewheel.stop
-               :before-close="videoCommentTree=null">
-      <template #header="{ close, titleId, titleClass }">
-        <!--                <h2 class="cw" :id="titleId" :class="titleClass">评论<span>({{ item.commentNum }})</span></h2>-->
-        <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>
-        <el-button circle class="cb" :icon="Close" type="info" @click="close">
-        </el-button>
-      </template>
-      <VideoComment :video-id="videoId"
-                    :show="true"
-                    @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
-    </el-drawer>
-  </el-carousel>
-  <div class="player-playswitch flex-center">
-    <div class="player-playswitch-tab">
-      <div class="player-playswitch-prev cp" @click="handleVideoPrev">
-        <el-icon color="#c0bdbd" :size="18">
-          <ArrowUpBold/>
-        </el-icon>
-      </div>
-      <div class="player-playswitch-next cp" @click="handleVideoNext">
-        <el-icon color="#c0bdbd" :size="18">
-          <ArrowDownBold/>
-        </el-icon>
+      </el-carousel-item>
+      <!-- 视频评论抽屉 -->
+      <el-drawer class="video-sidebar"
+                 v-model="drawer"
+                 v-if="showVideoComment"
+                 :show-close="false"
+                 @mousewheel.stop
+                 :before-close="videoCommentTree=null">
+        <template #header="{ close, titleId, titleClass }">
+          <!--                <h2 class="cw" :id="titleId" :class="titleClass">评论<span>({{ item.commentNum }})</span></h2>-->
+          <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>
+          <el-button circle class="cb" :icon="Close" type="info" @click="close">
+          </el-button>
+        </template>
+        <VideoComment :video-id="videoId"
+                      :show="true"
+                      @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
+      </el-drawer>
+    </el-carousel>
+    <div class="player-playswitch flex-center">
+      <div class="player-playswitch-tab">
+        <div class="player-playswitch-prev cp" @click="handleVideoPrev">
+          <el-icon color="#c0bdbd" :size="18">
+            <ArrowUpBold/>
+          </el-icon>
+        </div>
+        <div class="player-playswitch-next cp" @click="handleVideoNext">
+          <el-icon color="#c0bdbd" :size="18">
+            <ArrowDownBold/>
+          </el-icon>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="feedback">
-    <div class="feedback-icon bgc211 flex-center cp">
-      <el-icon color="#5a5a5a" :size="20">
-        <QuestionFilled/>
-      </el-icon>
+    <div class="feedback">
+      <div class="feedback-icon bgc211 flex-center cp">
+        <el-icon color="#5a5a5a" :size="20">
+          <QuestionFilled/>
+        </el-icon>
+      </div>
     </div>
   </div>
 </template>

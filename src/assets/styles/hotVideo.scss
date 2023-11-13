@@ -1,6 +1,6 @@
 .hot-container {
   border-radius: 1rem;
-  height: 100%;
+  padding: 0 1rem 1rem 0;
 }
 
 .loading-container {
@@ -9,7 +9,7 @@
   align-items: center;
 
   .loading-item {
-    width: 24.5%;
+    width: 19%;
   }
 }
 
@@ -24,16 +24,16 @@
     justify-content: space-between;
 
     .hotVideo-item {
-      background-color: white;
-      width: 24%;
-      border-radius: 0.5rem;
-      height: 280px;
-      box-shadow: rgba(0, 0, 0, 0.13) 0 1.6px 3.6px 0, rgba(0, 0, 0, 0.11) 0 0.3px 0.9px 0;
-      margin-bottom: 1.3rem;
+      background-color: rgba(242, 242, 243, 0.8);
+      width: 19%;
+      border-radius: 1rem;
+      height: 400px;
+      box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
+      margin-bottom: 1.2rem;
 
       .video-cover {
         height: 80%;
-        border-radius: 0.5rem;
+        border-radius: 1rem;
         text-align: center
       }
 
@@ -43,7 +43,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: rgba(242, 242, 243, 1);
       }
     }
   }

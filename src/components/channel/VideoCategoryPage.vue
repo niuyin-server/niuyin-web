@@ -5,9 +5,9 @@
       <el-card v-for="item in videoList"
                :key="item.videoId"
                class="video-card-transition video-card">
-        <div class="w100" style="height: 80%;border-radius: 0.5rem 0.5rem 0 0;text-align: center;overflow: hidden">
+        <div class="w100" style="height: 80%;border-radius: 1rem 1rem 0 0;text-align: center;overflow: hidden">
           <el-image
-              class="h100"
+              class="wh100 eli-ofc"
               @click="videoDialog(item.videoId)"
               :src="item.coverImage"/>
         </div>
@@ -121,10 +121,12 @@ export default {
 }
 
 .video-card {
-  width: 24.4%;
-  border-radius: 0.5rem;
-  height: 280px;
-  margin-bottom: 1rem
+  width: 19%;
+  border-radius: 1rem;
+  height: 400px;
+  background-color: rgba(242, 242, 243, 0.8);
+  margin-bottom: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
 }
 
 @media (max-width: 500px) {

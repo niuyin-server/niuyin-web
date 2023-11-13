@@ -4,7 +4,7 @@
          ref="NavSearch">
       <!-- 输入框 -->
       <el-popover popper-class="search-popover"
-                  :width="440"
+                  :width="480"
                   trigger="hover"
                   popper-style="padding: 20px;">
         <template #reference>

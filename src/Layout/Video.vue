@@ -17,16 +17,10 @@
   <!--        <el-skeleton-item variant="image" style="width: 240px; height: 240px"/>-->
   <!--      </template>-->
   <!--      <template #default>-->
-  <div class="wh100 pr flex-between custom-loading-svg"
-       v-loading="loading"
-       :element-loading-svg="svg"
-       element-loading-svg-view-box="-10, -10, 50, 50">
-    <VideoPlayerCarousel
-        v-if="showVideoPlayer"
-        :video-list="videoList"
-        @reloadVideoFeed="reloadVideoFeedEmit"
-    ></VideoPlayerCarousel>
-  </div>
+  <VideoPlayerCarousel
+      v-if="showVideoPlayer"
+      :video-list="videoList"
+      @reloadVideoFeed="reloadVideoFeedEmit"/>
   <!--      </template>-->
   <!--    </el-skeleton>-->
   <!--  </el-space>-->
