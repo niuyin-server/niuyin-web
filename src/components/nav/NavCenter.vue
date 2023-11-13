@@ -132,9 +132,6 @@ export default {
     },
     // 确认搜索
     searchConfirm() {
-      if (this.searchDefaults === "输入你感兴趣的内容") {
-        return;
-      }
       if (this.searchData === "") {
         this.searchData = this.searchDefaults;
       }
@@ -159,6 +156,4 @@ export default {
 </script>
 
 <style scoped>
-@import "@/assets/styles/header.scss";
-
 </style>
