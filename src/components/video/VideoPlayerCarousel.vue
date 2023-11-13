@@ -197,7 +197,7 @@ export default {
         setTimeout(() => {
           videos[i].pause();
           // videos[i].load();
-          console.log(videos[i])
+          // console.log(videos[i])
         }, 1);
       }
       if (oldVal - newVal === videos.length - 1) {
