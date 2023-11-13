@@ -13,12 +13,13 @@
     <el-carousel-item v-for="item in videoList" :key="item">
       <div class="video-box">
         <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
-          <video class="videoPlayer"
-                 id="videoPlayer"
-                 :src="item.videoUrl"
-                 v-if="videoDisplay"
-                 controls/>
-          <!--          <VideoPlayer :video-url="item.videoUrl"/>-->
+          <!--          <video class="videoPlayer"-->
+          <!--                 id="videoPlayer"-->
+          <!--                 :src="item.videoUrl"-->
+          <!--                 v-if="videoDisplay"-->
+          <!--                 controls/>-->
+          <VideoPlayer v-if="videoDisplay" class="videoPlayer" id="videoPlayer" :video-url="item.videoUrl"
+                       :cover-image="item.coverImage"/>
           <div class="video-operate">
             <div class="operate-area">
               <div class="video-author"></div>
@@ -83,11 +84,12 @@ import {
 } from '@element-plus/icons-vue'
 import {likeVideo} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
+import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {VideoComment},
+  components: {VideoPlayer, VideoComment},
   computed: {
     ChatDotRound() {
       return ChatDotRound
@@ -166,11 +168,9 @@ export default {
       })
     },
     keyDown(e) {
-      // 方向键--上
       if (e.keyCode === 38) {
         console.log("按下了方向键--上")
       }
-      // 方向键--下
       if (e.keyCode === 40) {
         const _that = this;
         this.drawer = false
@@ -182,11 +182,9 @@ export default {
           }, 1000);
         }
       }
-      // 方向键--左
       if (e.keyCode === 37) {
         console.log("按下了方向键--左")
       }
-      // 方向键--右
       if (e.keyCode === 39) {
         console.log("按下了方向键--右")
       }
@@ -194,12 +192,13 @@ export default {
     // 切换视频暂停视频
     carouselChange(newVal, oldVal) {
       console.log(newVal + "carouselChange" + oldVal)
-      const videos = document.getElementsByClassName("videoPlayer");
+      const videos = document.getElementsByClassName("d-player-video-main");
       for (let i = 0; i < videos.length; i++) {
         setTimeout(() => {
           videos[i].pause();
-          videos[i].load();
-        }, 10);
+          // videos[i].load();
+          console.log(videos[i])
+        }, 1);
       }
       if (oldVal - newVal === videos.length - 1) {
         console.log("一个轮回")

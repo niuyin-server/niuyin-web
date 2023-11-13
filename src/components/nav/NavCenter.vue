@@ -45,7 +45,8 @@
                 <h4 class="mtb5">猜你想搜</h4>
                 <div class="flex-between">
                   <p class="cp cb w49 p5px one-line search-hover-item"
-                     v-for="item in 8">你好你好你好你好你好你好你好你好你好
+                     v-for="item in searchDiscover"
+                     @click="handleSearchDiscoverSelect(item.keyword)">
                   </p>
                 </div>
               </div>
@@ -97,6 +98,8 @@ export default {
       searchDefaults: "输入你感兴趣的内容",
       // 搜索历史
       searchHistory: [],
+      // 猜你想搜：
+      searchDiscover: [],
       // 热搜数据
       hotSearch: [],
     }
@@ -104,6 +107,8 @@ export default {
   created() {
     // 搜索记录
     this.getSearchHistory()
+    // 猜你想搜
+    this.getSearchDiscover()
     // this.getHotSearch()
   },
   mounted() {
@@ -119,6 +124,10 @@ export default {
         }
       })
     },
+    getSearchDiscover() {
+      // todo
+      this.searchDiscover.push({id: 1, keyword: "你好"})
+    },
     getHotSearch() {
       axios.get("https://s.search.bilibili.com/main/hotword")
           .then(res => {
@@ -127,6 +136,11 @@ export default {
     },
     // 判断选中了哪个搜索历史
     handleSearchHistorySelect(keyword) {
+      this.searchData = keyword;
+      this.routerJump();
+    },
+    // 选中猜你想搜
+    handleSearchDiscoverSelect(keyword) {
       this.searchData = keyword;
       this.routerJump();
     },

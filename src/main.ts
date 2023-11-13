@@ -29,9 +29,6 @@ initAMapApiLoader({
         'AMap.Geocoder',
     ]
 });
-// vue3视频播放器
-// import vue3videoPlay from "vue3-video-play";
-// import "vue3-video-play/dist/style.css";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -55,6 +52,5 @@ VueViewer.setDefaults({
     zIndexInline: 2023
 })
 app.use(VueAMap)
-// app.use(vue3videoPlay)
 
 app.mount("#app");
