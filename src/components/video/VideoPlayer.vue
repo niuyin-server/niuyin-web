@@ -32,7 +32,7 @@ export default {
         color: "#0760e6", //主题色
         title: "", //视频名称
         src: this.videoUrl, //视频源
-        poster: this.coverImage, // 视频封面
+        poster: "", // 视频封面
         muted: false, //静音
         speed: true, // 关闭进度条拖动
         webFullScreen: false,

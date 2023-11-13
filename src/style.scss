@@ -30,7 +30,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "PingFang SC", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
+  font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "微软雅黑", sans-serif;
 }
 
 html {
@@ -55,6 +55,22 @@ body {
 
 a {
   text-decoration: none
+}
+
+.c211 {
+  color: #d3d3d3;
+}
+
+.bgc211 {
+  background-color: #d3d3d3;
+}
+
+.pr {
+  position: relative;
+}
+
+.pa {
+  position: absolute;
 }
 
 .w100p {
@@ -283,7 +299,7 @@ a {
 }
 
 .el-main {
-  padding: 0 1rem 1rem 0 !important;
+  padding: 0 0 1rem 0 !important;
 }
 
 .el-upload {

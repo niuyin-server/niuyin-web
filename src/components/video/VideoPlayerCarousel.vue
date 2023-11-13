@@ -13,12 +13,10 @@
     <el-carousel-item v-for="item in videoList" :key="item">
       <div class="video-box">
         <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
-          <!--          <video class="videoPlayer"-->
-          <!--                 id="videoPlayer"-->
-          <!--                 :src="item.videoUrl"-->
-          <!--                 v-if="videoDisplay"-->
-          <!--                 controls/>-->
-          <VideoPlayer v-if="videoDisplay" class="videoPlayer" id="videoPlayer" :video-url="item.videoUrl"
+          <VideoPlayer v-if="videoDisplay"
+                       class="videoPlayer"
+                       id="videoPlayer"
+                       :video-url="item.videoUrl"
                        :cover-image="item.coverImage"/>
           <!--          视频简介区域-->
           <div class="videoinfo-area">
@@ -105,10 +103,33 @@
                     @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
     </el-drawer>
   </el-carousel>
+  <div class="player-playswitch flex-center">
+    <div class="player-playswitch-tab">
+      <div class="player-playswitch-prev cp" @click="handleVideoPrev">
+        <el-icon color="#c0bdbd" :size="18">
+          <ArrowUpBold/>
+        </el-icon>
+      </div>
+      <div class="player-playswitch-next cp" @click="handleVideoNext">
+        <el-icon color="#c0bdbd" :size="18">
+          <ArrowDownBold/>
+        </el-icon>
+      </div>
+    </div>
+  </div>
+  <div class="feedback">
+    <div class="feedback-icon bgc211 flex-center cp">
+      <el-icon color="#5a5a5a" :size="20">
+        <QuestionFilled/>
+      </el-icon>
+    </div>
+  </div>
 </template>
 <script>
 import {
-  ChatDotRound, ChromeFilled, Close, MoreFilled, UserFilled
+  ArrowDownBold,
+  ArrowUpBold,
+  ChatDotRound, ChromeFilled, Close, MoreFilled, QuestionFilled, UserFilled
 } from '@element-plus/icons-vue'
 import {likeVideo} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
@@ -117,7 +138,7 @@ import VideoComment from "@/components/video/comment/VideoComment.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {MoreFilled, VideoPlayer, VideoComment},
+  components: {QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment},
   computed: {
     UserFilled() {
       return UserFilled
@@ -130,7 +151,7 @@ export default {
     },
     Close() {
       return Close
-    }
+    },
   },
   props: {
     videoList: Array,
@@ -255,6 +276,22 @@ export default {
       } else {
       }
     },
+    // playswitch 上一个
+    handleVideoPrev() {
+
+    },
+    // playswitch 下一个
+    handleVideoNext() {
+      const _that = this;
+      this.drawer = false
+      this.showVideoComment = false
+      if (!_that.timeOut) {
+        _that.timeOut = setTimeout(() => {
+          _that.timeOut = null;
+          _that.$refs.carousel.next()
+        }, 500);
+      }
+    },
     // 跳转用户详情页面
     handleLinkUserInfo(userId) {
       console.log(userId)
@@ -270,10 +307,11 @@ export default {
 </script>
 <style scoped>
 .video-player {
-  width: 100%;
+  width: 95%;
   border-radius: 1rem;
   height: 100%;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
+
 }
 
 .video-container * {
@@ -418,5 +456,49 @@ export default {
   color: gold;
 }
 
+.player-playswitch {
+  width: 5%;
+  z-index: 2;
+
+  .player-playswitch-tab {
+    background-color: rgba(242, 242, 243, 0.5);
+    border-radius: 1.5rem;
+    padding: 1px;
+
+    &:hover {
+      backdrop-filter: blur(5px);
+    }
+
+    .player-playswitch-prev {
+      padding: 10px;
+      transition: all 0.5s ease;
+
+      &:hover .el-icon {
+        --color: red !important;
+      }
+    }
+
+    .player-playswitch-next {
+      padding: 10px;
+      transition: all 0.5s ease;
+
+      &:hover .el-icon {
+        --color: red !important;
+      }
+    }
+  }
+}
+
+.feedback {
+  position: fixed;
+  bottom: 6px;
+  right: 6px;
+
+  .feedback-icon {
+    padding: 10px;
+    vertical-align: middle;
+    border-radius: 2rem;
+  }
+}
 </style>
 

@@ -17,12 +17,11 @@
   <!--        <el-skeleton-item variant="image" style="width: 240px; height: 240px"/>-->
   <!--      </template>-->
   <!--      <template #default>-->
-  <div class="wh100">
+  <div class="wh100 pr flex-between custom-loading-svg"
+       v-loading="loading"
+       :element-loading-svg="svg"
+       element-loading-svg-view-box="-10, -10, 50, 50">
     <VideoPlayerCarousel
-        v-loading="loading"
-        :element-loading-svg="svg"
-        class="custom-loading-svg"
-        element-loading-svg-view-box="-10, -10, 50, 50"
         v-if="showVideoPlayer"
         :video-list="videoList"
         @reloadVideoFeed="reloadVideoFeedEmit"
@@ -59,8 +58,8 @@ export default {
       `,
       autoPlay: true, // 自动播放视频
       showVideoPlayer: true,
-      publishTime: undefined,
-      videoUrl: undefined,
+      publishTime: null,
+      videoUrl: null,
       videoList: [],
     }
   },
@@ -74,11 +73,10 @@ export default {
       this.loading = true
       videoFeed(this.publishTime).then(res => {
         if (res.code === 200 && res.data != null) {
-          const len = this.videoList.length
           this.videoList = res.data
           // this.videoList = [...this.videoList, ...res.data];
           this.loading = false
-          this.publishTime = res.data[len - 1].createTime
+          this.publishTime = res.data[this.videoList.length - 1].createTime
         } else {
           this.$message.error(res.msg)
         }
