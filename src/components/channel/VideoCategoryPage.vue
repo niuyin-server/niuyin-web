@@ -7,7 +7,7 @@
                class="video-card-transition video-card">
         <div class="w100" style="height: 80%;border-radius: 1rem 1rem 0 0;text-align: center;overflow: hidden">
           <el-image
-              class="wh100 eli-ofc"
+              class="wh100 eli-ofc cp"
               @click="videoDialog(item.videoId)"
               :src="item.coverImage"/>
         </div>
@@ -16,7 +16,7 @@
             <p class="one-line cb fs9">{{ item.videoTitle }}</p>
             <marquee class="one-line cg fs7">{{ item.videoDesc }}</marquee>
           </div>
-          <div>
+          <div class="cp">
             <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
             <el-avatar v-else :icon="UserFilled"/>
           </div>
@@ -73,7 +73,7 @@ export default {
       videoQueryParams: {
         categoryId: undefined,
         pageNum: 1,
-        pageSize: 8,
+        pageSize: 10,
       },
       videoList: [],
       videoTotal: undefined,

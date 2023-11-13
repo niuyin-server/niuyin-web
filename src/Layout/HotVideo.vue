@@ -194,7 +194,7 @@ export default {
       hotVideoTotal: undefined,
       hotVideoQueryParams: {
         pageNum: 1,
-        pageSize: 12
+        pageSize: 15
       },
       video: {},
       loadingData: true,
