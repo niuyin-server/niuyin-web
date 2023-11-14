@@ -3,7 +3,7 @@
     <el-scrollbar>
       <el-skeleton style="width: 100%" :loading="loading" animated>
         <template #template>
-          <div class="loading-container" v-for="i in 3">
+          <div class="loading-container" v-for="i in 2">
             <div class="loading-item" v-for="i in 5">
               <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
               <div style="padding: 14px">
