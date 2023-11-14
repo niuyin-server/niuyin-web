@@ -52,7 +52,6 @@ export default {
           "pageFullScreen",
           "fullScreen",
         ], //显示所有按钮,
-        preload: "meta",//预加载
       }
     }
   },
@@ -68,7 +67,7 @@ export default {
       console.log('end')
     },
     onTimeupdate(ev) {
-      // console.log(ev, '时间更新')
+      console.log(ev.target.currentTime)
     },
     onCanplay(ev) {
       // console.log(ev, '可以播放')

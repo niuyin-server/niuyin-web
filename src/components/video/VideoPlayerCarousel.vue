@@ -1,5 +1,5 @@
 <template>
-  <div class="wh100 pr flex-between custom-loading-svg"
+  <div class="wh100 pr flex-between"
        v-loading="loading"
        :element-loading-svg="svg"
        element-loading-svg-view-box="-10, -10, 50, 50">
@@ -372,7 +372,7 @@ export default {
 
     .videoinfo-area {
       position: absolute;
-      bottom: 60px;
+      bottom: 40px;
       padding: 10px;
       left: 0;
       z-index: 3;
@@ -388,7 +388,7 @@ export default {
 
     .video-operate {
       position: absolute;
-      bottom: 60px;
+      bottom: 40px;
       padding-right: 16px;
       z-index: 3;
       display: flex;

@@ -129,8 +129,13 @@
                   <!--                    </template>-->
                   <!--                  </el-popover>-->
                   <div>
-                    <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
-                    <el-avatar v-else :icon="UserFilled"/>
+                    <el-avatar v-if="item.userAvatar"
+                               class="cp"
+                               :src="item.userAvatar"
+                               @click="handlePersonInfo(item.userId)"/>
+                    <el-avatar v-else
+                               class="cp"
+                               :icon="UserFilled"/>
                   </div>
                 </div>
               </el-card>
@@ -166,6 +171,7 @@
 import {hotVideoPage, userLikeNums} from "@/api/video";
 import {Close, UserFilled} from "@element-plus/icons-vue";
 import {followAndFans} from "@/api/social.js";
+import {log} from "util";
 
 export default {
   name: "HotVideo",
@@ -271,6 +277,21 @@ export default {
           })
         }
       }
+    },
+    // 跳转到用户详情页面
+    handlePersonInfo(userId) {
+      const loginUser = JSON.parse(localStorage.getItem("userInfo"))
+      console.log(loginUser)
+      if (userId === loginUser.userId) {
+        this.$router.push({
+          path: '/user'
+        })
+      } else {
+        this.$router.push({
+          path: '/person/' + userId
+        })
+      }
+
     },
   }
 };

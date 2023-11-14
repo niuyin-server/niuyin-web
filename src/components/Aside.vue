@@ -3,11 +3,11 @@
   <el-aside class="niuyin-aside">
     <el-scrollbar>
       <!-- logo -->
-      <div class="oh w100" style="width:100%;overflow:hidden;height: 60px;text-align: center">
+      <div class="oh w100" style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;backdrop-filter: blur(10px)">
         <router-link class="link-type flex-center wh100"
                      :to="'/index'">
           <img style="width: 32px;height: 32px;display: inline-block" src="@/assets/logo/logo-tiktok.png">
-          <span  class="dn-phone" style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
+          <span class="dn-phone" style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
         </router-link>
       </div>
       <!-- tab栏区域 -->
@@ -73,6 +73,7 @@ export default {
         {id: 2, name: "热门", '--color': "rgba(0,0,0,1)", class: "icon-hotVideo", link: "/hotVideo",},
         {id: 3, name: "关注", '--color': "black", class: "icon-follow", link: "/follow"},
         {id: 4, name: "频道", '--color': "black", class: "icon-channel", link: "/channel",},
+        {id: 5, name: "我的", '--color': "black", class: "icon-erciyuan", link: "/user",},
       ],
       tabsCenterList: [
         {id: 1, name: "直播", '--color': "red", class: "icon-live", link: "/index"},
