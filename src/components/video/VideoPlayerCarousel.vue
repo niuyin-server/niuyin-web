@@ -66,10 +66,27 @@
                 </div>
                 <!--              收藏-->
                 <div class="op">
-                  <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
-                     @click="videoFavoriteClick(item.videoId)"></i>
-                  <i v-else class="iconfont icon-favorite icon-36 operate-icon"
-                     @click="videoFavoriteClick(item.videoId)"></i>
+                  <el-popover placement="left" :width="300" trigger="click">
+                    <template #reference>
+                      <!--                      <el-button style="margin-right: 16px">Click to activate</el-button>-->
+                      <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
+                         @click="videoFavoriteClick(item.videoId,user.userId)">
+                      </i>
+                      <i v-else class="iconfont icon-favorite icon-36 operate-icon"
+                         @click="videoFavoriteClick(item.videoId,user.userId)"></i>
+                    </template>
+                    <el-card class="box-card">
+                      <template #header>
+                        <div class="card-header">
+                          <span>请选择标签</span>
+                          <el-button class="button" text>新建</el-button>
+                        </div>
+                      </template>
+                      <div v-for="o in favoriteList" :key="o" class="text item">{{ o.title }}</div>
+                    </el-card>
+                  </el-popover>
+
+
                   <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
                 </div>
                 <!--              分享-->
@@ -136,7 +153,7 @@ import {
   ArrowUpBold,
   ChatDotRound, ChromeFilled, Close, MoreFilled, QuestionFilled, UserFilled
 } from '@element-plus/icons-vue'
-import {likeVideo} from '@/api/behave.js'
+import {likeVideo, myFavoriteList} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
@@ -163,6 +180,8 @@ export default {
   },
   data() {
     return {
+      user: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {},
+      favoriteList: [],
       showVideo: true,
       timeOut: null,
       drawer: false,
@@ -208,7 +227,12 @@ export default {
         }
       })
     },
-    videoFavoriteClick(videoId) {
+    videoFavoriteClick(videoId, userId) {
+      myFavoriteList(userId).then(res => {
+        this.favoriteList = res.data
+        console.log(res)
+        console.log(userId)
+      })
     },
     videoCommentClick(videoId) {
       this.videoId = videoId
@@ -311,6 +335,24 @@ export default {
 }
 </script>
 <style scoped>
+.card-header {
+//display: flex; //justify-content: space-between; //align-items: center;
+}
+
+.text {
+//font-size: 14px;
+}
+
+.item {
+//margin-bottom: 18px;
+}
+
+.box-card {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
 .video-player {
   width: 95%;
   border-radius: 1rem;

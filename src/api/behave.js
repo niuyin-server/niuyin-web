@@ -76,3 +76,11 @@ export function myFavoriteCount() {
         method: 'get',
     })
 }
+
+//查询用户收藏夹列表
+export function myFavoriteList(userId) {
+    return request({
+        url: '/behave//api/v1/userFavorite/list/'+ userId,
+        method: 'get',
+    })
+}
