@@ -230,6 +230,14 @@ a {
   overflow: hidden;
 }
 
+.w50 {
+  width: 50%;
+}
+
+.mw50 {
+  max-width: 100%;
+}
+
 .w100 {
   width: 100%;
 }
@@ -299,7 +307,7 @@ a {
 }
 
 .el-main {
-  padding: 0 0  1rem 0 ;
+  padding: 0 0 1rem 0;
 }
 
 .el-upload {

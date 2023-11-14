@@ -515,7 +515,7 @@ export default {
 
 .feedback {
   position: fixed;
-  bottom: 6px;
+  bottom: 1rem;
   right: 6px;
 
   .feedback-icon {
