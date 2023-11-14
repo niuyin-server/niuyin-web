@@ -16,18 +16,23 @@
           </div>
         </template>
         <template #default>
-          <div class="hotVideo-list">
+          <div class="hotVideo-list w100">
             <div v-loading="loadingIcon"
                  :element-loading-svg="svg"
-                 class="custom-loading-svg hotVideos"
-                 element-loading-svg-view-box="-10, -10, 50, 50">
+                 class="custom-loading-svg hotVideos w100"
+                 element-loading-svg-view-box="-10, -10, 50, 50"
+                 v-masonry
+                 gutter="10"
+                 fit-width="true"
+                 transition-duration="0.2s"
+                 item-selector=".hotVideo-item">
               <el-card v-for="item in hotVideoList"
                        :key="item.videoId"
+                       v-masonry-tile
                        class="hotVideo-item">
                 <div class="video-cover">
                   <el-image class="eli-ofc"
-                            style="height:100%;border-radius: 1rem 1rem 0 0"
-                            lazy
+                            style="height:100%;"
                             @click="videoDialog(item.videoId)"
                             :src="item.coverImage"/>
                 </div>
@@ -180,21 +185,12 @@ export default {
       dialogVisible: false,
       loading: true,
       loadingIcon: false,
-      svg: `
-        <path class="path" d="
-          M 30 15
-          L 28 17
-          M 25.61 25.61
-          A 15 15, 0, 0, 1, 15 30
-          A 15 15, 0, 1, 1, 27.99 7.5
-          L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `,
+      svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15" style="stroke-width: 4px; fill: rgba(10, 10, 10, 0)"/>`,
       hotVideoList: [],
       hotVideoTotal: undefined,
       hotVideoQueryParams: {
         pageNum: 1,
-        pageSize: 15
+        pageSize: 10
       },
       video: {},
       loadingData: true,
@@ -221,7 +217,6 @@ export default {
         if (res.code === 200) {
           this.followedNums = res.data.followedNums
           this.fanNums = res.data.fanNums
-          console.log(res.data)
         }
       })
     },
@@ -232,7 +227,6 @@ export default {
           this.hotVideoList = res.rows
           this.hotVideoTotal = res.total
           this.loading = false
-          console.log(this.hotVideoList)
         }
       })
     },
@@ -248,7 +242,7 @@ export default {
       videoD[0].pause();
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 0.5) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
         //加载更多
         if (this.loadingData) {
           // this.loading = true

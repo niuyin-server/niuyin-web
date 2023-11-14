@@ -16,7 +16,7 @@ $containerBgImage: "@/assets/images/index-bg.png";
 // container-logo
 $logoWidth: 600px;
 $logoHeight: 100px;
-$logoImage: "@/assets/logo/login-tiktok.png";
+$logoImage: "../logo/login-tiktok.png";
 // container-content
 $contentWidth: round(math.div($W , $H) * 100) * 1vw;
 $contentHeight: math.div( round(math.div($picH , $W) * 100) , 100) * $contentWidth;

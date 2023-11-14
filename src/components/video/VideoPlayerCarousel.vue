@@ -8,26 +8,27 @@
                  :element-loading-spinner="true"
                  direction="vertical"
                  :autoplay="false"
-                 :loop="true"
+                 :loop="false"
                  indicator-position="none"
                  @keydown="keyDown"
                  @mousewheel="rollScroll($event)"
                  @change="carouselChange"
                  @ended="carouselEnd">
-      <el-carousel-item v-for="item in videoList" :key="item">
+      <el-carousel-item v-for="item in videoList"
+                        :key="item"
+                        @keydown="keyDownZ(item.videoId,$event)">
         <div class="video-box">
           <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
             <VideoPlayer v-if="videoDisplay"
                          class="videoPlayer"
                          id="videoPlayer"
-                         :video-url="item.videoUrl"
-                         :cover-image="item.coverImage"/>
+                         :video="item"/>
             <!--          视频简介区域-->
             <div class="videoinfo-area">
               <div class="video-title one-line cw fs125 fw600">
                 <span>@ </span><span v-html="item.userNickName" class="cp"
                                      @click="handleLinkUserInfo(item.userId)"></span>
-                <span class="fs9 fw400 cg"> · {{ parseTime(item.createTime) }}</span>
+                <span class="fs9 fw400 cg"> · {{ smartDateFormat(item.createTime) }}</span>
               </div>
               <div v-html="item.videoTitle" class="video-title one-line cw fw400"></div>
               <div>
@@ -140,6 +141,7 @@ import {likeVideo} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
+// 时间格式化插件
 
 export default {
   name: 'VideoPlayerCarousel',
@@ -160,9 +162,11 @@ export default {
   },
   props: {
     videoList: Array,
+    loading: Boolean
   },
   data() {
     return {
+      svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15" style="stroke-width: 4px; fill: rgba(10, 10, 10, 0)"/>`,
       showVideo: true,
       timeOut: null,
       drawer: false,
@@ -177,7 +181,9 @@ export default {
       videoId: '',
       videoCommentTree: [],
       showVideoComment: false, // 控制评论子组件显隐
-      videoDisplay: true
+      videoDisplay: true,
+      isLiked: false, // 是否已经快捷键点赞
+      startIndex: 1,
     }
   },
   emits: ['reloadVideoFeed'],
@@ -191,6 +197,7 @@ export default {
         }
       })
     },
+    // 点赞视频
     videoLikeClick(videoId) {
       likeVideo(videoId).then(res => {
         if (res.code === 200) {
@@ -226,7 +233,7 @@ export default {
     },
     keyDown(e) {
       if (e.keyCode === 38) {
-        console.log("按下了方向键--上")
+        console.log("方向键--上")
       }
       if (e.keyCode === 40) {
         const _that = this;
@@ -240,14 +247,15 @@ export default {
         }
       }
       if (e.keyCode === 37) {
-        console.log("按下了方向键--左")
+        console.log("方向键--左")
       }
       if (e.keyCode === 39) {
-        console.log("按下了方向键--右")
+        console.log("方向键--右")
       }
     },
     // 切换视频暂停视频
     carouselChange(newVal, oldVal) {
+      console.log("newVal : " + newVal + "--- oldVal : " + oldVal)
       const videos = document.getElementsByClassName("d-player-video-main");
       for (let i = 0; i < videos.length; i++) {
         setTimeout(() => {
@@ -256,7 +264,10 @@ export default {
           // console.log(videos[i])
         }, 1);
       }
-      if (oldVal - newVal === videos.length - 1) {
+      // if (oldVal - newVal === videos.length - 1) {
+      //   this.$emit("reloadVideoFeed", true)
+      // }
+      if (newVal === videos.length - 1) {
         this.$emit("reloadVideoFeed", true)
       }
     },
@@ -305,6 +316,16 @@ export default {
     handleAttUser(userId) {
       console.log(userId)
       // 将数组此条数据改为已关注 weatherFollow = true
+    },
+    keyDownZ(videoId, e) {
+      // 点赞
+      if (e.keyCode === 90) {
+        console.log(videoId)
+        if (!this.isLiked) {
+          this.videoLikeClick(videoId)
+          this.isLiked = true
+        }
+      }
     }
 
   },
@@ -391,7 +412,6 @@ export default {
           padding: 10px 0;
 
           .user-avatar {
-          //position: relative;
           }
 
           .user-att {
@@ -428,7 +448,6 @@ export default {
         }
       }
     }
-
   }
 
 }
