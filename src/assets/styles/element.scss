@@ -55,6 +55,7 @@ html.dark {
 
 .el-card__body {
   height: 100%;
+  width: 100%;
 }
 
 .el-popper.is-customized {
@@ -78,6 +79,7 @@ html.dark {
   top: -2px;
   z-index: 1;
   border-radius: 0 0 6px 6px;
+  margin-bottom: 10px;
   background: var(--niuyin-bg-color);
 }
 
@@ -142,4 +144,15 @@ html.dark {
 // 抽屉mask
 .el-overlay {
   background-color: transparent;
+}
+
+.el-tabs__nav-wrap::after {
+  height: 4px;
+  width: auto;
+  border-radius: 2px;
+}
+
+.el-tabs__active-bar {
+  height: 4px;
+  border-radius: 2px;
 }
