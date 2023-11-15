@@ -90,9 +90,10 @@ export function myVideoCount() {
     })
 }
 
+// 查询用户作品
 export function memberInfoPage(data) {
     return request({
-        url: '/video/api/v1/memberInfoPage',
+        url: '/video/api/v1/personVideoPage',
         method: 'post',
         data: data
     })
