@@ -54,6 +54,7 @@ import {getPersonInfo} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
 import {Close, QuestionFilled} from "@element-plus/icons-vue";
+import {atobDecode, btoaEncode, decodeData} from "@/utils/roydon.js";
 
 export default {
   name: 'Person',
@@ -65,7 +66,7 @@ export default {
   },
   data() {
     return {
-      userId: this.$route.params.userId,
+      userId: decodeData(this.$route.params.userId),
       user: {},
       editDialogVisible: false, //编辑信息弹框
       activeName: this.$route.path,
@@ -89,7 +90,8 @@ export default {
   },
   methods: {
     getPersonProfile() {
-      console.log(this.userId)
+      // console.log("传递参数打印")
+      // console.log(this.userId)
       getPersonInfo(this.userId).then(res => {
         if (res.code === 200) {
           this.user = res.data

@@ -24,7 +24,7 @@ export function encodeData(str) {
 export function decodeData(str) {
     const decryptedData = CryptoJS.AES.decrypt(str, aes_secret).toString(CryptoJS.enc.Utf8);
     console.log('解密后的数据:', decryptedData);
-    return decryptedData
+    return parseInt(decryptedData)
 }
 
 /**
@@ -71,6 +71,23 @@ export function getAge(birthday) {
     return todayYear - year;
 }
 
+/**
+ * 加密
+ * @param str
+ * @returns {string}
+ */
+export function btoaEncode(str) {
+    return Base64.btoa(str);
+}
+
+/**
+ * 解密
+ * @param str
+ * @returns {*}
+ */
+export function atobDecode(str) {
+    return parseInt(Base64.atob(str))
+}
 /**
  * 智能化显示日期
  * @param date
@@ -119,6 +136,7 @@ export function smartDateFormat(date) {
     }
 }
 
+import {Base64} from "js-base64";
 
 // 日期格式化
 export function parseTime(time, pattern) {

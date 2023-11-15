@@ -131,6 +131,7 @@
 import {hotVideoPage, userLikeNums} from "@/api/video";
 import {Close, UserFilled} from "@element-plus/icons-vue";
 import {followAndFans} from "@/api/social.js";
+import {btoaEncode, encodeData} from "@/utils/roydon.js";
 
 export default {
   name: "HotVideo",
@@ -251,7 +252,7 @@ export default {
         })
       } else {
         this.$router.push({
-          path: '/person/' + userId
+          path: '/person/' + encodeData(userId)
         })
       }
 

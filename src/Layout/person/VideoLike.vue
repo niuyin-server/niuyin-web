@@ -29,6 +29,7 @@ import {personVideoLikePage, videoLikePage} from "@/api/behave.js"
 import {Close} from "@element-plus/icons-vue";
 import VideoCard from "@/components/video/VideoCard.vue";
 import VideoWaterfall from "@/components/video/VideoWaterfall.vue";
+import {atobDecode, decodeData} from "@/utils/roydon.js";
 
 export default {
   name: "VideoLike",
@@ -44,7 +45,7 @@ export default {
       likeVideoList: [],
       likeVideoTotal: 0,
       videoQueryParams: {
-        userId: this.$route.params.userId,
+        userId: decodeData(this.$route.params.userId),
         videoTitle: "",
         pageNum: 1,
         pageSize: 12

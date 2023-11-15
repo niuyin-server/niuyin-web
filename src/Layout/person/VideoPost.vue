@@ -51,6 +51,7 @@
 import {memberInfoPage, videoMypage} from "@/api/video.js";
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
+import {atobDecode, decodeData} from "@/utils/roydon.js";
 
 export default {
   name: "VideoPost",
@@ -67,7 +68,7 @@ export default {
       postVideoList: [],
       postVideoTotal: 0,
       videoQueryParams: {
-        userId: this.$route.params.userId,
+        userId: decodeData(this.$route.params.userId),
         videoTitle: "",
         pageNum: 1,
         pageSize: 12
@@ -90,6 +91,8 @@ export default {
   methods: {
     initVideoList() {
       this.loading = true
+      // console.log("路径参数打印")
+      // console.log(this.$route.params.userId)
       memberInfoPage(this.videoQueryParams).then(res => {
         if (res.code === 200) {
           this.postVideoList = res.rows
