@@ -93,7 +93,19 @@ export default {
       getPersonInfo(this.userId).then(res => {
         if (res.code === 200) {
           this.user = res.data
+          console.log(this.user)
           // this.getUserFollowFansLike(res.data.userId)
+        }
+      })
+      followAndFans(this.userId).then(res => {
+        if (res.code === 200) {
+          this.followNum = res.data.followedNums
+          this.fansNum = res.data.fanNums
+        }
+      })
+      userLikeNums(this.userId).then(res => {
+        if (res.code === 200) {
+          this.likeAllNum = res.data
         }
       })
     },
