@@ -30,6 +30,7 @@ const router = createRouter({
                 {path: "follow", component: () => import("@/Layout/Follow.vue")},
                 {path: "channel", component: () => import("@/Layout/Channel.vue")},
                 {path: "hotVideo", component: () => import("@/Layout/HotVideo.vue")},
+                {path: 'person/:userId', component: () => import('@/Layout/Person.vue'),},
             ],
         },
         {
@@ -40,6 +41,7 @@ const router = createRouter({
             path: '/401',
             component: () => import('@/Layout/error/401.vue'),
         },
+
     ],
 });
 

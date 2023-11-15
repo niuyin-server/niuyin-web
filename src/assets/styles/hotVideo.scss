@@ -1,6 +1,6 @@
 .hot-container {
   border-radius: 1rem;
-  padding: 0 1rem 1rem 0;
+  padding-right: 1rem;
 }
 
 .loading-container {
@@ -14,43 +14,76 @@
 }
 
 .hotVideo-list {
+}
+
+.hotVideo-item {
+  width: 19.5%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border-radius: 1rem;
 
-  .hotVideos {
+  .user-info {
+    height: 20%;
+    padding: 10px;
     display: flex;
-    flex-flow: row wrap;
     justify-content: space-between;
+    align-items: center;
+  }
+}
 
-    .hotVideo-item {
-      background-color: rgba(242, 242, 243, 0.8);
-      width: 19%;
-      border-radius: 1rem;
-      height: 400px;
-      box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
-      margin-bottom: 1.2rem;
+@media (max-width: 1320px) {
+  .hotVideo-list .hotVideos .hotVideo-item {
 
-      .video-cover {
-        height: 80%;
-        border-radius: 1rem;
-        text-align: center
-      }
+  }
+}
 
-      .user-info {
-        height: 20%;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
+
+@media (max-width: 1208px) {
+  .hotVideo-list .hotVideos .hotVideo-item {
+    width: 24.5%;
   }
 }
 
 @media (max-width: 768px) {
   .hotVideo-list .hotVideos .hotVideo-item {
     width: 49%;
-    height: 100px;
   }
 }
+
+
+//.hotVideo-list {
+//  display: flex;
+//  flex-wrap: wrap;
+//  justify-content: space-between;
+//
+//  .hotVideos {
+//    display: flex;
+//    flex-flow: row wrap;
+//    justify-content: space-between;
+//
+//    .hotVideo-item {
+//      background-color: rgba(242, 242, 243, 0.8);
+//      width: 19%;
+//      border-radius: 1rem;
+//      height: 400px;
+//      box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
+//      margin-bottom: 1.2rem;
+//
+//      .video-cover {
+//        height: 80%;
+//        border-radius: 1rem;
+//        text-align: center
+//      }
+//
+//      .user-info {
+//        height: 20%;
+//        padding: 10px;
+//        display: flex;
+//        justify-content: space-between;
+//        align-items: center;
+//      }
+//    }
+//  }
+//}
+

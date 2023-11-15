@@ -7,7 +7,7 @@
             <el-image class="user-avatar" :src="item.avatar" alt="" lazy></el-image>
             <div class="user-nickname">
               <p class="nickname one-line">{{ item.nickName }}</p>
-              <span class="cg fs7 create-time">{{ parseTime(item.createTime) }}</span>
+              <span class="cg fs7 create-time">{{ smartDateFormat(item.createTime) }}</span>
             </div>
           </div>
           <div class="comment-content">
@@ -59,7 +59,7 @@
                             {{ '@' + child.replayUserNickName }}
                           </span>
                   </p>
-                  <span class="cg fs7 create-time">{{ parseTime(child.createTime) }}</span>
+                  <span class="cg fs7 create-time">{{ smartDateFormat(child.createTime) }}</span>
                 </div>
               </div>
               <div class="comment-content">
@@ -132,7 +132,6 @@
 </template>
 
 <script>
-import {parseTime} from "@/utils/roydon.js";
 import {addVideoComment, videoCommentPageList, deleteVideoComment} from "@/api/behave.js";
 import {ChromeFilled, DeleteFilled, InfoFilled} from "@element-plus/icons-vue";
 
@@ -191,7 +190,6 @@ export default {
   mounted() {
   },
   methods: {
-    parseTime,
     getCommentList() {
       console.log(this.videoId)
       this.commentQueryParams.videoId = this.videoId

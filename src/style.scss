@@ -230,6 +230,14 @@ a {
   overflow: hidden;
 }
 
+.w50 {
+  width: 50%;
+}
+
+.mw50 {
+  max-width: 100%;
+}
+
 .w100 {
   width: 100%;
 }
@@ -299,7 +307,7 @@ a {
 }
 
 .el-main {
-  padding: 0 0 1rem 0 !important;
+  padding: 0 0 1rem 0;
 }
 
 .el-upload {
@@ -328,7 +336,8 @@ a {
 
 /*el抽屉drawer*/
 .el-drawer {
-  --el-drawer-bg-color: rgba(0, 0, 0, 0.60);
+  --el-drawer-bg-color: rgba(0, 0, 0, 0.80);
+  backdrop-filter: blur(2px);
 }
 
 /*el卡片card*/

@@ -2,6 +2,7 @@
   <swiper class="video-swiper"
           ref="videoSwiper"
           @swiper="onSwiper"
+          direction="vertical"
           :options="swiperOptionVideos"
           @slideChange="slideChange"
           @reachEnd="slideVideoEnd">

@@ -38,6 +38,15 @@ export function getInfo() {
     })
 }
 
+// 获取用户详细信息
+export function getPersonInfo(userId) {
+    return request({
+        url: '/member/api/v1/'+userId,
+        method: 'get'
+    })
+}
+
+
 // 退出方法
 export function logout() {
     return request({
