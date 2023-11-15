@@ -72,23 +72,6 @@ export function getAge(birthday) {
 }
 
 /**
- * 加密
- * @param str
- * @returns {string}
- */
-export function btoaEncode(str) {
-    return Base64.btoa(str);
-}
-
-/**
- * 解密
- * @param str
- * @returns {*}
- */
-export function atobDecode(str) {
-    return parseInt(Base64.atob(str))
-}
-/**
  * 智能化显示日期
  * @param date
  * @returns {string}
@@ -135,8 +118,6 @@ export function smartDateFormat(date) {
         return (years <= 0 ? 1 : years) + ONE_YEAR_AGO;
     }
 }
-
-import {Base64} from "js-base64";
 
 // 日期格式化
 export function parseTime(time, pattern) {

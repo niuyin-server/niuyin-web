@@ -52,6 +52,7 @@
         </div>
         <div class="user-edit">
           <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
+          <el-button @click="handleEditInfo" type="primary">详细信息</el-button>
         </div>
       </div>
       <!--  作品，喜欢，收藏  -->
@@ -69,13 +70,13 @@
         </div>
       </div>
     </el-scrollbar>
-    <!--  编辑信息弹框  -->
+    <!--  编辑资料弹框  -->
     <el-dialog class="oh edit-info-dialog"
                v-model="editDialogVisible"
                width="400px"
                :show-close="false">
       <template #header="{ close, titleId, titleClass }">
-        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">编辑资料</h3>
+        <h3 class="one-line" :id="titleId" :class="titleClass">编辑资料</h3>
         <el-button circle :icon="Close" class="cb" type="info" @click="close">
         </el-button>
       </template>
@@ -117,11 +118,40 @@
         </div>
       </el-scrollbar>
     </el-dialog>
+    <!--  编辑详细信息弹框  -->
+    <el-dialog class="oh edit-info-dialog"
+               v-model="editInfoDialogVisible"
+               width="400px"
+               :show-close="false">
+      <template #header="{ close, titleId, titleClass }">
+        <h3 class="one-line" :id="titleId" :class="titleClass">编辑详细信息</h3>
+        <el-button circle :icon="Close" class="cb" type="info" @click="close">
+        </el-button>
+      </template>
+      <el-scrollbar>
+        <div class="edit-nickname">
+          <div class="N3OJZMVX">年龄</div>
+          <el-input v-model="userForm.nickName"
+                    maxlength="20"
+                    class="w-50 m-2"
+                    placeholder="记得填写昵称"
+                    show-word-limit
+                    type="text"/>
+        </div>
+        <div class="edit-gender">
+        </div>
+        <!--  确认按钮  -->
+        <div class="edit-button">
+          <el-button type="info" class="cg fw600" @click="cancelUpdateInfo">取消</el-button>
+          <el-button type="primary" class="fw600" @click="confirmUpdateInfo">保存</el-button>
+        </div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {getInfo, updateUserProfile} from "@/api/member.js";
+import {getInfo, updateMemberInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
 import {Close, QuestionFilled} from "@element-plus/icons-vue";
@@ -139,10 +169,12 @@ export default {
     return {
       user: {},
       memberInfo: {},
-      editDialogVisible: false, //编辑信息弹框
+      editDialogVisible: false, //编辑资料弹框
+      editInfoDialogVisible: false, //编辑详细信息弹框
       activeName: this.$route.path,
       saveLogin: true,
       userForm: {},
+      memberInfoForm: {},
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
       headers: {
         Authorization: 'Bearer ' + useUserStore().token,
@@ -200,15 +232,20 @@ export default {
       // console.log(this.$route.matched[1].path)
       this.$router.push(route)
     },
+    // 编辑资料
     handleEditProfile() {
       this.editDialogVisible = true
 
     },
+    // 编辑详细信息
+    handleEditInfo() {
+      this.editInfoDialogVisible = true
+    },
     handleUploadAvatarSuccess(res) {
       this.userForm.avatar = res.data
     },
+    // 确认提交
     confirmUpdateProfile() {
-      // console.log(this.userForm)
       updateUserProfile(this.userForm).then(res => {
         if (res.code === 200) {
           this.editDialogVisible = false
@@ -222,7 +259,23 @@ export default {
     cancelUpdateProfile() {
       this.editDialogVisible = false
       this.userForm = {}
-    }
+    },
+    cancelUpdateInfo() {
+      this.editInfoDialogVisible = false
+
+    },
+    // 确认提交用户详情
+    confirmUpdateInfo() {
+      updateMemberInfo(this.memberInfoForm).then(res => {
+        if (res.code === 200) {
+          this.editInfoDialogVisible = false
+          this.$message.success(res.msg)
+          this.getUserInfo()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
 
   }
 }

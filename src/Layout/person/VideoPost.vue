@@ -51,7 +51,7 @@
 import {memberInfoPage, videoMypage} from "@/api/video.js";
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
-import {atobDecode, decodeData} from "@/utils/roydon.js";
+import {decodeData} from "@/utils/roydon.js";
 
 export default {
   name: "VideoPost",

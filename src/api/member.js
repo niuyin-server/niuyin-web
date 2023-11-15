@@ -73,3 +73,12 @@ export function avatar(file) {
         }
     })
 }
+
+//更新用户详情
+export function updateMemberInfo(data) {
+    return request({
+        url: '/member/api/v1/info/update',
+        method: 'put',
+        data: data
+    })
+}

@@ -54,7 +54,7 @@ import {getPersonInfo} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
 import {Close, QuestionFilled} from "@element-plus/icons-vue";
-import {atobDecode, btoaEncode, decodeData} from "@/utils/roydon.js";
+import {decodeData} from "@/utils/roydon.js";
 
 export default {
   name: 'Person',
@@ -90,8 +90,6 @@ export default {
   },
   methods: {
     getPersonProfile() {
-      // console.log("传递参数打印")
-      // console.log(this.userId)
       getPersonInfo(this.userId).then(res => {
         if (res.code === 200) {
           this.user = res.data
