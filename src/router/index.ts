@@ -30,7 +30,15 @@ const router = createRouter({
                 {path: "follow", component: () => import("@/Layout/Follow.vue")},
                 {path: "channel", component: () => import("@/Layout/Channel.vue")},
                 {path: "hotVideo", component: () => import("@/Layout/HotVideo.vue")},
-                {path: 'person/:userId', component: () => import('@/Layout/Person.vue'),},
+                {path: 'person/:userId', component: () => import('@/Layout/Person.vue'),
+                    redirect: '/person/:userId(\\d+)/videoPost',
+                    children: [
+                        {path: "videoPost", component: () => import("@/Layout/person/VideoPost.vue")},
+                        {path: "videoLike", component: () => import("@/Layout/person/VideoLike.vue")},
+                        {path: "videoFavorite", component: () => import("@/Layout/person/VideoFavorite.vue")},
+                        {path: "videoViewHistory", component: () => import("@/Layout/person/VideoViewHistory.vue")},
+                    ]
+                },
             ],
         },
         {

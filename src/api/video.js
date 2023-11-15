@@ -89,3 +89,11 @@ export function myVideoCount() {
         method: 'get'
     })
 }
+
+export function memberInfoPage(data) {
+    return request({
+        url: '/video/api/v1/memberInfoPage',
+        method: 'post',
+        data: data
+    })
+}

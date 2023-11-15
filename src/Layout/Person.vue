@@ -70,9 +70,9 @@ export default {
       fansNum: 0, //粉丝数
       likeAllNum: 0, //获赞数
       userVideoTabShow: [
-        {id: 1, tabName: "作品", tabUrl: "/user/videoPost"},
-        {id: 2, tabName: "喜欢", tabUrl: "/user/videoLike"},
-        {id: 3, tabName: "收藏", tabUrl: "/user/videoFavorite"},
+        {id: 1, tabName: "作品", tabUrl: "/person/videoPost"},
+        {id: 2, tabName: "喜欢", tabUrl: "/person/videoLike"},
+        {id: 3, tabName: "收藏", tabUrl: "/person/videoFavorite"},
       ]
     }
   },
@@ -94,7 +94,13 @@ export default {
         }
       })
     },
-    handleClick(){},
+    handleClick(tab, event) {
+      // console.log(tab.props.name);
+      const route = tab.props.name
+      // console.log(this.$route.path)
+      // console.log(this.$route.matched[1].path)
+      this.$router.push(route)
+    },
   }
 }
 
