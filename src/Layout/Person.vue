@@ -35,7 +35,10 @@
       <div>
         <div class="user-works">
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="item in userVideoTabShow" :key="item.id" :label="item.tabName" :lazy="true"
+            <el-tab-pane v-for="item in userVideoTabShow"
+                         :key="item.id"
+                         :label="item.tabName"
+                         :lazy="true"
                          :name="item.tabUrl">
               <router-view/>
             </el-tab-pane>
@@ -70,9 +73,9 @@ export default {
       fansNum: 0, //粉丝数
       likeAllNum: 0, //获赞数
       userVideoTabShow: [
-        {id: 1, tabName: "作品", tabUrl: "/person/videoPost"},
-        {id: 2, tabName: "喜欢", tabUrl: "/person/videoLike"},
-        {id: 3, tabName: "收藏", tabUrl: "/person/videoFavorite"},
+        {id: 1, tabName: "作品", tabUrl: "/person/" + this.$route.params.userId + "/videoPost"},
+        {id: 2, tabName: "喜欢", tabUrl: "/person/" + this.$route.params.userId + "/videoLike"},
+        {id: 3, tabName: "收藏", tabUrl: "/person/" + this.$route.params.userId + "/videoFavorite"},
       ]
     }
   },
@@ -95,7 +98,8 @@ export default {
       })
     },
     handleClick(tab, event) {
-      // console.log(tab.props.name);
+      console.log(tab.props.name);
+      console.log(this.userId);
       const route = tab.props.name
       // console.log(this.$route.path)
       // console.log(this.$route.matched[1].path)
