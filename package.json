@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@vuemap/vue-amap": "^1.1.24",
     "axios": "^1.5.1",
+    "crypto-js": "^4.2.0",
     "element-plus": "^2.4.1",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
