@@ -12,13 +12,14 @@ import App from "./App.vue";
 //pinia 自动存储话插件
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 // 自定义方法
-import {smartDateFormat, parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon.js";
+import {formatAge, getAge, smartDateFormat, parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon.js";
 // 图片预览组件
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
 // 高德地图
 import VueAMap, {initAMapApiLoader} from "@vuemap/vue-amap";
 import "@vuemap/vue-amap/dist/style.css";
+
 initAMapApiLoader({
     key: '267b4c199024ffc545d85b93d24a09f1',
     securityJsCode: '7e84f711a9dac457c627dccc92e01da6',
@@ -40,6 +41,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 // 全局方法挂载
 app.config.globalProperties.parseTime = parseTime;
 app.config.globalProperties.smartDateFormat = smartDateFormat;
+app.config.globalProperties.formatAge = formatAge;
+app.config.globalProperties.getAge = getAge;
 app.config.globalProperties.resetForm = resetForm;
 app.config.globalProperties.addDateRange = addDateRange;
 app.config.globalProperties.handleTree = handleTree;
