@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {videoLikePage} from "@/api/behave.js"
+import {personVideoLikePage, videoLikePage} from "@/api/behave.js"
 import {Close} from "@element-plus/icons-vue";
 import VideoCard from "@/components/video/VideoCard.vue";
 import VideoWaterfall from "@/components/video/VideoWaterfall.vue";
@@ -44,6 +44,7 @@ export default {
       likeVideoList: [],
       likeVideoTotal: 0,
       videoQueryParams: {
+        userId: this.$route.params.userId,
         videoTitle: "",
         pageNum: 1,
         pageSize: 12
@@ -56,7 +57,9 @@ export default {
   },
   methods: {
     initVideoList() {
-      videoLikePage(this.videoQueryParams).then(res => {
+      console.log(this.videoQueryParams)
+      personVideoLikePage(this.videoQueryParams).then(res => {
+        console.log(res)
         if (res.code === 200) {
           this.likeVideoList = res.rows
           this.likeVideoTotal = res.total

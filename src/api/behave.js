@@ -84,3 +84,11 @@ export function myFavoriteList(userId) {
         method: 'get',
     })
 }
+//查询用户点赞列表
+export function personVideoLikePage(data) {
+    return request({
+        url: '/behave/api/v1/like/personLikePage',
+        method: 'post',
+        data: data
+    })
+}
