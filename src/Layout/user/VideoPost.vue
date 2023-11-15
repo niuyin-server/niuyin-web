@@ -69,7 +69,7 @@ export default {
       videoQueryParams: {
         videoTitle: "",
         pageNum: 1,
-        pageSize: 12
+        pageSize: 10
       },
       video: {},
       loadingData: true,
@@ -107,7 +107,7 @@ export default {
       this.dialogVisible = false
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 0.5) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
         //加载更多
         if (this.loadingData) {
           this.loadingIcon = true
