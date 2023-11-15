@@ -103,15 +103,14 @@
           <el-divider/>
           <div class="userinfo-footer flex-between">
             <div class="flex-center">
-
+              <span>客服</span>
             </div>
             <div class="flex-center">
-              <router-link class="link-type flex-center mr-5r" :to="'/'">
+              <div class="link-type flex-center mr-5r cp switch-theme" @click="handleThemeSwitch">
                 <el-icon>
                   <Sunrise/>
                 </el-icon>
-                <span class="ml-5r">换肤</span>
-              </router-link>
+                <span class="ml-5r">换肤</span></div>
               <router-link class="link-type flex-center" @click="handleLogout" :to="'/login'">
                 <el-icon>
                   <SwitchButton/>
@@ -131,6 +130,7 @@ import {useUserStore} from "@/store/useUserStore";
 import {myVideoCount} from "@/api/video.js";
 import {myLikeCount, myFavoriteCount} from "@/api/behave.js";
 import {UserFilled} from "@element-plus/icons-vue";
+import {themeX} from "@/store/themeX";
 
 export default {
   name: "NavRight",
@@ -156,12 +156,25 @@ export default {
         {id: 2, icon: "iconfont icon-like-ed", num: 0, title: "我的喜欢", url: "/user/videoLike"},
         {id: 3, icon: "iconfont icon-favorite-ed", num: 0, title: "我的收藏", url: "/user/videoFavorite"},
         {id: 4, icon: "iconfont icon-history", num: 0, title: "观看历史", url: "/user/videoViewHistory"},
-      ]
+      ],
     }
   },
   created() {
+    this.initTheme()
   },
+  emits:['darkChangeEmit'],
   methods: {
+    initTheme() {
+      const html = document.querySelector('html')
+      const dark = themeX().dark
+      if (dark) {
+        html.classList.remove("light")
+        html.classList.add("dark")
+      } else {
+        html.classList.remove("dark")
+        html.classList.add("light")
+      }
+    },
     // 用户popover的show时间
     handlePopoverShow() {
       // 封装用户作品量、喜欢量、收藏量
@@ -192,6 +205,23 @@ export default {
       localStorage.removeItem("userInfo")
       useUserStore().removetoken;
       this.$router.push('/login');
+    },
+    // 主题切换，换肤功能
+    handleThemeSwitch() {
+      const html = document.querySelector('html')
+      const dark = themeX().dark
+      if (html) {
+        this.$emit("darkChangeEmit", !dark)
+        if (dark) {
+          themeX().setDark(false)
+          html.classList.remove("dark")
+          html.classList.add("light")
+        } else {
+          themeX().setDark(true)
+          html.classList.remove("light")
+          html.classList.add("dark")
+        }
+      }
     },
   }
 }

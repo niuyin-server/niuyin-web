@@ -38,11 +38,13 @@
                 </div>
                 <div class="user-info">
                   <div>
-                    <p class="one-line fs9 cb">{{ item.videoTitle }}</p>
+                    <p class="one-line fs9">{{ item.videoTitle }}</p>
                     <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
                   </div>
                   <!--鼠标悬停在视频发布者头像上时展示该视频发布者的信息-->
                   <el-popover :width="300"
+                              placement="top"
+                              popper-class="person-info-pop"
                               popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
                               :ref="'pop'+index">
                     <!--视频发布者的头像-->
@@ -61,77 +63,37 @@
                     </template>
                     <template #default>
                       <!--视频发布者的头像、名称和关注粉丝等信息展示模块-->
-                      <div style="display: flex; gap: 16px; flex-direction: column">
+                      <div class="flex-column">
                         <!--视频发布者的头像div-->
                         <div style="display: flex;">
                           <div>
-                            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
-                            <el-avatar v-else :icon="UserFilled"/>
+                            <el-avatar v-if="item.userAvatar" class="cp" :src="item.userAvatar"/>
+                            <el-avatar v-else class="cp" :icon="UserFilled"/>
                           </div>
                           <!--名称和关注粉丝等信息展示模块-->
-                          <div style="display: grid;  margin-left: 20px;">
+                          <div style="display: grid; margin-left: 10px;">
                             <!--名称展示模块-->
-                            <div>
-                              <p>{{ item.userNickName }}</p>
-                            </div>
+                            <div v-html="item.userNickName" class="fs9 fw600 cp"></div>
                             <!--点赞、关注、粉丝等信息展示模块-->
-                            <div style="display: flex;">
+                            <div class="flex-between">
                               <!--关注信息展示模块-->
-                              <div style="display: flex">
-                                <p class="demo-rich-content__name"
-                                   style="margin: 0; font-weight: 500"
-                                >{{ userVideoLikes }}</p>
-                                <p class="demo-rich-content__mention"
-                                   style="margin: 0; font-size: 14px;">
-                                  关注
-                                </p>
-                              </div>
+                              <p class="">{{ userVideoLikes }}</p><span>关注</span>
                               <!--粉丝信息展示模块-->
-                              <div style="display: flex">
-                                <p class="demo-rich-content__mention"
-                                   style="margin-left: 10px; font-weight: 500">
-                                  {{ followedNums }}</p>
-                                <p class="demo-rich-content__mention"
-                                   style="margin: 0; font-size: 14px; color: var(--el-color-info)">
-                                  粉丝
-                                </p>
-                              </div>
+                              <p class="ml-5r">{{ followedNums }}<span>粉丝</span></p>
                               <!--获赞信息展示模块-->
-                              <div style="display: flex">
-                                <p class="demo-rich-content__desc" style="margin-left: 10px;">
-                                  {{ fanNums }}
-                                </p>
-                                <p class="demo-rich-content__mention"
-                                   style="margin: 0; font-size: 14px; color: var(--el-color-info)">
-                                  获赞
-                                </p>
-                              </div>
+                              <p class="ml-5r">{{ fanNums }}</p><span>获赞</span>
                             </div>
                             <!--关注以及私信功能模块展示-->
                             <div style="display: flex; margin-top: 10px;">
                               <div v-if="item.weatherFollow">
-                                <el-button
-                                    :type="'primary'"
-                                    text
-                                    bg
-                                    style="color: #8c8c8c;background-color: #e3e5e7;"
-                                >
-                                  已关注
-                                </el-button>
+                                <el-button type="info">已关注</el-button>
                               </div>
                               <div v-else>
-                                <el-button
-                                    :type="'primary'"
-                                    text
-                                    bg
-                                    style="color: #fbfdfd;background-color: #4d97e1;">+关注
-                                </el-button>
+                                <el-button type="primary">+关注</el-button>
                               </div>
                             </div>
-
                           </div>
                         </div>
-
                       </div>
                     </template>
                   </el-popover>

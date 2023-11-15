@@ -21,24 +21,3 @@ export const useUserStore = defineStore(
         persist: true,
     }
 );
-
-// export const useUserInfoStore = defineStore(
-//     "userInfo",
-//     () => {
-//         const userInfo = ref("");
-//         const setUserInfo = (newUserInfo: any) => {
-//             userInfo.value = newUserInfo;
-//         };
-//         const removeUserInfo = () => {
-//             userInfo.value = "";
-//         };
-//         return {
-//             userInfo,
-//             setUserInfo,
-//             removeUserInfo,
-//         };
-//     },
-//     {
-//         persist: true,
-//     }
-// );
