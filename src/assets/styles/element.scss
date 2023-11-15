@@ -1,3 +1,13 @@
+html.dark {
+  --el-color-primary: #99173e;
+  --el-color-primary-light-3: #ca3862;
+  --el-color-primary-light-5: #951158;
+  --el-color-primary-light-7: #5b212f;
+  --el-color-primary-light-8: #431d2a;
+  --el-color-primary-light-9: #2c1820;
+  --el-color-primary-dark-2: #ff66a1;
+}
+
 .el-card {
   --el-card-padding: 0;
   --el-card-bg-color: rgba(242, 242, 243, 1)
@@ -28,7 +38,7 @@
   top: -2px;
   z-index: 1;
   border-radius: 0 0 6px 6px;
-  background: white;
+  background: var(--el-bg-color-page);
 }
 
 .channel-container .el-tabs__header {

@@ -1,5 +1,8 @@
+$light-bg-image: "@/assets/background/theme-light.jpg";
+$dark-bg-image: "@/assets/background/theme-dark.jpg";
+
 .niuyin {
-  background-image: url("@/assets/images/index-bg.jpg");
+  background-image: url($dark-bg-image);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -6,7 +6,7 @@
       <div class="oh w100" style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;backdrop-filter: blur(10px)">
         <router-link class="link-type flex-center wh100"
                      :to="'/index'">
-          <img style="width: 32px;height: 32px;display: inline-block" src="@/assets/logo/logo-tiktok.png">
+          <img style="width: 32px;height: 32px;display: inline-block" src="@/assets/logo/logo-niuyin.png">
           <span class="dn-phone" style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
         </router-link>
       </div>
@@ -131,7 +131,6 @@ export default {
   border-radius: 0.5rem;
   padding: 0.3rem 0;
   text-decoration: none;
-  color: grey;
 }
 
 .tab-item {

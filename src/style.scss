@@ -1,3 +1,4 @@
+
 :root {
   --el-color-info: #e2e3e3; /*按钮背景色*/
   --el-input-bg-color: rgb(242, 242, 243);
@@ -10,6 +11,13 @@
   --el-border-radius-base: 8px; /*输入框圆角*/
   ---primary-red-color: rgb(210, 27, 70);
   ---primary-blue-color: rgb(17, 72, 210);
+
+  /* 背景色 */
+  --theme-light-bg-color: #ffffff;
+  --theme-dark-bg-color: #000000;
+  /* 按钮颜色 */
+  --theme-light-button-color: var(---primary-red-color);
+  --theme-dark-button-color: var(---primary-blue-color);
 }
 
 /*空状态颜色填充*/
@@ -342,7 +350,7 @@ a {
 
 /*el卡片card*/
 .el-card {
-  background-color: transparent;
+  //background-color: transparent;
   border: none;
 }
 
@@ -380,7 +388,6 @@ a {
 
 .el-dialog {
   margin: 3vh auto;
-  background-color: white;
   border-radius: 1rem;
 }
 

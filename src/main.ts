@@ -4,6 +4,7 @@ import {createPinia} from "pinia";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import router from "./router/index.ts";
 import "@/assets/styles/element.scss"
 import "@/style.scss";

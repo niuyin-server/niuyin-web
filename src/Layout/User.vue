@@ -54,7 +54,10 @@
       <div>
         <div class="user-works">
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="item in userVideoTabShow" :key="item.id" :label="item.tabName" :lazy="true"
+            <el-tab-pane v-for="item in userVideoTabShow"
+                         :key="item.id"
+                         :label="item.tabName"
+                         :lazy="true"
                          :name="item.tabUrl">
               <router-view/>
             </el-tab-pane>

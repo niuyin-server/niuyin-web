@@ -5,7 +5,7 @@
     <!-- 导航栏中间区域 -->
     <NavCenter/>
     <!-- 导航栏右侧区域 -->
-    <NavRight :user="user"/>
+    <NavRight :user="user" @darkChangeEmit="emitDarkChange"/>
   </el-header>
 </template>
 
@@ -27,6 +27,7 @@ export default {
   created() {
     this.getUserInfo()
   },
+  emits: ['themeChangeEmit'],
   methods: {
     // 获取用户信息
     getUserInfo() {
@@ -37,6 +38,10 @@ export default {
         }
       })
     },
+    // 换肤事件
+    emitDarkChange(dark) {
+      this.$emit('themeChangeEmit', dark)
+    }
   },
 }
 </script>
