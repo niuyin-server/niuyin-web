@@ -11,7 +11,7 @@ const aes_secret = "niuyin"
  * @returns {string}
  */
 export function encodeData(str) {
-    const encryptedData = CryptoJS.AES.encrypt(str.toString(), aes_secret).toString();
+    const encryptedData = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(str))
     console.log('加密后的数据:', encryptedData);
     return encryptedData
 }
@@ -22,7 +22,7 @@ export function encodeData(str) {
  * @returns {*}
  */
 export function decodeData(str) {
-    const decryptedData = CryptoJS.AES.decrypt(str.toString(), aes_secret).toString(CryptoJS.enc.Utf8);
+    const decryptedData = CryptoJS.enc.Base64.parse(str).toString(CryptoJS.enc.Utf8)
     console.log('解密后的数据:', decryptedData);
     return parseInt(decryptedData)
 }
