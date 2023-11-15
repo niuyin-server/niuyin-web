@@ -1,7 +1,75 @@
 /**
  * 通用js方法封装处理
  */
+import CryptoJS from 'crypto-js'
 
+const aes_secret = "niuyin"
+
+/**
+ * 加密
+ * @param str
+ * @returns {string}
+ */
+export function encodeData(str) {
+    const encryptedData = CryptoJS.AES.encrypt(str, aes_secret).toString();
+    console.log('加密后的数据:', encryptedData);
+    return encryptedData
+}
+
+/**
+ * 解密
+ * @param str
+ * @returns {*}
+ */
+export function decodeData(str) {
+    const decryptedData = CryptoJS.AES.decrypt(str, aes_secret).toString(CryptoJS.enc.Utf8);
+    console.log('解密后的数据:', decryptedData);
+    return decryptedData
+}
+
+/**
+ * 根据生日获取年龄
+ * @param birthday
+ * @returns {unknown[]|null}
+ */
+export function formatAge(birthday) {
+    // 新建日期对象
+    if (birthday === undefined) {
+        return null;
+    }
+    let day = birthday.split(" ")[0]
+    let date = new Date()
+    // 今天日期，数组，同 birthday
+    let today = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    // 分别计算年月日差值
+    let age = today.map((value, index) => {
+        return value - day.split("-")[index]
+    })
+    // 当天数为负数时，月减 1，天数加上月总天数
+    if (age[2] < 0) {
+        // 简单获取上个月总天数的方法，不会错
+        let lastMonth = new Date(today[0], today[1], 0)
+        age[1]--
+        age[2] += lastMonth.getDate()
+    }
+    // 当月数为负数时，年减 1，月数加上 12
+    if (age[1] < 0) {
+        age[0]--
+        age[1] += 12
+    }
+    // usage
+    // console.log(getAge('2013-7-12'.split('-'))) // [8,0,23] 岁 月 天
+    return age
+}
+
+export function getAge(birthday) {
+    if (birthday === undefined) {
+        return null;
+    }
+    let year = birthday.split("-")[0]
+    let todayYear = new Date().getFullYear()
+    return todayYear - year;
+}
 
 /**
  * 智能化显示日期

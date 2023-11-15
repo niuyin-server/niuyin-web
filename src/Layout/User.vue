@@ -24,9 +24,13 @@
           <div class="user-profile">
             <span class="userid">牛音ID：{{ user.userId }}</span>
             <span class="gender-age">
-              <i class="iconfont icon-man"></i>
-              <span>23岁</span></span>
-            <span class="city">河南·郑州</span>
+              <i v-if="user.sex==='1'" class="iconfont icon-man"></i>
+              <i v-else-if="user.sex==='0'" class="iconfont icon-woman"></i>
+              <i v-else class="iconfont icon-sex-primary"></i>
+              <span class="ml-5r">{{
+                  getAge(memberInfo.birthday) + '岁'
+                }}</span></span>
+            <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
             <span class="school">中原工学院</span>
           </div>
         </div>
@@ -134,6 +138,7 @@ export default {
   data() {
     return {
       user: {},
+      memberInfo: {},
       editDialogVisible: false, //编辑信息弹框
       activeName: this.$route.path,
       saveLogin: true,
@@ -166,6 +171,7 @@ export default {
       getInfo().then(res => {
         if (res.code === 200) {
           this.user = res.data
+          this.memberInfo = res.data.memberInfo
           this.userForm = {...this.user}
           localStorage.setItem("userInfo", JSON.stringify(this.user))
           this.getUserFollowFansLike(res.data.userId)
