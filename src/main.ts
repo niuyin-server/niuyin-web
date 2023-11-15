@@ -5,6 +5,7 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import 'element-plus/theme-chalk/dark/css-vars.css'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import router from "./router/index.ts";
 import "@/assets/styles/element.scss"
 import "@/style.scss";
@@ -49,7 +50,9 @@ app.config.globalProperties.handleTree = handleTree;
 
 app.use(router)
 app.use(pinia)
-app.use(ElementPlus)
+app.use(ElementPlus, {
+    locale: zhCn,
+})
 app.use(VueViewer)
 VueViewer.setDefaults({
     zIndexInline: 2023
