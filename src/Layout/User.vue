@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <el-scrollbar>
-      <div class="user-container">
+      <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
         <div v-viewer class="avatar-area dn-phone">
           <img class="user-avatar" :src="user.avatar"/>
         </div>
