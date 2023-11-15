@@ -32,6 +32,7 @@ const router = createRouter({
                 {path: "hotVideo", component: () => import("@/Layout/HotVideo.vue")},
                 {
                     path: 'person/:userId', component: () => import('@/Layout/Person.vue'),
+                    // redirect: '/person/:userId(\\d+)/videoPost',
                     children: [
                         {path: "/person/:userId/videoPost", component: () => import("@/Layout/person/VideoPost.vue")},
                         {path: "/person/:userId/videoLike", component: () => import("@/Layout/person/VideoLike.vue")},
