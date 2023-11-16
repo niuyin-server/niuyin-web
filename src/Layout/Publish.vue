@@ -87,7 +87,7 @@ import {publishVideo, videoCategory, saveVideoTag} from "@/api/video";
 // 七牛引入
 import * as qiniu from "qiniu-js";
 import {ElMessage} from "element-plus";
-import {useUserStore} from "@/store/useUserStore";
+import {tokenX} from "@/store/tokenX";
 
 export default {
   name: "Publish",
@@ -98,7 +98,7 @@ export default {
       loading: false,
       videoUploadUrl: "http://localhost:9090/video/api/v1/upload",
       headers: {
-        Authorization: 'Bearer ' + useUserStore().token,
+        Authorization: 'Bearer ' + tokenX().token,
       },
       videoUploadPercent: undefined,
       videoForm: {

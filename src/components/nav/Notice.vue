@@ -1,6 +1,6 @@
 <template>
   <div class="notice-container">
-    <div class="notice-head flex-between p10px"
+    <div class="notice-head flex-between p5-10"
          style="background-color: var(--el-bg-color-page);border-radius: 1rem 1rem 0 0">
       <h4>互动消息</h4>
       <div style="width: 40%">
@@ -19,7 +19,7 @@
     <div class="notice-list plrb10" style="height:50vh;" v-loading="loading">
       <el-scrollbar class="h100" ref="noticeScrollbar">
         <div>
-          <div class="notice-item flex-start cp p10px mtb5"
+          <div class="notice-item flex-start cp p5-10 mtb5"
                style="background-color: var(--el-bg-color-page);border-radius: 10px"
                v-for="item in noticeList">
             <!--          头像-->
@@ -108,6 +108,7 @@ export default {
   created() {
     this.getNoticeList()
   },
+  emits:['noticeRefreshEmit'],
   methods: {
     // 分页获取通知
     getNoticeList() {
@@ -142,6 +143,7 @@ export default {
       delNotice(noticeId).then(res => {
         if (res.code === 200) {
           this.getNoticeList()
+          this.$emit('noticeRefreshEmit')
         }
       })
     },

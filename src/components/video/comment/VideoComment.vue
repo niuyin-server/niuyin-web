@@ -135,6 +135,7 @@
 <script>
 import {addVideoComment, videoCommentPageList, deleteVideoComment} from "@/api/behave.js";
 import {ChromeFilled, DeleteFilled, InfoFilled} from "@element-plus/icons-vue";
+import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: "VideoComment",
@@ -181,7 +182,7 @@ export default {
       replayVisible: false,
       replayNickName: '',
       replayCommentId: '', // 待回复评论id
-      user: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {},
+      user: userInfoX().userInfo,
     }
   },
   emits: ['emitUpdateVideoCommentNum'],

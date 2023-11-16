@@ -13,6 +13,7 @@
 import NavCenter from "@/components/nav/NavCenter.vue"
 import NavRight from "@/components/nav/NavRight.vue";
 import {getInfo} from "@/api/member.js";
+import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: "Header",
@@ -21,7 +22,7 @@ export default {
   props: {},
   data() {
     return {
-      user: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {},
+      user: userInfoX().userInfo,
     }
   },
   created() {
@@ -34,7 +35,7 @@ export default {
       getInfo().then(res => {
         if (res.code === 200) {
           this.user = res.data
-          localStorage.setItem("userInfo", JSON.stringify(this.user))
+          userInfoX().setUserInfo(res.data)
         }
       })
     },

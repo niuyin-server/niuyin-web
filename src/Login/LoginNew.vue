@@ -96,8 +96,9 @@
   </div>
 </template>
 <script>
-import {userLogin, getInfo} from "@/api/member.js";
-import {useUserStore} from "@/store/useUserStore";
+import {userLogin} from "@/api/member.js";
+import {tokenX} from "@/store/tokenX";
+import {setToken} from "@/utils/auth.js";
 
 export default {
   name: "Login",
@@ -148,34 +149,39 @@ export default {
     };
   },
   watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
-      },
-      immediate: true,
-    },
+    // $route: {
+    //   handler: function (route) {
+    //     this.redirect = route.query && route.query.redirect;
+    //   },
+    //   immediate: true,
+    // },
   },
   created() {
   },
   methods: {
     handleLogin() {
-      let validate = this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          userLogin(this.loginForm.username, this.loginForm.password).then(res => {
-            if (res.code === 200) {
-              const userstore = useUserStore()
-              userstore.settoken(res.data.token)
-              this.$message.success(res.msg)
-              // getInfo().then(res => {
-              //   if (res.code === 200) {
-              //     this.user = res.data
-              //     localStorage.setItem("userInfo", JSON.stringify(res.data))
-              //   }
-              // })
-              this.$router.push('/index')
-            } else {
-              this.$message.error(res.msg)
-            }
+          new Promise((resolve, reject) => {
+            userLogin(this.loginForm.username, this.loginForm.password).then(res => {
+              if (res.code === 200) {
+                // tokenX().setToken(res.data.token)
+                setToken(res.data.token)
+                this.$message.success(res.msg)
+                // getInfo().then(res => {
+                //   if (res.code === 200) {
+                //     this.user = res.data
+                //     localStorage.setItem("userInfo", JSON.stringify(res.data))
+                //   }
+                // })
+                this.$router.push('/')
+                resolve()
+              } else {
+                this.$message.error(res.msg)
+              }
+            }).catch(error => {
+              reject(error)
+            })
           })
         }
       });

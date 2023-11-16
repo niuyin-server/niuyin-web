@@ -150,6 +150,7 @@ import {hotVideoPage, userLikeNums} from "@/api/video";
 import {Close, UserFilled} from "@element-plus/icons-vue";
 import {followAndFans} from "@/api/social.js";
 import {encodeData} from "@/utils/roydon.js";
+import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: "HotVideo",
@@ -285,7 +286,7 @@ export default {
     },
     // 跳转到用户详情页面
     handlePersonInfo(userId) {
-      const loginUser = JSON.parse(localStorage.getItem("userInfo"))
+      const loginUser = userInfoX().userInfo
       if (userId === loginUser.userId) {
         this.$router.push({
           path: '/user'

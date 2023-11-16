@@ -16,8 +16,8 @@
                 @keyup.enter.native="searchConfirm"
                 clearable>
             </el-input>
-            <el-button class="search-btn fw600" type="info" plain @click="searchConfirm">
-              <i class="iconfont icon-search mr-5r"></i><span style="color: var(--niuyin-text-color)">搜索</span>
+            <el-button class="search-btn fw600 tcm" type="info" plain @click="searchConfirm">
+              <i class="iconfont icon-search mr-5r"></i><span>搜索</span>
             </el-button>
           </div>
         </template>
@@ -27,7 +27,7 @@
             <div class="pop-top">
               <div v-if="searchHistory">
                 <h4 class="mb5">搜索历史</h4>
-                <el-tag class="cp cb"
+                <el-tag class="cp tcm"
                         v-for="item in searchHistory"
                         :key="item.id"
                         style="margin-bottom: 3px;margin-right: 5px"
@@ -44,7 +44,7 @@
               <div v-if="searchHistory">
                 <h4 class="mtb5">猜你想搜</h4>
                 <div class="flex-between">
-                  <p class="cp cb w49 p5px one-line search-hover-item"
+                  <p class="cp w49 p5px one-line search-hover-item"
                      v-for="item in searchDiscover"
                      @click="handleSearchDiscoverSelect(item.keyword)">
                   </p>
@@ -56,7 +56,7 @@
               <div v-if="searchHistory">
                 <h4 class="mtb5">牛音热搜</h4>
                 <div v-for="item in 5"
-                     class="cb cp p5px one-line flex-row search-hover-item">
+                     class="cp p5px one-line flex-row search-hover-item">
                   <el-icon>
                     <CaretTop/>
                   </el-icon>
@@ -79,6 +79,7 @@ import {
 } from '@element-plus/icons-vue'
 import {searchHistoryLoad, delSearchHistory} from "@/api/search.js";
 import axios from "axios";
+import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: "NavCenter",
@@ -91,7 +92,7 @@ export default {
   props: {},
   data() {
     return {
-      user: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {},
+      user: userInfoX().userInfo,
       // 输入框的数据
       searchData: "",
       // 默认搜索词

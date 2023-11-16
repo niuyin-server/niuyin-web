@@ -4,7 +4,7 @@ import {ref} from "vue";
 export const themeX = defineStore(
     "theme",
     () => {
-        const dark = ref(false);
+        let dark = ref(false);
         const setDark = (val: boolean) => {
             dark.value = val;
         };
@@ -21,28 +21,3 @@ export const themeX = defineStore(
         persist: true,
     }
 );
-
-
-
-
-// = defineStore(
-//     "theme",
-//     {
-//         state: () => {
-//             return {
-//                 dark: false,
-//                 color: "#ffffff",
-//             };
-//         },
-//         getters: {
-//             getDark: (state) => {
-//                 return state.dark
-//             },
-//         },
-//         actions: {
-//             saveDark(dark: boolean) {
-//                 this.dark = dark;
-//             },
-//         },
-//     }
-// );

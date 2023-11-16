@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-shadow: none;
   font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "微软雅黑", sans-serif;
 }
 
@@ -124,6 +125,10 @@ a {
   margin: 0.5rem 0;
 }
 
+.tcm {
+  color: var(--niuyin-text-color)
+}
+
 .mb5 {
   margin-bottom: 0.5rem;
 }
@@ -142,8 +147,17 @@ a {
   padding: 5px;
 }
 
+.p5-10 {
+  padding: 5px 10px;
+}
+
 .p10px {
   padding: 10px;
+}
+
+.plr10px {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .plrb10 {
@@ -387,6 +401,7 @@ a {
 
 .el-dialog__body {
   height: 90%;
+  padding: 10px 20px 30px;
 }
 
 .custom-loading-svg {

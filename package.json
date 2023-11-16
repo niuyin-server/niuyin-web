@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
-    "@icon-park/vue-next": "^1.4.2",
     "@vuemap/vue-amap": "^1.1.24",
     "axios": "^1.5.1",
     "crypto-js": "^4.2.0",
     "element-china-area-data": "^6.1.0",
     "element-plus": "^2.4.1",
+    "js-cookie": "^3.0.5",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
     "qiniu-js": "^3.4.1",

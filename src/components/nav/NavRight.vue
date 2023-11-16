@@ -1,35 +1,14 @@
 <template>
   <div class="nav-right">
     <div class="flex-center dn-phone">
-      <!--通知 -->
-      <!--      <router-link class="link-type" :to="item.url" v-for="item in rightNavList" :key="item.id">-->
-      <!--        <div class="flex-column icon-click cg cp mlr8">-->
-      <!--          <el-badge v-if="item.num!==0" :value="item.num" class="item">-->
-      <!--            <div style="height: 20px; justify-content: center; width: 20px;">-->
-      <!--              <i :class="item.icon" style="font-size: 18px"></i>-->
-      <!--            </div>-->
-      <!--            <p>-->
-      <!--              <span class="cg fs7">{{ item.title }}</span>-->
-      <!--            </p>-->
-      <!--          </el-badge>-->
-      <!--          <div v-else>-->
-      <!--            <div style="height: 20px; justify-content: center; width: 20px;">-->
-      <!--              <i :class="item.icon" style="font-size: 18px"></i>-->
-      <!--            </div>-->
-      <!--            <p>-->
-      <!--              <span class="cg fs7">{{ item.title }}</span>-->
-      <!--            </p>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </router-link>-->
       <!--通知-->
-      <el-popover :width="300" ref="noticePopover" trigger="click">
+      <el-popover :width="300" ref="noticePopover">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
-            <div class="flex-column icon-click cg mlr5">
+            <div class="flex-column icon-click cg plr10px">
               <el-badge :value="noticeCount" class="item">
                 <div style="height: 20px; justify-content: center; width: 20px;">
-                  <i class="iconfont icon-notice" style="font-size: 18px"></i>
+                  <i class="iconfont icon-notice" style="font-size: 20px"></i>
                 </div>
               </el-badge>
               <p>
@@ -39,15 +18,14 @@
           </div>
         </template>
         <template #default>
-          <Notice v-if="showNotice"/>
+          <Notice v-if="showNotice" @noticeRefreshEmit="emitNoticeRefresh"/>
         </template>
       </el-popover>
       <!--消息 -->
-      <router-link class="link-type" :to="'/message'">
-        <div class="flex-center icon-click cg cp"
-             style="flex-direction: column;margin: 0 10px;">
-          <div style="height: 20px; justify-content: center; width: 20px;">
-            <i class="iconfont icon-message" style="font-size: 18px"></i>
+      <router-link class="link-type cp" :to="'/message'">
+        <div class="flex-column icon-click cg plr10px">
+          <div style="height: 20px;width: 20px;">
+            <i class="iconfont icon-message" style="font-size: 20px"></i>
           </div>
           <p>
             <span class="cg fs7">消息</span>
@@ -55,11 +33,10 @@
         </div>
       </router-link>
       <!--发布视频-->
-      <router-link class="link-type" :to="'/publish'">
-        <div class="flex-center icon-click cg cp"
-             style="flex-direction: column;margin: 0 10px;">
-          <div style="height: 20px;justify-content: center;width: 20px;">
-            <i class="iconfont icon-upload" style="font-size: 18px"></i>
+      <router-link class="link-type cp" :to="'/publish'">
+        <div class="flex-column icon-click cg plr10px">
+          <div style="height: 20px;width: 20px;">
+            <i class="iconfont icon-upload" style="font-size: 20px"></i>
           </div>
           <p>
             <span class="cg fs7">投稿</span>
@@ -145,17 +122,19 @@
 </template>
 
 <script>
-import {useUserStore} from "@/store/useUserStore";
 import {myVideoCount} from "@/api/video.js";
 import {myLikeCount, myFavoriteCount} from "@/api/behave.js";
-import {UserFilled} from "@element-plus/icons-vue";
+import {ArrowRightBold, UserFilled} from "@element-plus/icons-vue";
 import {themeX} from "@/store/themeX";
 import Notice from "@/components/nav/Notice.vue";
 import {noticeCount} from "@/api/notice.js";
+import {tokenX} from "@/store/tokenX";
+import {userInfoX} from "@/store/userInfoX";
+import {removeToken} from "@/utils/auth.js";
 
 export default {
   name: "NavRight",
-  components: {Notice},
+  components: {ArrowRightBold, Notice},
   computed: {
     UserFilled() {
       return UserFilled
@@ -205,8 +184,8 @@ export default {
     },
     // 获取评论数量
     initNotice() {
-      noticeCount(this.noticeCountQueryParams).then(res=>{
-        if(res.code===200){
+      noticeCount(this.noticeCountQueryParams).then(res => {
+        if (res.code === 200) {
           this.noticeCount = res.data
         }
       })
@@ -238,8 +217,9 @@ export default {
     },
     // 退出登录
     handleLogout() {
-      localStorage.removeItem("userInfo")
-      useUserStore().removetoken;
+      tokenX().removeToken()
+      userInfoX().removeUserInfo()
+      removeToken()
       this.$router.push('/login');
     },
     // 主题切换，换肤功能
@@ -266,6 +246,10 @@ export default {
     // 通知弹框隐藏
     handleNoticeHide() {
       this.showNotice = true
+    },
+    // 接收子事件
+    emitNoticeRefresh(){
+      this.initNotice()
     }
   }
 }

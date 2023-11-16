@@ -110,8 +110,8 @@
 <script>
 
 import {ElMessage} from "element-plus";
-import {useUserStore} from "@/store/useUserStore";
-import {userLogin, register, getInfo} from '@/api/member.js';
+import {userLogin, register} from '@/api/member.js';
+import {tokenX} from "@/store/tokenX";
 
 export default {
   name: "LoginIndex",
@@ -156,8 +156,7 @@ export default {
     handleUserLogin() {
       userLogin(this.loginForm).then(res => {
         if (res.code === 200) {
-          const userStore = useUserStore()
-          userStore.settoken(res.data.token)
+          // tokenX().setToken(res.data.token)
           this.$message.success(res.msg)
           this.$router.push('/index')
         } else {

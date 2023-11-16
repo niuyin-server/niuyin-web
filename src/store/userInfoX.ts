@@ -4,7 +4,7 @@ import {ref} from "vue";
 export const userInfoX = defineStore(
     "userInfo",
     () => {
-        const userInfo = ref("");
+        let userInfo = ref("");
         const setUserInfo = (newUserInfo: any) => {
             userInfo.value = newUserInfo;
         };
@@ -17,4 +17,7 @@ export const userInfoX = defineStore(
             removeUserInfo,
         };
     },
+    {
+        persist: true,
+    }
 );

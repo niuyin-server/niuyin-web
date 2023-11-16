@@ -70,8 +70,7 @@
   </div>
 </template>
 <script>
-import {register, userLogin} from "@/api/member.js";
-import {useUserStore} from "@/store/useUserStore";
+import {register} from "@/api/member.js";
 
 export default {
   name: "Register",

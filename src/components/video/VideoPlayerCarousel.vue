@@ -68,55 +68,58 @@
                 <!--              收藏-->
                 <div class="op">
                   <!--收藏按钮弹框-->
-                  <el-popover placement="left" :width="300"
+                  <el-popover placement="left"
+                              :width="300"
                               :ref="'favoritePop'+item.videoId">
                     <!--收藏按钮根据是否收藏显示不同的状态-->
                     <template #reference>
                       <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
-                         @click="videoFavoriteClick(item.videoId)"
                          @mouseover.stop="handleFavoriteOver(item.videoId)"
-                         @mouseleave="handleFavoriteLeave(item.videoId)"></i>
+                         @mouseleave.stop="handleFavoriteLeave(item.videoId)"></i>
                       <i v-else class="iconfont icon-favorite icon-36 operate-icon"
-                         @click="videoFavoriteClick(item.videoId)"
                          @mouseover.stop="handleFavoriteOver(item.videoId)"
-                         @mouseleave="handleFavoriteLeave(item.videoId)"></i>
+                         @mouseleave.stop="handleFavoriteLeave(item.videoId)"></i>
                     </template>
-                    <!--弹窗主体-->
-                    <div  class="box-card">
-                      <!--头部-->
-                      <div class="card-header">
-                        <span>选择收藏夹</span>
-                        <!--新建文件夹按钮-->
-                        <div>
-                          <el-button type="text"
-                                     @click="dialogFormVisible = true">
-                            <add-one style="margin-right: 3px"
-                                     theme="multi-color" size="15"
-                                     :fill="['#e5e6e9' ,'#e5e6e9' ,'#161515' ,'#4f5252']"/>
-                            新建
+                    <template #default>
+                      <!--弹窗主体-->
+                      <div class="p1rem" style="min-height: 12vh">
+                        <!--头部-->
+                        <div class="flex-between mb5">
+                          <span>选择收藏夹</span>
+                          <!--新建文件夹按钮-->
+                          <div>
+                            <el-button @click="dialogFormVisible = true">新建</el-button>
+                          </div>
+                        </div>
+                        <!--卡片主题内容列表-->
+                        <div class="favorite-container">
+                          <!--                            <el-radio-group >-->
+                          <!--                              <el-radio label="1">{{ item.title }}</el-radio>-->
+                          <!--                            </el-radio-group>-->
+                          <el-checkbox-group v-model="favoriteChecked"
+                                             text-color="#f6f6f6"
+                                             :min="1">
+                            <el-checkbox class="mb5 w100"
+                                         v-for="item2 in userFavoriteList"
+                                         border
+                                         :label="item2.title"/>
+                          </el-checkbox-group>
+                        </div>
+                        <div class="favorite-op tac">
+                          <el-button class="w100" type="primary" @click="handleCollectVideo(item.videoId)">收藏
                           </el-button>
                         </div>
                       </div>
-                      <!--卡片主题内容列表-->
-                      <div v-if="userFavoriteList.length>0">
-                        <el-radio-group v-for="item in userFavoriteList" class="ml-4">
-                          <el-radio label="1" size="large">{{ item.title }}</el-radio>
-                        </el-radio-group>
-                      </div>
-                      <div v-else>
-                        <div class="w100">
-                          <el-empty v-show="userFavoriteList.length<=0" description="暂无数据"/>
-                        </div>
-                      </div>
-                    </div>
+                    </template>
                   </el-popover>
-                  <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
+                  <div class="video-nums cw tac">{{ item.favoritesNum }}</div>
                 </div>
                 <!--              分享-->
                 <div class="op">
                   <i class="iconfont icon-share icon-36 operate-icon"></i>
-                  <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
+                  <div class="video-nums cw tac">{{ item.favoritesNum }}</div>
                 </div>
+                <!--                更多-->
                 <div class="op">
                   <el-icon class="operate-icon"
                            :size="24"
@@ -173,31 +176,46 @@
   <el-dialog
       v-model="dialogFormVisible"
       title="新建收藏夹"
-      width="20%"
-      align-center
-      style="display: grid">
+      width="400px"
+      align-center>
     <!--收藏夹名称输入框-->
     <div>
-      <el-input v-model="userFavoriteForm.title" placeholder="请输入收藏夹的名称（10个字以内）"></el-input>
+      <div class="mb5">图标</div>
+      <i class="iconfont icon-camera mtlrb5"></i>
+      <i class="iconfont icon-history mtlrb5"></i>
+      <i class="iconfont icon-attention mtlrb5"></i>
+      <div class="mtb5">收藏夹名称</div>
+      <el-input v-model="userFavoriteForm.title"
+                placeholder="收藏夹的名称"
+                clearable
+                maxlength="10"
+                show-word-limit
+                type="text"></el-input>
+      <div class="mtb5">收藏夹描述</div>
+      <el-input v-model="userFavoriteForm.title"
+                placeholder="收藏夹的名称"
+                clearable
+                maxlength="100"
+                show-word-limit
+                type="textarea"></el-input>
     </div>
     <div class="flex-between">
       <div class="mtb5">
-        <p class="fs8">设置为公开</p>
-        <p class="fs7">公开后有机会被推荐，帮助到更多人</p>
+        <p class="fs8">>设置为公开</p>
+        <p class="fs7 cg">公开后有机会被推荐，帮助到更多人</p>
       </div>
       <div>
         <el-switch
             v-model="userFavoriteForm.showStatus"
             active-value="'0'"
             inactive-value="'1'"
-            active-color="#f81a56"
-            inactive-color="#6f7078">
+            active-color="#13ce66"
+            inactive-color="#ff4949">
         </el-switch>
       </div>
-
     </div>
     <div class="tac">
-      <el-button type="primary" style="width: 100%">确认</el-button>
+      <el-button class="w100" type="primary">确认</el-button>
     </div>
   </el-dialog>
 </template>
@@ -211,13 +229,12 @@ import {likeVideo, myFavoriteList} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
-import {AddOne} from "@icon-park/vue-next";
-import '@icon-park/vue-next/styles/index.css';
+import {userInfoX} from "@/store/userInfoX";
 // 时间格式化插件
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment, AddOne},
+  components: {QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment},
   computed: {
     UserFilled() {
       return UserFilled
@@ -239,13 +256,13 @@ export default {
   data() {
     return {
       dialogFormVisible: false,
-
       userFavoriteForm: {
         title: '',
-        userId: JSON.parse(localStorage.getItem("userInfo")).userId,
+        userId: userInfoX().userId,
         showStatus: '',
       },
       userFavoriteList: '',
+      userFavoriteTotal: undefined,
       svg: `<path class="path" d=" M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15" style="stroke-width: 4px; fill: rgba(10, 10, 10, 0)"/>`,
       showVideo: true,
       timeOut: null,
@@ -264,6 +281,7 @@ export default {
       videoDisplay: true,
       isLiked: false, // 是否已经快捷键点赞
       startIndex: 1,
+      favoriteChecked: [],//已选收藏夹
     }
   },
   emits: ['reloadVideoFeed'],
@@ -276,7 +294,7 @@ export default {
       // 鼠标悬停事件改为显示
       this.$refs[`favoritePop${videoId}`][0].showPopper = true
       // 获取登录用户的id
-      const loginUser = JSON.parse(localStorage.getItem("userInfo"))
+      const loginUser = userInfoX().userInfo
       // 查询登录用户的收藏夹列表
       myFavoriteList(loginUser.userId).then(res => {
         // console.log(res.data)
@@ -313,10 +331,6 @@ export default {
           })
         }
       })
-    },
-    videoFavoriteClick(videoId) {
-
-
     },
     videoCommentClick(videoId) {
       this.videoId = videoId
@@ -427,31 +441,21 @@ export default {
           this.isLiked = true
         }
       }
+    },
+    // 收藏视频
+    handleCollectVideo(videoId) {
+      console.log(videoId)
     }
 
   },
 }
 </script>
 <style scoped>
-.box-card {
-  height: 100%;
-  padding: 0;
-
-  border: 0;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .video-player {
   width: 95%;
   border-radius: 1rem;
   height: 100%;
   backdrop-filter: blur(10px);
-
 }
 
 .video-container * {

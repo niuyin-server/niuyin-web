@@ -229,10 +229,11 @@ import {getInfo, updateMemberInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
 import {Check, Close, QuestionFilled, School} from "@element-plus/icons-vue";
-import {useUserStore} from "@/store/useUserStore";
 import {
   regionData,
 } from "element-china-area-data";
+import {tokenX} from "@/store/tokenX";
+import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: 'User',
@@ -258,7 +259,7 @@ export default {
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
       backImageUploadUrl: "http://localhost:9090/member/api/v1/info/backImage/upload",
       headers: {
-        Authorization: 'Bearer ' + useUserStore().token,
+        Authorization: 'Bearer ' + tokenX().token,
       },
       followNum: 0, // 关注数
       fansNum: 0, //粉丝数
@@ -320,7 +321,7 @@ export default {
               }
             })
           }
-          localStorage.setItem("userInfo", JSON.stringify(this.user))
+          userInfoX().setUserInfo(this.user)
           this.getUserFollowFansLike(res.data.userId)
         }
       })
