@@ -25,7 +25,24 @@
                  gutter="10"
                  fit-width="true"
                  transition-duration="0.2s"
+                 style="position:relative;"
                  item-selector=".hotVideo-item">
+              <!--              热榜-->
+              <el-card style="height: 600px;" class="hotVideo-item">
+                <el-tabs v-model="activeName" @tab-click="handleHotTabClick">
+                  <el-tab-pane v-for="item in hotTabShow"
+                               :key="item.id"
+                               :label="item.tabName"
+                               :lazy="true"
+                               :name="item.tabName">
+                    <!--                    <router-view/>-->
+                    <div v-for="it in item.dataList" class="p10px">
+                      <p>{{ it.title }}</p>
+                    </div>
+                  </el-tab-pane>
+                </el-tabs>
+              </el-card>
+              <!--              热门视频-->
               <el-card v-for='(item,index) in hotVideoList'
                        :key="item.videoId"
                        v-masonry-tile
@@ -156,11 +173,33 @@ export default {
       hotVideoTotal: undefined,
       hotVideoQueryParams: {
         pageNum: 1,
-        pageSize: 15
+        pageSize: 10
       },
       video: {},
       loadingData: true,
-      dataNotMore: false
+      dataNotMore: false,
+      activeName: "热榜",//热榜区域
+      hotTabShow: [
+        {id: 1, tabName: "热榜", tabUrl: "/user/1", dataList: this.hotMsg},
+        {
+          id: 2, tabName: "娱乐榜", tabUrl: "/user/2", dataList: [
+            {id: 1, title: "你好"},
+            {id: 2, title: "你好好"},
+            {id: 3, title: "你好好好"},
+            {id: 4, title: "你好好好好"},
+            {id: 5, title: "你好好好"},
+          ]
+        },
+        {id: 3, tabName: "社会榜", tabUrl: "/user/3", dataList: []},
+        {id: 4, tabName: "挑战榜", tabUrl: "/user/4", dataList: this.hotMsg},
+      ],
+      hotMsg: [
+        {id: 1, title: "你好"},
+        {id: 2, title: "你好好"},
+        {id: 3, title: "你好好好"},
+        {id: 4, title: "你好好好好"},
+        {id: 5, title: "你好好好"},
+      ]
     };
   },
   created() {
@@ -255,6 +294,14 @@ export default {
         })
       }
 
+    },
+    // 热榜tab点击
+    handleHotTabClick(tab, event) {
+      // console.log(tab.props.name);
+      // const route = tab.props.name
+      // console.log(this.$route.path)
+      // console.log(this.$route.matched[1].path)
+      // this.$router.push(route)
     },
   }
 };

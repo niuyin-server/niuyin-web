@@ -6,10 +6,14 @@
 
 .user-container {
   display: flex;
-  margin: 20px auto;
+  margin: 0 auto;
   max-width: 1208px;
   position: relative;
   width: 100%;
+  padding: 20px 0;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 
   .avatar-area {
     flex: none;
@@ -205,4 +209,14 @@
 }
 
 .edit-info-dialog {
+}
+
+.edit-background {
+  .background-uploader {
+    max-height: 120px;
+  }
+
+  .back-image {
+    max-height: 120px;
+  }
 }

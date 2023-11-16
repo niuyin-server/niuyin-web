@@ -1,39 +1,4 @@
 
-:root {
-  --el-color-info: #e2e3e3; /*按钮背景色*/
-  --el-input-bg-color: rgb(242, 242, 243);
-  --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
-  --el-loading-spinner-size: 100px; /*加载图标大小*/
-  --el-fill-color: rgba(240, 242, 245, 0.8); /*加载中图片背景色*/
-  --el-fill-color-darker: rgba(230, 232, 235, 0.6);
-  --el-messagebox-border-radius: 16px; /*弹框radius*/
-  --el-border-radius-small: 16px;
-  --el-border-radius-base: 8px; /*输入框圆角*/
-  ---primary-red-color: rgb(210, 27, 70);
-  ---primary-blue-color: rgb(17, 72, 210);
-
-  /* 背景色 */
-  --theme-light-bg-color: #ffffff;
-  --theme-dark-bg-color: #000000;
-  /* 按钮颜色 */
-  --theme-light-button-color: var(---primary-red-color);
-  --theme-dark-button-color: var(---primary-blue-color);
-}
-
-/*空状态颜色填充*/
-.el-empty {
-  --el-empty-fill-color-0: #f4f3f3;
-  --el-empty-fill-color-1: #7294d8;
-  --el-empty-fill-color-2: #bec8dc;
-  --el-empty-fill-color-3: #757d9f;
-  --el-empty-fill-color-4: #8e9dd9;
-  --el-empty-fill-color-5: #e5d3db;
-  --el-empty-fill-color-6: #98a1b2;
-  --el-empty-fill-color-7: #d1b8be;
-  --el-empty-fill-color-8: #a4b3d2;
-  --el-empty-fill-color-9: #7280b1;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -377,7 +342,7 @@ a {
 }
 
 .el-tabs__item.is-active {
-  color: blue !important;
+  font-weight: 900;
 }
 
 .el-loading-mask {

@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <el-scrollbar>
-      <div class="user-container">
+      <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
         <div v-viewer class="avatar-area dn-phone">
           <img class="user-avatar" :src="user.avatar"/>
         </div>
@@ -28,12 +28,13 @@
               <i v-else-if="user.sex==='0'" class="iconfont icon-woman"></i>
               <i v-else class="iconfont icon-sex-primary"></i>
               <span class="ml-5r">{{
-                  getAge(memberInfo.birthday) + '岁'
+                  '22岁'
                 }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
             <span class="school">中原工学院</span>
           </div>
         </div>
+        <div class="flex-column">
         <div class="trust-login-switch dn-phone">
           <div class="trust-login-tips">
             <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
@@ -54,7 +55,7 @@
           <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
           <el-button @click="handleEditInfo" type="primary">详细信息</el-button>
         </div>
-      </div>
+      </div> </div>
       <!--  作品，喜欢，收藏  -->
       <div>
         <div class="user-works">
@@ -129,16 +130,88 @@
         </el-button>
       </template>
       <el-scrollbar>
-        <div class="edit-nickname">
-          <div class="N3OJZMVX">年龄</div>
-          <el-input v-model="userForm.nickName"
-                    maxlength="20"
-                    class="w-50 m-2"
-                    placeholder="记得填写昵称"
-                    show-word-limit
-                    type="text"/>
+        <div class="edit-background w100">
+          <el-tooltip content="上传背景图片" placement="top" effect="customized">
+            <el-upload class="background-uploader w100"
+                       :action="backImageUploadUrl"
+                       :headers="headers"
+                       :show-file-list="false"
+                       :on-success="handleUploadBackImageSuccess">
+              <img v-if="memberInfoForm.backImage" :src="memberInfoForm.backImage" class="back-image"/>
+              <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
+            </el-upload>
+          </el-tooltip>
         </div>
-        <div class="edit-gender">
+        <div class="edit-birthday">
+          <div class="mtb5">出生日期</div>
+          <el-date-picker
+              style="width: 100% !important;"
+              v-model="memberInfoForm.birthday"
+              format="YYYY-MM-DD HH:mm:ss"
+              value-format="YYYY-MM-DD HH:mm:ss"
+              type="datetime"
+              :size="'large'"
+              placeholder="选择出生日期"
+          />
+        </div>
+        <div class="edit-city">
+          <div class="mtb5">选择城市</div>
+          <el-cascader :options="options"
+                       class="w100"
+                       v-model="selectedOptions"
+                       @change="addressChoose"/>
+        </div>
+        <div class="edit-campus">
+          <div class="mtb5">学校</div>
+          <el-input
+              v-model="memberInfoForm.campus"
+              maxlength="64"
+              class="w-50 m-2"
+              placeholder="输入学校"
+              show-word-limit
+              type="text"
+          />
+        </div>
+        <el-row>
+          <el-col :span="12">
+            <div class="edit-like">
+              <div class="mtb5">我的喜欢可见</div>
+              <div class="tac">
+                <el-switch
+                    v-model="memberInfoForm.likeShowStatus"
+                    class="mt-2 tac"
+                    inline-prompt
+                    active-value="0"
+                    inactive-value="1"
+                    :active-icon="Check"
+                    :inactive-icon="Close"/>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="edit-favorite">
+              <div class="mtb5">收藏夹可见</div>
+              <div class="tac">
+                <el-switch
+                    v-model="memberInfoForm.favoriteShowStatus"
+                    class="mt-2"
+                    inline-prompt
+                    active-value="0"
+                    inactive-value="1"
+                    :active-icon="Check"
+                    :inactive-icon="Close"/>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+        <div class="edit-desc">
+          <div class="mtb5">输入描述信息</div>
+          <el-input
+              v-model="memberInfoForm.description"
+              :rows="2"
+              type="textarea"
+              placeholder="这是一段描述"
+          />
         </div>
         <!--  确认按钮  -->
         <div class="edit-button">
@@ -154,13 +227,19 @@
 import {getInfo, updateMemberInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
-import {Close, QuestionFilled} from "@element-plus/icons-vue";
+import {Check, Close, QuestionFilled} from "@element-plus/icons-vue";
 import {useUserStore} from "@/store/useUserStore";
+import {
+  regionData,
+} from "element-china-area-data";
 
 export default {
   name: 'User',
   components: {QuestionFilled},
   computed: {
+    Check() {
+      return Check
+    },
     Close() {
       return Close
     }
@@ -176,6 +255,7 @@ export default {
       userForm: {},
       memberInfoForm: {},
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
+      backImageUploadUrl: "http://localhost:9090/member/api/v1/info/backImage/upload",
       headers: {
         Authorization: 'Bearer ' + useUserStore().token,
       },
@@ -187,7 +267,10 @@ export default {
         {id: 2, tabName: "喜欢", tabUrl: "/user/videoLike"},
         {id: 3, tabName: "收藏", tabUrl: "/user/videoFavorite"},
         {id: 4, tabName: "观看历史", tabUrl: "/user/videoViewHistory"}
-      ]
+      ],
+      // 省市区级联
+      options: regionData,
+      selectedOptions: [],
     }
   },
   created() {
@@ -205,6 +288,37 @@ export default {
           this.user = res.data
           this.memberInfo = res.data.memberInfo
           this.userForm = {...this.user}
+          this.memberInfoForm = res.data.memberInfo
+          if (this.memberInfoForm.likeShowStatus === '1') {
+            // 喜欢被禁用
+            this.userVideoTabShow.forEach((item, index) => {
+              if (item.id === 2) {
+                item.tabName = "喜欢🔒"
+              }
+            })
+          } else {
+            // 喜欢未被禁用
+            this.userVideoTabShow.forEach((item, index) => {
+              if (item.id === 2) {
+                item.tabName = "喜欢"
+              }
+            })
+          }
+          if (this.memberInfoForm.favoriteShowStatus === '1') {
+            // 收藏被禁用
+            this.userVideoTabShow.forEach((item, index) => {
+              if (item.id === 3) {
+                item.tabName = "收藏🔒"
+              }
+            })
+          } else {
+            // 收藏未被禁用
+            this.userVideoTabShow.forEach((item, index) => {
+              if (item.id === 3) {
+                item.tabName = "收藏"
+              }
+            })
+          }
           localStorage.setItem("userInfo", JSON.stringify(this.user))
           this.getUserFollowFansLike(res.data.userId)
         }
@@ -240,7 +354,9 @@ export default {
     // 编辑详细信息
     handleEditInfo() {
       this.editInfoDialogVisible = true
+      this.selectedOptions = [this.memberInfoForm.province, this.memberInfoForm.city, this.memberInfoForm.region]
     },
+    //头像上传成功回调
     handleUploadAvatarSuccess(res) {
       this.userForm.avatar = res.data
     },
@@ -260,12 +376,27 @@ export default {
       this.editDialogVisible = false
       this.userForm = {}
     },
+    /**省市区三级联动 */
+    addressChoose(value) {
+      // console.log(this.regionData);
+      console.log("地址", value)
+      console.log("地址编码", value[value.length - 1])
+      this.memberInfoForm.adcode = value[value.length - 1]
+      this.memberInfoForm.province = value[0]
+      this.memberInfoForm.city = value[1]
+      this.memberInfoForm.region = value[value.length - 1]
+    },
+    //头像上传成功回调
+    handleUploadBackImageSuccess(res) {
+      this.memberInfoForm.backImage = res.data
+    },
+    //取消
     cancelUpdateInfo() {
       this.editInfoDialogVisible = false
-
     },
     // 确认提交用户详情
     confirmUpdateInfo() {
+      console.log(this.memberInfoForm)
       updateMemberInfo(this.memberInfoForm).then(res => {
         if (res.code === 200) {
           this.editInfoDialogVisible = false
