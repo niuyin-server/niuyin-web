@@ -27,7 +27,7 @@
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="flex-column icon-click cg mlr5">
-              <el-badge :value="2" class="item">
+              <el-badge :value="noticeCount" class="item">
                 <div style="height: 20px; justify-content: center; width: 20px;">
                   <i class="iconfont icon-notice" style="font-size: 18px"></i>
                 </div>
@@ -151,6 +151,7 @@ import {myLikeCount, myFavoriteCount} from "@/api/behave.js";
 import {UserFilled} from "@element-plus/icons-vue";
 import {themeX} from "@/store/themeX";
 import Notice from "@/components/nav/Notice.vue";
+import {noticeCount} from "@/api/notice.js";
 
 export default {
   name: "NavRight",
@@ -179,10 +180,15 @@ export default {
         {id: 4, icon: "iconfont icon-history", num: 0, title: "观看历史", url: "/user/videoViewHistory"},
       ],
       showNotice: false,
+      noticeCount: undefined,
+      noticeCountQueryParams: {
+        receiveFlag: "0"
+      }
     }
   },
   created() {
     this.initTheme()
+    this.initNotice()
   },
   emits: ['darkChangeEmit'],
   methods: {
@@ -196,6 +202,14 @@ export default {
         html.classList.remove("dark")
         html.classList.add("light")
       }
+    },
+    // 获取评论数量
+    initNotice() {
+      noticeCount(this.noticeCountQueryParams).then(res=>{
+        if(res.code===200){
+          this.noticeCount = res.data
+        }
+      })
     },
     // 用户popover的show时间
     handlePopoverShow() {

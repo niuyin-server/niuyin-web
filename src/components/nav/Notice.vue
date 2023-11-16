@@ -16,10 +16,10 @@
         </el-select>
       </div>
     </div>
-    <div class="notice-list p10px" style="height:50vh;" v-loading="loading">
+    <div class="notice-list plrb10" style="height:50vh;" v-loading="loading">
       <el-scrollbar class="h100" ref="noticeScrollbar">
         <div>
-          <div class="notice-item flex-start cp p10px mb5"
+          <div class="notice-item flex-start cp p10px mtb5"
                style="background-color: var(--el-bg-color-page);border-radius: 10px"
                v-for="item in noticeList">
             <!--          头像-->
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import {noticePage} from "@/api/notice.js";
+import {delNotice, noticePage} from "@/api/notice.js";
 import {InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
 
 export default {
@@ -139,6 +139,11 @@ export default {
     // 删除通知
     handleDelNoticeConfirm(noticeId) {
       console.log(noticeId)
+      delNotice(noticeId).then(res => {
+        if (res.code === 200) {
+          this.getNoticeList()
+        }
+      })
     },
     handleDelNoticeCancel() {
     },
