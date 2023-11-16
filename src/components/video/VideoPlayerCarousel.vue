@@ -67,10 +67,40 @@
                 </div>
                 <!--              收藏-->
                 <div class="op">
-                  <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
-                     @click="videoFavoriteClick(item.videoId)"></i>
-                  <i v-else class="iconfont icon-favorite icon-36 operate-icon"
-                     @click="videoFavoriteClick(item.videoId)"></i>
+                  <el-popover  placement="left" :width="400" trigger="hover"
+                  :show="handleFavorite(item.userId)">
+                    <template #reference>
+                      <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
+                         @click="videoFavoriteClick(item.videoId)"></i>
+                      <i v-else class="iconfont icon-favorite icon-36 operate-icon"
+                         @click="videoFavoriteClick(item.videoId)"></i>
+                    </template>
+                    <div class="box-card" style="border: 0">
+                        <!--卡片头部-->
+                        <div class="card-header">
+                          <span>选择收藏夹</span>
+                          <div>
+                            <el-button style="color: #f1f0f0" type="text" >
+                              <add-one style="margin-right: 3px"
+                                       theme="multi-color" size="15"
+                                       :fill="['#e5e6e9' ,'#e5e6e9' ,'#161515' ,'#4f5252']"/>
+                              新建</el-button>
+                          </div>
+                        </div>
+                      <!--卡片主题内容列表-->
+                      <div style=" display: flex;">
+                        <el-radio-group v-model="radio1" class="ml-4">
+                          <el-radio label="1" size="large">{{  }}</el-radio>
+                        </el-radio-group>
+                      </div>
+<!--                      <div v-for="o in 4" :key="o" class="text item">-->
+<!--                        {{ 'List item ' + o }}-->
+<!--                      </div>-->
+
+                    </div>
+                  </el-popover>
+
+
                   <div class="video-nums cw" style="text-align: center;">{{ item.favoritesNum }}</div>
                 </div>
                 <!--              分享-->
@@ -137,15 +167,17 @@ import {
   ArrowUpBold,
   ChatDotRound, ChromeFilled, Close, MoreFilled, QuestionFilled, UserFilled
 } from '@element-plus/icons-vue'
-import {likeVideo} from '@/api/behave.js'
+import {likeVideo, myFavoriteList} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
+import {AddOne} from "@icon-park/vue-next";
+import '@icon-park/vue-next/styles/index.css';
 // 时间格式化插件
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment},
+  components: {QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment,AddOne},
   computed: {
     UserFilled() {
       return UserFilled
@@ -190,6 +222,14 @@ export default {
   mounted() {
   },
   methods: {
+
+    handleFavorite(userId){
+      myFavoriteList(userId).then(res=>{
+        if (res.code === 200){
+          console.log(res.data)
+        }
+      })
+    },
     handleFollow(userId) {
       followUser(userId).then(res => {
         if (res.code === 200) {
@@ -216,6 +256,8 @@ export default {
       })
     },
     videoFavoriteClick(videoId) {
+
+
     },
     videoCommentClick(videoId) {
       this.videoId = videoId
@@ -332,6 +374,18 @@ export default {
 }
 </script>
 <style scoped>
+.box-card {
+  height: 100%;
+  padding: 0;
+
+  border: 0;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .video-player {
   width: 95%;
   border-radius: 1rem;
