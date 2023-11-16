@@ -88,7 +88,12 @@
                           <span>选择收藏夹</span>
                           <!--新建文件夹按钮-->
                           <div>
-                            <el-button @click="dialogFormVisible = true">新建</el-button>
+                            <el-button class="tac" @click="dialogFormVisible = true">
+                              <el-icon class="mr-5r" :size="16">
+                                <CirclePlus/>
+                              </el-icon>
+                              新建
+                            </el-button>
                           </div>
                         </div>
                         <!--卡片主题内容列表-->
@@ -97,12 +102,12 @@
                           <!--                              <el-radio label="1">{{ item.title }}</el-radio>-->
                           <!--                            </el-radio-group>-->
                           <el-checkbox-group v-model="favoriteChecked"
-                                             text-color="#f6f6f6"
                                              :min="1">
                             <el-checkbox class="mb5 w100"
                                          v-for="item2 in userFavoriteList"
                                          border
-                                         :label="item2.title"/>
+                                         :label="item2.title"
+                                         :name="item2.title"/>
                           </el-checkbox-group>
                         </div>
                         <div class="favorite-op tac">
@@ -223,7 +228,7 @@
 import {
   ArrowDownBold,
   ArrowUpBold,
-  ChatDotRound, ChromeFilled, Close, MoreFilled, QuestionFilled, UserFilled
+  ChatDotRound, ChromeFilled, CirclePlus, Close, MoreFilled, QuestionFilled, UserFilled
 } from '@element-plus/icons-vue'
 import {likeVideo, myFavoriteList} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
@@ -234,7 +239,7 @@ import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment},
+  components: {CirclePlus, QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment},
   computed: {
     UserFilled() {
       return UserFilled
@@ -445,6 +450,7 @@ export default {
     // 收藏视频
     handleCollectVideo(videoId) {
       console.log(videoId)
+      console.log(this.favoriteChecked)
     }
 
   },
