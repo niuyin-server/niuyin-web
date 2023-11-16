@@ -35,27 +35,28 @@
           </div>
         </div>
         <div class="flex-column">
-        <div class="trust-login-switch dn-phone">
-          <div class="trust-login-tips">
-            <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
-              <el-icon :size="20">
-                <QuestionFilled/>
-              </el-icon>
-            </el-tooltip>
+          <div class="trust-login-switch dn-phone">
+            <div class="trust-login-tips">
+              <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
+                <el-icon :size="20">
+                  <QuestionFilled/>
+                </el-icon>
+              </el-tooltip>
+            </div>
+            <div class="trust-login-switch-title">保存登录信息</div>
+            <div class="trust-login-switch-button">
+              <el-switch v-model="saveLogin"
+                         active-color="#13ce66"
+                         inactive-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
-          <div class="trust-login-switch-title">保存登录信息</div>
-          <div class="trust-login-switch-button">
-            <el-switch v-model="saveLogin"
-                       active-color="#13ce66"
-                       inactive-color="#ff4949">
-            </el-switch>
+          <div class="user-edit">
+            <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
+            <el-button @click="handleEditInfo" type="primary">详细信息</el-button>
           </div>
         </div>
-        <div class="user-edit">
-          <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
-          <el-button @click="handleEditInfo" type="primary">详细信息</el-button>
-        </div>
-      </div> </div>
+      </div>
       <!--  作品，喜欢，收藏  -->
       <div>
         <div class="user-works">
@@ -89,7 +90,7 @@
                        :headers="headers"
                        :show-file-list="false"
                        :on-success="handleUploadAvatarSuccess">
-              <img v-if="user.avatar" :src="userForm.avatar" class="avatar"/>
+              <img v-if="user.avatar||userForm.avatar" :src="userForm.avatar" class="avatar"/>
               <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
             </el-upload>
           </el-tooltip>

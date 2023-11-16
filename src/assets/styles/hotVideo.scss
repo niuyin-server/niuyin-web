@@ -17,19 +17,25 @@
 }
 
 .hotVideo-item {
-  width: 19.5%;
-  display: flex;
-  margin-bottom: 16px;
-  overflow: hidden;
-  border-radius: 1rem;
+  width: 20%;
+  padding: 0 8px;
+  margin-bottom: 10px;
 
-  .user-info {
-    height: 20%;
-    padding: 10px;
+  .hotVideo-card {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-radius: 1rem;
+    overflow: hidden;
+
+    .user-info {
+      height: 20%;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
+
+
 }
 
 @media (max-width: 1320px) {
@@ -41,13 +47,13 @@
 
 @media (max-width: 1208px) {
   .hotVideo-list .hotVideos .hotVideo-item {
-    width: 24.5%;
+    width: 25%;
   }
 }
 
 @media (max-width: 768px) {
   .hotVideo-list .hotVideos .hotVideo-item {
-    width: 49%;
+    width: 50%;
   }
 }
 

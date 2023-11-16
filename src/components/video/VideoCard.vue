@@ -43,8 +43,8 @@ export default {
   height: 380px;
   margin-bottom: 1.2rem;
 
-  &:hover{
-    box-shadow: 0 0 0 1px grey;
+  &:hover {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .12);
   }
 
   .video-cover-image {

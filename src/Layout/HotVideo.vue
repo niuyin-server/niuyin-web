@@ -22,100 +22,101 @@
                  class="hotVideos w100"
                  element-loading-svg-view-box="-10, -10, 50, 50"
                  v-masonry
-                 gutter="10"
                  fit-width="true"
                  transition-duration="0.2s"
-                 style="position:relative;"
                  item-selector=".hotVideo-item">
               <!--              热榜-->
-              <el-card style="height: 600px;" class="hotVideo-item">
-                <el-tabs v-model="activeName" @tab-click="handleHotTabClick">
-                  <el-tab-pane v-for="item in hotTabShow"
-                               :key="item.id"
-                               :label="item.tabName"
-                               :lazy="true"
-                               :name="item.tabName">
-                    <!--                    <router-view/>-->
-                    <div v-for="it in item.dataList" class="p10px">
-                      <p>{{ it.title }}</p>
-                    </div>
-                  </el-tab-pane>
-                </el-tabs>
-              </el-card>
-              <!--              热门视频-->
-              <el-card v-for='(item,index) in hotVideoList'
-                       :key="item.videoId"
-                       v-masonry-tile
-                       class="hotVideo-item">
-                <div class="video-cover">
-                  <el-image class="eli-ofc"
-                            style="height:100%;"
-                            @click="videoDialog(item.videoId)"
-                            :src="item.coverImage"/>
-                </div>
-                <div class="user-info">
-                  <div>
-                    <p class="one-line fs9">{{ item.videoTitle }}</p>
-                    <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
-                  </div>
-                  <!--鼠标悬停在视频发布者头像上时展示该视频发布者的信息-->
-                  <el-popover :width="300"
-                              placement="top"
-                              popper-class="person-info-pop"
-                              popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
-                              :ref="'pop'+index">
-                    <!--视频发布者的头像-->
-                    <template #reference>
-                      <div>
-                        <el-avatar v-if="item.userAvatar"
-                                   class="cp"
-                                   :src="item.userAvatar"
-                                   @click="handlePersonInfo(item.userId)"
-                                   @mouseover="handleSocialBehaveNumsHover(item.userId,index)"
-                                   @mouseleave="handleSocialBehaveNumsHoverLeave(item.userId,index)"/>
-                        <el-avatar v-else class="cp"
-                                   :icon="UserFilled"
-                                   @click="handlePersonInfo(item.userId)"/>
+              <div style="height: 600px;" class="hotVideo-item">
+                <el-card class="hotVideo-card wh100">
+                  <el-tabs v-model="activeName" @tab-click="handleHotTabClick">
+                    <el-tab-pane v-for="item in hotTabShow"
+                                 :key="item.id"
+                                 :label="item.tabName"
+                                 :lazy="true"
+                                 :name="item.tabName">
+                      <!--                    <router-view/>-->
+                      <div v-for="it in item.dataList" class="p10px">
+                        <p>{{ it.title }}</p>
                       </div>
-                    </template>
-                    <template #default>
-                      <!--视频发布者的头像、名称和关注粉丝等信息展示模块-->
-                      <div class="flex-column">
-                        <!--视频发布者的头像div-->
-                        <div style="display: flex;">
-                          <div>
-                            <el-avatar v-if="item.userAvatar" class="cp" :src="item.userAvatar"/>
-                            <el-avatar v-else class="cp" :icon="UserFilled"/>
-                          </div>
-                          <!--名称和关注粉丝等信息展示模块-->
-                          <div style="display: grid; margin-left: 10px;">
-                            <!--名称展示模块-->
-                            <div v-html="item.userNickName" class="fs9 fw600 cp"></div>
-                            <!--点赞、关注、粉丝等信息展示模块-->
-                            <div class="flex-between">
-                              <!--关注信息展示模块-->
-                              <p class="">{{ userVideoLikes }}</p><span>关注</span>
-                              <!--粉丝信息展示模块-->
-                              <p class="ml-5r">{{ followedNums }}<span>粉丝</span></p>
-                              <!--获赞信息展示模块-->
-                              <p class="ml-5r">{{ fanNums }}</p><span>获赞</span>
+                    </el-tab-pane>
+                  </el-tabs>
+                </el-card>
+              </div>
+              <!--              热门视频-->
+              <div v-for='(item,index) in hotVideoList'
+                   :key="item.videoId"
+                   v-masonry-tile
+                   class="hotVideo-item">
+                <el-card class="hotVideo-card">
+                  <div class="video-cover">
+                    <el-image class="eli-ofc h100"
+                              @click="videoDialog(item.videoId)"
+                              :src="item.coverImage"/>
+                  </div>
+                  <div class="user-info">
+                    <div>
+                      <p class="one-line fs9">{{ item.videoTitle }}</p>
+                      <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
+                    </div>
+                    <!--鼠标悬停在视频发布者头像上时展示该视频发布者的信息-->
+                    <el-popover :width="300"
+                                placement="top"
+                                popper-class="person-info-pop"
+                                popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
+                                :ref="'pop'+index">
+                      <!--视频发布者的头像-->
+                      <template #reference>
+                        <div>
+                          <el-avatar v-if="item.userAvatar"
+                                     class="cp"
+                                     :src="item.userAvatar"
+                                     @click="handlePersonInfo(item.userId)"
+                                     @mouseover="handleSocialBehaveNumsHover(item.userId,index)"
+                                     @mouseleave="handleSocialBehaveNumsHoverLeave(item.userId,index)"/>
+                          <el-avatar v-else class="cp"
+                                     :icon="UserFilled"
+                                     @click="handlePersonInfo(item.userId)"/>
+                        </div>
+                      </template>
+                      <template #default>
+                        <!--视频发布者的头像、名称和关注粉丝等信息展示模块-->
+                        <div class="flex-column">
+                          <!--视频发布者的头像div-->
+                          <div style="display: flex;">
+                            <div>
+                              <el-avatar v-if="item.userAvatar" class="cp" :src="item.userAvatar"/>
+                              <el-avatar v-else class="cp" :icon="UserFilled"/>
                             </div>
-                            <!--关注以及私信功能模块展示-->
-                            <div style="display: flex; margin-top: 10px;">
-                              <div v-if="item.weatherFollow">
-                                <el-button type="info">已关注</el-button>
+                            <!--名称和关注粉丝等信息展示模块-->
+                            <div style="display: grid; margin-left: 10px;">
+                              <!--名称展示模块-->
+                              <div v-html="item.userNickName" class="fs9 fw600 cp"></div>
+                              <!--点赞、关注、粉丝等信息展示模块-->
+                              <div class="flex-between">
+                                <!--关注信息展示模块-->
+                                <p class="">{{ userVideoLikes }}</p><span>关注</span>
+                                <!--粉丝信息展示模块-->
+                                <p class="ml-5r">{{ followedNums }}<span>粉丝</span></p>
+                                <!--获赞信息展示模块-->
+                                <p class="ml-5r">{{ fanNums }}</p><span>获赞</span>
                               </div>
-                              <div v-else>
-                                <el-button type="primary">+关注</el-button>
+                              <!--关注以及私信功能模块展示-->
+                              <div style="display: flex; margin-top: 10px;">
+                                <div v-if="item.weatherFollow">
+                                  <el-button type="info">已关注</el-button>
+                                </div>
+                                <div v-else>
+                                  <el-button type="primary">+关注</el-button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </template>
-                  </el-popover>
-                </div>
-              </el-card>
+                      </template>
+                    </el-popover>
+                  </div>
+                </el-card>
+              </div>
             </div>
           </div>
         </template>
@@ -199,7 +200,8 @@ export default {
         {id: 3, title: "你好好好"},
         {id: 4, title: "你好好好好"},
         {id: 5, title: "你好好好"},
-      ]
+      ],
+      playVideoUrl: "",//hover之后播放的video
     };
   },
   created() {
@@ -302,6 +304,11 @@ export default {
       // console.log(this.$route.path)
       // console.log(this.$route.matched[1].path)
       // this.$router.push(route)
+    },
+    // 热门视频卡片hover播放视频
+    handleHoverPlayVideo(videoUrl){
+      this.playVideoUrl = videoUrl
+      console.log(this.playVideoUrl)
     },
   }
 };

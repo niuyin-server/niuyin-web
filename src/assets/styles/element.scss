@@ -156,3 +156,8 @@ html.dark {
   height: 4px;
   border-radius: 2px;
 }
+
+/*输入框提示文字颜色*/
+.el-input__count-inner {
+  color: var(--niuyin-text-color);
+}
