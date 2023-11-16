@@ -146,6 +146,10 @@ a {
   padding: 10px;
 }
 
+.p1rem {
+  padding: 1rem;
+}
+
 .w49 {
   width: 49%;
 }
@@ -257,6 +261,13 @@ a {
   align-items: center;
 }
 
+.flex-start {
+  display: flex;
+  justify-content: start;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
 .flex-row {
   display: flex;
   flex-flow: row wrap;
@@ -268,6 +279,18 @@ a {
   flex-flow: column;
   /*align-items: center;*/
   justify-content: center;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-flow: column;
+  flex: 1 1;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dn{
+  display: none;
 }
 
 .tac {

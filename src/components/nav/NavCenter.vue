@@ -16,8 +16,8 @@
                 @keyup.enter.native="searchConfirm"
                 clearable>
             </el-input>
-            <el-button class="search-btn cb fw600" type="info" plain @click="searchConfirm">
-              <i class="iconfont icon-search mr-5r"></i><span>搜索</span>
+            <el-button class="search-btn fw600" type="info" plain @click="searchConfirm">
+              <i class="iconfont icon-search mr-5r"></i><span style="color: var(--niuyin-text-color)">搜索</span>
             </el-button>
           </div>
         </template>

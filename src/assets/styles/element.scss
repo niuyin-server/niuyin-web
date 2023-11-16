@@ -9,11 +9,15 @@ html.dark {
   --el-bg-color-page: rgb(37, 38, 50);
   --niuyin-text-color: #fff;
   --niuyin-bg-color: #000000;
+  --niuyin-primary-color: rgb(210, 27, 70);
+
 }
 
 :root {
   --niuyin-text-color: #000;
   --niuyin-bg-color: #ffffff;
+  --niuyin-primary-color: rgb(17, 72, 210);
+
   --el-color-info: #e2e3e3; /*按钮背景色*/
   --el-input-bg-color: rgb(242, 242, 243);
   --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
@@ -48,6 +52,10 @@ html.dark {
   --el-empty-fill-color-9: #7280b1;
 }
 
+.el-popover {
+  --el-popover-padding: 0;
+}
+
 .el-card {
   --el-card-padding: 0;
   --el-card-bg-color: rgba(242, 242, 243, 1)
@@ -72,6 +80,10 @@ html.dark {
 /*popover*/
 .el-popover {
   --el-popover-border-radius: 16px;
+}
+
+.el-popconfirm{
+  padding: 10px;
 }
 
 .el-tabs__header {

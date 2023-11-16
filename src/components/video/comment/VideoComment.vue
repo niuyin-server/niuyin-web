@@ -36,6 +36,7 @@
                     :icon="InfoFilled"
                     icon-color="#626AEF"
                     title="删除？"
+                    style="padding: 10px"
                     @confirm="handleDelConfirm(item.commentId)"
                     @cancel="handleDelCancel">
                   <template #reference>
@@ -321,6 +322,10 @@ export default {
 
 .operate-icon:hover {
   transform: scale(1.1);
+}
+
+.el-card {
+  background-color: transparent;
 }
 
 </style>

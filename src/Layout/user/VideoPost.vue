@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-between" v-loading="loadingIcon">
+  <div class="flex-between videoPost" v-loading="loadingIcon">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
         <div class="loading-container" v-for="i in 2">
@@ -81,10 +81,11 @@ export default {
     this.initVideoList()
   },
   mounted() {
+    const vc = document.getElementsByClassName("videoPost")
     window.addEventListener('scroll', this.handleScroll, true);
   },
   destroyed() {
-    window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     initVideoList() {

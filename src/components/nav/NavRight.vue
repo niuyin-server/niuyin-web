@@ -2,51 +2,70 @@
   <div class="nav-right">
     <div class="flex-center dn-phone">
       <!--通知 -->
-      <router-link class="link-type" :to="item.url" v-for="item in rightNavList" :key="item.id">
-        <div class="flex-column icon-click cg cp mlr8">
-          <el-badge v-if="item.num!==0" :value="item.num" class="item">
-            <div style="height: 20px; justify-content: center; width: 20px;">
-              <i :class="item.icon" style="font-size: 18px"></i>
+      <!--      <router-link class="link-type" :to="item.url" v-for="item in rightNavList" :key="item.id">-->
+      <!--        <div class="flex-column icon-click cg cp mlr8">-->
+      <!--          <el-badge v-if="item.num!==0" :value="item.num" class="item">-->
+      <!--            <div style="height: 20px; justify-content: center; width: 20px;">-->
+      <!--              <i :class="item.icon" style="font-size: 18px"></i>-->
+      <!--            </div>-->
+      <!--            <p>-->
+      <!--              <span class="cg fs7">{{ item.title }}</span>-->
+      <!--            </p>-->
+      <!--          </el-badge>-->
+      <!--          <div v-else>-->
+      <!--            <div style="height: 20px; justify-content: center; width: 20px;">-->
+      <!--              <i :class="item.icon" style="font-size: 18px"></i>-->
+      <!--            </div>-->
+      <!--            <p>-->
+      <!--              <span class="cg fs7">{{ item.title }}</span>-->
+      <!--            </p>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </router-link>-->
+      <!--通知-->
+      <el-popover :width="300" ref="noticePopover" trigger="click">
+        <template #reference>
+          <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
+            <div class="flex-column icon-click cg mlr5">
+              <el-badge :value="2" class="item">
+                <div style="height: 20px; justify-content: center; width: 20px;">
+                  <i class="iconfont icon-notice" style="font-size: 18px"></i>
+                </div>
+              </el-badge>
+              <p>
+                <span class="cg fs7">消息</span>
+              </p>
             </div>
-            <p>
-              <span class="cg fs7">{{ item.title }}</span>
-            </p>
-          </el-badge>
-          <div v-else>
-            <div style="height: 20px; justify-content: center; width: 20px;">
-              <i :class="item.icon" style="font-size: 18px"></i>
-            </div>
-            <p>
-              <span class="cg fs7">{{ item.title }}</span>
-            </p>
           </div>
+        </template>
+        <template #default>
+          <Notice v-if="showNotice"/>
+        </template>
+      </el-popover>
+      <!--消息 -->
+      <router-link class="link-type" :to="'/message'">
+        <div class="flex-center icon-click cg cp"
+             style="flex-direction: column;margin: 0 10px;">
+          <div style="height: 20px; justify-content: center; width: 20px;">
+            <i class="iconfont icon-message" style="font-size: 18px"></i>
+          </div>
+          <p>
+            <span class="cg fs7">消息</span>
+          </p>
         </div>
       </router-link>
-      <!--消息 -->
-      <!--      <router-link class="link-type" :to="'/message'">-->
-      <!--        <div class="flex-center icon-click cg"-->
-      <!--             style="cursor: pointer; flex-direction: column;margin: 0 10px;">-->
-      <!--          <div style="height: 20px; justify-content: center; width: 20px;">-->
-      <!--            <i class="iconfont icon-message"></i>-->
-      <!--          </div>-->
-      <!--          <p>-->
-      <!--            <span class="cg fs7">消息</span>-->
-      <!--          </p>-->
-      <!--        </div>-->
-      <!--      </router-link>-->
-      <!--      &lt;!&ndash;发布视频&ndash;&gt;-->
-      <!--      <router-link class="link-type" :to="'/publish'">-->
-      <!--        <div class="flex-center icon-click cg"-->
-      <!--             style="cursor: pointer; flex-direction: column;margin: 0 10px;">-->
-      <!--          <div style="height: 20px;justify-content: center;width: 20px;">-->
-      <!--            &lt;!&ndash;              <Plus style="width: 20px; height: 20px;font-weight: 600"/>&ndash;&gt;-->
-      <!--            <i class="iconfont icon-upload"></i>-->
-      <!--          </div>-->
-      <!--          <p>-->
-      <!--            <span class="cg fs7">投稿</span>-->
-      <!--          </p>-->
-      <!--        </div>-->
-      <!--      </router-link>-->
+      <!--发布视频-->
+      <router-link class="link-type" :to="'/publish'">
+        <div class="flex-center icon-click cg cp"
+             style="flex-direction: column;margin: 0 10px;">
+          <div style="height: 20px;justify-content: center;width: 20px;">
+            <i class="iconfont icon-upload" style="font-size: 18px"></i>
+          </div>
+          <p>
+            <span class="cg fs7">投稿</span>
+          </p>
+        </div>
+      </router-link>
     </div>
     <el-popover class="user-popover"
                 :width="400"
@@ -131,9 +150,11 @@ import {myVideoCount} from "@/api/video.js";
 import {myLikeCount, myFavoriteCount} from "@/api/behave.js";
 import {UserFilled} from "@element-plus/icons-vue";
 import {themeX} from "@/store/themeX";
+import Notice from "@/components/nav/Notice.vue";
 
 export default {
   name: "NavRight",
+  components: {Notice},
   computed: {
     UserFilled() {
       return UserFilled
@@ -157,12 +178,13 @@ export default {
         {id: 3, icon: "iconfont icon-favorite-ed", num: 0, title: "我的收藏", url: "/user/videoFavorite"},
         {id: 4, icon: "iconfont icon-history", num: 0, title: "观看历史", url: "/user/videoViewHistory"},
       ],
+      showNotice: false,
     }
   },
   created() {
     this.initTheme()
   },
-  emits:['darkChangeEmit'],
+  emits: ['darkChangeEmit'],
   methods: {
     initTheme() {
       const html = document.querySelector('html')
@@ -223,6 +245,14 @@ export default {
         }
       }
     },
+    // 显示通知
+    handleNoticeShow() {
+      this.showNotice = true
+    },
+    // 通知弹框隐藏
+    handleNoticeHide() {
+      this.showNotice = true
+    }
   }
 }
 </script>

@@ -31,7 +31,7 @@
                   '22岁'
                 }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
-            <span class="school">中原工学院</span>
+            <span class="school"><el-icon :size="16" class="mr-5r"><School /></el-icon>中原工学院</span>
           </div>
         </div>
         <div class="flex-column">
@@ -228,7 +228,7 @@
 import {getInfo, updateMemberInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
-import {Check, Close, QuestionFilled} from "@element-plus/icons-vue";
+import {Check, Close, QuestionFilled, School} from "@element-plus/icons-vue";
 import {useUserStore} from "@/store/useUserStore";
 import {
   regionData,
@@ -236,7 +236,7 @@ import {
 
 export default {
   name: 'User',
-  components: {QuestionFilled},
+  components: {School, QuestionFilled},
   computed: {
     Check() {
       return Check
