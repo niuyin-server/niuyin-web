@@ -23,3 +23,5 @@ npm i @vuemap/vue-amap
 
 [//]: # (npm i vue-waterfall2@latest --save)
 
+## cookie
+npm i js-cookie
