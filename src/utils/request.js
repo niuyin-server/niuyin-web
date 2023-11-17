@@ -8,9 +8,10 @@ const instance = axios.create({
     baseURL: 'http://localhost:9090', // baseURL: 'http://39.101.67.45:9090',
     timeout: 20000,
 });
-const token = getToken()
+
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
+    const token = getToken()
     if (token) {
         config.headers.Authorization = 'Bearer ' + token
     }
