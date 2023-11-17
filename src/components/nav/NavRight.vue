@@ -46,7 +46,6 @@
     </div>
     <el-popover class="user-popover"
                 :width="400"
-                trigger="hover"
                 :inert="60"
                 @show="handlePopoverShow"
                 popper-style="padding: 20px;">

@@ -38,25 +38,34 @@
                   <span v-if="item.remark " class="mr-5r">{{ item.remark }}</span>
                   <span>{{ smartDateFormat(item.createTime) }}</span>
                 </div>
-                <div class="notice-op ">
-                  <el-popconfirm
-                      confirm-button-text="Y"
-                      cancel-button-text="N"
-                      :icon="InfoFilled"
-                      :teleported="false"
-                      icon-color="#626AEF"
-                      title="删除通知？"
-                      class="p10px"
-                      @confirm="handleDelNoticeConfirm(item.noticeId)"
-                      @cancel.stop="handleDelNoticeCancel">
-                    <template #reference>
-                      <el-icon>
-                        <MoreFilled/>
-                      </el-icon>
-                    </template>
-                  </el-popconfirm>
-                </div>
               </p>
+            </div>
+            <!--            原-->
+            <div class="notice-origin flex-column" style="align-items: flex-end">
+              <img v-if="item.videoCoverImage"
+                   style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
+                   :src="item.videoCoverImage"/>
+              <el-avatar v-else
+                         style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
+                         :icon="UserFilled"/>
+              <div class="notice-op dn pa">
+                <el-popconfirm
+                    confirm-button-text="Y"
+                    cancel-button-text="N"
+                    :icon="InfoFilled"
+                    :teleported="false"
+                    icon-color="#626AEF"
+                    title="删除通知？"
+                    class="p10px"
+                    @confirm="handleDelNoticeConfirm(item.noticeId)"
+                    @cancel.stop="handleDelNoticeCancel">
+                  <template #reference>
+                    <el-icon>
+                      <MoreFilled/>
+                    </el-icon>
+                  </template>
+                </el-popconfirm>
+              </div>
             </div>
           </div>
         </div>
@@ -108,7 +117,7 @@ export default {
   created() {
     this.getNoticeList()
   },
-  emits:['noticeRefreshEmit'],
+  emits: ['noticeRefreshEmit'],
   methods: {
     // 分页获取通知
     getNoticeList() {
@@ -156,7 +165,6 @@ export default {
 <style scoped>
 .el-select:deep(.el-input__wrapper) {
   box-shadow: none !important;
-
 }
 
 .el-input:deep(.el-input__wrapper.is-focus) {
