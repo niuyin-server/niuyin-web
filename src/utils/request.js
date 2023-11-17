@@ -1,11 +1,10 @@
 import axios from 'axios'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import errorCode from '@/utils/errorCode'
-import {tokenX} from "@/store/tokenX";
 import {getToken} from "@/utils/auth.js";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:9090', // baseURL: 'http://39.101.67.45:9090',
+    baseURL: import.meta.env.VITE_API_BASE_URL,
     timeout: 20000,
 });
 

@@ -32,7 +32,7 @@
                   '22岁'
                 }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
-            <span class="school"><el-icon :size="16" class="mr-5r"><School /></el-icon>中原工学院</span>
+            <span class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>中原工学院</span>
           </div>
         </div>
         <div class="flex-column">
@@ -90,6 +90,7 @@
                        :action="avatarUploadUrl"
                        :headers="headers"
                        :show-file-list="false"
+                       :on-error="handleUploadAvatarError"
                        :on-success="handleUploadAvatarSuccess">
               <img v-if="user.avatar||userForm.avatar" :src="userForm.avatar" class="avatar"/>
               <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
@@ -261,8 +262,8 @@ export default {
       saveLogin: true,
       userForm: {},
       memberInfoForm: {},
-      avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
-      backImageUploadUrl: "http://localhost:9090/member/api/v1/info/backImage/upload",
+      avatarUploadUrl: import.meta.env.VITE_API_BASE_URL + "/member/api/v1/avatar",
+      backImageUploadUrl: import.meta.env.VITE_API_BASE_URL + "/member/api/v1/info/backImage/upload",
       headers: {
         Authorization: 'Bearer ' + getToken(),
       },
@@ -365,7 +366,15 @@ export default {
     },
     //头像上传成功回调
     handleUploadAvatarSuccess(res) {
-      this.userForm.avatar = res.data
+      if (res.code === 200) {
+        this.userForm.avatar = res.data
+      } else {
+        this.$message.error(res.msg)
+      }
+    },
+    // 上传失败回调
+    handleUploadAvatarError(res) {
+
     },
     // 确认提交
     confirmUpdateProfile() {
@@ -395,7 +404,11 @@ export default {
     },
     //头像上传成功回调
     handleUploadBackImageSuccess(res) {
-      this.memberInfoForm.backImage = res.data
+      if (res.code === 200) {
+        this.memberInfoForm.backImage = res.data
+      } else {
+        this.$message.error(res.msg)
+      }
     },
     //取消
     cancelUpdateInfo() {

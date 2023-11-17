@@ -97,7 +97,7 @@ export default {
       title: "发布视频",
       videoFlag: false,
       loading: false,
-      videoUploadUrl: "http://localhost:9090/video/api/v1/upload",
+      videoUploadUrl: import.meta.env.VITE_API_BASE_URL + "/video/api/v1/upload",
       headers: {
         Authorization: 'Bearer ' + getToken(),
       },
@@ -200,7 +200,7 @@ export default {
         this.videoForm.videoUrl = res.data.videoUrl
         this.videoForm.coverImage = res.data.vframe
       } else {
-        this.$message.error('视频上传失败，请重新上传！')
+        this.$message.error(res.msg)
       }
     },
     // 添加视频标签
