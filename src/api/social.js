@@ -17,11 +17,10 @@ export function followUser(userId) {
     })
 }
 
-// 关注用户
+// 关注数、粉丝数
 export function followAndFans(userId) {
     return request({
         url: '/social/api/v1/follow/followFans/' + userId,
         method: 'get'
     })
 }
-

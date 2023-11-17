@@ -48,8 +48,8 @@
                              class="user-avatar cp"
                              :icon="UserFilled"/>
                   <span v-if="!item.weatherFollow" class="user-att cp operate-icon">
-                  <i class="iconfont icon-attention fs24px" @click="handleAttUser(item.userId)"></i>
-                </span>
+                  <i class="iconfont icon-attention fs24px" @click="handleAttUser(item.userId)"/>
+                  </span>
                 </div>
                 <!--            点赞  -->
                 <div class="op">
@@ -111,10 +111,10 @@
                           </el-checkbox-group>
                         </div>
                         <div class="favorite-op tac">
-                          <el-button  type="info"
+                          <el-button type="info"
                                      @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频
                           </el-button>
-                          <el-button  type="primary" :disabled="favoriteBtn"
+                          <el-button type="primary" :disabled="favoriteBtn"
                                      @click="handleCollectVideo(item.videoId)">收藏至收藏夹
                           </el-button>
                         </div>
@@ -313,13 +313,6 @@ export default {
     handleFavoriteLeave(videoId) {
       this.$refs[`favoritePop${videoId}`][0].showPopper = false
     },
-    handleFollow(userId) {
-      followUser(userId).then(res => {
-        if (res.code === 200) {
-          this.$message.success('关注成功')
-        }
-      })
-    },
     // 点赞视频
     videoLikeClick(videoId) {
       likeVideo(videoId).then(res => {
@@ -435,8 +428,19 @@ export default {
     },
     // 关注用户
     handleAttUser(userId) {
-      console.log(userId)
-      // 将数组此条数据改为已关注 weatherFollow = true
+      followUser(userId).then(res => {
+        if (res.code === 200) {
+          this.$message.success('关注成功')
+          // 将数组此条数据改为已关注 weatherFollow = true
+          this.videoList.forEach((item, index) => {
+            if (item.userId === userId) {
+              item.weatherFollow = true;
+            }
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     keyDownZ(videoId, e) {
       // 点赞

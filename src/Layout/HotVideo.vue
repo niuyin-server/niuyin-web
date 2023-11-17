@@ -263,7 +263,7 @@ export default {
           this.hotVideoQueryParams.pageNum += 1
           hotVideoPage(this.hotVideoQueryParams).then(res => {
             if (res.code === 200) {
-              if (res.rows.length == 0) {
+              if (res.rows.length === 0) {
                 this.dataNotMore = true
                 this.loadingIcon = false
                 this.loadingData = false

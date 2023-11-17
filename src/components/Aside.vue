@@ -130,6 +130,7 @@ export default {
 .router-link {
   border-radius: 0.5rem;
   padding: 0.3rem 0;
+  color: var(--niuyin-text-color);
   text-decoration: none;
 }
 
