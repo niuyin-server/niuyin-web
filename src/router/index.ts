@@ -61,5 +61,9 @@ const router = createRouter({
 //     beforeEach.checkAuth(guard, router)
 // })
 
+// router.beforeEach((to,from,next)=>{
+//     if()
+// })
+
 
 export default router;

@@ -88,6 +88,7 @@ import {publishVideo, videoCategory, saveVideoTag} from "@/api/video";
 import * as qiniu from "qiniu-js";
 import {ElMessage} from "element-plus";
 import {tokenX} from "@/store/tokenX";
+import {getToken} from "@/utils/auth.js";
 
 export default {
   name: "Publish",
@@ -98,7 +99,7 @@ export default {
       loading: false,
       videoUploadUrl: "http://localhost:9090/video/api/v1/upload",
       headers: {
-        Authorization: 'Bearer ' + tokenX().token,
+        Authorization: 'Bearer ' + getToken(),
       },
       videoUploadPercent: undefined,
       videoForm: {

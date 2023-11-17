@@ -3,7 +3,8 @@
     <el-scrollbar>
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
         <div v-viewer class="avatar-area dn-phone">
-          <img class="user-avatar" :src="user.avatar"/>
+          <el-avatar v-if="user.avatar" class="user-avatar" :src="user.avatar"/>
+          <el-avatar v-else class="user-avatar" :icon="UserFilled"/>
         </div>
         <div class="user-info">
           <div class="username"><h1>{{ user.nickName }}</h1></div>
@@ -228,17 +229,21 @@
 import {getInfo, updateMemberInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
-import {Check, Close, QuestionFilled, School} from "@element-plus/icons-vue";
+import {Check, Close, QuestionFilled, School, UserFilled} from "@element-plus/icons-vue";
 import {
   regionData,
 } from "element-china-area-data";
 import {tokenX} from "@/store/tokenX";
 import {userInfoX} from "@/store/userInfoX";
+import {getToken} from "@/utils/auth.js";
 
 export default {
   name: 'User',
   components: {School, QuestionFilled},
   computed: {
+    UserFilled() {
+      return UserFilled
+    },
     Check() {
       return Check
     },
@@ -259,7 +264,7 @@ export default {
       avatarUploadUrl: "http://localhost:9090/member/api/v1/avatar",
       backImageUploadUrl: "http://localhost:9090/member/api/v1/info/backImage/upload",
       headers: {
-        Authorization: 'Bearer ' + tokenX().token,
+        Authorization: 'Bearer ' + getToken(),
       },
       followNum: 0, // 关注数
       fansNum: 0, //粉丝数
