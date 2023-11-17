@@ -10,7 +10,7 @@
                  :autoplay="false"
                  :loop="false"
                  indicator-position="none"
-                 @keydown="keyDown"
+                 @keydown.stop="keyDown"
                  @mousewheel="rollScroll($event)"
                  @change="carouselChange"
                  @ended="carouselEnd">

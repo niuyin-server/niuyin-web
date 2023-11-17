@@ -19,7 +19,7 @@
     <div class="notice-list plrb10" style="height:50vh;" v-loading="loading">
       <el-scrollbar class="h100" ref="noticeScrollbar">
         <div>
-          <div class="notice-item flex-start cp p5-10 mtb5"
+          <div class="notice-item flex-start cp p5-10 mtb5 pr"
                style="background-color: var(--el-bg-color-page);border-radius: 10px"
                v-for="item in noticeList">
             <!--          头像-->
@@ -45,10 +45,14 @@
               <img v-if="item.videoCoverImage"
                    style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
                    :src="item.videoCoverImage"/>
+              <!--              关注通知-->
+              <el-button v-else-if="item.noticeType==='1'"
+                         type="primary">回关
+              </el-button>
               <el-avatar v-else
                          style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
                          :icon="UserFilled"/>
-              <div class="notice-op dn pa">
+              <div class="notice-op dn pa" style="bottom: -5px">
                 <el-popconfirm
                     confirm-button-text="Y"
                     cancel-button-text="N"
