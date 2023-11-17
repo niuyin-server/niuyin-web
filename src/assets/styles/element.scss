@@ -7,6 +7,8 @@ html.dark {
   --el-color-primary-light-9: #2c1820;
   --el-color-primary-dark-2: #ff66a1;
   --el-bg-color-page: rgb(37, 38, 50);
+  --el-overlay-color-lighter: rgba(0, 0, 0, 0.8); //弹窗遮罩层
+
   --niuyin-text-color: #fff;
   --niuyin-bg-color: #000000;
   --niuyin-primary-color: rgb(210, 27, 70);
@@ -29,7 +31,7 @@ html.dark {
   --el-border-radius-base: 8px; /*输入框圆角*/
   ---primary-red-color: rgb(210, 27, 70);
   ---primary-blue-color: rgb(17, 72, 210);
-
+  --el-overlay-color-lighter: rgba(0, 0, 0, 0.5); //弹窗遮罩层
   /* 背景色 */
   --theme-light-bg-color: #ffffff;
   --theme-dark-bg-color: #000000;
@@ -50,6 +52,10 @@ html.dark {
   --el-empty-fill-color-7: #d1b8be;
   --el-empty-fill-color-8: #a4b3d2;
   --el-empty-fill-color-9: #7280b1;
+}
+
+.el-checkbox__inner {
+  border-radius: 4px;
 }
 
 .el-popover {
@@ -82,7 +88,7 @@ html.dark {
   --el-popover-border-radius: 16px;
 }
 
-.el-popconfirm{
+.el-popconfirm {
   padding: 10px;
 }
 
@@ -151,11 +157,6 @@ html.dark {
   .el-image__inner {
     object-fit: cover;
   }
-}
-
-// 抽屉mask
-.el-overlay {
-  background-color: transparent;
 }
 
 .el-tabs__nav-wrap::after {

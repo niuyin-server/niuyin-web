@@ -78,16 +78,26 @@ export function myFavoriteCount() {
 }
 
 //查询用户收藏夹列表
-export function myFavoriteList(userId) {
+export function myFavoriteList() {
     return request({
-        url: '/behave//api/v1/userFavorite/list/'+ userId,
+        url: '/behave/api/v1/userFavorite/list',
         method: 'get',
     })
 }
+
 //查询用户点赞列表
 export function personVideoLikePage(data) {
     return request({
         url: '/behave/api/v1/like/personLikePage',
+        method: 'post',
+        data: data
+    })
+}
+
+//查询用户点赞列表
+export function createFavorite(data) {
+    return request({
+        url: '/behave/api/v1/userFavorite',
         method: 'post',
         data: data
     })
