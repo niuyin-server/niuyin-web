@@ -1,6 +1,7 @@
 <template>
   <div class="hot-container wh100">
     <el-scrollbar>
+      <el-empty v-show="hotVideoTotal<=0" description="暂无数据"/>
       <el-skeleton class="w100" :loading="loading" animated>
         <template #template>
           <div class="loading-container" v-for="i in 2">
@@ -16,10 +17,10 @@
           </div>
         </template>
         <template #default>
-          <div class="hotVideo-list w100">
+          <div class="hotVideo-list w100" style="height: auto">
             <div v-loading="loadingIcon"
                  :element-loading-svg="svg"
-                 class="hotVideos w100"
+                 class="hotVideos"
                  element-loading-svg-view-box="-10, -10, 50, 50"
                  v-masonry
                  fit-width="true"
@@ -69,6 +70,7 @@
                         <div>
                           <el-avatar v-if="item.userAvatar"
                                      class="cp"
+                                     :lazy="true"
                                      :src="item.userAvatar"
                                      @click="handlePersonInfo(item.userId)"
                                      @mouseover="handleSocialBehaveNumsHover(item.userId,index)"
@@ -140,7 +142,7 @@
                :src="video.videoUrl"
                controls/>
       </el-dialog>
-      <el-empty v-show="hotVideoTotal<=0" description="暂无数据"/>
+
     </el-scrollbar>
   </div>
 </template>
@@ -175,7 +177,7 @@ export default {
       hotVideoTotal: undefined,
       hotVideoQueryParams: {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 20
       },
       video: {},
       loadingData: true,
@@ -307,7 +309,7 @@ export default {
       // this.$router.push(route)
     },
     // 热门视频卡片hover播放视频
-    handleHoverPlayVideo(videoUrl){
+    handleHoverPlayVideo(videoUrl) {
       this.playVideoUrl = videoUrl
       console.log(this.playVideoUrl)
     },
