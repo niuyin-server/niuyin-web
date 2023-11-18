@@ -174,3 +174,8 @@ html.dark {
 .el-input__count-inner {
   color: var(--niuyin-text-color);
 }
+
+/*消息弹框圆角*/
+.el-message-box {
+  --el-messagebox-border-radius: 16px;
+}

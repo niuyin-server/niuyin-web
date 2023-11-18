@@ -102,3 +102,28 @@ export function createFavorite(data) {
         data: data
     })
 }
+
+// 用户仅仅收藏视频
+export function onlyFavoriteVideo(videoId) {
+    return request({
+        url: '/behave/api/v1/favorite/' + videoId,
+        method: 'GET',
+    })
+}
+
+// 收藏视频到收藏夹
+export function favoriteVideoToCollection(data) {
+    return request({
+        url: '/behave/api/v1/userFavoriteVideo',
+        method: 'POST',
+        data: data
+    })
+}
+
+// 查询视频在用户哪些收藏夹
+export function videoInWhoseCollection(videoId) {
+    return request({
+        url: '/behave/api/v1/userFavoriteVideo/' + videoId,
+        method: 'GET',
+    })
+}

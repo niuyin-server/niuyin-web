@@ -74,8 +74,8 @@
                     <!--收藏按钮根据是否收藏显示不同的状态-->
                     <template #reference>
                       <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
-                         @mouseover.stop="handleFavoriteOver(item.videoId)"
-                         @mouseleave.stop="handleFavoriteLeave(item.videoId)"></i>
+                         @click="handleCancelFavoriteOver(item.videoId)"
+                         @mouseover.stop="handleFavoriteOver(item.videoId)"></i>
                       <i v-else class="iconfont icon-favorite icon-36 operate-icon"
                          @mouseover.stop="handleFavoriteOver(item.videoId)"
                          @mouseleave.stop="handleFavoriteLeave(item.videoId)"></i>
@@ -111,10 +111,21 @@
                           </el-checkbox-group>
                         </div>
                         <div class="favorite-op tac">
-                          <el-button type="info"
-                                     @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频
+                          <!--                          已收藏-->
+                          <!--                          <el-button v-if="item.weatherFavorite"-->
+                          <!--                                     type="warning"-->
+                          <!--                                     disabled>已收藏-->
+                          <!--                          </el-button>-->
+                          <!--                          <el-button v-else-->
+                          <!--                                     type="info"-->
+                          <!--                                     @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频-->
+                          <!--                          </el-button>-->
+                          <el-button
+                              type="info"
+                              @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频
                           </el-button>
-                          <el-button type="primary" :disabled="favoriteBtn"
+                          <el-button type="primary"
+                                     :disabled="favoriteBtn"
                                      @click="handleCollectVideo(item.videoId)">收藏至收藏夹
                           </el-button>
                         </div>
@@ -234,7 +245,14 @@ import {
   ArrowUpBold,
   ChatDotRound, ChromeFilled, CirclePlus, Close, MoreFilled, QuestionFilled, UserFilled
 } from '@element-plus/icons-vue'
-import {createFavorite, likeVideo, myFavoriteList} from '@/api/behave.js'
+import {
+  createFavorite,
+  favoriteVideoToCollection,
+  likeVideo,
+  myFavoriteList,
+  onlyFavoriteVideo,
+  videoInWhoseCollection
+} from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
@@ -263,7 +281,7 @@ export default {
   data() {
     return {
       dialogFormVisible: false,
-      favoriteBtn: true,
+      favoriteBtn: false,
       userFavoriteForm: {
         title: "",
         description: "",
@@ -304,6 +322,12 @@ export default {
       myFavoriteList().then(res => {
         if (res.code === 200) {
           this.userFavoriteList = res.data
+        }
+      })
+      // 查询当前视频在那些收藏夹
+      videoInWhoseCollection(videoId).then(res => {
+        if (res.code === 200) {
+          this.favoriteChecked = res.data
         }
       })
       // 鼠标悬停事件改为显示
@@ -467,18 +491,66 @@ export default {
     },
     // 监听收藏夹多选事件变化
     handleFavoriteCheckedChange(val) {
-      console.log(val)
       this.favoriteBtn = false
     },
     // 仅仅收藏视频
     handleOnlyFavoriteVideo(videoId) {
-      console.log(videoId)
+      onlyFavoriteVideo(videoId).then(res => {
+        if (res.code === 200) {
+          // 收藏成功，将数组此视频的是否收藏改为已收藏
+          this.$message.success("收藏成功")
+          this.videoList.forEach((item, index) => {
+            if (item.videoId === videoId) {
+              if (!item.weatherFavorite) {
+                item.favoritesNum += 1;
+              }
+              item.weatherFavorite = true;
+            }
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     // 收藏视频到收藏夹
     handleCollectVideo(videoId) {
-      console.log(videoId)
-      console.log(this.favoriteChecked)
-    }
+      const dto = {
+        "videoId": videoId,
+        "favorites": this.favoriteChecked
+      }
+      favoriteVideoToCollection(dto).then(res => {
+        if (res.code === 200 && res.data === true) {
+          // 收藏成功
+          this.$message.success("收藏成功")
+          this.videoList.forEach((item, index) => {
+            if (item.videoId === videoId) {
+              if (!item.weatherFavorite) {
+                item.favoritesNum += 1;
+              }
+              item.weatherFavorite = true;
+            }
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    // 取消收藏
+    handleCancelFavoriteOver(videoId) {
+      console.log("取消收藏=》" + videoId)
+      myFavoriteList().then(res => {
+        if (res.code === 200) {
+          this.userFavoriteList = res.data
+        }
+      })
+      // 鼠标悬停事件改为显示
+      this.$refs[`favoritePop${videoId}`][0].showPopper = true
+
+    },
+    //
+    handleCancelFavoriteLeave(videoId) {
+
+    },
 
   },
 }

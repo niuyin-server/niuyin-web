@@ -59,7 +59,7 @@
                     :icon="InfoFilled"
                     :teleported="false"
                     icon-color="#626AEF"
-                    title="删除通知？"
+                    title="删除消息？"
                     class="p10px"
                     @confirm="handleDelNoticeConfirm(item.noticeId)"
                     @cancel.stop="handleDelNoticeCancel">
