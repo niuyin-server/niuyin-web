@@ -390,7 +390,6 @@ export default {
     },
     cancelUpdateProfile() {
       this.editDialogVisible = false
-      this.userForm = {}
     },
     /**省市区三级联动 */
     addressChoose(value) {

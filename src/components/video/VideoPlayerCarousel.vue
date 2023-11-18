@@ -100,7 +100,7 @@
                         <div class="favorite-container">
                           <el-checkbox-group v-model="favoriteChecked"
                                              @change="handleFavoriteCheckedChange"
-                                             :min="1">
+                          >
                             <el-checkbox class="mb5 w100"
                                          v-for="item2 in userFavoriteList"
                                          border
@@ -530,6 +530,9 @@ export default {
               item.weatherFavorite = true;
             }
           })
+        } else if (res.code === 200 && res.data === false) {
+          // 从收藏夹移除
+          this.$message.success("收藏成功")
         } else {
           this.$message.error(res.msg)
         }

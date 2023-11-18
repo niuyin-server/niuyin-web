@@ -22,7 +22,7 @@
       <!-- 定位 -->
       <el-amap-control-geolocation :visible="true" position="RB" :offset="[180, 20]"></el-amap-control-geolocation>
     </el-amap>
-    <div class="amap-dialog" v-if="amap.address">
+    <div class="amap-dialog cb" v-if="amap.address">
       <h5>{{ amap.center }}</h5>
       <h6>{{ amap.address }}</h6>
     </div>
