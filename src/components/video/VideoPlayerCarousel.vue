@@ -213,7 +213,7 @@
                 type="text"></el-input>
       <div class="mtb5">收藏夹描述</div>
       <el-input v-model="userFavoriteForm.description"
-                placeholder="收藏夹的名称"
+                placeholder="收藏夹的描述..."
                 clearable
                 maxlength="100"
                 show-word-limit

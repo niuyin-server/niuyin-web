@@ -135,3 +135,20 @@ export function collectionInfoList() {
         method: 'GET',
     })
 }
+
+// 更新收藏夹信息
+export function updateFavorite(data) {
+    return request({
+        url: '/behave/api/v1/userFavorite',
+        method: 'PUT',
+        data: data
+    })
+}
+
+// 删除收藏夹
+export function deleteFavorite(favoriteId) {
+    return request({
+        url: '/behave/api/v1/userFavorite/'+favoriteId,
+        method: 'DELETE',
+    })
+}

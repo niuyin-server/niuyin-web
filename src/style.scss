@@ -133,6 +133,10 @@ a {
   margin-bottom: 0.5rem;
 }
 
+.mb1rem {
+  margin-bottom: 1rem;
+}
+
 .mlr5 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -372,10 +376,6 @@ a {
 .el-tabs {
   background-color: transparent !important;
   border: none !important;
-}
-
-.el-tabs__header {
-  /*background-color: transparent !important;*/
 }
 
 .el-tabs__item {

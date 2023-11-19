@@ -7,19 +7,24 @@
             <div class="coll-title fs9 fw600">{{ item.title }}</div>
             <!--              操作区域-->
             <div class="coll-op cp">
-              <el-popconfirm
-                  confirm-button-text="Y"
-                  cancel-button-text="N"
-                  :icon="InfoFilled"
-                  :teleported="false"
-                  icon-color="#626AEF"
-                  title="删除收藏夹？">
+              <el-popover placement="top"
+                          trigger="hover"
+                          popper-style="padding: 1rem;">
                 <template #reference>
                   <el-icon>
                     <MoreFilled/>
                   </el-icon>
                 </template>
-              </el-popconfirm>
+                <template #default>
+                  <div class="flex-center">
+                    <el-button type="primary" @click="handleEditCollectionDialog(item.favoriteId)">编辑收藏夹
+                    </el-button>
+                  </div>
+                  <div class="flex-center" style="margin-top: 0.5rem">
+                    <el-button type="warning" @click="handleDelCollection(item.favoriteId)">删除收藏夹</el-button>
+                  </div>
+                </template>
+              </el-popover>
             </div>
           </div>
           <div class="collection-info flex-start">
@@ -36,16 +41,79 @@
       </div>
     </div>
   </div>
+  <!--  编辑详细信息弹框  -->
+  <el-dialog v-model="editDialogVisible"
+             :width="400"
+             align-center
+             :show-close="false">
+    <template #header="{ close, titleId, titleClass }">
+      <h3 class="one-line" :id="titleId" :class="titleClass">编辑收藏夹</h3>
+      <el-button circle :icon="Close" class="cb" type="info" @click="close">
+      </el-button>
+    </template>
+    <div class="mb5">收藏夹名称</div>
+    <el-input v-model="collectionForm.title"
+              placeholder="收藏夹的名称"
+              clearable
+              maxlength="10"
+              show-word-limit
+              type="text"></el-input>
+    <div class="mtb5">收藏夹描述</div>
+    <el-input v-model="collectionForm.description"
+              placeholder="收藏夹的描述..."
+              clearable
+              maxlength="100"
+              show-word-limit
+              type="textarea"></el-input>
+    <div class="flex-between mtb5">
+      <div>
+        <p class="fs8">>设置为公开</p>
+        <p class="fs7 cg">公开后有机会被推荐，帮助到更多人</p>
+      </div>
+      <div>
+        <el-switch
+            v-model="collectionForm.showStatus"
+            active-value="0"
+            inactive-value="1"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+        </el-switch>
+      </div>
+    </div>
+    <!--  确认按钮  -->
+    <div class="edit-button flex-center">
+      <el-button class="w100 fw600" type="primary" @click="confirmUpdateCollection">保存</el-button>
+    </div>
+  </el-dialog>
+  <!--  删除收藏夹dialog-->
+  <el-dialog v-model="delDialogVisible"
+             :width="400"
+             :show-close="false" align-center>
+    <template #header="{close}">
+      <p style="color: var(--niuyin-text-color)">确定删除此收藏夹吗？</p>
+      <el-button circle :icon="Close" class="cb" type="info" @click="close">
+      </el-button>
+    </template>
+    <div class="mb1rem">
+      <p>确认删除该收藏夹吗，删除后视频依旧可在收藏视频中查看~</p>
+    </div>
+    <div class="edit-button flex-center">
+      <el-button class="w100 fw600" type="primary" @click="handleConfirmDelCollection">确定删除</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
-import {collectionInfoList} from "@/api/behave.js";
-import {Film, InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
+import {collectionInfoList, deleteFavorite, updateFavorite} from "@/api/behave.js";
+import {Close, Film, InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
 
 export default {
   name: "UserFavoriteCollection",
   components: {MoreFilled},
   computed: {
+    Close() {
+      return Close
+    },
     Film() {
       return Film
     },
@@ -59,7 +127,11 @@ export default {
   props: {},
   data() {
     return {
+      editDialogVisible: false,
+      delDialogVisible: false,
       collectionList: [], //收藏夹集合
+      favoriteId: '',
+      collectionForm: {},
     }
   },
   created() {
@@ -80,6 +152,45 @@ export default {
             item.videoCoverList = [...old, ...new Array(6 - old.length).fill('')]
           })
           // console.log(this.collectionList)
+        }
+      })
+    },
+    // 编辑操作
+    handleEditCollectionDialog(favoriteId) {
+      this.editDialogVisible = true
+      this.collectionList.forEach((item, index) => {
+        if (item.favoriteId === favoriteId) {
+          this.collectionForm = item
+        }
+      })
+    },
+    // 删除收藏夹dialog
+    handleDelCollection(favoriteId) {
+      this.delDialogVisible = true
+      this.favoriteId = favoriteId
+    },
+    // 删除收藏夹dialog
+    handleConfirmDelCollection() {
+      deleteFavorite(this.favoriteId).then(res => {
+        if (res.code === 200) {
+          this.delDialogVisible = false
+          this.$message.success(res.msg)
+          this.initCollectionList()
+        } else {
+          this.delDialogVisible = true
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    // 更新收藏夹
+    confirmUpdateCollection() {
+      updateFavorite(this.collectionForm).then(res => {
+        if (res.code === 200) {
+          this.editDialogVisible = false
+          this.$message.success(res.msg)
+        } else {
+          this.editDialogVisible = true
+          this.$message.error(res.msg)
         }
       })
     },

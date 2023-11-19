@@ -97,10 +97,13 @@ html.dark {
 .el-tabs__header {
   position: sticky;
   top: -2px;
-  z-index: 1;
-  border-radius: 0 0 6px 6px;
+  z-index: 100;
   margin-bottom: 10px;
   background: var(--niuyin-bg-color);
+
+  .el-tabs__header {
+    z-index: 99;
+  }
 }
 
 .channel-container .el-tabs__header {
@@ -130,10 +133,6 @@ html.dark {
   .channel-container .el-avatar {
     --el-avatar-size: 24px;
   }
-}
-
-.el-tabs__header {
-  z-index: 100;
 }
 
 .cover-image {
