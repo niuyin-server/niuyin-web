@@ -1,24 +1,16 @@
 <template>
-  <div class="flex-between">
-    <VideoCard v-for="item in favoriteVideoList" :video="item" @click="handleVideoClick(item)"/>
-    <el-dialog v-model="dialogVisible"
-               @close="dialogDestroy"
-               style="height: calc(100% - 10vh);"
-               width="80%"
-               :show-close="false">
-      <template #header="{ close, titleId, titleClass }">
-        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>
-        <el-button circle :icon="Close" class="cb" type="info" @click="close">
-        </el-button>
-      </template>
-      <video class="dialog-video w100"
-             autoplay
-             style="max-height: 100%;border-radius: 1rem"
-             :src="video.videoUrl"
-             controls/>
-    </el-dialog>
+  <el-tabs v-model="activeName">
+    <el-tab-pane v-for="(tab) in favoriteTab"
+                 :label="tab.tabName"
+                 :name="tab.id"
+                 :lazy="true"/>
+  </el-tabs>
+  <UserFavoriteCollection v-if="activeName===1"/>
+  <UserFavoriteVideo v-if="activeName===2"/>
+  <UserFavoriteMusic v-if="activeName===3"/>
+  <div v-if="activeName===4" class="flex-between">
     <div class="w100">
-      <el-empty v-show="favoriteVideoTotal<=0" description="暂无数据"/>
+      <el-empty description="暂无数据"/>
     </div>
   </div>
 </template>
@@ -26,11 +18,14 @@
 <script>
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
-import {videoFavoritePage} from "@/api/behave.js";
+import {myFavoriteList, videoFavoritePage} from "@/api/behave.js";
+import UserFavoriteVideo from "@/components/user/favorite/UserFavoriteVideo.vue";
+import UserFavoriteCollection from "@/components/user/favorite/UserFavoriteCollection.vue";
+import UserFavoriteMusic from "@/components/user/favorite/UserFavoriteMusic.vue";
 
 export default {
   name: "VideoFavorite",
-  components: {VideoCard},
+  components: {UserFavoriteMusic, UserFavoriteCollection, UserFavoriteVideo, VideoCard},
   computed: {
     Close() {
       return Close
@@ -44,32 +39,22 @@ export default {
       videoQueryParams: {
         videoTitle: "",
         pageNum: 1,
-        pageSize: 12
+        pageSize: 10
       },
       video: {},
+      favoriteTab: [
+        {id: 1, tabName: "收藏夹", tabUrl: "/user/videoPost"},
+        {id: 2, tabName: "视频", tabUrl: "/user/videoLike"},
+        {id: 3, tabName: "音乐", tabUrl: "/user/videoFavorite"},
+        {id: 4, tabName: "合集", tabUrl: "/user/videoFavorite"},
+      ],
+      activeName: 2,
     }
   },
   created() {
-    this.initVideoList()
   },
   methods: {
-    initVideoList() {
-      videoFavoritePage(this.videoQueryParams).then(res => {
-        if (res.code === 200) {
-          this.favoriteVideoList = res.rows
-          this.favoriteVideoTotal = res.total
-        }
-      })
-    },
-    handleVideoClick(video) {
-      this.video = video
-      this.dialogVisible = true
-    },
-    dialogDestroy() {
-      const videoD = document.getElementsByClassName("dialog-video")
-      videoD[0].pause();
-      this.dialogVisible = false
-    }
+
   }
 }
 </script>

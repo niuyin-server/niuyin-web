@@ -8,6 +8,7 @@ html.dark {
   --el-color-primary-dark-2: #ff66a1;
   --el-bg-color-page: rgb(37, 38, 50);
   --el-overlay-color-lighter: rgba(0, 0, 0, 0.8); //弹窗遮罩层
+  --el-text-color-disabled: rgba(108, 110, 114, 0.3); // el-avatar
 
   --niuyin-text-color: #fff;
   --niuyin-bg-color: #000000;
@@ -38,6 +39,7 @@ html.dark {
   /* 按钮颜色 */
   --theme-light-button-color: var(---primary-red-color);
   --theme-dark-button-color: var(---primary-blue-color);
+  --el-text-color-disabled: rgba(192, 196, 204, 0.3); // el-avatar
 }
 
 /*空状态颜色填充*/

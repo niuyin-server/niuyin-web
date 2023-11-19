@@ -127,3 +127,11 @@ export function videoInWhoseCollection(videoId) {
         method: 'GET',
     })
 }
+
+// 查询收藏夹详情集合
+export function collectionInfoList() {
+    return request({
+        url: '/behave/api/v1/userFavorite/infoList',
+        method: 'GET',
+    })
+}

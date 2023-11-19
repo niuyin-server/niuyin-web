@@ -40,7 +40,7 @@ export default {
   width: 19%;
   box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
   transition: all 0.3s ease;
-  height: 380px;
+  height: 360px;
   margin-bottom: 1.2rem;
 
   &:hover {
