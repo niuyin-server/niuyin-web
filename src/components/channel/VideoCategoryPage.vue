@@ -1,5 +1,5 @@
 <template>
-  <div class="video-page-container custom-loading-svg"
+  <div class="video-page-container"
        v-loading="loading">
     <div class="flex-between">
       <el-card v-for="item in videoList"
@@ -22,7 +22,6 @@
           </div>
         </div>
       </el-card>
-      <el-empty v-show="videoTotal<=0" description="暂无数据"/>
     </div>
     <el-pagination v-show="videoTotal>0"
                    :total="videoTotal"
@@ -32,6 +31,9 @@
                    :page-size="videoQueryParams.pageSize"
                    @current-change="handleCurrentChange"
                    @pagination="getVideoList"/>
+  </div>
+  <div class="w100">
+    <el-empty v-show="videoTotal<=0" description="暂无数据"/>
   </div>
   <el-dialog v-model="dialogVisible"
              @close="dialogDestroy"

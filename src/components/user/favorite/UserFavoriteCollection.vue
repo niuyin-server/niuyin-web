@@ -1,45 +1,68 @@
 <template>
   <div class="favorite-collection-container">
-    <div class="flex-between">
-      <div class="collection-edge cp" v-for="(item,index) in collectionList">
-        <div class="collection-container">
-          <div class="collection-head flex-between">
-            <div class="coll-title fs9 fw600">{{ item.title }}</div>
-            <!--              操作区域-->
-            <div class="coll-op cp">
-              <el-popover placement="top"
-                          trigger="hover"
-                          popper-style="padding: 1rem;">
-                <template #reference>
-                  <el-icon>
-                    <MoreFilled/>
-                  </el-icon>
-                </template>
-                <template #default>
-                  <div class="flex-center">
-                    <el-button type="primary" @click="handleEditCollectionDialog(item.favoriteId)">编辑收藏夹
-                    </el-button>
-                  </div>
-                  <div class="flex-center" style="margin-top: 0.5rem">
-                    <el-button type="warning" @click="handleDelCollection(item.favoriteId)">删除收藏夹</el-button>
-                  </div>
-                </template>
-              </el-popover>
+    <div class="flex-between" v-loading="loadingIcon">
+      <el-skeleton class="w100" :loading="loading" animated>
+        <template #template>
+          <div class="loading-container" v-for="i in 2">
+            <div class="loading-item" v-for="i in 3">
+              <el-skeleton-item variant="image" style="width: 100%; height: 120px"/>
+              <div class="p1rem">
+                <el-skeleton-item variant="h1" style="width: 70%"/>
+                <div>
+                  <el-skeleton-item variant="text"/>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="collection-info flex-start">
-            <p class="cg fs7 ptb10px">共 {{ item.videoCount }} 件作品</p>
-          </div>
-          <div class="collection-video flex-between">
-            <div class="videos flex-center"
-                 v-for="(cover,index) in item.videoCoverList">
-              <el-image v-if="cover" class="video-cover eli-ofc" lazy :src="cover"/>
-              <el-avatar v-else class="video-cover eli-ofc" :icon="Film"/>
+        </template>
+        <template #default>
+          <div class="collection-edge cp" v-for="(item,index) in collectionList">
+            <div class="collection-container">
+              <div class="collection-head flex-between">
+                <div class="coll-title fs9 fw600">{{ item.title }}</div>
+                <!--              操作区域-->
+                <div class="coll-op cp">
+                  <el-popover placement="top"
+                              trigger="hover"
+                              popper-style="padding: 1rem;">
+                    <template #reference>
+                      <el-icon>
+                        <MoreFilled/>
+                      </el-icon>
+                    </template>
+                    <template #default>
+                      <div class="flex-center">
+                        <el-button type="primary" @click="handleEditCollectionDialog(item.favoriteId)">编辑收藏夹
+                        </el-button>
+                      </div>
+                      <div class="flex-center" style="margin-top: 0.5rem">
+                        <el-button type="warning" @click="handleDelCollection(item.favoriteId)">删除收藏夹</el-button>
+                      </div>
+                    </template>
+                  </el-popover>
+                </div>
+              </div>
+              <div class="collection-info flex-start">
+                <p class="cg fs7 ptb10px">共 {{ item.videoCount }} 件作品</p>
+              </div>
+              <div class="collection-video flex-between">
+                <div class="videos flex-center"
+                     v-for="(cover,index) in item.videoCoverList">
+                  <el-image v-if="cover" class="video-cover eli-ofc" lazy :src="cover"/>
+                  <el-avatar v-else class="video-cover eli-ofc" :icon="Film"/>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
+      </el-skeleton>
+      <div class="w100">
+        <el-empty v-show="collectionTotal<=0" description="暂无数据"/>
       </div>
     </div>
+  </div>
+  <div v-if="dataNotMore">
+    <el-divider>暂无更多数据</el-divider>
   </div>
   <!--  编辑详细信息弹框  -->
   <el-dialog v-model="editDialogVisible"
@@ -104,7 +127,7 @@
 </template>
 
 <script>
-import {collectionInfoList, deleteFavorite, updateFavorite} from "@/api/behave.js";
+import {collectionInfoList, deleteFavorite, updateFavorite, videoFavoritePage} from "@/api/behave.js";
 import {Close, Film, InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
 
 export default {
@@ -127,9 +150,18 @@ export default {
   props: {},
   data() {
     return {
+      loading: true,
+      loadingData: true,
+      loadingIcon: false,
+      dataNotMore: false,
       editDialogVisible: false,
       delDialogVisible: false,
+      collectionQueryParams: {
+        pageNum: 1,
+        pageSize: 10
+      },
       collectionList: [], //收藏夹集合
+      collectionTotal: 0,
       favoriteId: '',
       collectionForm: {},
     }
@@ -140,6 +172,7 @@ export default {
   methods: {
     // 收藏夹集合
     initCollectionList() {
+      this.loading = true
       collectionInfoList().then(res => {
         if (res.code === 200) {
           this.collectionList = res.data
@@ -151,7 +184,7 @@ export default {
             let old = item.videoCoverList
             item.videoCoverList = [...old, ...new Array(6 - old.length).fill('')]
           })
-          // console.log(this.collectionList)
+          this.loading = false
         }
       })
     },
@@ -194,11 +227,53 @@ export default {
         }
       })
     },
+    handleScroll(e) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
+        if(this.dataNotMore){
+          return
+        }
+        //加载更多
+        if (this.loadingData) {
+          this.loadingIcon = true
+          this.loadingData = false
+          this.collectionQueryParams.pageNum += 1
+          collectionInfoList(this.collectionQueryParams).then(res => {
+            if (res.code === 200) {
+              if (res.rows == null || res.rows.length === 0) {
+                this.dataNotMore = true
+                this.loadingIcon = false
+                this.loadingData = false
+                return;
+              }
+              this.collectionList = this.collectionList.concat(res.rows)
+              this.loadingIcon = false
+            } else {
+              this.loadingIcon = false
+            }
+          })
+          setTimeout(() => {
+            // 流控
+            this.loadingData = true
+          }, 1000);
+        }
+      }
+    },
   },
 }
 </script>
 
 <style scoped>
+.loading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .loading-item {
+    width: 33.33333%;
+    padding: 0 0.5rem 1rem;
+  }
+}
+
 .collection-edge {
   width: 33.333333%;
   padding: 0 0.5rem 1rem;
@@ -209,7 +284,6 @@ export default {
     box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
     transition: all 0.3s ease;
     background-color: var(--el-bg-color-page);
-
 
     .collection-video {
 

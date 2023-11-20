@@ -135,7 +135,7 @@ export default {
           setTimeout(() => {
             // 流控
             this.loadingData = true
-          }, 2000);
+          }, 1000);
         }
       }
     },

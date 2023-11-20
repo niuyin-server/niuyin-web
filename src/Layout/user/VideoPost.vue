@@ -2,10 +2,10 @@
   <div class="flex-between videoPost" v-loading="loadingIcon">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
-        <div class="loading-container" v-for="i in 2">
+        <div class="loading-container" v-for="i in 1">
           <div class="loading-item" v-for="i in 5">
-            <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
-            <div style="padding: 14px">
+            <el-skeleton-item variant="image" style="width: 100%; height: 280px"/>
+            <div class="p1rem">
               <el-skeleton-item variant="h1" style="width: 70%"/>
               <div>
                 <el-skeleton-item variant="text"/>
@@ -21,23 +21,6 @@
             @click="handleVideoClick(item)"/>
       </template>
     </el-skeleton>
-    <!--  视频播放弹框  -->
-    <el-dialog v-model="dialogVisible"
-               @close="dialogDestroy"
-               style="height: calc(100% - 10vh);"
-               width="80%"
-               :show-close="false">
-      <template #header="{ close, titleId, titleClass }">
-        <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>
-        <el-button circle :icon="Close" class="cb" type="info" @click="close">
-        </el-button>
-      </template>
-      <video class="dialog-video w100"
-             autoplay
-             style="max-height: 100%;border-radius: 1rem"
-             :src="video.videoUrl"
-             controls/>
-    </el-dialog>
     <div class="w100">
       <el-empty v-show="postVideoTotal<=0" description="暂无数据"/>
     </div>
@@ -45,6 +28,23 @@
   <div v-if="dataNotMore">
     <el-divider>暂无更多数据</el-divider>
   </div>
+  <!--  视频播放弹框  -->
+  <el-dialog v-model="dialogVisible"
+             @close="dialogDestroy"
+             style="height: calc(100% - 10vh);"
+             width="80%"
+             :show-close="false">
+    <template #header="{ close, titleId, titleClass }">
+      <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>
+      <el-button circle :icon="Close" type="primary" @click="close">
+      </el-button>
+    </template>
+    <video class="dialog-video w100"
+           autoplay
+           style="max-height: 100%;border-radius: 1rem"
+           :src="video.videoUrl"
+           controls/>
+  </el-dialog>
 </template>
 
 <script>
@@ -74,7 +74,7 @@ export default {
       video: {},
       loadingData: true,
       loadingIcon: false,
-      dataNotMore: false
+      dataNotMore: false,
     }
   },
   created() {
@@ -109,6 +109,9 @@ export default {
     },
     handleScroll(e) {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
+        if(this.dataNotMore){
+          return
+        }
         //加载更多
         if (this.loadingData) {
           this.loadingIcon = true
@@ -116,7 +119,7 @@ export default {
           this.videoQueryParams.pageNum += 1
           videoMypage(this.videoQueryParams).then(res => {
             if (res.code === 200) {
-              if (res.rows.length === 0) {
+              if (res.rows == null || res.rows.length === 0) {
                 this.dataNotMore = true
                 this.loadingIcon = false
                 this.loadingData = false
@@ -132,7 +135,7 @@ export default {
           setTimeout(() => {
             // 流控
             this.loadingData = true
-          }, 2000);
+          }, 1000);
         }
       }
     },
@@ -148,7 +151,8 @@ export default {
   align-items: center;
 
   .loading-item {
-    width: 19%;
+    width: 20%;
+    padding: 0 0.5rem 1rem;
   }
 }
 </style>
