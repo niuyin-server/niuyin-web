@@ -69,7 +69,7 @@ export default {
       dataNotMore: false,
       dialogVisible: false,
       likeVideoList: [],
-      likeVideoTotal: 0,
+      likeVideoTotal: undefined,
       videoQueryParams: {
         videoTitle: "",
         pageNum: 1,
@@ -99,8 +99,8 @@ export default {
       })
     },
     handleVideoClick(video) {
-      this.video = video
-      this.dialogVisible = true
+      // this.video = video
+      // this.dialogVisible = true
     },
     dialogDestroy() {
       const videoD = document.getElementsByClassName("dialog-video")

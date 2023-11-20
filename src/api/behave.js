@@ -38,7 +38,7 @@ export function videoLikePage(data) {
 // 分页查询我收藏的视频
 export function videoFavoritePage(data) {
     return request({
-        url: '/behave/api/v1/favorite/myfavoritepage',
+        url: '/behave/api/v1/favorite/mypage',
         method: 'post',
         data: data
     })
@@ -136,6 +136,15 @@ export function collectionInfoList() {
     })
 }
 
+// 分页收藏夹详情
+export function collectionInfoPage(data) {
+    return request({
+        url: '/behave/api/v1/userFavorite/infoPage',
+        method: 'POST',
+        data: data
+    })
+}
+
 // 更新收藏夹信息
 export function updateFavorite(data) {
     return request({
@@ -148,7 +157,7 @@ export function updateFavorite(data) {
 // 删除收藏夹
 export function deleteFavorite(favoriteId) {
     return request({
-        url: '/behave/api/v1/userFavorite/'+favoriteId,
+        url: '/behave/api/v1/userFavorite/' + favoriteId,
         method: 'DELETE',
     })
 }

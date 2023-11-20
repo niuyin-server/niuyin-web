@@ -66,12 +66,12 @@ export default {
       loading: true,
       dialogVisible: false,
       postVideoList: [],
-      postVideoTotal: 0,
+      postVideoTotal: undefined,
       videoQueryParams: {
         userId: decodeData(this.$route.params.userId),
         videoTitle: "",
         pageNum: 1,
-        pageSize: 12
+        pageSize: 10
       },
       video: {},
       loadingData: true,
@@ -102,8 +102,8 @@ export default {
       })
     },
     handleVideoClick(video) {
-      this.video = video
-      this.dialogVisible = true
+      // this.video = video
+      // this.dialogVisible = true
     },
     dialogDestroy() {
       const videoD = document.getElementsByClassName("dialog-video")
@@ -111,7 +111,10 @@ export default {
       this.dialogVisible = false
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 0.5) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
+        if (this.dataNotMore) {
+          return
+        }
         //加载更多
         if (this.loadingData) {
           this.loadingIcon = true

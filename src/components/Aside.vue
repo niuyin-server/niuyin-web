@@ -85,7 +85,6 @@ export default {
         {id: 7, name: "二次元", '--color': "red", class: "icon-erciyuan", link: "/channel",},
         {id: 8, name: "美食", '--color': "red", class: "icon-food", link: "/channel",},
         {id: 9, name: "体育", '--color': "red", class: "icon-sport", link: "/channel",},
-        {id: 10, name: "时尚", '--color': "red", class: "icon-fashin", link: "/channel",},
       ],
       tabsBottomList: [
         {id: 1, name: "商务合作", '--color': "red", class: "icon-index", link: "/index"},

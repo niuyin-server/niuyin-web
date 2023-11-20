@@ -5,12 +5,9 @@
         <template #template>
           <div class="loading-container" v-for="i in 2">
             <div class="loading-item" v-for="i in 3">
-              <el-skeleton-item variant="image" style="width: 100%; height: 120px"/>
+              <el-skeleton-item variant="image" class="w100" style="height: 120px"/>
               <div class="p1rem">
-                <el-skeleton-item variant="h1" style="width: 70%"/>
-                <div>
-                  <el-skeleton-item variant="text"/>
-                </div>
+                <el-skeleton-item variant="h1" class="w100"/>
               </div>
             </div>
           </div>
@@ -127,7 +124,13 @@
 </template>
 
 <script>
-import {collectionInfoList, deleteFavorite, updateFavorite, videoFavoritePage} from "@/api/behave.js";
+import {
+  collectionInfoList,
+  collectionInfoPage,
+  deleteFavorite,
+  updateFavorite,
+  videoFavoritePage
+} from "@/api/behave.js";
 import {Close, Film, InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
 
 export default {
@@ -158,10 +161,10 @@ export default {
       delDialogVisible: false,
       collectionQueryParams: {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 9
       },
       collectionList: [], //收藏夹集合
-      collectionTotal: 0,
+      collectionTotal: undefined,
       favoriteId: '',
       collectionForm: {},
     }
@@ -169,18 +172,22 @@ export default {
   created() {
     this.initCollectionList()
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll, true);
+  },
+  destroyed() {
+    document.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
     // 收藏夹集合
     initCollectionList() {
       this.loading = true
-      collectionInfoList().then(res => {
+      collectionInfoPage(this.collectionQueryParams).then(res => {
         if (res.code === 200) {
-          this.collectionList = res.data
+          this.collectionList = res.rows
+          this.collectionTotal = res.total
           // 收藏夹集合操作，填充六张作品封面为空串
           this.collectionList.forEach((item, index) => {
-            item.videoCoverList.forEach((ite, inde) => {
-
-            })
             let old = item.videoCoverList
             item.videoCoverList = [...old, ...new Array(6 - old.length).fill('')]
           })
@@ -229,7 +236,7 @@ export default {
     },
     handleScroll(e) {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
-        if(this.dataNotMore){
+        if (this.dataNotMore) {
           return
         }
         //加载更多
@@ -237,7 +244,7 @@ export default {
           this.loadingIcon = true
           this.loadingData = false
           this.collectionQueryParams.pageNum += 1
-          collectionInfoList(this.collectionQueryParams).then(res => {
+          collectionInfoPage(this.collectionQueryParams).then(res => {
             if (res.code === 200) {
               if (res.rows == null || res.rows.length === 0) {
                 this.dataNotMore = true

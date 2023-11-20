@@ -34,15 +34,17 @@
       <!--  作品，喜欢，收藏  -->
       <div>
         <div class="user-works">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName">
             <el-tab-pane v-for="item in userVideoTabShow"
                          :key="item.id"
                          :label="item.tabName"
                          :lazy="true"
-                         :name="item.tabUrl">
-              <router-view/>
+                         :name="item.id">
+              <!--              <router-view/>-->
             </el-tab-pane>
           </el-tabs>
+          <PersonVideoPost v-if="activeName===1"/>
+          <PersonVideoLike v-if="activeName===2"/>
         </div>
       </div>
     </el-scrollbar>
@@ -55,10 +57,15 @@ import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
 import {Close, QuestionFilled} from "@element-plus/icons-vue";
 import {decodeData} from "@/utils/roydon.js";
+import UserFavoriteMusic from "@/components/user/favorite/UserFavoriteMusic.vue";
+import UserFavoriteVideo from "@/components/user/favorite/UserFavoriteVideo.vue";
+import UserFavoriteCollection from "@/components/user/favorite/UserFavoriteCollection.vue";
+import PersonVideoPost from "@/components/person/post/PersonVideoPost.vue";
+import PersonVideoLike from "@/components/person/like/PersonVideoLike.vue";
 
 export default {
   name: 'Person',
-  components: {QuestionFilled},
+  components: {PersonVideoLike, PersonVideoPost, QuestionFilled},
   computed: {
     Close() {
       return Close
@@ -69,14 +76,13 @@ export default {
       userId: decodeData(this.$route.params.userId),
       user: {},
       editDialogVisible: false, //编辑信息弹框
-      activeName: this.$route.path,
+      activeName: 1,
       followNum: 0, // 关注数
       fansNum: 0, //粉丝数
       likeAllNum: 0, //获赞数
       userVideoTabShow: [
         {id: 1, tabName: "作品", tabUrl: "/person/" + this.$route.params.userId + "/videoPost"},
         {id: 2, tabName: "喜欢", tabUrl: "/person/" + this.$route.params.userId + "/videoLike"},
-        {id: 3, tabName: "收藏", tabUrl: "/person/" + this.$route.params.userId + "/videoFavorite"},
       ]
     }
   },
@@ -84,9 +90,9 @@ export default {
     this.getPersonProfile()
   },
   mounted() {
-    this.$nextTick(() => {
-      this.activeName = this.$route.path
-    })
+    // this.$nextTick(() => {
+    //   this.activeName = this.$route.path
+    // })
   },
   methods: {
     getPersonProfile() {
@@ -108,10 +114,11 @@ export default {
           this.likeAllNum = res.data
         }
       })
+      this.$router.push("/person/" + this.$route.params.userId + "/videoPost")
     },
     handleClick(tab, event) {
-      console.log(tab.props.name);
-      console.log(this.userId);
+      // console.log(tab.props.name);
+      // console.log(this.userId);
       const route = tab.props.name
       // console.log(this.$route.path)
       // console.log(this.$route.matched[1].path)

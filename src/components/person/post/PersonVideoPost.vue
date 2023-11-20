@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-between videoPost" v-loading="loadingIcon">
+  <div class="flex-between" v-loading="loadingIcon">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
         <div class="loading-container" v-for="i in 1">
           <div class="loading-item" v-for="i in 5">
-            <el-skeleton-item variant="image" style="width: 100%; height: 280px"/>
-            <div class="p1rem">
+            <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
+            <div style="padding: 14px">
               <el-skeleton-item variant="h1" style="width: 70%"/>
               <div>
                 <el-skeleton-item variant="text"/>
@@ -17,10 +17,26 @@
       <template #default>
         <VideoCard
             v-for="item in postVideoList"
-            :video="item"
-            @click="handleVideoClick(item)"/>
+            :video="item"/>
       </template>
     </el-skeleton>
+    <!--  视频播放弹框  -->
+    <el-dialog v-model="dialogVisible"
+               @close="dialogDestroy"
+               style="height: calc(100% - 10vh);"
+               width="80%"
+               :show-close="false">
+      <template #header="{ close, titleId, titleClass }">
+        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>
+        <el-button circle :icon="Close" class="cb" type="info" @click="close">
+        </el-button>
+      </template>
+      <video class="dialog-video w100"
+             autoplay
+             style="max-height: 100%;border-radius: 1rem"
+             :src="video.videoUrl"
+             controls/>
+    </el-dialog>
     <div class="w100">
       <el-empty v-show="postVideoTotal<=0" description="暂无数据"/>
     </div>
@@ -28,32 +44,16 @@
   <div v-if="dataNotMore">
     <el-divider>暂无更多数据</el-divider>
   </div>
-  <!--  视频播放弹框  -->
-  <el-dialog v-model="dialogVisible"
-             @close="dialogDestroy"
-             style="height: calc(100% - 10vh);"
-             width="80%"
-             :show-close="false">
-    <template #header="{ close, titleId, titleClass }">
-      <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>
-      <el-button circle :icon="Close" type="primary" @click="close">
-      </el-button>
-    </template>
-    <video class="dialog-video w100"
-           autoplay
-           style="max-height: 100%;border-radius: 1rem"
-           :src="video.videoUrl"
-           controls/>
-  </el-dialog>
 </template>
 
 <script>
-import {videoMypage} from "@/api/video.js";
+import {memberInfoPage, videoMypage, videoUserpage} from "@/api/video.js";
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
+import {decodeData} from "@/utils/roydon.js";
 
 export default {
-  name: "VideoPost",
+  name: "PersonVideoPost",
   computed: {
     Close() {
       return Close
@@ -65,8 +65,9 @@ export default {
       loading: true,
       dialogVisible: false,
       postVideoList: [],
-      postVideoTotal: 0,
+      postVideoTotal: undefined,
       videoQueryParams: {
+        userId: decodeData(this.$route.params.userId),
         videoTitle: "",
         pageNum: 1,
         pageSize: 10
@@ -74,23 +75,22 @@ export default {
       video: {},
       loadingData: true,
       loadingIcon: false,
-      dataNotMore: false,
+      dataNotMore: false
     }
   },
   created() {
     this.initVideoList()
   },
   mounted() {
-    const vc = document.getElementsByClassName("videoPost")
     window.addEventListener('scroll', this.handleScroll, true);
   },
   destroyed() {
-    document.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     initVideoList() {
       this.loading = true
-      videoMypage(this.videoQueryParams).then(res => {
+      videoUserpage(this.videoQueryParams).then(res => {
         if (res.code === 200) {
           this.postVideoList = res.rows
           this.postVideoTotal = res.total
@@ -98,18 +98,9 @@ export default {
         }
       })
     },
-    handleVideoClick(video) {
-      // this.video = video
-      // this.dialogVisible = true
-    },
-    dialogDestroy() {
-      const videoD = document.getElementsByClassName("dialog-video")
-      videoD[0].pause();
-      this.dialogVisible = false
-    },
     handleScroll(e) {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
-        if(this.dataNotMore){
+        if (this.dataNotMore) {
           return
         }
         //加载更多
@@ -117,9 +108,9 @@ export default {
           this.loadingIcon = true
           this.loadingData = false
           this.videoQueryParams.pageNum += 1
-          videoMypage(this.videoQueryParams).then(res => {
+          memberInfoPage(this.videoQueryParams).then(res => {
             if (res.code === 200) {
-              if (res.rows == null || res.rows.length === 0) {
+              if (res.rows.length === 0) {
                 this.dataNotMore = true
                 this.loadingIcon = false
                 this.loadingData = false
@@ -151,8 +142,7 @@ export default {
   align-items: center;
 
   .loading-item {
-    width: 20%;
-    padding: 0 0.5rem 1rem;
+    width: 19%;
   }
 }
 </style>

@@ -60,7 +60,8 @@
       </div>
       <!--  作品，喜欢，收藏  -->
       <div>
-        <div class="user-works">
+        <div class="user-works pr">
+          <!--          tab栏-->
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane v-for="item in userVideoTabShow"
                          :key="item.id"
@@ -70,6 +71,22 @@
               <router-view/>
             </el-tab-pane>
           </el-tabs>
+          <div v-if="activeName==='/user/videoPost'" class="pa flex-center"
+               style="height: 40px;top: 0;right: 0px;z-index: 200">
+            <div class="" style="padding: 5px 0">
+              <el-input
+                  class="search-input fs8"
+                  style="height: 30px"
+                  v-model="searchKeyword"
+                  :placeholder="searchDefaults"
+                  @keyup.enter.native="searchConfirm"
+                  clearable>
+                <template #append>
+                  <el-button :icon="Search"/>
+                </template>
+              </el-input>
+            </div>
+          </div>
         </div>
       </div>
     </el-scrollbar>
@@ -230,7 +247,7 @@
 import {getInfo, updateMemberInfo, updateUserProfile} from "@/api/member.js";
 import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
-import {Check, Close, QuestionFilled, School, UserFilled} from "@element-plus/icons-vue";
+import {Check, Close, QuestionFilled, School, Search, UserFilled} from "@element-plus/icons-vue";
 import {
   regionData,
 } from "element-china-area-data";
@@ -242,6 +259,9 @@ export default {
   name: 'User',
   components: {School, QuestionFilled},
   computed: {
+    Search() {
+      return Search
+    },
     UserFilled() {
       return UserFilled
     },
@@ -279,6 +299,8 @@ export default {
       // 省市区级联
       options: regionData,
       selectedOptions: [],
+      searchKeyword: "",
+      searchDefaults: "请输入作品名称"
     }
   },
   created() {
@@ -426,7 +448,9 @@ export default {
         }
       })
     },
-
+    searchConfirm() {
+      console.log("searchConfirm")
+    },
   }
 }
 

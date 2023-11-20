@@ -48,7 +48,7 @@ export default {
         userId: decodeData(this.$route.params.userId),
         videoTitle: "",
         pageNum: 1,
-        pageSize: 12
+        pageSize: 10
       },
       video: {},
     }

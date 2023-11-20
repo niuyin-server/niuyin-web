@@ -600,6 +600,7 @@ export default {
       position: absolute;
       bottom: 40px;
       padding: 10px;
+      width: 100%;
       left: 0;
       z-index: 3;
       display: flex;

@@ -126,7 +126,11 @@
         </el-tooltip>
       </template>
       <template #append>
-        <el-button @click="handleCommentClick" class="cb" :color="'#f2f2f2'" :icon="ChromeFilled"/>
+        <el-button class="flex-center" @click="handleCommentClick">
+          <el-icon :size="18" :color="'var(--niuyin-primary-color)'">
+            <ChromeFilled />
+          </el-icon>
+        </el-button>
       </template>
     </el-input>
   </div>
@@ -139,7 +143,7 @@ import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: "VideoComment",
-  components: {DeleteFilled},
+  components: {ChromeFilled, DeleteFilled},
   computed: {
     InfoFilled() {
       return InfoFilled

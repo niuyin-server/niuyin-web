@@ -1,17 +1,24 @@
 <template>
   <div class="video-card">
-    <div class="video-cover-image">
-      <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
-      <div class="video-like">
-        <i class="iconfont icon-like-num "></i>
-        <span class="ml-5r">{{ video.likeNum }}</span>
+    <div class="video-cover-image" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
+      <div v-if="!playVideo" class="cover-image">
+        <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
+        <div class="video-like">
+          <i class="iconfont icon-like-num "></i>
+          <span class="ml-5r">{{ video.likeNum }}</span>
+        </div>
+      </div>
+      <div v-if="playVideo" class="wh100 background-custom" :style="{ backgroundImage: `url(${video.coverImage})` }">
+        <VideoPlayer class="videoPlayer wh100"
+                     id="videoPlayer"
+                     :video="video"/>
       </div>
     </div>
     <div class="video-info">
       <p v-html="video.videoTitle" class="video-title two-line fs8"></p>
-      <div class="video-author one-line">
-        <span v-if="video.userNickName">{{ video.userNickName }} · </span>
-        <span class="cg fs8">{{ smartDateFormat(video.createTime) }}</span>
+      <div class="video-author one-line flex-between">
+        <span v-if="video.userNickName" class="fs7">@{{ video.userNickName }}</span>
+        <span class="cg fs7">发布于 · {{ smartDateFormat(video.createTime) }}</span>
       </div>
     </div>
   </div>
@@ -19,17 +26,29 @@
 
 <script>
 
+import VideoPlayer from "@/components/video/VideoPlayer.vue";
+
 export default {
   name: "VideoCard",
+  components: {VideoPlayer},
   props: {
     video: Object,
   },
   data() {
-    return {}
+    return {
+      playVideo: false,
+    }
   },
   created() {
   },
-  methods: {},
+  methods: {
+    handleMouseover() {
+      this.playVideo = true
+    },
+    handleMouseleave() {
+      this.playVideo = false
+    }
+  },
 }
 </script>
 
@@ -63,7 +82,7 @@ export default {
     }
 
     .cover-image:hover {
-      transition: all 0.5s ease;
+      transition: all 1s ease;
       transform: scale(1.1);
     }
 
@@ -77,7 +96,7 @@ export default {
   }
 
   .video-info {
-    width: 100%;
+    width: auto;
     height: 20%;
     padding: 10px;
     display: flex;
