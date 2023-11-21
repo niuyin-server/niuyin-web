@@ -208,4 +208,14 @@ html.dark {
   --el-carousel-arrow-font-size: 16px;
   --el-carousel-arrow-size: 48px;
   --el-carousel-arrow-background: rgba(41, 50, 72, 0.3);
+  --el-carousel-indicator-width: 100%;
+}
+
+.el-carousel__indicators--horizontal {
+  width: 100%;
+  text-align: center;
+}
+
+.el-carousel__indicator--horizontal {
+  max-width: 10%;
 }

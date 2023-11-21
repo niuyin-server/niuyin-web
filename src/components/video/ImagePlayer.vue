@@ -1,9 +1,9 @@
 <template>
   <div class="wh100" style="background: black">
+    <!--    arrow="always"-->
     <el-carousel class="wh100" trigger="hover" arrow="always">
-      <el-carousel-item class="carousel-item" v-for="item in imageList" :key="item">
-        <img class="tlc mwh100"
-             :src="item" alt=""/>
+      <el-carousel-item v-for="item in imageList" :key="item">
+        <img class="tlc mwh100" :src="item" alt=""/>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -25,10 +25,10 @@ export default {
 
 <style scoped>
 :deep(.el-carousel__arrow--left) {
-  left: 80px;
+  left: 8%;
 }
 
 :deep(.el-carousel__arrow--right) {
-  right: 80px;
+  right: 8%;
 }
 </style>

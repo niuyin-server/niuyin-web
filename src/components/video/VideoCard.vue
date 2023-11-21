@@ -9,7 +9,11 @@
         </div>
       </div>
       <div v-if="playVideo" class="wh100 background-custom" :style="{ backgroundImage: `url(${video.coverImage})` }">
-        <VideoPlayer class="videoPlayer wh100"
+        <!--            图文轮播-->
+        <ImagePlayer v-if="video.publishType==='1'" :image-list="video.imageList"/>
+        <!--            视频-->
+        <VideoPlayer v-if="video.publishType==='0'"
+                     class="videoPlayer wh100"
                      id="videoPlayer"
                      :video="video"/>
       </div>
@@ -27,10 +31,11 @@
 <script>
 
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
+import ImagePlayer from "@/components/video/ImagePlayer.vue";
 
 export default {
   name: "VideoCard",
-  components: {VideoPlayer},
+  components: {ImagePlayer, VideoPlayer},
   props: {
     video: Object,
   },
