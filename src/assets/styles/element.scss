@@ -9,10 +9,12 @@ html.dark {
   --el-bg-color-page: rgb(37, 38, 50);
   --el-overlay-color-lighter: rgba(0, 0, 0, 0.8); //弹窗遮罩层
   --el-text-color-disabled: rgba(108, 110, 114, 0.3); // el-avatar
+  --el-fill-color-blank: #3c3d3f54;
 
   --niuyin-text-color: #fff;
   --niuyin-bg-color: #000000;
   --niuyin-primary-color: rgb(210, 27, 70);
+  --niuyin-upload-bg: #3c3d3f54;
 
 }
 
@@ -20,6 +22,7 @@ html.dark {
   --niuyin-text-color: #000;
   --niuyin-bg-color: #ffffff;
   --niuyin-primary-color: rgb(17, 72, 210);
+  --niuyin-upload-bg: #2e32380d;
 
   --el-color-info: #e2e3e3; /*按钮背景色*/
   --el-input-bg-color: rgb(242, 242, 243);
@@ -100,7 +103,7 @@ html.dark {
 
 .el-tabs__header {
   position: sticky;
-  top: -2px;
+  top: 0;
   z-index: 100;
   margin-bottom: 10px;
   background: var(--niuyin-bg-color);
@@ -183,4 +186,20 @@ html.dark {
 /*消息弹框圆角*/
 .el-message-box {
   --el-messagebox-border-radius: 16px;
+}
+
+/*文件上传回显*/
+.el-upload-list {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.el-upload-list--picture .el-upload-list__item {
+  width: auto;
+  margin: 0 5px;
+}
+
+.el-input .el-input__count .el-input__count-inner {
+  background: transparent;
 }

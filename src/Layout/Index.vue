@@ -19,7 +19,7 @@ import Header from "@/components/Header.vue"
 import {themeX} from "@/store/themeX";
 
 export default {
-  name: 'Home',
+  name: 'Index',
   components: {Aside, Header},
   data() {
     return {

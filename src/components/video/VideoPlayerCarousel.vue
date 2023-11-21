@@ -19,7 +19,10 @@
                         @keydown="keyDownZ(item.videoId,$event)">
         <div class="video-box">
           <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
-            <VideoPlayer v-if="videoDisplay"
+            <!--            图文轮播-->
+            <ImagePlayer v-if="item.publishType==='1'" :image-list="item.imageList"/>
+            <!--            视频-->
+            <VideoPlayer v-if="item.publishType==='0'"
                          class="videoPlayer"
                          id="videoPlayer"
                          :video="item"/>
@@ -256,10 +259,14 @@ import {
 import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
+import ImagePlayer from "@/components/video/ImagePlayer.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
-  components: {CirclePlus, QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment},
+  components: {
+    ImagePlayer,
+    CirclePlus, QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment
+  },
   computed: {
     UserFilled() {
       return UserFilled
@@ -339,8 +346,21 @@ export default {
     },
     // 点赞视频
     videoLikeClick(videoId) {
+      this.videoList.forEach((item, index) => {
+        if (item.videoId === videoId) {
+          // 设置为已点赞
+          item.weatherLike = !item.weatherLike
+          if (item.weatherLike) {
+            item.likeNum += 1
+          } else {
+            item.likeNum -= 1
+          }
+        }
+      })
       likeVideo(videoId).then(res => {
         if (res.code === 200) {
+
+        } else {
           this.videoList.forEach((item, index) => {
             if (item.videoId === videoId) {
               // 设置为已点赞
@@ -436,6 +456,7 @@ export default {
     },
     // playswitch 下一个
     handleVideoNext() {
+      console.log("next")
       const _that = this;
       this.drawer = false
       this.showVideoComment = false
@@ -600,7 +621,7 @@ export default {
       position: absolute;
       bottom: 40px;
       padding: 10px;
-      width: 100%;
+      width: 60%;
       left: 0;
       z-index: 3;
       display: flex;

@@ -28,9 +28,7 @@
               <i v-if="user.sex==='1'" class="iconfont icon-man"></i>
               <i v-else-if="user.sex==='0'" class="iconfont icon-woman"></i>
               <i v-else class="iconfont icon-sex-primary"></i>
-              <span class="ml-5r">{{
-                  '22岁'
-                }}</span></span>
+              <span class="ml-5r">{{'22岁'}}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
             <span class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>中原工学院</span>
           </div>

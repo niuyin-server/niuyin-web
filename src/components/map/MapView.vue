@@ -113,8 +113,10 @@ const addPointer = (position) => {
   });
 };
 
+const emit = defineEmits(['emitSelectAddress'])
+
 const handleSelectAddress = (e) => {
-  console.log(addressResult)
+  emit("emitSelectAddress", addressResult)
 }
 </script>
 
