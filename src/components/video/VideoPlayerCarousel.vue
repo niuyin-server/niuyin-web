@@ -685,7 +685,6 @@ export default {
             align-items: center;
             color: #fff;
             display: flex;
-            font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif;
             font-size: 15px;
             font-weight: 500;
             justify-content: center;

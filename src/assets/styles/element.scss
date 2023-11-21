@@ -203,3 +203,9 @@ html.dark {
 .el-input .el-input__count .el-input__count-inner {
   background: transparent;
 }
+
+.el-carousel {
+  --el-carousel-arrow-font-size: 16px;
+  --el-carousel-arrow-size: 48px;
+  --el-carousel-arrow-background: rgba(41, 50, 72, 0.3);
+}

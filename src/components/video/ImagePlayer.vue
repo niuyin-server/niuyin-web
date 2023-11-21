@@ -3,7 +3,7 @@
     <el-carousel class="wh100" trigger="hover" arrow="always">
       <el-carousel-item class="carousel-item" v-for="item in imageList" :key="item">
         <img class="tlc mwh100"
-             :src="item"/>
+             :src="item" alt=""/>
       </el-carousel-item>
     </el-carousel>
   </div>
