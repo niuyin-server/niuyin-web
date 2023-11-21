@@ -24,3 +24,11 @@ export function delSearchHistory(id) {
         method: 'delete',
     })
 }
+
+export function searchHotLoad(data) {
+    return request({
+        url: '/search/api/v1/video/search/hot',
+        method: 'post',
+        data:data
+    })
+}

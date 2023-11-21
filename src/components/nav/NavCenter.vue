@@ -53,14 +53,15 @@
             </div>
             <!--            底部热门搜索-->
             <div class="pop-bottom">
-              <div v-if="searchHistory">
+              <!--获取热门搜索标题的列表-->
+              <div v-if="hotSearch">
                 <h4 class="mtb5">牛音热搜</h4>
-                <div v-for="item in 5"
+                <div v-for="item in hotSearch"
                      class="cp p5px one-line flex-row search-hover-item">
                   <el-icon>
                     <CaretTop/>
                   </el-icon>
-                  <span>{{ item }}热搜数据</span>
+                  <span @click="handleSearchHotSelect(item)">{{ item }}</span>
                 </div>
               </div>
             </div>
@@ -77,7 +78,7 @@ import {
   Message, QuestionFilled,
   Sunrise, SwitchButton, UserFilled,
 } from '@element-plus/icons-vue'
-import {searchHistoryLoad, delSearchHistory} from "@/api/search.js";
+import {searchHistoryLoad, delSearchHistory, searchHotLoad} from "@/api/search.js";
 import axios from "axios";
 import {userInfoX} from "@/store/userInfoX";
 
@@ -103,6 +104,11 @@ export default {
       searchDiscover: [],
       // 热搜数据
       hotSearch: [],
+
+      pageDto: {
+        pageNum : 0,
+        pageSize : 5
+      },
     }
   },
   created() {
@@ -110,7 +116,7 @@ export default {
     this.getSearchHistory()
     // 猜你想搜
     this.getSearchDiscover()
-    // this.getHotSearch()
+    this.getHotSearch(this.pageDto)
   },
   mounted() {
     this.$nextTick(() => {
@@ -129,14 +135,21 @@ export default {
       // todo
       this.searchDiscover.push({id: 1, keyword: "你好"})
     },
-    getHotSearch() {
-      axios.get("https://s.search.bilibili.com/main/hotword")
-          .then(res => {
-            console.log(res)
-          })
+    //分页获取热搜列表
+    getHotSearch(pageDto) {
+      searchHotLoad(pageDto).then(res => {
+        pageDto=this.pageDto
+        console.log(res.data)
+        this.hotSearch = res.data
+      })
     },
     // 判断选中了哪个搜索历史
     handleSearchHistorySelect(keyword) {
+      this.searchData = keyword;
+      this.routerJump();
+    },
+    //判断选中了那个热搜标签
+    handleSearchHotSelect(keyword){
       this.searchData = keyword;
       this.routerJump();
     },
