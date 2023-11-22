@@ -139,7 +139,6 @@ export default {
     getHotSearch(pageDto) {
       searchHotLoad(pageDto).then(res => {
         pageDto=this.pageDto
-        console.log(res.data)
         this.hotSearch = res.data
       })
     },
