@@ -153,6 +153,7 @@ import {Close, UserFilled} from "@element-plus/icons-vue";
 import {followAndFans} from "@/api/social.js";
 import {encodeData} from "@/utils/roydon.js";
 import {userInfoX} from "@/store/userInfoX";
+import {searchHotLoad} from "@/api/search.js";
 
 export default {
   name: "HotVideo",
@@ -166,6 +167,10 @@ export default {
   },
   data() {
     return {
+      pageDto:{
+        pageNum: 1,
+        pageSize: 10
+      },
       userVideoLikes: "",
       followedNums: "",
       fanNums: "",
@@ -184,7 +189,7 @@ export default {
       dataNotMore: false,
       activeName: "热榜",//热榜区域
       hotTabShow: [
-        {id: 1, tabName: "热榜", tabUrl: "/user/1", dataList: this.hotMsg},
+        {id: 1, tabName: "热榜", tabUrl: "/user/1", dataList: []},
         {
           id: 2, tabName: "娱乐榜", tabUrl: "/user/2", dataList: [
             {id: 1, title: "你好"},
@@ -197,18 +202,13 @@ export default {
         {id: 3, tabName: "社会榜", tabUrl: "/user/3", dataList: []},
         {id: 4, tabName: "挑战榜", tabUrl: "/user/4", dataList: this.hotMsg},
       ],
-      hotMsg: [
-        {id: 1, title: "你好"},
-        {id: 2, title: "你好好"},
-        {id: 3, title: "你好好好"},
-        {id: 4, title: "你好好好好"},
-        {id: 5, title: "你好好好"},
-      ],
+      hotMsg: [],
       playVideoUrl: "",//hover之后播放的video
     };
   },
   created() {
     this.getHotVideoPage()
+    // this.getHotSearchPage()
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll, true);
@@ -243,7 +243,14 @@ export default {
           this.loading = false
         }
       })
+      searchHotLoad(this.pageDto).then(res =>{
+        // console.log(res.data)
+        console.log(res.data)
+        this.hotTabShow[1].dataList=res.data
+        console.log(this.hotTabShow[1].dataList)
+      })
     },
+    //获取热搜榜分页查询
     videoDialog(videoId) {
       const videoF = this.hotVideoList.filter(v => {
         return videoId === v.videoId
