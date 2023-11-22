@@ -530,7 +530,7 @@ export default {
   height: 458px;
   padding: 0 5px;
   top: 0;
-  z-index: 0;
+  z-index: -1;
   overflow: hidden;
   border-radius: 24px;
 

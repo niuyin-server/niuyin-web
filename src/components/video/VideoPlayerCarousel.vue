@@ -202,7 +202,7 @@
       </div>
     </div>
     <div class="feedback">
-      <div class="feedback-icon bgc211 flex-center cp">
+      <div class="feedback-icon flex-center cp">
         <el-icon color="#5a5a5a" :size="20">
           <QuestionFilled/>
         </el-icon>
@@ -596,11 +596,11 @@ export default {
         add = add.split(pos.city)[1]
       }
       // 排除县
-      if(pos.district !== ""){
+      if (pos.district !== "") {
         add = add.split(pos.district)[1]
       }
       // 排除街道
-      if(pos.township !== ""){
+      if (pos.township !== "") {
         add = add.split(pos.township)[1]
       }
       return add
@@ -759,7 +759,7 @@ export default {
   z-index: 2;
 
   .player-playswitch-tab {
-    background-color: rgba(242, 242, 243, 0.5);
+    background-color: var(--niuyin-custom-bg);
     border-radius: 1.5rem;
     padding: 1px;
 
@@ -794,6 +794,7 @@ export default {
 
   .feedback-icon {
     padding: 10px;
+    background-color: var(--niuyin-custom-bg);
     vertical-align: middle;
     border-radius: 2rem;
   }

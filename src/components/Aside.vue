@@ -145,7 +145,7 @@ export default {
 }
 
 .tab-item:hover {
-  background-color: rgba(37, 38, 50, .08);
+  background-color: var(--niuyin-custom-bg);
 }
 
 .round {
