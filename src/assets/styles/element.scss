@@ -13,6 +13,9 @@ html.dark {
 
   --niuyin-text-color: #fff;
   --niuyin-bg-color: #000000;
+  --niuyin-bg-color5: rgba(0, 0, 0, 0.5);
+  --niuyin-bg-color3: rgba(0, 0, 0, 0.3);
+  --niuyin-bg-color2: rgba(0, 0, 0, 0.2);
   --niuyin-primary-color: rgb(210, 27, 70);
   --niuyin-upload-bg: #3c3d3f54;
 
@@ -21,6 +24,9 @@ html.dark {
 :root {
   --niuyin-text-color: #000;
   --niuyin-bg-color: #ffffff;
+  --niuyin-bg-color5: rgba(255, 255, 255, 0.5);
+  --niuyin-bg-color3: rgba(255, 255, 255, 0.3);
+  --niuyin-bg-color2: rgba(255, 255, 255, 0.2);
   --niuyin-primary-color: rgb(17, 72, 210);
   --niuyin-upload-bg: #2e32380d;
 
@@ -217,5 +223,10 @@ html.dark {
 }
 
 .el-carousel__indicator--horizontal {
+  min-width: 10%;
   max-width: 10%;
+}
+
+.el-header {
+  --el-header-padding: 0;
 }
