@@ -35,9 +35,9 @@
                                  :label="item.tabName"
                                  :lazy="true"
                                  :name="item.tabName">
-                      <!--                    <router-view/>-->
+<!--                                          <router-view/>-->
                       <div v-for="it in item.dataList" class="p10px">
-                        <p>{{ it.title }}</p>
+                        <p>{{ it }}</p>
                       </div>
                     </el-tab-pane>
                   </el-tabs>
@@ -244,10 +244,7 @@ export default {
         }
       })
       searchHotLoad(this.pageDto).then(res =>{
-        // console.log(res.data)
-        console.log(res.data)
-        this.hotTabShow[1].dataList=res.data
-        console.log(this.hotTabShow[1].dataList)
+        this.hotTabShow[0].dataList=res.data
       })
     },
     //获取热搜榜分页查询
