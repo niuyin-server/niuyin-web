@@ -37,8 +37,10 @@
               <!--              定位信息-->
               <div v-if="item.positionFlag==='1'" class="video-position mtb5 flex-center">
                 <i class="iconfont icon-position fs125 mr5px"></i>
-                <span class="position-city fs9">{{ item.position.city }}</span>
+                <span v-if="item.position.city" class="position-city fs9">{{ item.position.city }}</span>
+                <span v-else class="position-city fs9">{{ item.position.province }}</span>
                 <span class="position-dist fs9">{{ item.position.district }}</span>
+                <span class="position-add fs9">{{ parseAddress(item.position) }}</span>
               </div>
               <!--              视频信息-->
               <div class="video-title one-line cw fs125 fw600">
@@ -587,6 +589,22 @@ export default {
     handleCancelFavoriteLeave(videoId) {
 
     },
+    parseAddress(pos) {
+      let add = pos.address.split(pos.province)[1]
+      // 排除城市
+      if (pos.city !== "") {
+        add = add.split(pos.city)[1]
+      }
+      // 排除县
+      if(pos.district !== ""){
+        add = add.split(pos.district)[1]
+      }
+      // 排除街道
+      if(pos.township !== ""){
+        add = add.split(pos.township)[1]
+      }
+      return add
+    },
 
   },
 }
@@ -804,7 +822,12 @@ export default {
   .position-city:after {
     border-left: 2px solid var(--niuyin-text-color);
     content: "";
-    height: 16px;
+    margin: 0 5px;
+  }
+
+  .position-dist:after {
+    border-left: 2px solid var(--niuyin-text-color);
+    content: "";
     margin: 0 5px;
   }
 
