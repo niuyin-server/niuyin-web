@@ -184,8 +184,8 @@
       <!--    移动端回显-->
       <div class="w50 flex-center">
         <div class="flex-column">
-          <div class="mobile-preview">
-            <div class="phone-container oh">
+          <div class="mobile-preview flex-center">
+            <div class="phone-container oh flex-center">
               <div class="phone-screen">
                 <div class="carousel-container">
                   <div class="carousel">
@@ -204,10 +204,12 @@
                 <img class="preview-like" src="@/assets/images/preview-like.png" alt=""/>
                 <div class="layer-top">
                   <div class="bottom-binder">
-                    <div class="one-line fs7 fw500">
+                    <div class="one-line fs7 fw500 flex-center">
                       <span class="">@{{ user.nickName }}</span>
-                      <i class="iconfont icon-tuwen ml5" style="font-size: 0.8rem;"></i>
-                      <span class="fs7 fw500">图文</span>
+                      <div class="flex-center">
+                        <i class="iconfont icon-pics ml5" style="font-size: 0.8rem;"></i>
+                        <span class="fs7 fw500">图文</span>
+                      </div>
                     </div>
                     <div id="phoneText" class="input-text--1URCd"><span><span></span></span></div>
                     <div class="music-binder" style="display: flex;align-items: center">

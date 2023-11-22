@@ -16,6 +16,7 @@
                  @ended="carouselEnd">
       <el-carousel-item v-for="item in videoList"
                         :key="item.videoId"
+                        :lazy="true"
                         @keydown="keyDownZ(item.videoId,$event)">
         <div class="video-box">
           <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
@@ -26,14 +27,26 @@
                          class="videoPlayer"
                          id="videoPlayer"
                          :video="item"/>
+            <!--            视频类型-->
+            <div v-if="item.publishType==='1'" class="flex-center video-type-pics">
+              <i class="iconfont icon-pics ml5 fs8"></i>
+              <span class="type-desc fs7 fw500">图文</span>
+            </div>
             <!--          视频简介区域-->
             <div class="videoinfo-area">
+              <!--              定位信息-->
+              <div v-if="item.positionFlag==='1'" class="video-position mtb5 flex-center">
+                <i class="iconfont icon-position fs125 mr5px"></i>
+                <span class="position-city fs9">{{ item.position.city }}</span>
+                <span class="position-dist fs9">{{ item.position.district }}</span>
+              </div>
+              <!--              视频信息-->
               <div class="video-title one-line cw fs125 fw600">
                 <span>@ </span><span v-html="item.userNickName" class="cp"
                                      @click="handleLinkUserInfo(item.userId)"></span>
                 <span class="fs9 fw400 cg"> · {{ smartDateFormat(item.createTime) }}</span>
               </div>
-              <div v-html="item.videoTitle" class="video-title one-line cw fw400"></div>
+              <div v-html="item.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
               <div>
                 <span v-for="tag in item.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
               </div>
@@ -102,8 +115,7 @@
                         <!--卡片主题内容列表-->
                         <div class="favorite-container">
                           <el-checkbox-group v-model="favoriteChecked"
-                                             @change="handleFavoriteCheckedChange"
-                          >
+                                             @change="handleFavoriteCheckedChange">
                             <el-checkbox class="mb5 w100"
                                          v-for="item2 in userFavoriteList"
                                          border
@@ -588,9 +600,6 @@ export default {
 }
 
 .video-container * {
-  border: 0;
-  margin: 0;
-  padding: 0;
   vertical-align: baseline;
 }
 
@@ -771,5 +780,36 @@ export default {
     border-radius: 2rem;
   }
 }
+
+.video-type-pics {
+  position: absolute;
+  left: 2%;
+  top: 2%;
+  padding: 5px 10px;
+  background: var(--niuyin-bg-color2);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+
+  .type-desc {
+    margin-left: 2px;
+    color: gold;
+  }
+}
+
+.video-position {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: rgba(118, 195, 118, 0.46);
+
+  .position-city:after {
+    border-left: 2px solid var(--niuyin-text-color);
+    content: "";
+    height: 16px;
+    margin: 0 5px;
+  }
+
+}
+
+
 </style>
 
