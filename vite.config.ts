@@ -19,20 +19,36 @@ export default defineConfig({
             '@': path.resolve(__dirname, 'src')
         }
     },
-    // host: '0.0.0.0',// 设置为0.0.0.0则所有的地址均能访问
-    // port: 5173,
-    // https: false,
-    // hotOnly: false,
-    // // 跨域问题解决 代理（关键部分）
-    // proxy: {
-    //     '/api': {
-    //         target: 'https://s.search.bilibili.com', // 注意！此处为后端提供的真实接口
-    //         changeOrigin: true, // 允许跨域
-    //         pathRewrite: {
-    //             // 如果接口中是没有api的，那就直接置空，'^/api': ''，
-    //             // 如果接口中有api，那就得写成{'^/api':'/api'}
-    //             '^/api': ''
-    //         }
+    // devServer: {
+    //     overlay: { // 让浏览器 overlay 同时显示警告和错误
+    //         warnings: true,
+    //         errors: true
+    //     },
+    //     host: "localhost",
+    //     port: 5173, // 端口号
+    //     https: false, // https:{type:Boolean}
+    //     open: false, //配置自动启动浏览器
+    //     hotOnly: true, // 热更新
+    //     // proxy: 'http://localhost:8080'   // 配置跨域处理,只有一个代理
+    //     proxy: { //配置多个跨域
+    //         "/api": {
+    //             target: "http://127.0.0.1:9090",
+    //             changeOrigin: true,
+    //             // ws: true,//websocket支持
+    //             secure: false,
+    //             pathRewrite: {
+    //                 "^/api": ""
+    //             }
+    //         },
+    //         "/api2": {
+    //             target: "https://s.search.bilibili.com",
+    //             changeOrigin: true,
+    //             //ws: true,//websocket支持
+    //             secure: false,
+    //             pathRewrite: {
+    //                 "^/api2": "/"
+    //             }
+    //         },
     //     }
     // }
 })

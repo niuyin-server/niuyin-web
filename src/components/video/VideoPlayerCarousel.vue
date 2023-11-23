@@ -8,7 +8,7 @@
                  :element-loading-spinner="true"
                  direction="vertical"
                  :autoplay="false"
-                 :loop="false"
+                 :loop="true"
                  indicator-position="none"
                  @keydown.stop="keyDown"
                  @mousewheel="rollScroll($event)"
@@ -583,11 +583,6 @@ export default {
       })
       // 鼠标悬停事件改为显示
       this.$refs[`favoritePop${videoId}`][0].showPopper = true
-
-    },
-    //
-    handleCancelFavoriteLeave(videoId) {
-
     },
     parseAddress(pos) {
       let add = pos.address.split(pos.province)[1]
