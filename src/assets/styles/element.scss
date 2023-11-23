@@ -13,16 +13,26 @@ html.dark {
 
   --niuyin-text-color: #fff;
   --niuyin-bg-color: #000000;
+  --niuyin-bg-color5: rgba(0, 0, 0, 0.5);
+  --niuyin-bg-color3: rgba(0, 0, 0, 0.3);
+  --niuyin-bg-color2: rgba(0, 0, 0, 0.2);
   --niuyin-primary-color: rgb(210, 27, 70);
   --niuyin-upload-bg: #3c3d3f54;
+  --niuyin-custom-bg: rgba(26, 26, 55, 0.8);
+  --niuyin-custom-bg5: rgba(26, 26, 55, 0.5);
 
 }
 
 :root {
   --niuyin-text-color: #000;
   --niuyin-bg-color: #ffffff;
+  --niuyin-bg-color5: rgba(255, 255, 255, 0.5);
+  --niuyin-bg-color3: rgba(255, 255, 255, 0.3);
+  --niuyin-bg-color2: rgba(255, 255, 255, 0.2);
   --niuyin-primary-color: rgb(17, 72, 210);
   --niuyin-upload-bg: #2e32380d;
+  --niuyin-custom-bg: rgba(242, 242, 243, 0.8);
+  --niuyin-custom-bg5: rgba(242, 242, 243, 0.5);
 
   --el-color-info: #e2e3e3; /*按钮背景色*/
   --el-input-bg-color: rgb(242, 242, 243);
@@ -217,5 +227,10 @@ html.dark {
 }
 
 .el-carousel__indicator--horizontal {
+  min-width: 10%;
   max-width: 10%;
+}
+
+.el-header {
+  --el-header-padding: 0;
 }

@@ -2,7 +2,7 @@
   <div class="nav-right">
     <div class="flex-center dn-phone">
       <!--通知-->
-      <el-popover :width="300" ref="noticePopover">
+      <el-popover :width="320" ref="noticePopover">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="flex-column icon-click cg plr10px">
@@ -12,7 +12,7 @@
                 </div>
               </el-badge>
               <p>
-                <span class="cg fs7">消息</span>
+                <span class="cg fs7">通知</span>
               </p>
             </div>
           </div>
@@ -169,6 +169,11 @@ export default {
     this.initNotice()
   },
   emits: ['darkChangeEmit'],
+  mounted() {
+    // this.$nextTick(()=> {
+    //   this.$refs.noticePopover.updatePopper()
+    // })
+  },
   methods: {
     initTheme() {
       const html = document.querySelector('html')

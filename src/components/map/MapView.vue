@@ -52,6 +52,7 @@ let addressResult = reactive({
   city: null,
   cityCode: null,
   district: null,
+  township: null,
 });
 // 鼠标点击或者回车选中某个POI信息时触发此事件
 const selectPoi = (e) => {
@@ -97,6 +98,7 @@ const addPointer = (position) => {
   amap.geocoder.getAddress(position, (status, result) => {
     if (status === 'complete' && result.info === 'OK') {
       // result为对应的地理位置详细信息
+      // console.log(result)
       // 完整地址
       amap.address = result.regeocode.formattedAddress;
       addressResult.address = result.regeocode.formattedAddress;
@@ -109,6 +111,8 @@ const addPointer = (position) => {
       addressResult.cityCode = result.regeocode.addressComponent.citycode
       // 县
       addressResult.district = result.regeocode.addressComponent.district
+      // 街道
+      addressResult.township = result.regeocode.addressComponent.township
     }
   });
 };

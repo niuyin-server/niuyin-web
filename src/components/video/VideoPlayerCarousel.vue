@@ -16,6 +16,7 @@
                  @ended="carouselEnd">
       <el-carousel-item v-for="item in videoList"
                         :key="item.videoId"
+                        :lazy="true"
                         @keydown="keyDownZ(item.videoId,$event)">
         <div class="video-box">
           <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
@@ -26,14 +27,28 @@
                          class="videoPlayer"
                          id="videoPlayer"
                          :video="item"/>
+            <!--            视频类型-->
+            <div v-if="item.publishType==='1'" class="flex-center video-type-pics">
+              <i class="iconfont icon-pics ml5 fs8"></i>
+              <span class="type-desc fs7 fw500">图文</span>
+            </div>
             <!--          视频简介区域-->
             <div class="videoinfo-area">
+              <!--              定位信息-->
+              <div v-if="item.positionFlag==='1'" class="video-position mtb5 flex-center">
+                <i class="iconfont icon-position fs125 mr5px"></i>
+                <span v-if="item.position.city" class="position-city fs9">{{ item.position.city }}</span>
+                <span v-else class="position-city fs9">{{ item.position.province }}</span>
+                <span class="position-dist fs9">{{ item.position.district }}</span>
+                <span class="position-add fs9">{{ parseAddress(item.position) }}</span>
+              </div>
+              <!--              视频信息-->
               <div class="video-title one-line cw fs125 fw600">
                 <span>@ </span><span v-html="item.userNickName" class="cp"
                                      @click="handleLinkUserInfo(item.userId)"></span>
                 <span class="fs9 fw400 cg"> · {{ smartDateFormat(item.createTime) }}</span>
               </div>
-              <div v-html="item.videoTitle" class="video-title one-line cw fw400"></div>
+              <div v-html="item.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
               <div>
                 <span v-for="tag in item.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
               </div>
@@ -102,8 +117,7 @@
                         <!--卡片主题内容列表-->
                         <div class="favorite-container">
                           <el-checkbox-group v-model="favoriteChecked"
-                                             @change="handleFavoriteCheckedChange"
-                          >
+                                             @change="handleFavoriteCheckedChange">
                             <el-checkbox class="mb5 w100"
                                          v-for="item2 in userFavoriteList"
                                          border
@@ -188,7 +202,7 @@
       </div>
     </div>
     <div class="feedback">
-      <div class="feedback-icon bgc211 flex-center cp">
+      <div class="feedback-icon flex-center cp">
         <el-icon color="#5a5a5a" :size="20">
           <QuestionFilled/>
         </el-icon>
@@ -575,6 +589,22 @@ export default {
     handleCancelFavoriteLeave(videoId) {
 
     },
+    parseAddress(pos) {
+      let add = pos.address.split(pos.province)[1]
+      // 排除城市
+      if (pos.city !== "") {
+        add = add.split(pos.city)[1]
+      }
+      // 排除县
+      if (pos.district !== "") {
+        add = add.split(pos.district)[1]
+      }
+      // 排除街道
+      if (pos.township !== "") {
+        add = add.split(pos.township)[1]
+      }
+      return add
+    },
 
   },
 }
@@ -588,9 +618,6 @@ export default {
 }
 
 .video-container * {
-  border: 0;
-  margin: 0;
-  padding: 0;
   vertical-align: baseline;
 }
 
@@ -732,7 +759,7 @@ export default {
   z-index: 2;
 
   .player-playswitch-tab {
-    background-color: rgba(242, 242, 243, 0.5);
+    background-color: var(--niuyin-custom-bg);
     border-radius: 1.5rem;
     padding: 1px;
 
@@ -767,9 +794,46 @@ export default {
 
   .feedback-icon {
     padding: 10px;
+    background-color: var(--niuyin-custom-bg);
     vertical-align: middle;
     border-radius: 2rem;
   }
 }
+
+.video-type-pics {
+  position: absolute;
+  left: 2%;
+  top: 2%;
+  padding: 5px 10px;
+  background: var(--niuyin-bg-color2);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+
+  .type-desc {
+    margin-left: 2px;
+    color: gold;
+  }
+}
+
+.video-position {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: rgba(118, 195, 118, 0.46);
+
+  .position-city:after {
+    border-left: 2px solid var(--niuyin-text-color);
+    content: "";
+    margin: 0 5px;
+  }
+
+  .position-dist:after {
+    border-left: 2px solid var(--niuyin-text-color);
+    content: "";
+    margin: 0 5px;
+  }
+
+}
+
+
 </style>
 

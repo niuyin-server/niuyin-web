@@ -55,6 +55,7 @@ export default {
       }
     }
   },
+  emits: ['emitVideoDuration'],
   methods: {
     onPlay(ev) {
       // console.log('播放')
@@ -67,6 +68,7 @@ export default {
       console.log('end')
     },
     onTimeupdate(ev) {
+      console.log(ev.target.duration)
       console.log(ev.target.currentTime)
     },
     onCanplay(ev) {

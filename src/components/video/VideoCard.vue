@@ -7,6 +7,10 @@
           <i class="iconfont icon-like-num "></i>
           <span class="ml-5r">{{ video.likeNum }}</span>
         </div>
+        <div v-if="video.publishType==='1'" class="flex-center video-type-pics">
+          <i class="iconfont icon-pics ml5 fs8"></i>
+          <span class="type-desc fs7 fw500">图文</span>
+        </div>
       </div>
       <div v-if="playVideo" class="wh100 background-custom" :style="{ backgroundImage: `url(${video.coverImage})` }">
         <!--            图文轮播-->
@@ -93,10 +97,9 @@ export default {
 
     .video-like {
       position: absolute;
-      bottom: 5%;
+      bottom: 3%;
       color: white;
       left: 5%;
-
     }
   }
 
@@ -117,6 +120,21 @@ export default {
     }
   }
 
+}
+
+.video-type-pics {
+  position: absolute;
+  left: 5%;
+  top: 4%;
+  padding: 5px 10px;
+  background: var(--niuyin-bg-color2);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+
+  .type-desc {
+    margin-left: 2px;
+    color: gold;
+  }
 }
 
 /*移动端适配*/

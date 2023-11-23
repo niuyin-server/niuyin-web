@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "AlimamaShuHeiTi-Bold", PingFang SC, "Microsoft YaHei", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "微软雅黑", sans-serif;
+  font-family: "AlimamaFangYuanTiVF-Thin", "AlimamaShuHeiTi-Bold", PingFang SC, "Microsoft YaHei", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "微软雅黑", sans-serif;
 }
 
 html {
@@ -84,6 +84,14 @@ a {
 
 .mr-5r {
   margin-right: 0.5rem;
+}
+
+.mr5px {
+  margin-right: 5px;
+}
+
+.ml5px {
+  margin-left: 5px;
 }
 
 .ml-5r {
@@ -466,9 +474,8 @@ a {
 
 .router-is-focus .tab-item {
   backdrop-filter: blur(10px);
-  background-color: rgba(211, 211, 211, 0.5);
-  color: black !important;
-  font-weight: 600;
+  background-color: var(--niuyin-custom-bg5);
+  font-weight: 900;
 }
 
 .el-autocomplete {
