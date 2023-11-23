@@ -35,7 +35,7 @@
                                  :label="item.tabName"
                                  :lazy="true"
                                  :name="item.tabName">
-<!--                                          <router-view/>-->
+                      <!--                    <router-view/>-->
                       <div v-for="it in item.dataList" class="p10px">
                         <p>{{ it }}</p>
                       </div>
@@ -167,7 +167,7 @@ export default {
   },
   data() {
     return {
-      pageDto:{
+      pageDto: {
         pageNum: 1,
         pageSize: 10
       },
@@ -190,17 +190,9 @@ export default {
       activeName: "热榜",//热榜区域
       hotTabShow: [
         {id: 1, tabName: "热榜", tabUrl: "/user/1", dataList: []},
-        {
-          id: 2, tabName: "娱乐榜", tabUrl: "/user/2", dataList: [
-            {id: 1, title: "你好"},
-            {id: 2, title: "你好好"},
-            {id: 3, title: "你好好好"},
-            {id: 4, title: "你好好好好"},
-            {id: 5, title: "你好好好"},
-          ]
-        },
+        {id: 2, tabName: "娱乐榜", tabUrl: "/user/2", dataList: []},
         {id: 3, tabName: "社会榜", tabUrl: "/user/3", dataList: []},
-        {id: 4, tabName: "挑战榜", tabUrl: "/user/4", dataList: this.hotMsg},
+        {id: 4, tabName: "挑战榜", tabUrl: "/user/4", dataList: []},
       ],
       hotMsg: [],
       playVideoUrl: "",//hover之后播放的video
@@ -243,8 +235,10 @@ export default {
           this.loading = false
         }
       })
-      searchHotLoad(this.pageDto).then(res =>{
-        this.hotTabShow[0].dataList=res.data
+      searchHotLoad(this.pageDto).then(res => {
+        if (res.code === 200) {
+          this.hotTabShow[0].dataList = res.data
+        }
       })
     },
     //获取热搜榜分页查询

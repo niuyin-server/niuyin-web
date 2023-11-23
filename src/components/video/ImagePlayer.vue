@@ -1,7 +1,7 @@
 <template>
   <div class="wh100 pr" style="background: black">
     <!--    arrow="always"-->
-    <el-carousel class="wh100" trigger="hover" arrow="always" @change="carouselChange">
+    <el-carousel class="wh100" trigger="hover" arrow="always" @change="handleCarouselChange">
       <el-carousel-item v-for="item in imageList" :key="item">
         <img class="tlc mwh100" :src="item" alt=""/>
       </el-carousel-item>
@@ -26,7 +26,7 @@ export default {
     }
   },
   methods: {
-    carouselChange(newVal, OldVal) {
+    handleCarouselChange(newVal, OldVal) {
       this.curImageNum = newVal + 1
     }
   }

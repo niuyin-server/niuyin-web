@@ -68,8 +68,8 @@ export default {
       console.log('end')
     },
     onTimeupdate(ev) {
-      console.log(ev.target.duration)
-      console.log(ev.target.currentTime)
+      // console.log(ev.target.duration)
+      // console.log(ev.target.currentTime)
     },
     onCanplay(ev) {
       // console.log(ev, '可以播放')

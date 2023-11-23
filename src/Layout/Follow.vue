@@ -111,7 +111,6 @@ export default {
       padding-left: 10px;
 
       .nickname {
-        color: black;
         font-size: 0.8rem;
       }
 

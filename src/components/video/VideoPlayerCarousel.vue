@@ -330,6 +330,7 @@ export default {
       isLiked: false, // 是否已经快捷键点赞
       startIndex: 1,
       favoriteChecked: [],//已选收藏夹
+      waitLoadMore: false,
     }
   },
   emits: ['reloadVideoFeed'],
@@ -427,20 +428,16 @@ export default {
     },
     // 切换视频暂停视频
     carouselChange(newVal, oldVal) {
-      console.log("newVal : " + newVal + "--- oldVal : " + oldVal)
+      console.log("newVal=>" + newVal + "、oldVal=>" + oldVal + "、videoLength=>" + this.videoList.length)
       const videos = document.getElementsByClassName("d-player-video-main");
       for (let i = 0; i < videos.length; i++) {
         setTimeout(() => {
           videos[i].pause();
           // videos[i].load();
-          // console.log(videos[i])
-        }, 1);
+        }, 100);
       }
-      // if (oldVal - newVal === videos.length - 1) {
-      //   this.$emit("reloadVideoFeed", true)
-      // }
-      if (newVal === videos.length - 1) {
-        this.$emit("reloadVideoFeed", true)
+      if (newVal === this.videoList.length - 1) {
+        this.waitLoadMore = true
       }
     },
     carouselEnd() {
@@ -460,8 +457,12 @@ export default {
           scrollVal > 0
               ? _that.$refs.carousel.prev()
               : _that.$refs.carousel.next();
-        }, 1000);
+        }, 500);
       } else {
+      }
+      if (this.waitLoadMore) {
+        this.$emit("reloadVideoFeed", true)
+        this.waitLoadMore = false
       }
     },
     // playswitch 上一个
@@ -479,6 +480,10 @@ export default {
           _that.timeOut = null;
           _that.$refs.carousel.next()
         }, 500);
+      }
+      if (this.waitLoadMore) {
+        this.$emit("reloadVideoFeed", true)
+        this.waitLoadMore = false
       }
     },
     // 跳转用户详情页面
@@ -583,11 +588,6 @@ export default {
       })
       // 鼠标悬停事件改为显示
       this.$refs[`favoritePop${videoId}`][0].showPopper = true
-
-    },
-    //
-    handleCancelFavoriteLeave(videoId) {
-
     },
     parseAddress(pos) {
       let add = pos.address.split(pos.province)[1]
