@@ -467,7 +467,12 @@ export default {
     },
     // playswitch 上一个
     handleVideoPrev() {
-
+      if (!this.timeOut) {
+        this.timeOut = setTimeout(() => {
+          this.timeOut = null;
+          this.$refs.carousel.prev()
+        }, 500);
+      }
     },
     // playswitch 下一个
     handleVideoNext() {
