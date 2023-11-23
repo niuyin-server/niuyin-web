@@ -36,8 +36,11 @@
                                  :lazy="true"
                                  :name="item.tabName">
                       <!--                    <router-view/>-->
-                      <div v-for="it in item.dataList" class="p10px">
-                        <p>{{ it }}</p>
+                      <div v-for='(it,index) in item.dataList'
+                           class="cp p5px one-line flex-row search-hover-item">
+                        <span style="display: inline-block" @click="handleSearchHotSelect(it)">{{
+                            (index + 1) + "." + it
+                          }}</span>
                       </div>
                     </el-tab-pane>
                   </el-tabs>
@@ -167,6 +170,7 @@ export default {
   },
   data() {
     return {
+      searchData: "",
       pageDto: {
         pageNum: 1,
         pageSize: 10
@@ -297,6 +301,15 @@ export default {
         })
       }
 
+    },
+    handleSearchHotSelect(keyword){
+      this.searchData=keyword
+      this.routerJump()
+    },
+    // 路由跳转
+    routerJump() {
+      // 跳转到搜索页面
+      this.$router.push(`/videoSearch?keyword=${this.searchData}`);
     },
     // 热榜tab点击
     handleHotTabClick(tab, event) {
