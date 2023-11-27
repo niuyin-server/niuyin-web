@@ -777,7 +777,7 @@ export default {
       transition: all 0.5s ease;
 
       &:hover .el-icon {
-        --color: red !important;
+        --color: var(--niuyin-primary-color) !important;
       }
     }
 
@@ -786,7 +786,7 @@ export default {
       transition: all 0.5s ease;
 
       &:hover .el-icon {
-        --color: red !important;
+        --color: var(--niuyin-primary-color) !important;
       }
     }
   }

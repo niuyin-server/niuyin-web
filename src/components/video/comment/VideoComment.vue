@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar v-if="show">
+  <el-scrollbar v-if="show" style="padding-bottom: 40px">
     <div class="video-comment-tree" v-for="(item, index) in videoCommentTree" :key="item.commentId">
       <div class="comment-container">
         <el-card class="comment-info">
@@ -110,13 +110,18 @@
                    :total="commentTotal"
                    background
                    layout="prev, pager, next"
-                   :page.sync="commentQueryParams.pageNum"
-                   :limit.sync="commentQueryParams.pageSize" @pagination="getCommentList"/>
+                   :page-sizes="[10, 20, 50]"
+                   :current-page="commentQueryParams.pageNum"
+                   :page-size="commentQueryParams.pageSize"
+                   @sizeChange="handleSizeChange"
+                   @currentChange="handleCurrentChange"/>
   </el-scrollbar>
-  <div class="comment-input-area">
+  <div class="comment-input-area one-line">
     <el-input slot="reference"
               v-model="commentInput"
               clearable
+              maxlength="100"
+              show-word-limit
               @keyup.enter.native="handleCommentClick"
               placeholder="留下你的精彩评论吧">
       <template #prepend v-if="replayVisible">
@@ -128,7 +133,7 @@
       <template #append>
         <el-button class="flex-center" @click="handleCommentClick">
           <el-icon :size="18" :color="'var(--niuyin-primary-color)'">
-            <ChromeFilled />
+            <ChromeFilled/>
           </el-icon>
         </el-button>
       </template>
@@ -197,13 +202,20 @@ export default {
   },
   methods: {
     getCommentList() {
-      console.log(this.videoId)
       this.commentQueryParams.videoId = this.videoId
       videoCommentPageList(this.commentQueryParams).then(res => {
         this.drawer = true
         this.videoCommentTree = res.rows;
         this.commentTotal = res.total;
       })
+    },
+    handleCurrentChange(v) {
+      this.commentQueryParams.pageNum = v
+      this.getCommentList()
+    },
+    handleSizeChange(v) {
+      this.commentQueryParams.pageSize = v
+      this.getCommentList()
     },
     // 点击评论
     handleCommentClick() {

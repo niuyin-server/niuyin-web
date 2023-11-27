@@ -95,4 +95,8 @@ export default {
 :deep(.d-player-wrap .d-player-control .d-control-tool) {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+:deep(.d-slider .d-slider__runway) {
+  background-color: rgba(0, 0, 0, 0.20);
+}
 </style>

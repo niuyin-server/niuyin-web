@@ -65,7 +65,7 @@ export default {
       loading: true,
       dialogVisible: false,
       postVideoList: [],
-      postVideoTotal: 0,
+      postVideoTotal: undefined,
       videoQueryParams: {
         videoTitle: "",
         pageNum: 1,

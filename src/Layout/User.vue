@@ -239,6 +239,7 @@
         </div>
       </el-scrollbar>
     </el-dialog>
+    <el-backtop target=".main-container" :visibility-height=400></el-backtop>
   </div>
 </template>
 
@@ -463,7 +464,8 @@ export default {
     margin-left: 0 !important;
   }
 }
-.image-dot{
+
+.image-dot {
   width: 28px;
   height: 28px;
   background: var(--niuyin-online-color);
