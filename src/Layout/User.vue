@@ -3,8 +3,9 @@
     <el-scrollbar>
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
         <div v-viewer class="avatar-area dn-phone">
-          <el-avatar v-if="user.avatar" class="user-avatar" :src="user.avatar"/>
-          <el-avatar v-else class="user-avatar" :icon="UserFilled"/>
+          <el-avatar v-if="user.avatar" class="user-avatar pr" :src="user.avatar"/>
+          <el-avatar v-else class="user-avatar pr" :icon="UserFilled"/>
+          <div class="image-dot"></div>
         </div>
         <div class="user-info">
           <div class="username"><h1>{{ user.nickName }}</h1></div>
@@ -28,7 +29,7 @@
               <i v-if="user.sex==='1'" class="iconfont icon-man"></i>
               <i v-else-if="user.sex==='0'" class="iconfont icon-woman"></i>
               <i v-else class="iconfont icon-sex-primary"></i>
-              <span class="ml-5r">{{'22岁'}}</span></span>
+              <span class="ml-5r">{{ '22岁' }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
             <span class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>中原工学院</span>
           </div>
@@ -461,5 +462,16 @@ export default {
   .user-container .user-info {
     margin-left: 0 !important;
   }
+}
+.image-dot{
+  width: 28px;
+  height: 28px;
+  background: var(--niuyin-online-color);
+  position: absolute;
+  border-radius: 50%;
+  border: 4px solid var(--niuyin-bg-color);
+  top: 50%;
+  left: 50%;
+  transform: translate(25px, 30px);
 }
 </style>
