@@ -145,4 +145,12 @@ export default {
   }
 }
 
+:deep(.d-player-wrap .d-player-control) {
+  height: 10px !important;
+}
+
+:deep(.d-player-wrap .d-player-control .d-control-tool) {
+  display: none !important;
+}
+
 </style>
