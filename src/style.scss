@@ -160,6 +160,11 @@ a {
   margin: 0.5rem 0;
 }
 
+.mtb5px {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .tcm {
   color: var(--niuyin-text-color)
 }
@@ -175,6 +180,10 @@ a {
 .mlr5 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+}
+
+.m5px {
+  margin: 5px;
 }
 
 .mlr8 {
@@ -557,4 +566,13 @@ a {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.text-hv-gold {
+  transition: all 0.3s ease;
+}
+
+.text-hv-gold:hover {
+  color: gold;
+  font-weight: bold;
 }

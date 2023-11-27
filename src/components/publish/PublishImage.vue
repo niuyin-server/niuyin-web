@@ -189,7 +189,7 @@
               <div class="phone-screen">
                 <div class="carousel-container">
                   <div class="carousel">
-                    <el-carousel trigger="hover" height="100%">
+                    <el-carousel trigger="hover" height="100%" autoplay>
                       <el-carousel-item class="carousel-item" v-for="item in videoForm.imageFileList" :key="item">
                         <img
                             style="width: 100%;height: auto ;position: absolute;top:50%;left: 50%;transform: translate(-50%, -50%);border-radius: 25px"
@@ -542,7 +542,7 @@ export default {
       height: 100%;
     }
 
-    &:deep( .el-carousel__container) {
+    &:deep(.el-carousel__container) {
       height: 100% !important;
     }
 

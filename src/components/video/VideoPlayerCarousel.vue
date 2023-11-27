@@ -651,11 +651,11 @@ export default {
 
     .videoinfo-area {
       position: absolute;
-      bottom: 40px;
+      bottom: 50px;
       padding: 10px;
       width: 60%;
       left: 0;
-      z-index: 3;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -668,9 +668,9 @@ export default {
 
     .video-operate {
       position: absolute;
-      bottom: 40px;
+      bottom: 50px;
       padding-right: 16px;
-      z-index: 3;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;

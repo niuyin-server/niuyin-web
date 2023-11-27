@@ -136,10 +136,10 @@ export default {
 .tab-item {
   margin: 1px 1rem;
   display: flex;
-  padding: 0.1rem 0;
+  padding: 0 10px;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   border-radius: 0.5rem;
   transition: all .3s ease-in;
 }

@@ -27,10 +27,9 @@
             <div class="pop-top">
               <div v-if="searchHistory">
                 <h4 class="mb5">搜索历史</h4>
-                <el-tag class="cp tcm"
+                <el-tag class="cp tcm m5px text-hv-gold"
                         v-for="item in searchHistory"
                         :key="item.id"
-                        style="margin-bottom: 3px;margin-right: 5px"
                         type="info"
                         closable
                         @click="handleSearchHistorySelect(item.keyword)"
@@ -44,9 +43,10 @@
               <div v-if="searchHistory">
                 <h4 class="mtb5">猜你想搜</h4>
                 <div class="flex-between">
-                  <p class="cp w49 p5px one-line search-hover-item"
+                  <p class="cp w49 p5px mtb5px one-line search-hover-item text-hv-gold"
                      v-for="item in searchDiscover"
                      @click="handleSearchDiscoverSelect(item.keyword)">
+                    {{ item.keyword }}
                   </p>
                 </div>
               </div>
@@ -57,7 +57,7 @@
               <div v-if="hotSearch">
                 <h4 class="mtb5">牛音热搜</h4>
                 <div v-for="item in hotSearch"
-                     class="cp p5px one-line flex-row search-hover-item">
+                     class="cp p5px mtb5 one-line flex-row search-hover-item text-hv-gold">
                   <el-icon>
                     <CaretTop/>
                   </el-icon>
@@ -106,8 +106,8 @@ export default {
       hotSearch: [],
 
       pageDto: {
-        pageNum : 0,
-        pageSize : 5
+        pageNum: 0,
+        pageSize: 5
       },
     }
   },
@@ -134,11 +134,13 @@ export default {
     getSearchDiscover() {
       // todo
       this.searchDiscover.push({id: 1, keyword: "你好"})
+      this.searchDiscover.push({id: 1, keyword: "你好"})
+      this.searchDiscover.push({id: 1, keyword: "你好"})
     },
     //分页获取热搜列表
     getHotSearch(pageDto) {
       searchHotLoad(pageDto).then(res => {
-        pageDto=this.pageDto
+        pageDto = this.pageDto
         this.hotSearch = res.data
       })
     },
@@ -148,7 +150,7 @@ export default {
       this.routerJump();
     },
     //判断选中了那个热搜标签
-    handleSearchHotSelect(keyword){
+    handleSearchHotSelect(keyword) {
       this.searchData = keyword;
       this.routerJump();
     },
