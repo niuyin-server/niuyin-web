@@ -79,7 +79,6 @@ import {
   Sunrise, SwitchButton, UserFilled,
 } from '@element-plus/icons-vue'
 import {searchHistoryLoad, delSearchHistory, searchHotLoad} from "@/api/search.js";
-import axios from "axios";
 import {userInfoX} from "@/store/userInfoX";
 
 export default {

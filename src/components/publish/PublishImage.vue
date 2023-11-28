@@ -439,6 +439,7 @@ export default {
   height: 515px;
   top: 10px;
   z-index: 1;
+  background-color: black;
   border-radius: 24px;
 }
 
@@ -473,6 +474,7 @@ export default {
   position: absolute;
   bottom: 60px;
   left: 10px;
+  color: white;
   overflow: hidden;
   display: flex;
   flex-direction: column;

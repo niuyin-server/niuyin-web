@@ -219,10 +219,6 @@ export default {
     },
     // 点击评论
     handleCommentClick() {
-      // const data = {
-      //   "videoId": this.videoId,
-      //   "content": this.commentInput
-      // }
       this.commentDTO.content = this.commentInput
       addVideoComment(this.commentDTO).then(res => {
         if (res.code === 200) {
