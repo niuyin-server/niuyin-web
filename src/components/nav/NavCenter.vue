@@ -56,12 +56,26 @@
               <!--获取热门搜索标题的列表-->
               <div v-if="hotSearch">
                 <h4 class="mtb5">牛音热搜</h4>
-                <div v-for="item in hotSearch"
-                     class="cp p5px mtb5 one-line flex-row search-hover-item text-hv-gold">
-                  <el-icon>
-                    <CaretTop/>
-                  </el-icon>
-                  <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                <div v-for="(item,index) in hotSearch"
+                     class="cp p5px one-line flex-row search-hover-item text-hv-gold">
+                  <div v-if="index===0" class="flex-center">
+                    <img class="mr5px" src="@/assets/images/rank/r1.png"/>
+                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                  </div>
+                  <div v-else-if="index===1" class="flex-center">
+                    <img class="mr5px" src="@/assets/images/rank/r2.png"/>
+                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                  </div>
+                  <div v-else-if="index===2" class="flex-center">
+                    <img class="mr5px" src="@/assets/images/rank/r3.png"/>
+                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                  </div>
+                  <div v-else class="flex-center">
+                    <el-icon style="width: 24px">
+                      <CaretTop/>
+                    </el-icon>
+                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                  </div>
                 </div>
               </div>
             </div>
