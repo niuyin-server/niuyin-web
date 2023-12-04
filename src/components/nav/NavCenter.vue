@@ -71,7 +71,7 @@
                     <span @click="handleSearchHotSelect(item)">{{ item }}</span>
                   </div>
                   <div v-else class="flex-center">
-                    <el-icon style="width: 24px">
+                    <el-icon class="mr5px" style="width: 24px">
                       <CaretTop/>
                     </el-icon>
                     <span @click="handleSearchHotSelect(item)">{{ item }}</span>
