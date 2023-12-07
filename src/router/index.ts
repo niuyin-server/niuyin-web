@@ -15,6 +15,7 @@ const router = createRouter({
             component: () => import("@/Layout/Index.vue"),
             children: [
                 {path: "index", component: () => import("@/Layout/Video.vue")},
+                {path: "discover", component: () => import("@/Layout/Discover.vue")},
                 {
                     path: "user", component: () => import("@/Layout/User.vue"),
                     redirect: '/user/videoPost',
@@ -44,10 +45,12 @@ const router = createRouter({
         {
             path: '/404',
             component: () => import('@/Layout/error/404.vue'),
+            hidden: true,
         },
         {
             path: '/401',
             component: () => import('@/Layout/error/401.vue'),
+            hidden: true,
         },
 
     ],
@@ -61,9 +64,13 @@ const router = createRouter({
 //     beforeEach.checkAuth(guard, router)
 // })
 
-// router.beforeEach((to,from,next)=>{
-//     if()
-// })
+router.beforeEach((to, from, next) => {
+    if (to.matched.length === 0) {
+        from.path ? next({name: from.name}) : next('/404')
+    } else {
+        next()
+    }
+})
 
 
 export default router;

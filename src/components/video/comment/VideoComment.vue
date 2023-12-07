@@ -16,16 +16,22 @@
               <div class="comment-operate flex-row">
                 <div class="flex-center mr-5r tac cp operate-icon"
                      @click="handleReplay(item.commentId,item.commentId,item.nickName)">
-                  <i class="iconfont icon-replay "></i>
+                  <svg class="icon1rem" aria-hidden="true">
+                    <use xlink:href="#icon-replay"></use>
+                  </svg>
                   <p class="cg fs7 ml2">回复</p>
                 </div>
                 <div class="flex-center mr-5r tac cp operate-icon">
-                  <i class="iconfont icon-shared "></i>
+                  <svg class="icon1rem" aria-hidden="true">
+                    <use xlink:href="#icon-shared"></use>
+                  </svg>
                   <p class="cg fs7 ml2">分享</p>
                 </div>
-                <div class="flex-center mr-5r tac cp">
+                <div class="flex-center mr-5r tac cp operate-icon">
                   <!--                todo 判断是否已点赞-->
-                  <i class="iconfont icon-like-grey operate-icon"></i>
+                  <svg class="icon1rem" aria-hidden="true">
+                    <use xlink:href="#icon-like-grey"></use>
+                  </svg>
                   <p class="cg fs7 ml2">{{ item.commentId }}</p>
                 </div>
               </div>
@@ -69,16 +75,22 @@
                   <div class="comment-operate flex-row">
                     <div class="flex-center mr-5r tac cp operate-icon"
                          @click="handleReplay(child.commentId,item.commentId,child.nickName)">
-                      <i class="iconfont icon-replay "></i>
+                      <svg class="icon1rem" aria-hidden="true">
+                        <use xlink:href="#icon-replay"></use>
+                      </svg>
                       <p class="cg fs7 ml2">回复</p>
                     </div>
                     <div class="flex-center mr-5r tac cp operate-icon">
-                      <i class="iconfont icon-shared "></i>
+                      <svg class="icon1rem" aria-hidden="true">
+                        <use xlink:href="#icon-shared"></use>
+                      </svg>
                       <p class="cg fs7 ml2">分享</p>
                     </div>
                     <div class="flex-center mr-5r tac cp">
                       <!--                todo 判断是否已点赞-->
-                      <i class="iconfont icon-like-grey operate-icon"></i>
+                      <svg class="icon1rem" aria-hidden="true">
+                        <use xlink:href="#icon-like-grey"></use>
+                      </svg>
                       <p class="cg fs7 ml2">{{ item.commentId }}</p>
                     </div>
                   </div>
@@ -327,10 +339,6 @@ export default {
   transition: all 0.3s linear, width 0.3s linear;
   text-align: center;
   vertical-align: middle;
-}
-
-.operate-icon:hover {
-  transform: scale(1.1);
 }
 
 .operate-icon:hover {

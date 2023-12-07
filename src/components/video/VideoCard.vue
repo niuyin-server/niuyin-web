@@ -4,11 +4,15 @@
       <div v-if="!playVideo" class="cover-image">
         <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
         <div class="video-like">
-          <i class="iconfont icon-like-num "></i>
+          <svg class="icon1rem" aria-hidden="true">
+            <use xlink:href="#icon-like-num"></use>
+          </svg>
           <span class="ml-5r">{{ video.likeNum }}</span>
         </div>
         <div v-if="video.publishType==='1'" class="flex-center video-type-pics">
-          <i class="iconfont icon-pics ml5 fs8"></i>
+          <svg class="icon1rem ml5" aria-hidden="true">
+            <use xlink:href="#icon-pics"></use>
+          </svg>
           <span class="type-desc fs7 fw500">图文</span>
         </div>
       </div>

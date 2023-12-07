@@ -28,19 +28,19 @@
         <div class="w33 p10px">
           <div class="upload-bg p1rem b-radius5">
             <p class="mb5 fw600">图片格式</p>
-            <p class="fs8 cg">支持常用图片格式，暂不支持gif格式</p>
+            <p class="fs8 cg one-line">支持常用图片格式，暂不支持gif格式</p>
           </div>
         </div>
         <div class="w33 p10px">
           <div class="upload-bg p1rem b-radius5">
             <p class="mb5 fw600">图片大小</p>
-            <p class="fs8 cg">图片大小不超过10MB</p>
+            <p class="fs8 cg one-line">图片大小不超过10MB</p>
           </div>
         </div>
         <div class="w33 p10px">
           <div class="upload-bg p1rem b-radius5">
             <p class="mb5 fw600">图片比例</p>
-            <p class="fs8 cg">图文的宽高比建议不超过1:2</p>
+            <p class="fs8 cg one-line">图文的宽高比建议不超过1:2</p>
           </div>
         </div>
       </div>

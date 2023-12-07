@@ -17,7 +17,10 @@
                 clearable>
             </el-input>
             <el-button class="search-btn fw600 tcm" type="info" plain @click="searchConfirm">
-              <i class="iconfont icon-search mr-5r"></i><span>搜索</span>
+              <svg class="icon mr-5r" aria-hidden="true">
+                <use xlink:href="#icon-search"></use>
+              </svg>
+              <span>搜索</span>
             </el-button>
           </div>
         </template>

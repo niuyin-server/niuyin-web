@@ -29,14 +29,18 @@
                          :video="item"/>
             <!--            视频类型-->
             <div v-if="item.publishType==='1'" class="flex-center video-type-pics">
-              <i class="iconfont icon-pics ml5 fs8"></i>
+              <svg class="icon1rem" aria-hidden="true">
+                <use xlink:href="#icon-pics"></use>
+              </svg>
               <span class="type-desc fs7 fw500">图文</span>
             </div>
             <!--          视频简介区域-->
             <div class="videoinfo-area">
               <!--              定位信息-->
               <div v-if="item.positionFlag==='1'" class="video-position mtb5 flex-center">
-                <i class="iconfont icon-position fs125 mr5px"></i>
+                <svg class="icon mr5px" aria-hidden="true">
+                  <use xlink:href="#icon-position"></use>
+                </svg>
                 <span v-if="item.position.city" class="position-city fs9">{{ item.position.city }}</span>
                 <span v-else class="position-city fs9">{{ item.position.province }}</span>
                 <span class="position-dist fs9">{{ item.position.district }}</span>
@@ -66,37 +70,46 @@
                              class="user-avatar cp"
                              :icon="UserFilled"/>
                   <span v-if="!item.weatherFollow" class="user-att cp operate-icon">
-                  <i class="iconfont icon-attention fs24px" @click="handleAttUser(item.userId)"/>
+                    <svg class="icon" aria-hidden="true" @click="handleAttUser(item.userId)">
+                      <use xlink:href="#icon-attention"></use></svg>
                   </span>
                 </div>
                 <!--            点赞  -->
                 <div class="op">
-                  <i v-if="item.weatherLike" class="iconfont icon-like-ed icon-36 operate-icon"
-                     @click="videoLikeClick(item.videoId)"></i>
-                  <i v-else class="iconfont icon-like icon-36 operate-icon"
-                     @click="videoLikeClick(item.videoId)"></i>
+                  <svg v-if="item.weatherLike" class="icon32 operate-svg" aria-hidden="true"
+                       @click="videoLikeClick(item.videoId)">
+                    <use xlink:href="#icon-like-ed"></use>
+                  </svg>
+                  <svg v-else class="icon32 operate-svg" aria-hidden="true" @click="videoLikeClick(item.videoId)">
+                    <use xlink:href="#icon-like"></use>
+                  </svg>
                   <div style="text-align: center;color: white">{{ item.likeNum }}</div>
                 </div>
                 <!--              评论-->
                 <div class="op">
-                  <i class="iconfont icon-comment icon-36 operate-icon"
-                     @click="videoCommentClick(item.videoId)"></i>
+                  <svg class="icon32 operate-svg" aria-hidden="true" @click="videoCommentClick(item.videoId)">
+                    <use xlink:href="#icon-comment"></use>
+                  </svg>
                   <div style="text-align: center;color: white">{{ item.commentNum }}</div>
                 </div>
                 <!--              收藏-->
                 <div class="op">
                   <!--收藏按钮弹框-->
-                  <el-popover placement="left"
+                  <el-popover placement="left-end"
                               :width="300"
                               :ref="'favoritePop'+item.videoId">
                     <!--收藏按钮根据是否收藏显示不同的状态-->
                     <template #reference>
-                      <i v-if="item.weatherFavorite" class="iconfont icon-favorite-ed icon-36 operate-icon"
-                         @click="handleCancelFavoriteOver(item.videoId)"
-                         @mouseover.stop="handleFavoriteOver(item.videoId)"></i>
-                      <i v-else class="iconfont icon-favorite icon-36 operate-icon"
-                         @mouseover.stop="handleFavoriteOver(item.videoId)"
-                         @mouseleave.stop="handleFavoriteLeave(item.videoId)"></i>
+                      <svg v-if="item.weatherFavorite" class="icon32 operate-svg" aria-hidden="true"
+                           @click="handleCancelFavoriteOver(item.videoId)"
+                           @mouseover.stop="handleFavoriteOver(item.videoId)">
+                        <use xlink:href="#icon-favorite-ed"></use>
+                      </svg>
+                      <svg v-else class="icon32 operate-svg" aria-hidden="true"
+                           @mouseover.stop="handleFavoriteOver(item.videoId)"
+                           @mouseleave.stop="handleFavoriteLeave(item.videoId)">
+                        <use xlink:href="#icon-favorite"></use>
+                      </svg>
                     </template>
                     <template #default>
                       <!--弹窗主体-->
@@ -153,13 +166,15 @@
                 </div>
                 <!--              分享-->
                 <div class="op">
-                  <i class="iconfont icon-share icon-36 operate-icon"></i>
+                  <svg class="icon32 operate-svg" aria-hidden="true">
+                    <use xlink:href="#icon-share"></use>
+                  </svg>
                   <div class="video-nums cw tac">{{ item.favoritesNum }}</div>
                 </div>
                 <!--                更多-->
                 <div class="op">
                   <el-icon class="operate-icon"
-                           :size="24"
+                           :size="28"
                            color="white">
                     <MoreFilled/>
                   </el-icon>
@@ -217,10 +232,7 @@
       align-center>
     <!--收藏夹名称输入框-->
     <div>
-      <div class="mb5">图标</div>
-      <i class="iconfont icon-camera mtlrb5"></i>
-      <i class="iconfont icon-history mtlrb5"></i>
-      <i class="iconfont icon-attention mtlrb5"></i>
+      <div class="mb5">收藏夹封面</div>
       <div class="mtb5">收藏夹名称</div>
       <el-input v-model="userFavoriteForm.title"
                 placeholder="收藏夹的名称"
@@ -708,10 +720,6 @@ export default {
           position: relative;
           padding: 10px;
           cursor: pointer;
-
-          .iconfont {
-            color: white;
-          }
 
           .video-nums {
             align-items: center;

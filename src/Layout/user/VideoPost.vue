@@ -1,4 +1,15 @@
 <template>
+  <div class="video-ca">
+    <span>视频合集</span>
+    <div>
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-position"></use>
+      </svg>
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-message"></use>
+      </svg>
+    </div>
+  </div>
   <div class="flex-between videoPost" v-loading="loadingIcon">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
@@ -109,7 +120,7 @@ export default {
     },
     handleScroll(e) {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
-        if(this.dataNotMore){
+        if (this.dataNotMore) {
           return
         }
         //加载更多

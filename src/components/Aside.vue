@@ -3,7 +3,8 @@
   <el-aside class="niuyin-aside">
     <el-scrollbar>
       <!-- logo -->
-      <div class="oh w100" style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;backdrop-filter: blur(10px)">
+      <div class="oh w100"
+           style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;backdrop-filter: blur(10px)">
         <router-link class="link-type flex-center wh100"
                      :to="'/index'">
           <img style="width: 32px;height: 32px;display: inline-block" src="@/assets/logo/logo-niuyin-new.png">
@@ -21,7 +22,9 @@
                          :to="item.link">
               <div class="tab-item">
                 <div class="round">
-                  <i class="iconfont" :class="item.class" :style="item"></i>
+                  <svg class="icon operate-svg" aria-hidden="true">
+                    <use :xlink:href="item.class"></use>
+                  </svg>
                 </div>
                 <span class="dn-phone">{{ item.name }}</span>
               </div>
@@ -29,9 +32,7 @@
           </li>
         </ul>
         <!-- 分隔符 -->
-        <el-divider>
-          <i class="iconfont icon-divider"></i>
-        </el-divider>
+        <el-divider/>
         <ul class="tab-center">
           <li class="tab-center-item"
               v-for="(item, i) in tabsCenterList"
@@ -41,7 +42,9 @@
                          :to="item.link">
               <div class="tab-item">
                 <div class="round">
-                  <i class="iconfont" :class="item.class" :style="item"></i>
+                  <svg class="icon operate-svg" aria-hidden="true">
+                    <use :xlink:href="item.class"></use>
+                  </svg>
                 </div>
                 <span class="dn-phone">{{ item.name }}</span>
               </div>
@@ -69,25 +72,26 @@ export default {
   data() {
     return {
       tabsTopList: [
-        {id: 1, name: "首页", '--color': "blue", class: "icon-index", link: "/index"},
-        {id: 2, name: "热门", '--color': "rgba(0,0,0,1)", class: "icon-hotVideo", link: "/hotVideo",},
-        {id: 3, name: "关注", '--color': "black", class: "icon-follow", link: "/follow"},
-        {id: 4, name: "频道", '--color': "black", class: "icon-channel", link: "/channel",},
-        {id: 5, name: "我的", '--color': "black", class: "icon-erciyuan", link: "/user",},
+        {id: 1, name: "首页", '--color': "blue", class: "#icon-index", link: "/index"},
+        {id: 1, name: "推荐", '--color': "blue", class: "#icon-discover", link: "/discover"},
+        {id: 2, name: "热门", '--color': "blue", class: "#icon-hotVideo", link: "/hotVideo"},
+        {id: 3, name: "关注", '--color': "black", class: "#icon-follow", link: "/follow"},
+        {id: 4, name: "频道", '--color': "black", class: "#icon-channel", link: "/channel",},
+        {id: 5, name: "我的", '--color': "black", class: "#icon-erciyuan", link: "/user",},
       ],
       tabsCenterList: [
-        {id: 1, name: "直播", '--color': "red", class: "icon-live", link: "/index"},
-        {id: 2, name: "放映厅", '--color': "black", class: "icon-vs", link: "/hotVideo",},
-        {id: 3, name: "知识", '--color': "black", class: "icon-knowledge", link: "/follow"},
-        {id: 4, name: "游戏", '--color': "red", class: "icon-game", link: "/channel",},
-        {id: 5, name: "娱乐", '--color': "red", class: "icon-entertainment", link: "/channel",},
-        {id: 6, name: "音乐", '--color': "red", class: "icon-music", link: "/channel",},
-        {id: 7, name: "二次元", '--color': "red", class: "icon-erciyuan", link: "/channel",},
-        {id: 8, name: "美食", '--color': "red", class: "icon-food", link: "/channel",},
-        {id: 9, name: "体育", '--color': "red", class: "icon-sport", link: "/channel",},
+        {id: 1, name: "直播", '--color': "red", class: "#icon-live", link: "/index"},
+        {id: 2, name: "放映厅", '--color': "black", class: "#icon-vs", link: "/hotVideo",},
+        {id: 3, name: "知识", '--color': "black", class: "#icon-knowledge", link: "/follow"},
+        {id: 4, name: "游戏", '--color': "red", class: "#icon-game", link: "/channel",},
+        {id: 5, name: "娱乐", '--color': "red", class: "#icon-entertainment", link: "/channel",},
+        {id: 6, name: "音乐", '--color': "red", class: "#icon-music", link: "/channel",},
+        {id: 7, name: "二次元", '--color': "red", class: "#icon-erciyuan", link: "/channel",},
+        {id: 8, name: "美食", '--color': "red", class: "#icon-food", link: "/channel",},
+        {id: 9, name: "体育", '--color': "red", class: "#icon-sport", link: "/channel",},
       ],
       tabsBottomList: [
-        {id: 1, name: "商务合作", '--color': "red", class: "icon-index", link: "/index"},
+        {id: 1, name: "商务合作", '--color': "red", class: "#icon-index", link: "/index"},
       ],
     }
   },

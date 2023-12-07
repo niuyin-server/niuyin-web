@@ -8,7 +8,9 @@
             <div class="flex-column icon-click cg plr10px">
               <el-badge :value="noticeCount" class="item">
                 <div style="height: 20px; justify-content: center; width: 20px;">
-                  <i class="iconfont icon-notice" style="font-size: 20px"></i>
+                  <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-notice"></use>
+                  </svg>
                 </div>
               </el-badge>
               <p>
@@ -25,7 +27,9 @@
       <router-link class="link-type cp" :to="'/message'">
         <div class="flex-column icon-click cg plr10px">
           <div style="height: 20px;width: 20px;">
-            <i class="iconfont icon-message" style="font-size: 20px"></i>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-message"></use>
+            </svg>
           </div>
           <p>
             <span class="cg fs7">消息</span>
@@ -36,7 +40,9 @@
       <router-link class="link-type cp" :to="'/publish'">
         <div class="flex-column icon-click cg plr10px">
           <div style="height: 20px;width: 20px;">
-            <i class="iconfont icon-upload" style="font-size: 20px"></i>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-upload"></use>
+            </svg>
           </div>
           <p>
             <span class="cg fs7">投稿</span>
@@ -83,7 +89,9 @@
                 <div class="flex-center icon-click cg cp"
                      style="flex-direction: column;padding: 0 10px;">
                   <div class="tac wh32">
-                    <i :class="item.icon" class="icon-style"></i>
+                    <svg class="icon" aria-hidden="true">
+                      <use :xlink:href="item.icon"></use>
+                    </svg>
                   </div>
                   <div>
                     <h4>{{ item.num }}</h4>
@@ -123,7 +131,7 @@
 <script>
 import {myVideoCount} from "@/api/video.js";
 import {myLikeCount, myFavoriteCount} from "@/api/behave.js";
-import {ArrowRightBold, UserFilled} from "@element-plus/icons-vue";
+import {ArrowRightBold, Sunrise, SwitchButton, UserFilled} from "@element-plus/icons-vue";
 import {themeX} from "@/store/themeX";
 import Notice from "@/components/nav/Notice.vue";
 import {noticeCount} from "@/api/notice.js";
@@ -133,7 +141,7 @@ import {removeToken} from "@/utils/auth.js";
 
 export default {
   name: "NavRight",
-  components: {ArrowRightBold, Notice},
+  components: {SwitchButton, Sunrise, ArrowRightBold, Notice},
   computed: {
     UserFilled() {
       return UserFilled
@@ -152,10 +160,10 @@ export default {
       ],
       saveLogin: true, // 保存登录信息
       userPostInfo: [
-        {id: 1, icon: "iconfont icon-videoPost", num: 0, title: "我的作品", url: "/user/videoPost"},
-        {id: 2, icon: "iconfont icon-like-ed", num: 0, title: "我的喜欢", url: "/user/videoLike"},
-        {id: 3, icon: "iconfont icon-favorite-ed", num: 0, title: "我的收藏", url: "/user/videoFavorite"},
-        {id: 4, icon: "iconfont icon-history", num: 0, title: "观看历史", url: "/user/videoViewHistory"},
+        {id: 1, icon: "#icon-videoPost", num: 0, title: "我的作品", url: "/user/videoPost"},
+        {id: 2, icon: "#icon-like-ed", num: 0, title: "我的喜欢", url: "/user/videoLike"},
+        {id: 3, icon: "#icon-favorite-ed", num: 0, title: "我的收藏", url: "/user/videoFavorite"},
+        {id: 4, icon: "#icon-history", num: 0, title: "观看历史", url: "/user/videoViewHistory"},
       ],
       showNotice: false,
       noticeCount: undefined,
@@ -252,7 +260,7 @@ export default {
       this.showNotice = true
     },
     // 接收子事件
-    emitNoticeRefresh(){
+    emitNoticeRefresh() {
       this.initNotice()
     }
   }

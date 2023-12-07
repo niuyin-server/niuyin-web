@@ -26,9 +26,12 @@
           <div class="user-profile">
             <span class="userid">牛音ID：{{ user.userId }}</span>
             <span class="gender-age">
-              <i v-if="user.sex==='1'" class="iconfont icon-man"></i>
-              <i v-else-if="user.sex==='0'" class="iconfont icon-woman"></i>
-              <i v-else class="iconfont icon-sex-primary"></i>
+              <svg v-if="user.sex==='1'" class="icon1rem" aria-hidden="true">
+              <use xlink:href="#icon-man"></use></svg>
+              <svg v-else-if="user.sex==='0'" class="icon1rem" aria-hidden="true">
+              <use xlink:href="#icon-woman"></use></svg>
+              <svg v-else class="icon1rem" aria-hidden="true">
+              <use xlink:href="#icon-sex-primary"></use></svg>
               <span class="ml-5r">{{ '22岁' }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
             <span class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>中原工学院</span>
@@ -126,9 +129,24 @@
         <div class="edit-gender">
           <div class="N3OJZMVX">性别</div>
           <el-radio-group v-model="userForm.sex">
-            <el-radio-button :label="'1'"><i class="iconfont icon-man"></i>男</el-radio-button>
-            <el-radio-button :label="'0'"><i class="iconfont icon-woman"></i>女</el-radio-button>
-            <el-radio-button :label="'2'"><i class="iconfont icon-sex-primary"></i>保密</el-radio-button>
+            <el-radio-button :label="'1'">
+              <svg class="icon1rem" aria-hidden="true">
+                <use xlink:href="#icon-man"></use>
+              </svg>
+              男
+            </el-radio-button>
+            <el-radio-button :label="'0'">
+              <svg class="icon1rem" aria-hidden="true">
+                <use xlink:href="#icon-woman"></use>
+              </svg>
+              女
+            </el-radio-button>
+            <el-radio-button :label="'2'">
+              <svg class="icon1rem" aria-hidden="true">
+                <use xlink:href="#icon-sex-primary"></use>
+              </svg>
+              保密
+            </el-radio-button>
           </el-radio-group>
         </div>
         <!--  确认按钮  -->

@@ -580,3 +580,45 @@ a {
 .hot-tag {
   background: linear-gradient(268.09deg, rgb(240, 27, 91) 6.38%, rgb(255, 90, 68) 59.9%, rgb(255, 145, 19) 91.68%);
 }
+
+.icon1rem {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.icon32 {
+  width: 32px;
+  height: 32px;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.icon64 {
+  width: 64px;
+  height: 64px;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.operate-svg {
+  transition: all 0.3s linear, width 0.3s linear;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.operate-svg:hover {
+  transform: scale(1.1);
+}
