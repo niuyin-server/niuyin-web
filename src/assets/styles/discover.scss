@@ -1,0 +1,58 @@
+.discover-container {
+  border-radius: 1rem;
+  padding-right: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .loading-item {
+    width: 20%;
+    padding: 0 0.5rem 1rem;
+  }
+}
+
+.discover-item {
+  width: 20%;
+  padding: 0 8px;
+  margin-bottom: 10px;
+
+  .discover-card {
+    display: flex;
+    border-radius: 1rem;
+    overflow: hidden;
+
+    .user-info {
+      height: 20%;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+
+}
+
+@media (max-width: 1320px) {
+  .hotVideo-list .hotVideos .hotVideo-item {
+
+  }
+}
+
+
+@media (max-width: 1208px) {
+  .hotVideo-list .hotVideos .hotVideo-item {
+    width: 25%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hotVideo-list .hotVideos .hotVideo-item {
+    width: 50%;
+  }
+}
+
+

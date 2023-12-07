@@ -98,3 +98,11 @@ export function memberInfoPage(data) {
         data: data
     })
 }
+
+// 视频推荐
+export function pushVideo() {
+    return request({
+        url: '/video/api/v1/pushVideo',
+        method: 'get'
+    })
+}
