@@ -1,15 +1,26 @@
 <template>
-  <div class="video-ca">
-    <span>视频合集</span>
-    <div>
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-position"></use>
-      </svg>
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-message"></use>
-      </svg>
+  <!--  视频合集区域-->
+  <div v-show="videoCompilationTotal!==0" class="video-ca">
+    <h5>视频合集</h5>
+    <div class="mtb5 flex-between">
+      <div v-for="item in videoCompilationList" class="flex-start cp">
+        <div class="wh5rem">
+          <img v-if="item.coverImage" class="wh100 b-radius1" :src="item.coverImage" :alt="item.title"/>
+          <img v-else class="wh100 b-radius1" src="@/assets/logo/logo-niuyin-new.png" :alt="item.title"/>
+        </div>
+        <div style="margin-left: 10px">
+          <h5>{{ item.title }}</h5>
+          <div class="mtb5">
+            <span class="fs7 cg one-line">{{ item.description }}</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        查看更多
+      </div>
     </div>
   </div>
+  <!--  视频作品区域-->
   <div class="flex-between videoPost" v-loading="loadingIcon">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
@@ -59,7 +70,7 @@
 </template>
 
 <script>
-import {videoMypage} from "@/api/video.js";
+import {myVideoCompilationPage, videoMypage} from "@/api/video.js";
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
 
@@ -86,10 +97,18 @@ export default {
       loadingData: true,
       loadingIcon: false,
       dataNotMore: false,
+      videoCompilationDTO: {
+        title: null,
+        pageNum: 1,
+        pageSize: 5,
+      },
+      videoCompilationList: [],
+      videoCompilationTotal: 0,
     }
   },
   created() {
     this.initVideoList()
+    this.initVideoCompilation()
   },
   mounted() {
     const vc = document.getElementsByClassName("videoPost")
@@ -106,6 +125,15 @@ export default {
           this.postVideoList = res.rows
           this.postVideoTotal = res.total
           this.loading = false
+        }
+      })
+    },
+    // 分页我的视频合集
+    initVideoCompilation() {
+      myVideoCompilationPage(this.videoCompilationDTO).then(res => {
+        if (res.code === 200) {
+          this.videoCompilationList = res.rows
+          this.videoCompilationTotal = res.total
         }
       })
     },
