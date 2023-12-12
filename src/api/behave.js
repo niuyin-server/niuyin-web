@@ -111,6 +111,16 @@ export function onlyFavoriteVideo(videoId) {
     })
 }
 
+
+// 用户仅仅收藏视频
+export function userUnFavoriteVideo(videoId) {
+    return request({
+        url: '/behave/api/v1/favorite/unFavorite/' + videoId,
+        method: 'PUT',
+    })
+}
+
+
 // 收藏视频到收藏夹
 export function favoriteVideoToCollection(data) {
     return request({

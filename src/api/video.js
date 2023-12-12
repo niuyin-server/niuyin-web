@@ -106,3 +106,12 @@ export function pushVideo() {
         method: 'get'
     })
 }
+
+// 分页查询我的视频合集
+export function myVideoCompilationPage(data) {
+    return request({
+        url: '/video/api/v1/userVideoCompilation/mp',
+        method: 'POST',
+        data: data
+    })
+}

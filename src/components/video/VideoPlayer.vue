@@ -99,4 +99,9 @@ export default {
 :deep(.d-slider .d-slider__runway) {
   background-color: rgba(0, 0, 0, 0.20);
 }
+
+:deep(.d-player-wrap .d-player-control .d-control-progress .d-progress-bar) {
+  height: 5px;
+  transition: height 0.2s;
+}
 </style>

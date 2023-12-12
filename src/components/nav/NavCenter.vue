@@ -122,7 +122,7 @@ export default {
       hotSearch: [],
 
       pageDto: {
-        pageNum: 0,
+        pageNum: 1,
         pageSize: 5
       },
     }

@@ -161,7 +161,7 @@ export default {
       delDialogVisible: false,
       collectionQueryParams: {
         pageNum: 1,
-        pageSize: 9
+        pageSize: 10
       },
       collectionList: [], //收藏夹集合
       collectionTotal: undefined,
@@ -246,7 +246,7 @@ export default {
           this.collectionQueryParams.pageNum += 1
           collectionInfoPage(this.collectionQueryParams).then(res => {
             if (res.code === 200) {
-              if (res.rows == null || res.rows.length === 0) {
+              if (res.rows === null || res.rows.length === 0 ) {
                 this.dataNotMore = true
                 this.loadingIcon = false
                 this.loadingData = false

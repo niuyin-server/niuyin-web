@@ -1,7 +1,7 @@
 <template>
   <div class="discover-container wh100">
     <el-scrollbar>
-      <el-empty v-show="videoList===[]" description="暂无数据"/>
+      <el-empty v-if="videoList===[]" description="暂无数据"/>
       <el-skeleton class="w100" :loading="loading" animated>
         <template #template>
           <div class="loading-container" v-for="i in 2">

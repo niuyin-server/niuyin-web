@@ -279,7 +279,7 @@ import {
   favoriteVideoToCollection,
   likeVideo,
   myFavoriteList,
-  onlyFavoriteVideo,
+  onlyFavoriteVideo, userUnFavoriteVideo,
   videoInWhoseCollection
 } from '@/api/behave.js'
 import {followUser} from '@/api/social.js'
@@ -598,11 +598,25 @@ export default {
     // 取消收藏
     handleCancelFavoriteOver(videoId) {
       console.log("取消收藏=》" + videoId)
-      myFavoriteList().then(res => {
+      userUnFavoriteVideo(videoId).then(res => {
         if (res.code === 200) {
-          this.userFavoriteList = res.data
+          this.$message.success(res.msg)
+          this.videoList.forEach((item, index) => {
+            if (item.videoId === videoId) {
+              if (item.weatherFavorite) {
+                item.favoritesNum -= 1;
+              }
+              item.weatherFavorite = false;
+            }
+          })
+          this.$refs[`favoritePop${videoId}`][0].showPopper = false
         }
       })
+      // myFavoriteList().then(res => {
+      //   if (res.code === 200) {
+      //     this.userFavoriteList = res.data
+      //   }
+      // })
       // 鼠标悬停事件改为显示
       this.$refs[`favoritePop${videoId}`][0].showPopper = true
     },
