@@ -16,12 +16,12 @@
         </div>
       </div>
       <div>
-        查看更多
+        <span class="fs7 cg cp">查看更多 ></span>
       </div>
     </div>
   </div>
   <!--  视频作品区域-->
-  <div class="flex-between videoPost" v-loading="loadingIcon">
+  <div class="flex-between videoPost" ref="videoPost" v-loading="loadingIcon">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
         <div class="loading-container" v-for="i in 1">
@@ -111,8 +111,14 @@ export default {
     this.initVideoCompilation()
   },
   mounted() {
-    const vc = document.getElementsByClassName("videoPost")
+    // const vc = document.getElementsByClassName("videoPost")
     window.addEventListener('scroll', this.handleScroll, true);
+    // this.$refs.videoPost.addEventListener("scroll", () => {
+    //   console.log('scroll', this.$refs.box.scrollTop)
+    // });
+  },
+  beforeDestroy(){
+    // this.$refs.box.removeEventListener('scroll',this.handleScroll);
   },
   destroyed() {
     document.removeEventListener('scroll', this.handleScroll);

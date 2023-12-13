@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <el-scrollbar>
+      <!--      用户信息区域-->
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
         <div v-viewer class="avatar-area dn-phone">
           <el-avatar v-if="user.avatar" class="user-avatar pr" :src="user.avatar"/>

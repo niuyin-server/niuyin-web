@@ -6,9 +6,16 @@
       <div class="oh w100"
            style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;backdrop-filter: blur(10px)">
         <router-link class="link-type flex-center wh100"
-                     :to="'/index'">
-          <img style="width: 32px;height: 32px;display: inline-block" src="@/assets/logo/logo-niuyin-new.png">
-          <span class="dn-phone" style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
+                     :to="'/index'"
+                     tag="div">
+          <div class="" style="text-align: right;width: 60px">
+            <img style="width: 32px;height: 32px;display: inline-block"
+                 src="@/assets/logo/logo-niuyin-new.png">
+          </div>
+          <div class="" style="width: calc(100% - 60px)">
+            <span class="dn-phone fw500"
+                  style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
+          </div>
         </router-link>
       </div>
       <!-- tab栏区域 -->

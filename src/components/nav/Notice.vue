@@ -16,67 +16,67 @@
         </el-select>
       </div>
     </div>
-    <div class="notice-list plrb10" style="height:50vh;" v-loading="loading">
-      <el-scrollbar class="h100" ref="noticeScrollbar">
-        <div>
-          <div class="notice-item flex-start cp p5-10 mtb5 pr"
-               style="background-color: var(--el-bg-color-page);border-radius: 10px"
-               v-for="item in noticeList">
-            <!--          头像-->
-            <el-avatar v-if="item.operateAvatar"
-                       lazy
-                       :size="50"
-                       :src="item.operateAvatar"/>
-            <el-avatar v-else
-                       :icon="UserFilled"/>
-            <!--          信息-->
-            <div class="notice-info ml-5r flex-wrap">
-              <p class="one-line"><strong>@ {{ item.nickName }}</strong></p>
-              <p class="one-line mtb5"><span>{{ item.content }}</span></p>
-              <p class="one-line cg fs8 flex-between">
-                <div>
-                  <span v-if="item.remark " class="mr-5r">{{ item.remark }}</span>
-                  <span>{{ smartDateFormat(item.createTime) }}</span>
-                </div>
-              </p>
-            </div>
-            <!--            原-->
-            <div class="notice-origin flex-column" style="align-items: flex-end">
-              <img v-if="item.videoCoverImage"
-                   style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
-                   :src="item.videoCoverImage"/>
-              <!--              关注通知-->
-              <el-button v-else-if="item.noticeType==='1'"
-                         type="primary">回关
-              </el-button>
-              <el-avatar v-else
-                         style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
-                         :icon="UserFilled"/>
-              <div class="notice-op dn pa" style="bottom: -5px">
-                <el-popconfirm
-                    confirm-button-text="Y"
-                    cancel-button-text="N"
-                    :icon="InfoFilled"
-                    :teleported="false"
-                    icon-color="#626AEF"
-                    title="删除消息？"
-                    class="p10px"
-                    @confirm="handleDelNoticeConfirm(item.noticeId)"
-                    @cancel.stop="handleDelNoticeCancel">
-                  <template #reference>
-                    <el-icon>
-                      <MoreFilled/>
-                    </el-icon>
-                  </template>
-                </el-popconfirm>
+    <div class="notice-list plrb10" style="height:50vh;overflow:auto" v-infinite-scroll="loadMore">
+      <!--      <el-scrollbar class="h100" ref="noticeScrollbar" @scroll="handleScroll" >-->
+      <div class="infinite-list" v-loading="loading">
+        <div class="infinite-list-item notice-item flex-start cp p5-10 mtb5 pr"
+             style="background-color: var(--el-bg-color-page);border-radius: 10px"
+             v-for="item in noticeList">
+          <!--          头像-->
+          <el-avatar v-if="item.operateAvatar"
+                     lazy
+                     :size="50"
+                     :src="item.operateAvatar"/>
+          <el-avatar v-else
+                     :icon="UserFilled"/>
+          <!--          信息-->
+          <div class="notice-info ml-5r flex-wrap">
+            <p class="one-line"><strong>@ {{ item.nickName }}</strong></p>
+            <p class="one-line mtb5"><span>{{ item.content }}</span></p>
+            <p class="one-line cg fs8 flex-between">
+              <div>
+                <span v-if="item.remark " class="mr-5r">{{ item.remark }}</span>
+                <span>{{ smartDateFormat(item.createTime) }}</span>
               </div>
+            </p>
+          </div>
+          <!--            原-->
+          <div class="notice-origin flex-column" style="align-items: flex-end">
+            <img v-if="item.videoCoverImage"
+                 style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
+                 :src="item.videoCoverImage"/>
+            <!--              关注通知-->
+            <el-button v-else-if="item.noticeType==='1'"
+                       type="primary">回关
+            </el-button>
+            <el-avatar v-else
+                       style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
+                       :icon="UserFilled"/>
+            <div class="notice-op dn pa" style="bottom: -5px">
+              <el-popconfirm
+                  confirm-button-text="Y"
+                  cancel-button-text="N"
+                  :icon="InfoFilled"
+                  :teleported="false"
+                  icon-color="#626AEF"
+                  title="删除消息？"
+                  class="p10px"
+                  @confirm="handleDelNoticeConfirm(item.noticeId)"
+                  @cancel.stop="handleDelNoticeCancel">
+                <template #reference>
+                  <el-icon>
+                    <MoreFilled/>
+                  </el-icon>
+                </template>
+              </el-popconfirm>
             </div>
           </div>
         </div>
-        <div v-if="dataNotMore">
-          <el-divider>暂无更多数据</el-divider>
-        </div>
-      </el-scrollbar>
+      </div>
+      <div v-if="dataNotMore">
+        <el-divider>暂无更多数据</el-divider>
+      </div>
+      <!--      </el-scrollbar>-->
     </div>
   </div>
 </template>
@@ -84,6 +84,7 @@
 <script>
 import {delNotice, noticePage} from "@/api/notice.js";
 import {InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
+import {videoMypage} from "@/api/video.js";
 
 export default {
   name: "Notice",
@@ -99,6 +100,8 @@ export default {
   data() {
     return {
       loading: false,
+      loadingData: true,
+      loadingIcon: true,
       dataNotMore: false,
       noticeList: [],
       noticeTotal: 0,
@@ -137,6 +140,7 @@ export default {
     // 根据类型筛选
     handleNoticePage() {
       this.loading = true
+      this.noticeQueryParams.pageNum = 1
       noticePage(this.noticeQueryParams).then(res => {
         if (res.code === 200) {
           this.noticeList = res.rows
@@ -161,6 +165,32 @@ export default {
       })
     },
     handleDelNoticeCancel() {
+    },
+    loadMore() {
+      if (this.dataNotMore) {
+        console.log("dataNotMore")
+        this.loading = false
+        this.noticeQueryParams = {
+          pageNum: 1,
+          pageSize: 10
+        }
+        return
+      }
+      //加载更多
+      console.log("loadMore")
+      this.loading = true
+      this.noticeQueryParams.pageNum += 1
+      noticePage(this.noticeQueryParams).then(res => {
+        if (res.code === 200) {
+          if (res.rows == null || res.rows.length < this.noticeQueryParams.pageSize) {
+            this.dataNotMore = true
+            this.loading = false
+            return;
+          }
+          this.noticeList = this.noticeList.concat(res.rows)
+          this.loading = false
+        }
+      })
     },
   }
 }
