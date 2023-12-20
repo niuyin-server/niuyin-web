@@ -40,6 +40,13 @@ const router = createRouter({
                         {path: "/person/:userId/videoFavorite", component: () => import("@/Layout/person/VideoFavorite.vue")},
                     ]
                 },
+                {
+                    path: 'category/:categoryId', component: () => import('@/Layout/CategoryVideo.vue'),
+                    // redirect: '/person/:userId(\\d+)/videoPost',
+                    // children: [
+                    //     {path: "/person/:userId/videoPost", component: () => import("@/Layout/person/VideoPost.vue")},
+                    // ]
+                },
             ],
         },
         {
