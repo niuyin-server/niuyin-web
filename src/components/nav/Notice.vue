@@ -16,7 +16,7 @@
         </el-select>
       </div>
     </div>
-    <div class="notice-list plrb10" style="height:50vh;overflow:auto" v-infinite-scroll="loadMore">
+    <div class="notice-list plrb10" style="height:60vh;overflow:auto !important;" v-infinite-scroll="loadMore">
       <!--      <el-scrollbar class="h100" ref="noticeScrollbar" @scroll="handleScroll" >-->
       <div class="infinite-list" v-loading="loading">
         <div class="infinite-list-item notice-item flex-start cp p5-10 mtb5 pr"
