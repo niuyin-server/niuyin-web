@@ -84,6 +84,14 @@ export default {
 
 <style scoped>
 /*@import 'vue3-video-play/dist/style.css'; */
+.video-play {
+  float: left;
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  margin: 0 auto;
+  height: calc(100vh - 160px);
+}
+
 .d-player-wrap {
   background-color: transparent;
 }
@@ -103,5 +111,12 @@ export default {
 :deep(.d-player-wrap .d-player-control .d-control-progress .d-progress-bar) {
   height: 5px;
   transition: height 0.2s;
+}
+
+:deep(.d-player-wrap .d-player-video .d-player-video-main) {
+  max-width: 100%;
+  max-height: 100%;
+  transition: none !important;
+  z-index: 10;
 }
 </style>

@@ -37,7 +37,10 @@ const router = createRouter({
                     children: [
                         {path: "/person/:userId/videoPost", component: () => import("@/Layout/person/VideoPost.vue")},
                         {path: "/person/:userId/videoLike", component: () => import("@/Layout/person/VideoLike.vue")},
-                        {path: "/person/:userId/videoFavorite", component: () => import("@/Layout/person/VideoFavorite.vue")},
+                        {
+                            path: "/person/:userId/videoFavorite",
+                            component: () => import("@/Layout/person/VideoFavorite.vue")
+                        },
                     ]
                 },
                 {
@@ -71,13 +74,19 @@ const router = createRouter({
 //     beforeEach.checkAuth(guard, router)
 // })
 
-router.beforeEach((to, from, next) => {
-    if (to.matched.length === 0) {
-        from.path ? next({name: from.name}) : next('/404')
-    } else {
-        next()
-    }
-})
+router.beforeEach((to, from, next ) => {
+    const matchedLength = to.matched.length;
+
+    const redirect = () => {
+        if (from.path) {
+            next({ name: from.name });
+        } else {
+            next('/404');
+        }
+    };
+
+    matchedLength === 0 ? redirect() : next();
+});
 
 
 export default router;

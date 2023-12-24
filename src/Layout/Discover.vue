@@ -1,7 +1,7 @@
 <template>
   <div class="discover-container wh100">
     <el-scrollbar>
-      <el-empty v-if="videoList===[]" description="暂无数据"/>
+      <el-empty v-if="videoList.size === 0" description="暂无数据"/>
       <el-skeleton class="w100" :loading="loading" animated>
         <template #template>
           <div class="loading-container" v-for="i in 2">
@@ -141,7 +141,7 @@ export default {
       })
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 100) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 200) {
         //加载更多
         if (this.loadingData) {
           this.loadingData = false

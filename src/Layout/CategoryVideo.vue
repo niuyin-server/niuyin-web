@@ -113,15 +113,19 @@ export default {
     //   this.pushCategoryVideo()
     // }
     $route(to, from) {
-      this.categoryId = to.params.categoryId
-      this.videoList = []
-      this.videoTotal = undefined
-      this.loading = true
-      this.loadingIcon = false
-      this.loadingData = true
-      this.dataNotMore = false
-      console.log("watch categoryId change " + this.categoryId)
-      this.pushCategoryVideo();
+      if (to.params.categoryId !== undefined) {
+        this.categoryId = to.params.categoryId
+        this.videoList = []
+        this.videoTotal = undefined
+        this.loading = true
+        this.loadingIcon = false
+        this.loadingData = true
+        this.dataNotMore = false
+        console.log("to path > " + to.path)
+        console.log("from path > " + from.path)
+        console.log("watch categoryId change > " + this.categoryId)
+        this.pushCategoryVideo();
+      }
     }
   },
   methods: {

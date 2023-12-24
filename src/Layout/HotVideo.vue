@@ -142,7 +142,6 @@
                :src="video.videoUrl"
                controls/>
       </el-dialog>
-
     </el-scrollbar>
   </div>
 </template>
@@ -254,7 +253,7 @@ export default {
       videoD[0].pause();
     },
     handleScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 200) {
         //加载更多
         if (this.loadingData) {
           // this.loading = true

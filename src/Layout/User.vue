@@ -1,6 +1,6 @@
 <template>
-  <div class="main-container">
-    <el-scrollbar>
+  <div class="main-container" id="main-container">
+    <el-scrollbar class="scrollbar">
       <!--      用户信息区域-->
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
         <div v-viewer class="avatar-area dn-phone">
@@ -41,7 +41,7 @@
         <div class="flex-column">
           <div class="trust-login-switch dn-phone">
             <div class="trust-login-tips">
-              <el-tooltip content="保存登录信息，下次登陆免验证" placement="bottom">
+              <el-tooltip content="保存登录信息，下次登陆免验证" placement="top">
                 <el-icon :size="20">
                   <QuestionFilled/>
                 </el-icon>
@@ -85,7 +85,11 @@
                   @keyup.enter.native="searchConfirm"
                   clearable>
                 <template #append>
-                  <el-button :icon="Search"/>
+                  <el-button type="primary" @click="searchConfirm">
+                    <el-icon style="vertical-align: middle">
+                      <Search/>
+                    </el-icon>
+                  </el-button>
                 </template>
               </el-input>
             </div>
@@ -258,7 +262,7 @@
         </div>
       </el-scrollbar>
     </el-dialog>
-    <el-backtop target=".main-container" :visibility-height=400></el-backtop>
+    <el-backtop target=".main-container" :visibility-height=600></el-backtop>
   </div>
 </template>
 
@@ -276,7 +280,7 @@ import {getToken} from "@/utils/auth.js";
 
 export default {
   name: 'User',
-  components: {School, QuestionFilled},
+  components: {Search, School, QuestionFilled},
   computed: {
     Search() {
       return Search
@@ -468,7 +472,7 @@ export default {
       })
     },
     searchConfirm() {
-      console.log("searchConfirm")
+      console.log("searchConfirm keyword >" + this.searchKeyword)
     },
   }
 }
