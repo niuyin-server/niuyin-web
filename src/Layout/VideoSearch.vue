@@ -4,7 +4,7 @@
        element-loading-svg-view-box="-10, -10, 50, 50"
        v-loading="loading">
     <el-scrollbar>
-      <div class="hint-container" v-for="item in videoSearchList" key="item.viderId">
+      <div class="hint-container" v-for="item in videoSearchList" :key="item.videoId">
         <div class="user-container">
           <img class="user-avatar" :src="item.avatar">
           <span class="username">{{ item.userNickName }}</span>
@@ -25,16 +25,14 @@ export default {
   data() {
     return {
       loading: true,
-      svg: `
-        <path class="path" d="
+      svg: `<path class="path" d="
           M 30 15
           L 28 17
           M 25.61 25.61
           A 15 15, 0, 0, 1, 15 30
           A 15 15, 0, 1, 1, 27.99 7.5
           L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `,
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`,
       searchFrom: {
         keyword: this.$route.query.keyword,// 搜索输入框的数据  url 上的keyword
         pageNum: 0,
@@ -47,6 +45,16 @@ export default {
     this.loadSearchVideo()
   },
   mounted() {
+  },
+  watch: {
+    $route(to, from) {
+      if (to.query.keyword !== undefined) {
+        console.log("watch to keyword change > " + to.query.keyword)
+        this.searchFrom.keyword = to.query.keyword
+        console.log("watch from keyword change > " + from.query.keyword)
+        this.loadSearchVideo();
+      }
+    }
   },
   methods: {
     loadSearchVideo() {

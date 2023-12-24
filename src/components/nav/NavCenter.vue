@@ -46,7 +46,7 @@
               <div v-if="searchHistory">
                 <h4 class="mtb5">猜你想搜</h4>
                 <div class="flex-between">
-                  <p class="cp w49 p5px mtb5px one-line search-hover-item text-hv-gold"
+                  <p class="cp w49 p5px mtb5 one-line search-hover-item text-hv-gold"
                      v-for="item in searchDiscover"
                      @click="handleSearchDiscoverSelect(item.keyword)">
                     {{ item.keyword }}
@@ -149,7 +149,6 @@ export default {
     },
     getSearchDiscover() {
       // todo
-      this.searchDiscover.push({id: 1, keyword: "你好"})
       this.searchDiscover.push({id: 1, keyword: "你好"})
       this.searchDiscover.push({id: 1, keyword: "你好"})
     },
