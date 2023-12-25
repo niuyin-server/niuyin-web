@@ -36,8 +36,8 @@
                                  :lazy="true"
                                  :name="item.tabName">
                       <!--                    <router-view/>-->
-                      <div v-for="it in item.dataList" class="p10px">
-                        <p>{{ it }}</p>
+                      <div v-for="(it,index) in item.dataList" class="p5px">
+                        <p class="text-hv-gold cp one-line hot-hover-item"><span class="mr5px">{{ index}}、</span>{{ it }}</p>
                       </div>
                     </el-tab-pane>
                   </el-tabs>

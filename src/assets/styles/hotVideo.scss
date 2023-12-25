@@ -35,8 +35,17 @@
       align-items: center;
     }
   }
+}
 
+.hot-hover-item {
+  line-height: 1;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all .3s ease-in;
 
+  &:hover {
+    background-color: rgba(211, 211, 211, 0.5)
+  }
 }
 
 @media (max-width: 1320px) {
@@ -93,4 +102,12 @@
 //    }
 //  }
 //}
-
+:deep(.el-tabs__nav ) {
+  display: flex;
+  white-space: nowrap;
+  justify-content: center;
+  position: relative;
+  transition: transform var(--el-transition-duration);
+   float: none;
+  z-index: calc(var(--el-index-normal) + 1);
+}
