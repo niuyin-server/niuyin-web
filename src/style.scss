@@ -577,6 +577,15 @@ a {
   font-weight: bold;
 }
 
+.text-hv-primary {
+  transition: all 0.3s ease;
+}
+
+.text-hv-primary:hover {
+  color: var(--niuyin-primary-color);
+  font-weight: bold;
+}
+
 .hot-tag {
   background: linear-gradient(268.09deg, rgb(240, 27, 91) 6.38%, rgb(255, 90, 68) 59.9%, rgb(255, 145, 19) 91.68%);
 }

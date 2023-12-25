@@ -24,7 +24,7 @@
                  element-loading-svg-view-box="-10, -10, 50, 50"
                  v-masonry
                  fit-width="true"
-                 transition-duration="0.2s"
+                 transition-duration="0.3s"
                  item-selector=".hotVideo-item">
               <!--              热榜-->
               <div style="height: 600px;" class="hotVideo-item">
@@ -37,7 +37,10 @@
                                  :name="item.tabName">
                       <!--                    <router-view/>-->
                       <div v-for="(it,index) in item.dataList" class="p5px">
-                        <p class="text-hv-gold cp one-line hot-hover-item"><span class="mr5px">{{ index}}、</span>{{ it }}</p>
+                        <p class="text-hv-primary cp one-line hot-hover-item">
+                          <span class="mr5px">{{ index + 1 }}、</span>
+                          <span> {{ it }}</span>
+                        </p>
                       </div>
                     </el-tab-pane>
                   </el-tabs>
