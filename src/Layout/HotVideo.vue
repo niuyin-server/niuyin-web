@@ -52,8 +52,8 @@
                    v-masonry-tile
                    class="hotVideo-item">
                 <el-card class="hotVideo-card">
-                  <div class="video-cover">
-                    <el-image class="eli-ofc h100"
+                  <div class="video-cover tac">
+                    <el-image class="eli-ofc wh100"
                               @click="videoDialog(item.videoId)"
                               :src="item.coverImage"/>
                   </div>
