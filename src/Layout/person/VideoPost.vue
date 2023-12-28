@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {memberInfoPage, videoMypage} from "@/api/video.js";
+import {memberInfoPage, videoMypage, videoUserpage} from "@/api/video.js";
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
 import {decodeData} from "@/utils/roydon.js";
@@ -93,7 +93,7 @@ export default {
       this.loading = true
       // console.log("路径参数打印")
       // console.log(this.$route.params.userId)
-      memberInfoPage(this.videoQueryParams).then(res => {
+      videoUserpage(this.videoQueryParams).then(res => {
         if (res.code === 200) {
           this.postVideoList = res.rows
           this.postVideoTotal = res.total
@@ -120,7 +120,7 @@ export default {
           this.loadingIcon = true
           this.loadingData = false
           this.videoQueryParams.pageNum += 1
-          memberInfoPage(this.videoQueryParams).then(res => {
+          videoUserpage(this.videoQueryParams).then(res => {
             if (res.code === 200) {
               if (res.rows.length === 0) {
                 this.dataNotMore = true
@@ -130,7 +130,6 @@ export default {
               }
               this.postVideoList = this.postVideoList.concat(res.rows)
               this.loadingIcon = false
-
             } else {
               this.loadingIcon = false
             }

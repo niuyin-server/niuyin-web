@@ -100,33 +100,32 @@ export default {
     },
     handleScroll(e) {
       if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
-        if (this.dataNotMore) {
-          return
-        }
-        //加载更多
-        if (this.loadingData) {
-          this.loadingIcon = true
-          this.loadingData = false
-          this.videoQueryParams.pageNum += 1
-          memberInfoPage(this.videoQueryParams).then(res => {
-            if (res.code === 200) {
-              if (res.rows.length === 0) {
-                this.dataNotMore = true
+        if (!this.dataNotMore) {
+          //加载更多
+          if (this.loadingData) {
+            this.loadingIcon = true
+            this.loadingData = false
+            this.videoQueryParams.pageNum += 1
+            videoUserpage(this.videoQueryParams).then(res => {
+              if (res.code === 200) {
+                if (res.rows === null || res.rows.length === 0) {
+                  this.dataNotMore = true
+                  this.loadingIcon = false
+                  this.loadingData = false
+                  return;
+                }
+                this.postVideoList = this.postVideoList.concat(res.rows)
                 this.loadingIcon = false
-                this.loadingData = false
-                return;
-              }
-              this.postVideoList = this.postVideoList.concat(res.rows)
-              this.loadingIcon = false
 
-            } else {
-              this.loadingIcon = false
-            }
-          })
-          setTimeout(() => {
-            // 流控
-            this.loadingData = true
-          }, 1000);
+              } else {
+                this.loadingIcon = false
+              }
+            })
+            setTimeout(() => {
+              // 流控
+              this.loadingData = true
+            }, 500);
+          }
         }
       }
     },

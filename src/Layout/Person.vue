@@ -57,9 +57,6 @@ import {followAndFans} from "@/api/social.js";
 import {userLikeNums} from "@/api/video.js";
 import {Close, QuestionFilled} from "@element-plus/icons-vue";
 import {decodeData} from "@/utils/roydon.js";
-import UserFavoriteMusic from "@/components/user/favorite/UserFavoriteMusic.vue";
-import UserFavoriteVideo from "@/components/user/favorite/UserFavoriteVideo.vue";
-import UserFavoriteCollection from "@/components/user/favorite/UserFavoriteCollection.vue";
 import PersonVideoPost from "@/components/person/post/PersonVideoPost.vue";
 import PersonVideoLike from "@/components/person/like/PersonVideoLike.vue";
 

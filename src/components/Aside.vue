@@ -94,8 +94,9 @@ export default {
         {id: 5, name: "娱乐", '--color': "red", class: "#icon-entertainment", link: "/category/23"},
         {id: 6, name: "音乐", '--color': "red", class: "#icon-music", link: "/category/9"},
         {id: 7, name: "二次元", '--color': "red", class: "#icon-erciyuan", link: "/category/1"},
-        {id: 8, name: "美食", '--color': "red", class: "#icon-food", link: "/category/18"},
-        // {id: 9, name: "体育", '--color': "red", class: "#icon-sport", link: "/category/17"},
+        {id: 8, name: "生活", '--color': "red", class: "#icon-food", link: "/category/17"},
+        {id: 9, name: "美食", '--color': "red", class: "#icon-food", link: "/category/18"},
+        // {id: 10, name: "体育", '--color': "red", class: "#icon-sport", link: "/category/17"},
       ],
       tabsBottomList: [
         {id: 1, name: "商务合作", '--color': "red", class: "#icon-index", link: "/index"},
