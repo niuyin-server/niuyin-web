@@ -1,6 +1,8 @@
 <template>
-  <div class="video-card">
-    <div class="video-cover-image" @mouseover="handleMouseover" @mouseleave="handleMouseleave">
+  <div class="video-card flex-row">
+    <div class="video-cover-image wh100" :style="{ backgroundImage: `url(${video.coverImage})` }"
+         @mouseover="handleMouseover" @mouseleave="handleMouseleave">
+      <!--      <el-image class="cover-image pa eli-ofc cp wh100" :src="video.coverImage"/>-->
       <div v-if="!playVideo" class="cover-image">
         <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
         <div class="video-like">
@@ -16,7 +18,7 @@
           <span class="type-desc fs7 fw500">图文</span>
         </div>
       </div>
-      <div v-if="playVideo" class="wh100 background-custom" :style="{ backgroundImage: `url(${video.coverImage})` }">
+      <div v-if="playVideo" class="background-custom">
         <!--            图文轮播-->
         <ImagePlayer v-if="video.publishType==='1'" :image-list="video.imageList"/>
         <!--            视频-->
@@ -41,7 +43,7 @@ import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import ImagePlayer from "@/components/video/ImagePlayer.vue";
 
 export default {
-  name: "VideoCard",
+  name: "VideoShowCard",
   components: {ImagePlayer, VideoPlayer},
   props: {
     video: Object,
@@ -68,11 +70,8 @@ export default {
 .video-card {
   background-color: var(--el-bg-color-page);
   border-radius: 1rem;
-  width: 19%;
-  box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
-  transition: all 0.3s ease;
-  height: 360px;
-  margin-bottom: 1.2rem;
+  display: flex;
+  overflow: hidden;
 
   &:hover {
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .12);
@@ -81,10 +80,10 @@ export default {
   .video-cover-image {
     width: auto;
     object-fit: contain;
-    height: 80%;
     overflow: hidden;
     border-radius: 1rem 1rem 0 0;
     position: relative;
+    background-size: contain;
 
     .cover-image {
       height: 100%;
@@ -94,7 +93,7 @@ export default {
     }
 
     .cover-image:hover {
-      transition: all 1s ease;
+      transition: all .5s ease;
       transform: scale(1.1);
     }
 
@@ -108,7 +107,6 @@ export default {
 
   .video-info {
     width: auto;
-    height: 20%;
     padding: 10px;
     display: flex;
     flex-flow: column;

@@ -48,39 +48,40 @@
                    :key="item.videoId"
                    v-masonry-tile
                    class="discover-item">
-                <el-card class="discover-card">
-                  <div class="video-cover">
-                    <el-image v-if="item.coverImage" class="eli-ofc wh100"
-                              :src="item.coverImage">
-                      <template #error>
-                        <div class="image-slot">
-                          <img class="failed-image wh100" src="@/assets/images/bg-mobile.png">
-                          <el-icon>
-                            <icon-picture/>
-                          </el-icon>
-                        </div>
-                      </template>
-                    </el-image>
-                    <!--                    <el-image v-else class="eli-ofc h100"-->
-                    <!--                              src="@/assets/images/bg-mobile.png"/>-->
-                  </div>
-                  <div class="user-info">
-                    <div>
-                      <p class="one-line fs9">{{ item.videoTitle }}</p>
-                      <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
-                    </div>
-                    <div>
-                      <el-avatar v-if="item.userAvatar"
-                                 class="cp"
-                                 :lazy="true"
-                                 :src="item.userAvatar"
-                                 @click="handlePersonInfo(item.userId)"/>
-                      <el-avatar v-else class="cp"
-                                 :icon="UserFilled"
-                                 @click="handlePersonInfo(item.userId)"/>
-                    </div>
-                  </div>
-                </el-card>
+                <!--                <el-card class="discover-card">-->
+                <!--                  <div class="video-cover">-->
+                <!--                    <el-image v-if="item.coverImage" class="eli-ofc wh100"-->
+                <!--                              :src="item.coverImage">-->
+                <!--                      <template #error>-->
+                <!--                        <div class="image-slot">-->
+                <!--                          <img class="failed-image wh100" src="@/assets/images/bg-mobile.png">-->
+                <!--                          <el-icon>-->
+                <!--                            <icon-picture/>-->
+                <!--                          </el-icon>-->
+                <!--                        </div>-->
+                <!--                      </template>-->
+                <!--                    </el-image>-->
+                <!--                    &lt;!&ndash;                    <el-image v-else class="eli-ofc h100"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                              src="@/assets/images/bg-mobile.png"/>&ndash;&gt;-->
+                <!--                  </div>-->
+                <!--                  <div class="user-info">-->
+                <!--                    <div>-->
+                <!--                      <p class="one-line fs9">{{ item.videoTitle }}</p>-->
+                <!--                      <p class="one-line fs7 cg">{{ item.videoDesc }}</p>-->
+                <!--                    </div>-->
+                <!--                    <div>-->
+                <!--                      <el-avatar v-if="item.userAvatar"-->
+                <!--                                 class="cp"-->
+                <!--                                 :lazy="true"-->
+                <!--                                 :src="item.userAvatar"-->
+                <!--                                 @click="handlePersonInfo(item.userId)"/>-->
+                <!--                      <el-avatar v-else class="cp"-->
+                <!--                                 :icon="UserFilled"-->
+                <!--                                 @click="handlePersonInfo(item.userId)"/>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </el-card>-->
+                <VideoShowCard :video="item"/>
               </div>
             </div>
           </div>
@@ -100,7 +101,7 @@
 <script>
 import {pushVideo} from "@/api/video.js";
 import {UserFilled} from "@element-plus/icons-vue";
-import {Picture as IconPicture} from '@element-plus/icons-vue'
+import VideoShowCard from "@/components/video/VideoShowCard.vue";
 
 export default {
   name: 'Discover',
@@ -110,7 +111,7 @@ export default {
     }
   },
   props: {},
-  components: {},
+  components: {VideoShowCard},
   data() {
     return {
       loading: true,
@@ -177,12 +178,4 @@ export default {
 
 <style scoped>
 @import "@/assets/styles/discover.scss";
-
-.image-slot {
-  height: 200px;
-
-  .failed-image {
-
-  }
-}
 </style>
