@@ -27,22 +27,22 @@
                  transition-duration="0.2s"
                  item-selector=".discover-item">
               <!--              热榜-->
-              <div style="height: 600px;" class="discover-item">
-                <el-card class="discover-card wh100">
-                  <el-tabs v-model="activeName" @tab-click="handleHotTabClick">
-                    <el-tab-pane v-for="item in hotTabShow"
-                                 :key="item.id"
-                                 :label="item.tabName"
-                                 :lazy="true"
-                                 :name="item.tabName">
-                      <!--                    <router-view/>-->
-                      <div v-for="it in item.dataList" class="p10px">
-                        <p>{{ it }}</p>
-                      </div>
-                    </el-tab-pane>
-                  </el-tabs>
-                </el-card>
-              </div>
+<!--              <div style="height: 600px;" class="discover-item">-->
+<!--                <el-card class="discover-card wh100">-->
+<!--                  <el-tabs v-model="activeName" @tab-click="handleHotTabClick">-->
+<!--                    <el-tab-pane v-for="item in hotTabShow"-->
+<!--                                 :key="item.id"-->
+<!--                                 :label="item.tabName"-->
+<!--                                 :lazy="true"-->
+<!--                                 :name="item.tabName">-->
+<!--                      &lt;!&ndash;                    <router-view/>&ndash;&gt;-->
+<!--                      <div v-for="it in item.dataList" class="p10px">-->
+<!--                        <p>{{ it }}</p>-->
+<!--                      </div>-->
+<!--                    </el-tab-pane>-->
+<!--                  </el-tabs>-->
+<!--                </el-card>-->
+<!--              </div>-->
               <!--              热门视频-->
               <div v-for='(item,index) in videoList'
                    :key="item.videoId"
