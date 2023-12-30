@@ -3,24 +3,104 @@
        :element-loading-svg="svg"
        element-loading-svg-view-box="-10, -10, 50, 50"
        v-loading="loading">
-    <el-scrollbar>
-      <div class="hint-container" v-for="item in videoSearchList" :key="item.videoId">
-        <div class="user-container">
-          <img class="user-avatar" :src="item.avatar">
-          <span class="username">{{ item.userNickName }}</span>
+    <div class="grid-3-1">
+      <div class="search-left">
+        <div class="search-select flex-between">
+          <div class="search-select-left">
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+              <el-tab-pane v-for="item in videoSearchTabShow"
+                           :key="item.id"
+                           :label="item.tabName"
+                           :lazy="true"
+                           :name="item.id">
+                <router-view/>
+              </el-tab-pane>
+            </el-tabs>
+          </div>
+          <div class="search-select-right">
+            <el-popover class="user-popover"
+                        :width="320"
+                        trigger="click"
+                        popper-style="padding: 20px;border-radius: 8px">
+              <template #reference>
+                <div class="cp flex-center text-hv-primary">
+                  <span class="mr5px">筛选</span>
+                  <el-icon>
+                    <Filter/>
+                  </el-icon>
+                </div>
+              </template>
+              <template #default>
+                <div class="mb5">
+                  <h4 class="mb5">排序依据</h4>
+                  <div class="flex-between">
+                    <div class="w33 cp tac text-hv-primary" v-for="item in FilterOptionSort" style="padding: 5px"
+                         @click="handleSearchSortFilter(item)">
+                      <div v-if="item.id===filterSort" class="bgc-primary-4 b-radius1 tac" style="padding: 4px 2px">
+                        {{ item.title }}
+                      </div>
+                      <div v-else class=" b-radius1 tac" style="padding: 4px 2px"> {{ item.title }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="mb5">发布时间</h4>
+                  <div class="flex-between ">
+                    <div class="w25 cp text-hv-primary" v-for="item in FilterOptionPublishTime" style="padding: 5px"
+                         @click="handleSearchTimeFilter(item)">
+                      <div v-if="item.id===filterTime" class="bgc-primary-4 b-radius1 tac" style="padding: 4px 2px">
+                        {{ item.title }}
+                      </div>
+                      <div v-else class=" b-radius1 tac" style="padding: 4px 2px"> {{ item.title }}</div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </el-popover>
+          </div>
         </div>
-        <p class="hint-title" v-html="item.videoTitle"></p>
-        <video class="hint-video" :src="item.videoUrl" controls></video>
+        <!--        todo 标签-->
+        <el-scrollbar>
+          <div class="hint-container">
+            <div class="" v-for="item in videoSearchList" :key="item.videoId">
+              <div class="user-container">
+                <img class="user-avatar" :src="item.userAvatar">
+                <span class="username" v-html="item.userNickName"></span>
+                <span class="publish-time cg fs9"> · {{ smartDateFormat(item.publishTime) }}</span>
+              </div>
+              <p class="hint-title" v-html="item.videoTitle"></p>
+              <div>
+                <VideoSearchOneCard :video="item"/>
+              </div>
+            </div>
+          </div>
+        </el-scrollbar>
       </div>
-    </el-scrollbar>
+      <div class="search-right">
+        <h4 class="mb1rem">相关搜索</h4>
+        <div>
+          <!--          十条搜索建议-->
+          <div v-for="(it,index) in 10" class="p5px">
+            <p class="text-hv-primary cp one-line search-suggest-hover-item">
+              <span class="mr5px"><el-icon><Search/></el-icon></span>
+              <span class="fs9 one-line"
+                    style="line-height: 1.3">搜索建议搜索建议搜索建议搜索建议搜索建议搜索建议搜索建议</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-<script>
 
+<script>
 import {searchVideo} from "@/api/search.js";
+import {Filter, Search} from "@element-plus/icons-vue";
+import VideoSearchOneCard from "@/components/video/card/VideoSearchOneCard.vue";
 
 export default {
   name: "VideoSearch",
+  components: {VideoSearchOneCard, Filter, Search},
   props: {},
   data() {
     return {
@@ -35,16 +115,36 @@ export default {
         " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`,
       searchFrom: {
         keyword: this.$route.query.keyword,// 搜索输入框的数据  url 上的keyword
-        pageNum: 0,
+        pageNum: 1,
         pageSize: 10,
+        publishTimeLimit: 0,
       },
       videoSearchList: [],
+      videoSearchTabShow: [
+        {id: 1, tabName: "综合", tabUrl: "/user/videoPost"},
+        {id: 2, tabName: "视频", tabUrl: "/user/videoLike"},
+        {id: 3, tabName: "用户", tabUrl: "/user/videoFavorite"}
+      ],
+      activeName: 1,
+      FilterOptionSort: [
+        {id: 0, title: "综合排序"},
+        {id: 1, title: "最新发布"},
+        {id: 2, title: "最多点赞"},
+      ],
+      FilterOptionPublishTime: [
+        {id: 0, title: "不限"},
+        {id: 1, title: "一天内"},
+        {id: 2, title: "一周内"},
+        {id: 3, title: "一月内"},
+      ],
+      filterSort: 0,
+      filterTime: 0,
     }
   },
   created() {
-    this.loadSearchVideo()
+
   },
-  mounted() {
+  mounted() {this.loadSearchVideo()
   },
   watch: {
     $route(to, from) {
@@ -65,28 +165,67 @@ export default {
           this.loading = false
         }
       })
-
-    }
+    },
+    handleClick(tab, event) {
+      console.log(tab.props.name);
+      const route = tab.props.name
+    },
+    handleSearchSortFilter(item) {
+      console.log(item)
+      this.filterSort = item.id
+      this.loading = true
+      searchVideo(this.searchFrom).then(res => {
+        if (res.code === 200) {
+          this.videoSearchList = res.data
+          this.loading = false
+        }
+      })
+    },
+    handleSearchTimeFilter(item) {
+      console.log(item)
+      this.filterTime = item.id
+      this.searchFrom.publishTimeLimit = this.filterTime
+      this.loading = true
+      searchVideo(this.searchFrom).then(res => {
+        if (res.code === 200) {
+          this.videoSearchList = res.data
+          this.loading = false
+        }
+      })
+    },
   }
 }
 </script>
 <style scoped>
 .search-container {
   border-radius: 1rem;
-  width: 100%;
+  padding-right: 1rem;
+  margin: 0 auto;
+  max-width: 1500px;
   height: 100%;
-}
 
-.hint-container {
-  border-radius: 1rem;
-  background: white;
-  height: 100%;
-  padding: 2rem;
-  color: black;
+  .search-left {
+
+
+    .search-select {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: var(--niuyin-bg-color);
+    }
+  }
+
+  .search-right {
+    height: max-content;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 }
 
 .user-container {
   display: flex;
+  justify-content: flex-start;
   border-radius: 10px;
 
   .user-avatar {
@@ -108,7 +247,22 @@ export default {
 .hint-video {
   width: 100%;
   border-radius: 1rem;
-  max-height: 400px;
+  max-height: 50vh;
 }
 
+.search-suggest-hover-item {
+  line-height: 1;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  transition: all .3s ease-in;
+
+  &:hover {
+    background-color: rgba(211, 211, 211, 0.5)
+  }
+}
+
+:deep(.el-tabs__item) {
+  font-size: 1rem;
+}
 </style>

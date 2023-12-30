@@ -66,6 +66,22 @@ a {
   background-color: #d3d3d3;
 }
 
+.bgc-primary-2 {
+  background-color: var(--niuyin-primary-color-2);
+}
+
+.bgc-primary-3 {
+  background-color: var(--niuyin-primary-color-3);
+}
+
+.bgc-primary-4 {
+  background-color: var(--niuyin-primary-color-4);
+}
+
+.bgc-primary-5 {
+  background-color: var(--niuyin-primary-color-5);
+}
+
 .pr {
   position: relative;
 }
@@ -411,7 +427,8 @@ a {
 }
 
 .keyword-hint {
-  color: red;
+  color: var(--niuyin-primary-color);
+  font-weight: bold;
 }
 
 .video-player {
@@ -670,4 +687,28 @@ div,
   &::-webkit-resizer {
     display: none;
   }
+}
+
+.grid-3-1 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 3fr 1fr;
+}
+
+.grid-1-3 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 3fr;
+}
+
+.grid-2-8 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 2fr 8fr;
+}
+
+.grid-8-2 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 8fr 2fr;
 }

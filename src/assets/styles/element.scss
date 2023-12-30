@@ -17,6 +17,10 @@ html.dark {
   --niuyin-bg-color3: rgba(0, 0, 0, 0.3);
   --niuyin-bg-color2: rgba(0, 0, 0, 0.2);
   --niuyin-primary-color: rgb(210, 27, 70);
+  --niuyin-primary-color-2: rgba(210, 27, 70, 0.2);
+  --niuyin-primary-color-3: rgba(210, 27, 70, 0.3);
+  --niuyin-primary-color-4: rgba(210, 27, 70, 0.4);
+  --niuyin-primary-color-5: rgba(210, 27, 70, 0.5);
   --niuyin-upload-bg: #3c3d3f54;
   --niuyin-custom-bg: rgba(26, 26, 55, 0.8);
   --niuyin-custom-bg5: rgba(26, 26, 55, 0.5);
@@ -31,6 +35,10 @@ html.dark {
   --niuyin-bg-color3: rgba(255, 255, 255, 0.3);
   --niuyin-bg-color2: rgba(255, 255, 255, 0.2);
   --niuyin-primary-color: rgb(17, 72, 210);
+  --niuyin-primary-color-2: rgba(17, 72, 210, 0.2);
+  --niuyin-primary-color-3: rgba(17, 72, 210, 0.3);
+  --niuyin-primary-color-4: rgba(17, 72, 210, 0.4);
+  --niuyin-primary-color-5: rgba(17, 72, 210, 0.5);
   --niuyin-upload-bg: #2e32380d;
   --niuyin-custom-bg: rgba(242, 242, 243, 0.8);
   --niuyin-custom-bg5: rgba(242, 242, 243, 0.5);
@@ -241,6 +249,10 @@ html.dark {
   margin: 16px 0;
 }
 
-.el-input-group{
+.el-input-group {
   transition: all 0.5s;
+}
+
+.el-carousel__item.is-animating {
+  transition: transform .25s ease !important;
 }
