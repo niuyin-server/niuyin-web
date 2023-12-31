@@ -25,10 +25,23 @@ export function delSearchHistory(id) {
     })
 }
 
-export function searchHotLoad(data) {
-    return request({
+export async function searchHotLoad(data) {
+    return await request({
         url: '/search/api/v1/video/search/hot',
         method: 'post',
-        data:data
+        data: data
+    })
+}
+
+/**
+ * 视频搜索建议
+ * @param data
+ * @returns {*}
+ */
+export async function videoSearchSuggest(data) {
+    return await request({
+        url: '/search/api/v1/video/suggest',
+        method: 'post',
+        data: data
     })
 }

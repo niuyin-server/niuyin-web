@@ -13,7 +13,16 @@ import App from "./App.vue";
 //pinia 自动存储话插件
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 // 自定义方法
-import {formatAge, getAge, smartDateFormat, parseTime, resetForm, addDateRange, handleTree} from "@/utils/roydon.js";
+import {
+    formatAge,
+    getAge,
+    smartDateFormat,
+    parseTime,
+    resetForm,
+    addDateRange,
+    handleTree,
+    removeHtmlTags
+} from "@/utils/roydon.js";
 // 图片预览组件
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
@@ -47,6 +56,7 @@ app.config.globalProperties.getAge = getAge;
 app.config.globalProperties.resetForm = resetForm;
 app.config.globalProperties.addDateRange = addDateRange;
 app.config.globalProperties.handleTree = handleTree;
+app.config.globalProperties.removeHtmlTags = removeHtmlTags;
 
 app.use(router)
 app.use(pinia)

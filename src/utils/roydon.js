@@ -28,6 +28,15 @@ export function decodeData(str) {
 }
 
 /**
+ * 去除html标签
+ * @param str
+ * @returns {*}
+ */
+export function removeHtmlTags(str) {
+    return str.replace(/<[^>]+>/g, '');
+}
+
+/**
  * 根据生日获取年龄
  * @param birthday
  * @returns {unknown[]|null}

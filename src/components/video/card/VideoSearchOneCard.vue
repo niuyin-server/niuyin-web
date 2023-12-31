@@ -17,27 +17,27 @@
           <span class="type-desc fs7 fw500">图文</span>
         </div>
         <!--          视频简介区域-->
-        <div class="videoinfo-area">
-          <!--              定位信息-->
-          <!--          <div v-if="video.positionFlag==='1'" class="video-position mtb5 flex-center">-->
-          <!--            <svg class="icon mr5px" aria-hidden="true">-->
-          <!--              <use xlink:href="#icon-position"></use>-->
-          <!--            </svg>-->
-          <!--            <span v-if="video.position.city" class="position-city fs9">{{ video.position.city }}</span>-->
-          <!--            <span v-else class="position-city fs9">{{ video.position.province }}</span>-->
-          <!--            <span class="position-dist fs9">{{ video.position.district }}</span>-->
-          <!--            <span class="position-add fs9">{{ parseAddress(video.position) }}</span>-->
-          <!--          </div>-->
-          <!--              视频信息-->
-          <div class="video-title one-line cw fs125 fw600">
-            <span>@ </span><span v-html="video.userNickName" class="cp"
-                                 @click="handleLinkUserInfo(video.userId)"></span>
-          </div>
-          <div v-html="video.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
-          <div>
-            <span v-for="tag in video.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
-          </div>
-        </div>
+        <!--        <div class="videoinfo-area">-->
+        <!--              定位信息-->
+        <!--          <div v-if="video.positionFlag==='1'" class="video-position mtb5 flex-center">-->
+        <!--            <svg class="icon mr5px" aria-hidden="true">-->
+        <!--              <use xlink:href="#icon-position"></use>-->
+        <!--            </svg>-->
+        <!--            <span v-if="video.position.city" class="position-city fs9">{{ video.position.city }}</span>-->
+        <!--            <span v-else class="position-city fs9">{{ video.position.province }}</span>-->
+        <!--            <span class="position-dist fs9">{{ video.position.district }}</span>-->
+        <!--            <span class="position-add fs9">{{ parseAddress(video.position) }}</span>-->
+        <!--          </div>-->
+        <!--              视频信息-->
+        <!--          <div class="video-title one-line cw fs125 fw600">-->
+        <!--            <span>@ </span><span v-html="video.userNickName" class="cp"-->
+        <!--                                 @click="handleLinkUserInfo(video.userId)"></span>-->
+        <!--          </div>-->
+        <!--          <div v-html="video.videoTitle" class="video-title one-line cw fw400 mtb5"></div>-->
+        <!--          <div>-->
+        <!--            <span v-for="tag in video.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>-->
+        <!--          </div>-->
+        <!--        </div>-->
         <!--          视频点赞等操作区域-->
         <div class="video-operate">
           <div class="operate-area">
@@ -259,32 +259,34 @@ export default {
     },
     // 点赞视频
     videoLikeClick(videoId) {
-      this.videoList.forEach((item, index) => {
-        if (item.videoId === videoId) {
-          // 设置为已点赞
-          item.weatherLike = !item.weatherLike
-          if (item.weatherLike) {
-            item.likeNum += 1
-          } else {
-            item.likeNum -= 1
-          }
-        }
-      })
+      // this.videoList.forEach((item, index) => {
+      //   if (item.videoId === videoId) {
+      //     // 设置为已点赞
+      //     item.weatherLike = !item.weatherLike
+      //     if (item.weatherLike) {
+      //       item.likeNum += 1
+      //     } else {
+      //       item.likeNum -= 1
+      //     }
+      //   }
+      // })
+      // 设置为已点赞
+      this.video.weatherLike = !this.video.weatherLike
+      if (this.video.weatherLike) {
+        this.video.likeNum += 1
+      } else {
+        this.video.likeNum -= 1
+      }
       likeVideo(videoId).then(res => {
         if (res.code === 200) {
 
         } else {
-          this.videoList.forEach((item, index) => {
-            if (item.videoId === videoId) {
-              // 设置为已点赞
-              item.weatherLike = !item.weatherLike
-              if (item.weatherLike) {
-                item.likeNum += 1
-              } else {
-                item.likeNum -= 1
-              }
-            }
-          })
+          this.video.weatherLike = !this.video.weatherLike
+          if (this.video.weatherLike) {
+            this.video.likeNum += 1
+          } else {
+            this.video.likeNum -= 1
+          }
         }
       })
     },
@@ -587,7 +589,7 @@ export default {
 
     .videoinfo-area {
       position: absolute;
-      bottom: 50px;
+      bottom: 10px;
       padding: 10px;
       width: 60%;
       left: 0;
@@ -604,7 +606,7 @@ export default {
 
     .video-operate {
       position: absolute;
-      bottom: 50px;
+      bottom: 10px;
       padding-right: 16px;
       z-index: 1;
       display: flex;

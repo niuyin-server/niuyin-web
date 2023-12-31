@@ -60,31 +60,36 @@
           </div>
         </div>
         <!--        todo 标签-->
-        <el-scrollbar>
-          <div class="hint-container">
-            <div class="" v-for="item in videoSearchList" :key="item.videoId">
-              <div class="user-container">
-                <img class="user-avatar" :src="item.userAvatar">
-                <span class="username" v-html="item.userNickName"></span>
-                <span class="publish-time cg fs9"> · {{ smartDateFormat(item.publishTime) }}</span>
-              </div>
-              <p class="hint-title" v-html="item.videoTitle"></p>
-              <div>
-                <VideoSearchOneCard :video="item"/>
-              </div>
+        <!--        <el-scrollbar>-->
+        <div class="hint-container" id="hint-container" ref="hintContainer">
+          <div class="" v-for="item in videoSearchList" :key="item.videoId">
+            <div class="user-container">
+              <img class="user-avatar" :src="item.userAvatar">
+              <span class="username" v-html="item.userNickName"></span>
+              <span class="publish-time cg fs9"> · {{ smartDateFormat(item.publishTime) }}</span>
+            </div>
+            <p class="hint-title" v-html="item.videoTitle"></p>
+            <div class="mb1rem">
+                <span class="hint-tags mr5px fs9 cp text-hv-gold" v-for="ite in item.tags">
+                  <span>#</span><span @click="handleClickTag(ite)" v-html="ite"/>
+                </span>
+            </div>
+            <div>
+              <VideoSearchOneCard :video="item"/>
             </div>
           </div>
-        </el-scrollbar>
+        </div>
+        <!--        </el-scrollbar>-->
       </div>
       <div class="search-right">
         <h4 class="mb1rem">相关搜索</h4>
         <div>
           <!--          十条搜索建议-->
-          <div v-for="(it,index) in 10" class="p5px">
-            <p class="text-hv-primary cp one-line search-suggest-hover-item">
+          <div v-for="(item,index) in videoSearchSuggestList" class="p5px">
+            <p class="text-hv-primary cp one-line search-suggest-hover-item" @click="handleClickSuggest(item)">
               <span class="mr5px"><el-icon><Search/></el-icon></span>
               <span class="fs9 one-line"
-                    style="line-height: 1.3">搜索建议搜索建议搜索建议搜索建议搜索建议搜索建议搜索建议</span>
+                    style="line-height: 1.3">{{ item }}</span>
             </p>
           </div>
         </div>
@@ -94,9 +99,10 @@
 </template>
 
 <script>
-import {searchVideo} from "@/api/search.js";
+import {searchVideo, videoSearchSuggest} from "@/api/search.js";
 import {Filter, Search} from "@element-plus/icons-vue";
 import VideoSearchOneCard from "@/components/video/card/VideoSearchOneCard.vue";
+import {removeHtmlTags} from "@/utils/roydon.js";
 
 export default {
   name: "VideoSearch",
@@ -139,22 +145,29 @@ export default {
       ],
       filterSort: 0,
       filterTime: 0,
+      videoSearchSuggestList: [],
     }
   },
   created() {
-
   },
-  mounted() {this.loadSearchVideo()
+  mounted() {
+    this.loadSearchVideo()
+    this.loadVideoSearchSuggest()
+    this.scrollToTop()
   },
   watch: {
     $route(to, from) {
       if (to.query.keyword !== undefined) {
-        console.log("watch to keyword change > " + to.query.keyword)
+        // console.log("watch to keyword change > " + to.query.keyword)
         this.searchFrom.keyword = to.query.keyword
-        console.log("watch from keyword change > " + from.query.keyword)
+        // console.log("watch from keyword change > " + from.query.keyword)
         this.loadSearchVideo();
+        this.loadVideoSearchSuggest()
       }
-    }
+    },
+    searchFrom(o, n) {
+      console.log("watch searchFrom change > " + o)
+    },
   },
   methods: {
     loadSearchVideo() {
@@ -163,6 +176,23 @@ export default {
         if (res.code === 200) {
           this.videoSearchList = res.data
           this.loading = false
+        }
+      })
+    },
+    scrollToTop() {
+      this.$nextTick(() => {
+        const divElement = this.$refs.hintContainer;
+        console.log(divElement)
+        divElement.scrollTop = 0;
+      });
+    },
+    loadVideoSearchSuggest() {
+      const params = {
+        "keyword": this.searchFrom.keyword
+      }
+      videoSearchSuggest(params).then(res => {
+        if (res.code === 200) {
+          this.videoSearchSuggestList = res.data
         }
       })
     },
@@ -193,6 +223,22 @@ export default {
         }
       })
     },
+    // 点击标签
+    handleClickTag(tag) {
+      const keyword = removeHtmlTags(tag)
+      this.$route.query.keyword = keyword
+      // this.$router.push({ name: 'videoSearch', params: { keyword: keyword }});
+      this.searchFrom.keyword = keyword
+      this.loadSearchVideo();
+    },
+    // 点击相关搜索
+    handleClickSuggest(item) {
+      const keyword = removeHtmlTags(item)
+      this.$route.query.keyword = keyword
+      // this.$router.push({ name: 'videoSearch', params: { keyword: keyword }});
+      this.searchFrom.keyword = keyword
+      this.loadSearchVideo();
+    },
   }
 }
 </script>
@@ -202,7 +248,6 @@ export default {
   padding-right: 1rem;
   margin: 0 auto;
   max-width: 1500px;
-  height: 100%;
 
   .search-left {
 
