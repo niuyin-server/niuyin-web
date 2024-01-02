@@ -7,8 +7,11 @@
         <!--            视频-->
         <VideoPlayer v-if="video.publishType==='0'"
                      class="videoPlayer"
+                     :ref="'videoPlayer'+video.videoId"
                      :id="'videoPlayer'+video.videoId"
-                     :video="video"/>
+                     :video="video"
+                     @click="handlePlayVideo(video.videoId)"
+                     @videoOnPlay="emitVideoOnPlay"/>
         <!--            视频类型-->
         <div v-if="video.publishType==='1'" class="flex-center video-type-pics">
           <svg class="icon1rem" aria-hidden="true">
@@ -290,6 +293,7 @@ export default {
       startIndex: 1,
       favoriteChecked: [],//已选收藏夹
       waitLoadMore: false,
+      activeVideoId: undefined,
     }
   },
   created() {
@@ -359,7 +363,7 @@ export default {
       console.log("newVal=>" + newVal + "、oldVal=>" + oldVal + "、videoLength=>" + this.videoList.length)
       const videos = document.getElementsByClassName("d-player-video-main");
       for (let i = 0; i < videos.length; i++) {
-          videos[i].pause();
+        videos[i].pause();
       }
       if (newVal === this.videoList.length - 1) {
         this.waitLoadMore = true
@@ -472,7 +476,21 @@ export default {
       }
       return add
     },
+    handlePlayVideo(videoId) {
+      // console.log(videoId)
+      this.activeVideoId = videoId
+    },
+    // emit视频播放事件
+    emitVideoOnPlay(videoId) {
+      const videos = document.getElementsByClassName("d-player-video-main");
+      for (let i = 0; i < videos.length; i++) {
+        // console.log(videos[i].id)
+        if (this.activeVideoId !== videos[i].id) {
+          videos[i].pause();
+        }
+      }
 
+    }
   },
 }
 </script>

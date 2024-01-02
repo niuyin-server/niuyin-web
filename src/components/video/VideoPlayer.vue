@@ -1,8 +1,13 @@
 <template>
   <div>
+    <div class="pa">
+      <span>{{ videoDuration }}</span>
+    </div>
     <videoPlay
         v-bind="options"
         :poster="options.poster"
+        :ref="'videoPlay'+video.videoId"
+        :id="video.videoId"
         @play="onPlay"
         @pause="onPause"
         @ended="onEnded"
@@ -52,23 +57,31 @@ export default {
           "pageFullScreen",
           "fullScreen",
         ], //显示所有按钮,
-      }
+      },
+      videoPlay: false,
+      videoDuration: "00:00",
     }
   },
-  emits: ['emitVideoDuration'],
+  emits: ['emitVideoDuration', 'videoOnPlay', 'videoOnPause'],
   methods: {
     onPlay(ev) {
       // console.log('播放')
+      this.videoPlay = true
+      this.$emit("videoOnPlay", this.video.videoId)
     },
     onPause(ev) {
       // console.log('暂停')
+      this.videoPlay = false
+      this.$emit("videoOnPause", this.video.videoId)
     },
     // 播放结束
     onEnded(ev) {
       console.log('end')
     },
     onTimeupdate(ev) {
-      // console.log(ev.target.duration)
+      console.log(ev.target.duration)
+      this.videoDuration = ev.target.duration
+      console.log(this.videoDuration)
       // console.log(ev.target.currentTime)
     },
     onCanplay(ev) {
