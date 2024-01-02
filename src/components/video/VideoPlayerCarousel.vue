@@ -54,7 +54,7 @@
               </div>
               <div v-html="item.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
               <div>
-                <span v-for="tag in item.tags" class="video-tag fs8 cp">{{ ' #' + tag }}</span>
+                <span v-for="tag in item.tags" class="video-tag fs9 cp mr5px" @click="handleClickVideoTag(tag)"><span>#</span>{{ tag }}</span>
               </div>
             </div>
             <!--          视频点赞等操作区域-->
@@ -636,6 +636,10 @@ export default {
       }
       return add
     },
+    // 点击视频标签跳转搜索
+    handleClickVideoTag(tag){
+      this.$router.push(`/videoSearch?keyword=${tag}`);
+    },
 
   },
 }
@@ -671,7 +675,7 @@ export default {
     .videoPlayer {
       height: 100%;
       width: 100%;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px);
       border-radius: 1rem;
     }
 
@@ -767,7 +771,7 @@ export default {
 }
 
 .video-sidebar {
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px);
 }
 
 .user-avatar {
