@@ -1,13 +1,13 @@
 <template>
   <div class="video-card">
-    <div class="video-box">
+    <div class="video-box pr oh">
       <div class="video-container" :style="{ backgroundImage: `url(${video.coverImage})` }">
         <!--            图文轮播-->
         <ImagePlayer v-if="video.publishType==='1'" :image-list="video.imageList"/>
         <!--            视频-->
         <VideoPlayer v-if="video.publishType==='0'"
                      class="videoPlayer"
-                     id="videoPlayer"
+                     :id="'videoPlayer'+video.videoId"
                      :video="video"/>
         <!--            视频类型-->
         <div v-if="video.publishType==='1'" class="flex-center video-type-pics">
@@ -149,8 +149,68 @@
           </div>
         </div>
       </div>
+      <!-- 视频评论抽屉 -->
+      <el-drawer v-model="drawer"
+                 class="video-sidebar"
+                 v-if="showVideoComment"
+                 :show-close="false"
+                 @mousewheel.stop
+                 :before-close="videoCommentTree=null">
+        <template #header="{ close, titleId, titleClass }">
+          <!--                <h2 class="cw" :id="titleId" :class="titleClass">评论<span>({{ item.commentNum }})</span></h2>-->
+          <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>
+          <el-button circle class="cb" :icon="Close" type="info" @click="close">
+          </el-button>
+        </template>
+        <VideoComment :video-id="videoId"
+                      :show="true"
+                      @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
+      </el-drawer>
     </div>
   </div>
+  <!--新建收藏夹提示框-->
+  <el-dialog
+      v-model="dialogFormVisible"
+      title="新建收藏夹"
+      width="400px"
+      align-center>
+    <!--收藏夹名称输入框-->
+    <div>
+      <div class="mb5">收藏夹封面</div>
+      <div class="mtb5">收藏夹名称</div>
+      <el-input v-model="userFavoriteForm.title"
+                placeholder="收藏夹的名称"
+                clearable
+                maxlength="10"
+                show-word-limit
+                type="text"></el-input>
+      <div class="mtb5">收藏夹描述</div>
+      <el-input v-model="userFavoriteForm.description"
+                placeholder="收藏夹的描述..."
+                clearable
+                maxlength="100"
+                show-word-limit
+                type="textarea"></el-input>
+    </div>
+    <div class="flex-between">
+      <div class="mtb5">
+        <p class="fs8">>设置为公开</p>
+        <p class="fs7 cg">公开后有机会被推荐，帮助到更多人</p>
+      </div>
+      <div>
+        <el-switch
+            v-model="userFavoriteForm.showStatus"
+            active-value="0"
+            inactive-value="1"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+        </el-switch>
+      </div>
+    </div>
+    <div class="tac">
+      <el-button class="w100" type="primary" @click="handleCreateFavorite">确认</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
@@ -259,17 +319,6 @@ export default {
     },
     // 点赞视频
     videoLikeClick(videoId) {
-      // this.videoList.forEach((item, index) => {
-      //   if (item.videoId === videoId) {
-      //     // 设置为已点赞
-      //     item.weatherLike = !item.weatherLike
-      //     if (item.weatherLike) {
-      //       item.likeNum += 1
-      //     } else {
-      //       item.likeNum -= 1
-      //     }
-      //   }
-      // })
       // 设置为已点赞
       this.video.weatherLike = !this.video.weatherLike
       if (this.video.weatherLike) {
@@ -290,6 +339,7 @@ export default {
         }
       })
     },
+    // 查看视频评论
     videoCommentClick(videoId) {
       this.videoId = videoId
       this.drawer = true
@@ -304,122 +354,20 @@ export default {
         }
       })
     },
-    keyDown(e) {
-      if (e.keyCode === 38) {
-        console.log("方向键--上")
-      }
-      if (e.keyCode === 40) {
-        const _that = this;
-        this.drawer = false
-        this.showVideoComment = false
-        if (!_that.timeOut) {
-          _that.timeOut = setTimeout(() => {
-            _that.timeOut = null;
-            _that.$refs.carousel.next()
-          }, 1000);
-        }
-      }
-      if (e.keyCode === 37) {
-        console.log("方向键--左")
-      }
-      if (e.keyCode === 39) {
-        console.log("方向键--右")
-      }
-    },
     // 切换视频暂停视频
     carouselChange(newVal, oldVal) {
       console.log("newVal=>" + newVal + "、oldVal=>" + oldVal + "、videoLength=>" + this.videoList.length)
       const videos = document.getElementsByClassName("d-player-video-main");
       for (let i = 0; i < videos.length; i++) {
-        setTimeout(() => {
           videos[i].pause();
-          // videos[i].load();
-        }, 100);
       }
       if (newVal === this.videoList.length - 1) {
         this.waitLoadMore = true
       }
     },
-    carouselEnd() {
-      console.log("end")
-    },
-    // 鼠标滚轮事件
-    rollScroll(event) {
-      const _that = this;
-      // chrome、ie使用的wheelDelta，火狐使用detail
-      const scrollVal = event.wheelDelta || event.detail;
-      // 节流
-      if (!_that.timeOut) {
-        this.drawer = false
-        this.showVideoComment = false
-        _that.timeOut = setTimeout(() => {
-          _that.timeOut = null;
-          scrollVal > 0
-              ? _that.$refs.carousel.prev()
-              : _that.$refs.carousel.next();
-        }, 500);
-      } else {
-      }
-      if (this.waitLoadMore) {
-        this.$emit("reloadVideoFeed", true)
-        this.waitLoadMore = false
-      }
-    },
-    // playswitch 上一个
-    handleVideoPrev() {
-      if (!this.timeOut) {
-        this.timeOut = setTimeout(() => {
-          this.timeOut = null;
-          this.$refs.carousel.prev()
-        }, 500);
-      }
-    },
-    // playswitch 下一个
-    handleVideoNext() {
-      console.log("next")
-      const _that = this;
-      this.drawer = false
-      this.showVideoComment = false
-      if (!_that.timeOut) {
-        _that.timeOut = setTimeout(() => {
-          _that.timeOut = null;
-          _that.$refs.carousel.next()
-        }, 500);
-      }
-      if (this.waitLoadMore) {
-        this.$emit("reloadVideoFeed", true)
-        this.waitLoadMore = false
-      }
-    },
     // 跳转用户详情页面
     handleLinkUserInfo(userId) {
       console.log(userId)
-    },
-    // 关注用户
-    handleAttUser(userId) {
-      followUser(userId).then(res => {
-        if (res.code === 200) {
-          this.$message.success('关注成功')
-          // 将数组此条数据改为已关注 weatherFollow = true
-          this.videoList.forEach((item, index) => {
-            if (item.userId === userId) {
-              item.weatherFollow = true;
-            }
-          })
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
-    },
-    keyDownZ(videoId, e) {
-      // 点赞
-      if (e.keyCode === 90) {
-        console.log(videoId)
-        if (!this.isLiked) {
-          this.videoLikeClick(videoId)
-          this.isLiked = true
-        }
-      }
     },
     // 创建收藏夹
     handleCreateFavorite() {
@@ -583,7 +531,7 @@ export default {
     .videoPlayer {
       height: 100%;
       width: 100%;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(100px);
       border-radius: 1rem;
     }
 
@@ -679,7 +627,13 @@ export default {
 }
 
 .video-sidebar {
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px);
+  position: absolute !important;
+}
+
+:deep(.el-overlay) {
+  position: absolute !important;
+  background-color: transparent !important;
 }
 
 .user-avatar {
