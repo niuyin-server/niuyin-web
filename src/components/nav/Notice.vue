@@ -182,7 +182,7 @@ export default {
       this.noticeQueryParams.pageNum += 1
       noticePage(this.noticeQueryParams).then(res => {
         if (res.code === 200) {
-          if (res.rows == null || res.rows.length < this.noticeQueryParams.pageSize) {
+          if (res.rows == null) {
             this.dataNotMore = true
             this.loading = false
             return;
