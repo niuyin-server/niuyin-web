@@ -3,9 +3,9 @@
        :element-loading-svg="svg"
        element-loading-svg-view-box="-10, -10, 50, 50"
        v-loading="loading">
-    <div class="grid-3-1">
-      <div class="search-left">
-        <div class="search-select flex-between">
+    <div class="grid-3-1" >
+      <div class="search-left" >
+        <div class="search-select flex-between" >
           <div class="search-select-left">
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane v-for="item in videoSearchTabShow"
@@ -111,14 +111,7 @@ export default {
   data() {
     return {
       loading: true,
-      svg: `<path class="path" d="
-          M 30 15
-          L 28 17
-          M 25.61 25.61
-          A 15 15, 0, 0, 1, 15 30
-          A 15 15, 0, 1, 1, 27.99 7.5
-          L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`,
+      svg: `<path class="path" d="M 30 15 L 28 17 M 25.61 25.61 A 15 15, 0, 0, 1, 15 30 A 15 15, 0, 1, 1, 27.99 7.5 L 15 15" style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`,
       searchFrom: {
         keyword: this.$route.query.keyword,// 搜索输入框的数据  url 上的keyword
         pageNum: 1,
@@ -153,7 +146,7 @@ export default {
   mounted() {
     this.loadSearchVideo()
     this.loadVideoSearchSuggest()
-    this.scrollToTop()
+    this.hintContainerScrollToTop()
   },
   watch: {
     $route(to, from) {
@@ -179,10 +172,10 @@ export default {
         }
       })
     },
-    scrollToTop() {
+    hintContainerScrollToTop() {
       this.$nextTick(() => {
         const divElement = this.$refs.hintContainer;
-        console.log(divElement)
+        console.log(divElement.scrollTop)
         divElement.scrollTop = 0;
       });
     },

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="pa">
-      <span>{{ videoDuration }}</span>
-    </div>
     <videoPlay
         v-bind="options"
         :poster="options.poster"
@@ -62,7 +59,7 @@ export default {
       videoDuration: "00:00",
     }
   },
-  emits: ['emitVideoDuration', 'videoOnPlay', 'videoOnPause'],
+  emits: ['videoDuration', 'videoOnPlay', 'videoOnPause'],
   methods: {
     onPlay(ev) {
       // console.log('播放')
@@ -79,9 +76,10 @@ export default {
       console.log('end')
     },
     onTimeupdate(ev) {
-      console.log(ev.target.duration)
+      // console.log(ev.target.duration)
       this.videoDuration = ev.target.duration
-      console.log(this.videoDuration)
+      // console.log(this.videoDuration)
+      this.$emit("videoDuration", this.videoDuration)
       // console.log(ev.target.currentTime)
     },
     onCanplay(ev) {

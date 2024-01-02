@@ -61,7 +61,7 @@ export default {
     },
     handleMouseleave() {
       this.playVideo = false
-    }
+    },
   },
 }
 </script>
