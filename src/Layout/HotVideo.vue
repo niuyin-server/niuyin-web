@@ -39,7 +39,7 @@
                       <div v-for="(it,index) in item.dataList" class="p5px">
                         <p class="text-hv-primary cp one-line hot-hover-item">
                           <span class="mr5px">{{ index + 1 }}、</span>
-                          <span> {{ it }}</span>
+                          <span class="lh-1-5"> {{ it }}</span>
                         </p>
                       </div>
                     </el-tab-pane>

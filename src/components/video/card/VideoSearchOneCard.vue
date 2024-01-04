@@ -498,8 +498,8 @@ export default {
 <style scoped>
 .video-card {
   background-color: var(--el-bg-color-page);
-  border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.23) 0 2px 3px 1px, rgba(0, 0, 0, 0.24) 2px 1px 2px 0;
   transition: all 0.3s ease;
   height: 65vh;
   margin-bottom: 1rem;
