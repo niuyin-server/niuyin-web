@@ -39,7 +39,7 @@
                       <div v-for="(it,index) in item.dataList" class="p5px">
                         <p class="text-hv-primary cp one-line hot-hover-item">
                           <span class="mr5px">{{ index + 1 }}、</span>
-                          <span class="lh-1-5"> {{ it }}</span>
+                          <span class="lh-1-5" @click="handleClickHotTable(it)"> {{ it }}</span>
                         </p>
                       </div>
                     </el-tab-pane>
@@ -312,6 +312,15 @@ export default {
     handleHoverPlayVideo(videoUrl) {
       this.playVideoUrl = videoUrl
       console.log(this.playVideoUrl)
+    },
+    // 热搜点击
+    handleClickHotTable(it){
+      this.routerJumpVideoSearch(it)
+    },
+    // 视频搜索路由跳转
+    routerJumpVideoSearch(keyword) {
+      // 跳转到搜索页面
+      this.$router.push(`/videoSearch?keyword=${keyword}`);
     },
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vue3-video-play">
     <videoPlay
         v-bind="options"
         :poster="options.poster"
@@ -95,6 +95,12 @@ export default {
 
 <style scoped>
 /*@import 'vue3-video-play/dist/style.css'; */
+/*
+.vue3-video-play {
+  backdrop-filter: blur(50px);
+}
+*/
+
 .video-play {
   float: left;
   backdrop-filter: blur(10px);
