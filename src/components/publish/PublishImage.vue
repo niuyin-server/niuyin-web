@@ -261,7 +261,7 @@ export default {
       user: userInfoX().userInfo,
       loading: false,
       uploaderVisible: false,
-      videoUploadUrl: import.meta.env.VITE_API_BASE_URL + "/video/api/v1/upload/image",
+      videoUploadUrl: import.meta.env.VITE_API_BASE_URL + "/creator/api/v1/upload-video-image",
       headers: {
         Authorization: 'Bearer ' + getToken(),
       },

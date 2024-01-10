@@ -49,7 +49,7 @@ export default {
           this.videoList = res.data
           // this.videoList = [...this.videoList, ...res.data];
           this.loading = false
-          this.publishTime = res.data[this.videoList.length - 1].createTime
+          this.publishTime = this.videoList[this.videoList.length - 1].createTime
           this.showVideoPlayer = true
         } else {
           this.$message.error(res.msg)

@@ -24,3 +24,12 @@ export function followAndFans(userId) {
         method: 'get'
     })
 }
+
+// 关注用户视频流
+export function followVideoFeed(lastTime) {
+    return request({
+        url: '/social/api/v1/follow/videoFeed',
+        method: 'get',
+        params: lastTime
+    })
+}

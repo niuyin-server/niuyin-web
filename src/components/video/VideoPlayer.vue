@@ -126,7 +126,7 @@ export default {
 }
 
 :deep(.d-player-wrap .d-player-control .d-control-progress .d-progress-bar) {
-  height: 5px;
+  /*height: 5px;*/
   transition: height 0.2s;
 }
 

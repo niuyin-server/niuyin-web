@@ -549,7 +549,7 @@ export default {
     .videoPlayer {
       height: 100%;
       width: 100%;
-      backdrop-filter: blur(50px);
+      backdrop-filter: blur(40px);
       border-radius: 1rem;
     }
 

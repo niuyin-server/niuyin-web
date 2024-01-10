@@ -19,20 +19,20 @@
       <el-empty v-show="followTotal<=0" description="暂无数据"/>
     </el-scrollbar>
     <div class="video-container" style="width: 85%">
-      <video-player-carousel
+      <VideoPlayerCarousel
           v-if="showVideoPlayer"
+          :loading="loading"
           :video-list="videoList"
-          @reloadVideoFeed="reloadVideoFeedEmit"
-      />
+          @reloadVideoFeed="reloadVideoFeedEmit"/>
     </div>
   </div>
 </template>
 
 <script>
-import {followPageList} from '@/api/social.js'
 import VideoPlayerCarousel from "@/components/video/VideoPlayerCarousel.vue";
-import {videoUserpage} from "@/api/video"
 import {UserFilled} from "@element-plus/icons-vue";
+import {videoUserpage} from "@/api/video"
+import {followPageList, followVideoFeed} from '@/api/social'
 
 export default {
   name: "Follow",
@@ -44,6 +44,7 @@ export default {
   components: {VideoPlayerCarousel},
   data() {
     return {
+      loading: true,
       showVideoPlayer: true,
       followQueryParams: {
         pageNum: 1,
@@ -57,10 +58,15 @@ export default {
         pageNum: 1,
         pageSize: 10,
       },
+      queryParams: {
+        lastTime: null,
+      },
+      dataNotMore: false,
     };
   },
   created() {
     this.getFollowList()
+    this.getFollowVideoFeed()
   },
   methods: {
     getFollowList() {
@@ -81,11 +87,25 @@ export default {
       })
     },
     reloadVideoFeedEmit(val) {
-      this.showVideoPlayer = val;
-      this.$nextTick(() => {
-        this.showVideoPlayer = true;
-        this.getVideoFeed();
-      });
+      console.log("reloadVideoFeedEmit" + val)
+      this.getFollowVideoFeed()
+    },
+    // 获取关注视频流
+    getFollowVideoFeed() {
+      this.loading = true
+      followVideoFeed(this.queryParams).then(res => {
+        if (res.code === 200) {
+          if (res.data.length === 0) {
+            this.loading = false
+            this.dataNotMore = true
+          }
+          this.videoList = res.data
+          this.queryParams.lastTime = new Date(this.videoList[this.videoList.length - 1].createTime).getTime()
+          this.loading = false
+          this.showVideoPlayer = true
+          console.log(this.queryParams.lastTime)
+        }
+      })
     },
   }
 };
