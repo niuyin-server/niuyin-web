@@ -24,7 +24,7 @@
               <div class="fw600">{{ likeAllNum }}</div>
             </div>
           </div>
-          <div class="user-profile">
+          <div class="user-profile mtb5">
             <span class="userid">牛音ID：{{ user.userId }}</span>
             <span class="gender-age">
               <svg v-if="user.sex==='1'" class="icon1rem" aria-hidden="true">
@@ -35,7 +35,12 @@
               <use xlink:href="#icon-sex-primary"></use></svg>
               <span class="ml-5r">{{ '22岁' }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
-            <span class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>中原工学院</span>
+            <span v-if="memberInfo.campus" class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>{{
+                memberInfo.campus
+              }}</span>
+          </div>
+          <div class="user-description ">
+            <p class="one-line fs8">{{ memberInfo.description }}</p>
           </div>
         </div>
         <div class="flex-column">

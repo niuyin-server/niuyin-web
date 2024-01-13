@@ -95,11 +95,9 @@ export default {
 
 <style scoped>
 /*@import 'vue3-video-play/dist/style.css'; */
-/*
 .vue3-video-play {
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(60px) !important;
 }
-*/
 
 .video-play {
   float: left;

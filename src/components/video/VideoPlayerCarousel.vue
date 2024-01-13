@@ -60,7 +60,7 @@
             <!--          视频点赞等操作区域-->
             <div class="video-operate">
               <div class="operate-area">
-                <div class="video-author">
+                <div class="video-author" @click="handlePersonInfo(item.userId)">
                   <el-avatar v-if="item.userAvatar"
                              class="user-avatar cp"
                              :size="64"
@@ -70,7 +70,7 @@
                              class="user-avatar cp"
                              :icon="UserFilled"/>
                   <span v-if="!item.weatherFollow" class="user-att cp operate-icon">
-                    <svg class="icon" aria-hidden="true" @click="handleAttUser(item.userId)">
+                    <svg class="icon1-5rem" aria-hidden="true" @click="handleAttUser(item.userId)">
                       <use xlink:href="#icon-attention"></use></svg>
                   </span>
                 </div>
@@ -286,6 +286,8 @@ import {followUser} from '@/api/social.js'
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
 import ImagePlayer from "@/components/video/ImagePlayer.vue";
+import {userInfoX} from "@/store/userInfoX";
+import {encodeData} from "@/utils/roydon.js";
 
 export default {
   name: 'VideoPlayerCarousel',
@@ -531,6 +533,19 @@ export default {
           this.videoLikeClick(videoId)
           this.isLiked = true
         }
+      }
+    },
+    // 跳转到用户详情页面
+    handlePersonInfo(userId) {
+      const loginUser = userInfoX().userInfo
+      if (userId === loginUser.userId) {
+        this.$router.push({
+          path: '/user'
+        })
+      } else {
+        this.$router.push({
+          path: '/person/' + encodeData(userId)
+        })
       }
     },
     // 创建收藏夹

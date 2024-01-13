@@ -188,6 +188,7 @@ a {
 .lh-1-5 {
   line-height: 1.5;
 }
+
 .lh-2 {
   line-height: 2;
 }
@@ -627,6 +628,14 @@ a {
 .icon {
   width: 1.25rem;
   height: 1.25rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.icon1-5rem {
+  width: 1.5rem;
+  height: 1.5rem;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;

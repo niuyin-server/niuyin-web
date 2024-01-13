@@ -5,7 +5,7 @@
         <template #template>
           <div class="loading-container" v-for="i in 1">
             <div class="loading-item" v-for="i in 5">
-              <el-skeleton-item variant="image" style="width: 100%; height: 280px"/>
+              <el-skeleton-item variant="image" style="width: 100%; height: 300px"/>
               <div class="p1rem">
                 <el-skeleton-item variant="h1" style="width: 70%"/>
                 <div>
