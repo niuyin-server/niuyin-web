@@ -288,7 +288,8 @@
       <div class="user-video-box wh100" :style="{ backgroundImage: `url(${dialogVideo.coverImage})` }">
         <div class="user-video-container h100 pr">
           <!--      展开按钮-->
-          <div class="user-video-dialog-more-open flex-center" @click="handleUserVideoDialogMoreOpen">
+          <div class="user-video-dialog-more-open flex-center"
+               @click="handleUserVideoDialogMoreOpen(dialogVideo.userId)">
             <svg class="icon1-5rem" aria-hidden="true">
               <use xlink:href="#icon-open"></use>
             </svg>
@@ -485,6 +486,31 @@
                     <el-button v-else type="primary" class="fs9">关注</el-button>
                   </div>
                 </div>
+                <!--                作品区域-->
+                <div class="user-post-area">
+                  <el-scrollbar>
+                    <div class="user-post" v-for="item in userPostList" :key="item.videoId">
+                      <div class="post-card cp wh100 flex-center">
+                        <!--                      封面-->
+                        <img class="post-cover" :src="item.coverImage"/>
+                        <!--                      获赞-->
+                        <div class="post-like flex-center">
+                          <svg class="icon1rem" aria-hidden="true">
+                            <use xlink:href="#icon-like-num"></use>
+                          </svg>
+                          <span class="ml-5r">{{ item.likeNum }}</span>
+                        </div>
+                        <!--                      视频类型：图文-->
+                        <div v-if="item.publishType===1" class="post-type flex-center">
+                          <svg class="icon1rem" aria-hidden="true">
+                            <use xlink:href="#icon-pics"></use>
+                          </svg>
+                          <span class="type-desc fs7 fw500 ml5px">图文</span>
+                        </div>
+                      </div>
+                    </div>
+                  </el-scrollbar>
+                </div>
                 <div v-if="tabActiveId===2">
                   评论
                 </div>
@@ -521,6 +547,7 @@ import ImagePlayer from "@/components/video/ImagePlayer.vue";
 import {userInfoX} from "@/store/userInfoX";
 import {encodeData} from "@/utils/roydon.js";
 import UserVideoDialog from "@/components/video/UserVideoDialog.vue";
+import {videoUserpage} from "@/api/video.js";
 
 export default {
   name: 'VideoPlayerCarousel',
@@ -595,6 +622,15 @@ export default {
         {id: 2, tabName: "评论"},
         {id: 3, tabName: "相关推荐"}
       ],
+      // 他的作品dto
+      videoUserPageDTO: {
+        userId: null,
+        videoTitle: "",
+        pageNum: 1,
+        pageSize: 10
+      },
+      userPostList: [],
+      userPostTotal: 0,
     }
   },
   emits: ['reloadVideoFeed'],
@@ -893,7 +929,7 @@ export default {
       this.$router.push(`/videoSearch?keyword=${tag}`);
     },
     // 跳转到用户详情页面
-    handleToUserProfile(userId){
+    handleToUserProfile(userId) {
       const loginUser = userInfoX().userInfo
       if (userId === loginUser.userId) {
         this.$router.push({
@@ -915,7 +951,9 @@ export default {
           videos[i].pause();
         }, 2);
       }
-      // console.log(userId)
+      console.log(userId)
+
+
       console.log(video)
       this.dialogVideo = video
       this.userVideoDialogVisible = true
@@ -926,8 +964,18 @@ export default {
       this.showUserVideoMore = false
     },
     // 展开更多
-    handleUserVideoDialogMoreOpen() {
+    handleUserVideoDialogMoreOpen(userId) {
       this.showUserVideoMore = !this.showUserVideoMore
+      // 获取他的作品
+      console.log(userId)
+      this.videoUserPageDTO.userId = userId
+      videoUserpage(this.videoUserPageDTO).then(res => {
+        if (res.code === 200) {
+          this.userPostList = res.rows
+          this.userPostTotal = res.total
+          console.log(this.userPostList)
+        }
+      })
     },
     handleTabUserVideoMoreClick() {
       console.log(this.tabActiveId)
@@ -1309,5 +1357,52 @@ export default {
   border-bottom: 2px solid rgba(144, 144, 144, 0.2);
 }
 
+.user-post {
+  width: 33.3333%;
+  height: 200px;
+  padding: 0 5px 10px;
+
+  .post-card {
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    .post-cover {
+      transition: all .3s ease;
+      transform: scale(1);
+      height: 100%;
+      width: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .post-like {
+      position: absolute;
+      left: 10px;
+      bottom: 5px;
+    }
+
+    .post-type {
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      padding: 4px 8px;
+      background: var(--niuyin-bg-color5);
+      border-radius: 4px;
+    }
+
+  }
+}
+
+.user-post-area {
+  :deep(.el-scrollbar__view) {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}
 </style>
 
