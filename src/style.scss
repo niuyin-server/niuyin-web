@@ -201,6 +201,14 @@ a {
   margin-bottom: 0.5rem;
 }
 
+.mb5px {
+  margin-bottom: 5px;
+}
+
+.mb10px {
+  margin-bottom: 10px;
+}
+
 .mb1rem {
   margin-bottom: 1rem;
 }
@@ -500,7 +508,7 @@ a {
 }
 
 .el-dialog__body {
-  height: 90%;
+  //height: 90%;
   padding: 10px 20px 30px;
 }
 
@@ -657,6 +665,30 @@ a {
   overflow: hidden;
 }
 
+.icon2rem {
+  width: 2rem;
+  height: 2rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.icon3rem {
+  width: 3rem;
+  height: 3rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.icon4rem {
+  width: 4rem;
+  height: 4rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
 .operate-svg {
   transition: all 0.3s linear, width 0.3s linear;
   text-align: center;
@@ -729,4 +761,21 @@ div,
   display: grid;
   gap: 16px;
   grid-template-columns: 8fr 2fr;
+}
+
+.follow-right:after {
+  border-left: 2px solid var(--niuyin-text-color);
+  content: "";
+  height: 16px;
+  margin: 0 16px;
+  width: 0;
+}
+
+.follow-right-8:after {
+  border-left: 2px solid var(--niuyin-text-color);
+  content: "";
+  font-size: 0.8rem;
+  height: 0.8rem;
+  margin: 0 0.8rem;
+  width: 0;
 }

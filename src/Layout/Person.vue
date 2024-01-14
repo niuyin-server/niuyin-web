@@ -73,10 +73,10 @@ export default {
       userId: decodeData(this.$route.params.userId),
       user: {},
       editDialogVisible: false, //编辑信息弹框
-      activeName: 1,
       followNum: 0, // 关注数
       fansNum: 0, //粉丝数
       likeAllNum: 0, //获赞数
+      activeName: 1,
       userVideoTabShow: [
         {id: 1, tabName: "作品", tabUrl: "/person/" + this.$route.params.userId + "/videoPost"},
         {id: 2, tabName: "喜欢", tabUrl: "/person/" + this.$route.params.userId + "/videoLike"},

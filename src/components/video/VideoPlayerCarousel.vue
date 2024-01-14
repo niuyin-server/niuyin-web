@@ -54,13 +54,14 @@
               </div>
               <div v-html="item.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
               <div>
-                <span v-for="tag in item.tags" class="video-tag fs9 cp mr5px" @click="handleClickVideoTag(tag)"><span>#</span>{{ tag }}</span>
+                <span v-for="tag in item.tags" class="video-tag fs9 cp mr5px"
+                      @click="handleClickVideoTag(tag)"><span>#</span>{{ tag }}</span>
               </div>
             </div>
             <!--          视频点赞等操作区域-->
             <div class="video-operate">
               <div class="operate-area">
-                <div class="video-author" @click="handlePersonInfo(item.userId)">
+                <div class="video-author" @click="handlePersonInfo(item.userId,item)">
                   <el-avatar v-if="item.userAvatar"
                              class="user-avatar cp"
                              :size="64"
@@ -202,6 +203,7 @@
                       @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
       </el-drawer>
     </el-carousel>
+    <!-- 视频右侧控制按钮-->
     <div class="player-playswitch flex-center">
       <div class="player-playswitch-tab">
         <div class="player-playswitch-prev cp" @click="handleVideoPrev">
@@ -216,6 +218,7 @@
         </div>
       </div>
     </div>
+    <!-- 反馈-->
     <div class="feedback">
       <div class="feedback-icon flex-center cp">
         <el-icon color="#5a5a5a" :size="20">
@@ -224,7 +227,7 @@
       </div>
     </div>
   </div>
-  <!--新建收藏夹提示框-->
+  <!-- 新建收藏夹提示框 -->
   <el-dialog
       v-model="dialogFormVisible"
       title="新建收藏夹"
@@ -267,7 +270,236 @@
       <el-button class="w100" type="primary" @click="handleCreateFavorite">确认</el-button>
     </div>
   </el-dialog>
+  <!-- 用户视频详情弹窗 -->
+  <el-dialog
+      v-model="userVideoDialogVisible"
+      modal="false"
+      custom-class="user-video-dialog"
+      fullscreen
+      destroy-on-close="true"
+      align-center>
+    <div class="user-video-dialog-body wh100">
+      <!--      关闭按钮-->
+      <div class="user-video-dialog-close flex-center" @click="handleUserVideoDialogClose">
+        <svg class="icon1-5rem" aria-hidden="true">
+          <use xlink:href="#icon-back"></use>
+        </svg>
+      </div>
+      <div class="user-video-box wh100" :style="{ backgroundImage: `url(${dialogVideo.coverImage})` }">
+        <div class="user-video-container h100 pr">
+          <!--      展开按钮-->
+          <div class="user-video-dialog-more-open flex-center" @click="handleUserVideoDialogMoreOpen">
+            <svg class="icon1-5rem" aria-hidden="true">
+              <use xlink:href="#icon-open"></use>
+            </svg>
+          </div>
+
+          <!--            图文轮播-->
+          <ImagePlayer v-if="dialogVideo.publishType==='1'" :image-list="dialogVideo.imageList"/>
+          <!--            视频-->
+          <VideoPlayer v-if="dialogVideo.publishType==='0'"
+                       class="videoPlayer wh100"
+                       id="videoPlayer"
+                       :video="dialogVideo"/>
+          <!--            视频类型-->
+          <div v-if="dialogVideo.publishType==='1'" class="flex-center video-type-pics">
+            <svg class="icon1rem" aria-hidden="true">
+              <use xlink:href="#icon-pics"></use>
+            </svg>
+            <span class="type-desc fs7 fw500">图文</span>
+          </div>
+          <!--          视频简介区域-->
+          <div class="videoinfo-area">
+            <!--              定位信息-->
+            <div v-if="dialogVideo.positionFlag==='1'" class="video-position mtb5 flex-center">
+              <svg class="icon mr5px" aria-hidden="true">
+                <use xlink:href="#icon-position"></use>
+              </svg>
+              <span v-if="dialogVideo.position.city" class="position-city fs9">{{ dialogVideo.position.city }}</span>
+              <span v-else class="position-city fs9">{{ dialogVideo.position.province }}</span>
+              <span class="position-dist fs9">{{ dialogVideo.position.district }}</span>
+              <span class="position-add fs9">{{ parseAddress(dialogVideo.position) }}</span>
+            </div>
+            <!--              视频信息-->
+            <div class="video-title one-line cw fs125 fw600">
+              <span>@ </span><span v-html="dialogVideo.userNickName" class="cp"
+                                   @click="handleLinkUserInfo(dialogVideo.userId)"></span>
+              <span class="fs9 fw400 cg"> · {{ smartDateFormat(dialogVideo.createTime) }}</span>
+            </div>
+            <div v-html="dialogVideo.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
+            <div>
+                <span v-for="tag in dialogVideo.tags" class="video-tag fs9 cp mr5px"
+                      @click="handleClickVideoTag(tag)"><span>#</span>{{ tag }}</span>
+            </div>
+          </div>
+          <!--          视频点赞等操作区域-->
+          <div class="video-operate">
+            <div class="operate-area">
+              <div class="video-author">
+                <el-avatar v-if="dialogVideo.userAvatar"
+                           class="user-avatar cp"
+                           :size="64"
+                           :src="dialogVideo.userAvatar"
+                           lazy/>
+                <el-avatar v-else
+                           class="user-avatar cp"
+                           :icon="UserFilled"/>
+                <span v-if="!dialogVideo.weatherFollow" class="user-att cp operate-icon">
+                    <svg class="icon1-5rem" aria-hidden="true" @click="handleAttUser(dialogVideo.userId)">
+                      <use xlink:href="#icon-attention"></use></svg>
+                  </span>
+              </div>
+              <!--            点赞  -->
+              <div class="op">
+                <svg v-if="dialogVideo.weatherLike" class="icon32 operate-svg" aria-hidden="true"
+                     @click="videoLikeClick(dialogVideo.videoId)">
+                  <use xlink:href="#icon-like-ed"></use>
+                </svg>
+                <svg v-else class="icon32 operate-svg" aria-hidden="true" @click="videoLikeClick(dialogVideo.videoId)">
+                  <use xlink:href="#icon-like"></use>
+                </svg>
+                <div style="text-align: center;color: white">{{ dialogVideo.likeNum }}</div>
+              </div>
+              <!--              评论-->
+              <div class="op">
+                <svg class="icon32 operate-svg" aria-hidden="true" @click="videoCommentClick(dialogVideo.videoId)">
+                  <use xlink:href="#icon-comment"></use>
+                </svg>
+                <div style="text-align: center;color: white">{{ dialogVideo.commentNum }}</div>
+              </div>
+              <!--              收藏-->
+              <div class="op">
+                <!--收藏按钮弹框-->
+                <el-popover placement="left-end"
+                            :width="300"
+                            :ref="'favoritePop'+dialogVideo.videoId">
+                  <!--收藏按钮根据是否收藏显示不同的状态-->
+                  <template #reference>
+                    <svg v-if="dialogVideo.weatherFavorite" class="icon32 operate-svg" aria-hidden="true"
+                         @click="handleCancelFavoriteOver(dialogVideo.videoId)"
+                         @mouseover.stop="handleFavoriteOver(dialogVideo.videoId)">
+                      <use xlink:href="#icon-favorite-ed"></use>
+                    </svg>
+                    <svg v-else class="icon32 operate-svg" aria-hidden="true">
+                      <use xlink:href="#icon-favorite"></use>
+                    </svg>
+                  </template>
+                  <template #default>
+                    <!--弹窗主体-->
+                    <div class="p1rem" style="min-height: 12vh;">
+                      <!--头部-->
+                      <div class="flex-between mb5">
+                        <span>选择收藏夹</span>
+                        <!--新建文件夹按钮-->
+                        <div>
+                          <el-button class="tac" @click="dialogFormVisible = true">
+                            <el-icon class="mr-5r" :size="16">
+                              <CirclePlus/>
+                            </el-icon>
+                            新建
+                          </el-button>
+                        </div>
+                      </div>
+                      <!--卡片主题内容列表-->
+                      <div class="favorite-container">
+                        <el-checkbox-group v-model="favoriteChecked"
+                                           @change="handleFavoriteCheckedChange">
+                          <el-checkbox class="mb5 w100"
+                                       v-for="item2 in userFavoriteList"
+                                       border
+                                       :key="item2.favoriteId"
+                                       :label="item2.favoriteId"
+                                       :name="item2.title">{{ item2.title }}
+                          </el-checkbox>
+                        </el-checkbox-group>
+                      </div>
+                      <div class="favorite-op tac">
+                        <!--                          已收藏-->
+                        <!--                          <el-button v-if="item.weatherFavorite"-->
+                        <!--                                     type="warning"-->
+                        <!--                                     disabled>已收藏-->
+                        <!--                          </el-button>-->
+                        <!--                          <el-button v-else-->
+                        <!--                                     type="info"-->
+                        <!--                                     @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频-->
+                        <!--                          </el-button>-->
+                        <el-button
+                            type="info"
+                            @click="handleOnlyFavoriteVideo(dialogVideo.videoId)">仅收藏视频
+                        </el-button>
+                        <el-button type="primary"
+                                   :disabled="favoriteBtn"
+                                   @click="handleCollectVideo(dialogVideo.videoId)">收藏至收藏夹
+                        </el-button>
+                      </div>
+                    </div>
+                  </template>
+                </el-popover>
+                <div class="video-nums cw tac">{{ dialogVideo.favoritesNum }}</div>
+              </div>
+              <!--              分享-->
+              <div class="op">
+                <svg class="icon32 operate-svg" aria-hidden="true">
+                  <use xlink:href="#icon-share"></use>
+                </svg>
+                <div class="video-nums cw tac">{{ dialogVideo.favoritesNum }}</div>
+              </div>
+              <!--                更多-->
+              <div class="op">
+                <el-icon class="operate-icon"
+                         :size="28"
+                         color="white">
+                  <MoreFilled/>
+                </el-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="showUserVideoMore" class="user-video-slidebar h100">
+          <el-tabs v-model="tabActiveId" @tab-click="handleTabUserVideoMoreClick">
+            <el-tab-pane v-for="item in tabUserVideoMore"
+                         :key="item.id"
+                         :lazy="true"
+                         :label="item.tabName"
+                         :name="item.id">
+              <div v-if="tabActiveId===1">
+                <!--                todo 查询用户详情，粉丝，总获赞-->
+                <div class="user-info mb10px flex-between p1rem" style="border-bottom: 2px solid rgba(144,144,144,0.2)">
+                  <div class="user-info-left">
+                    <div class="user-info-name fw600 fs9 cp text-hv-primary mb5px">
+                      @<span @click="handleToUserProfile(dialogVideo.userId)">{{ dialogVideo.userNickName }}</span> >
+                    </div>
+                    <div class="flex-start">
+                      <div class="=user-info-fans flex-center">
+                        <div class="mr-5r fs8">粉丝</div>
+                        <div class="follow-right-8 fw600">{{ 10 }}</div>
+                      </div>
+                      <div class="user-info-like flex-center">
+                        <div class="mr-5r fs8">获赞</div>
+                        <div class="fw600">{{ 1 }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="user-info-follow">
+                    <el-button v-if="dialogVideo.weatherFollow" type="info" class="fs9">已关注</el-button>
+                    <el-button v-else type="primary" class="fs9">关注</el-button>
+                  </div>
+                </div>
+                <div v-if="tabActiveId===2">
+                  评论
+                </div>
+                <div v-if="tabActiveId===3">
+                  相关推荐
+                </div>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
+    </div>
+  </el-dialog>
 </template>
+
 <script>
 import {
   ArrowDownBold,
@@ -288,12 +520,21 @@ import VideoComment from "@/components/video/comment/VideoComment.vue";
 import ImagePlayer from "@/components/video/ImagePlayer.vue";
 import {userInfoX} from "@/store/userInfoX";
 import {encodeData} from "@/utils/roydon.js";
+import UserVideoDialog from "@/components/video/UserVideoDialog.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
   components: {
+    Close,
     ImagePlayer,
-    CirclePlus, QuestionFilled, ArrowDownBold, ArrowUpBold, MoreFilled, VideoPlayer, VideoComment
+    UserVideoDialog,
+    CirclePlus,
+    QuestionFilled,
+    ArrowDownBold,
+    ArrowUpBold,
+    MoreFilled,
+    VideoPlayer,
+    VideoComment
   },
   computed: {
     UserFilled() {
@@ -345,6 +586,15 @@ export default {
       startIndex: 1,
       favoriteChecked: [],//已选收藏夹
       waitLoadMore: false,
+      userVideoDialogVisible: false,// 点击用户头像跳转详情页面弹窗
+      dialogVideo: null,
+      showUserVideoMore: false,
+      tabActiveId: 1,//热榜区域
+      tabUserVideoMore: [
+        {id: 1, tabName: "他的作品"},
+        {id: 2, tabName: "评论"},
+        {id: 3, tabName: "相关推荐"}
+      ],
     }
   },
   emits: ['reloadVideoFeed'],
@@ -535,19 +785,6 @@ export default {
         }
       }
     },
-    // 跳转到用户详情页面
-    handlePersonInfo(userId) {
-      const loginUser = userInfoX().userInfo
-      if (userId === loginUser.userId) {
-        this.$router.push({
-          path: '/user'
-        })
-      } else {
-        this.$router.push({
-          path: '/person/' + encodeData(userId)
-        })
-      }
-    },
     // 创建收藏夹
     handleCreateFavorite() {
       console.log(this.userFavoriteForm)
@@ -652,10 +889,49 @@ export default {
       return add
     },
     // 点击视频标签跳转搜索
-    handleClickVideoTag(tag){
+    handleClickVideoTag(tag) {
       this.$router.push(`/videoSearch?keyword=${tag}`);
     },
+    // 跳转到用户详情页面
+    handleToUserProfile(userId){
+      const loginUser = userInfoX().userInfo
+      if (userId === loginUser.userId) {
+        this.$router.push({
+          path: '/user'
+        })
+      } else {
+        this.$router.push({
+          path: '/person/' + encodeData(userId)
+        })
+      }
+    },
+    // 打开弹框
+    handlePersonInfo(userId, video) {
 
+      // 暂停所以视频
+      const videos = document.getElementsByClassName("d-player-video-main");
+      for (let i = 0; i < videos.length; i++) {
+        setTimeout(() => {
+          videos[i].pause();
+        }, 2);
+      }
+      // console.log(userId)
+      console.log(video)
+      this.dialogVideo = video
+      this.userVideoDialogVisible = true
+    },
+    // 关闭用户视频弹窗
+    handleUserVideoDialogClose() {
+      this.userVideoDialogVisible = false
+      this.showUserVideoMore = false
+    },
+    // 展开更多
+    handleUserVideoDialogMoreOpen() {
+      this.showUserVideoMore = !this.showUserVideoMore
+    },
+    handleTabUserVideoMoreClick() {
+      console.log(this.tabActiveId)
+    }
   },
 }
 </script>
@@ -880,6 +1156,158 @@ export default {
 
 }
 
+/*用户视频弹窗*/
+.user-video-dialog .el-dialog__header {
+  display: none;
+}
+
+.user-video-dialog-body {
+  position: relative;
+
+  /*关闭按钮*/
+
+  .user-video-dialog-close {
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+    z-index: 1;
+    cursor: pointer;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(10, 10, 10, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(10, 10, 10, 0.2);
+    }
+  }
+
+  .user-video-box {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    transition: width .5s ease; /* 添加过渡效果 */
+  }
+
+  .user-video-container {
+    flex-grow: 1; /* 占据剩余空间 */
+    display: inline-block;
+    transition: width .5s ease; /* 添加过渡效果 */
+    /*展开按钮*/
+
+    .user-video-dialog-more-open {
+      position: absolute;
+      right: 2rem;
+      top: 2rem;
+      z-index: 1;
+      cursor: pointer;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background-color: rgba(10, 10, 10, 0.2);
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(10, 10, 10, 0.3);
+      }
+
+    }
+
+    .videoinfo-area {
+      position: absolute;
+      bottom: 50px;
+      padding: 10px;
+      width: 60%;
+      left: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: self-start;
+    }
+
+    .video-operate {
+      position: absolute;
+      bottom: 50px;
+      padding-right: 16px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      right: 0;
+
+      .operate-area {
+        align-items: center;
+        display: flex;
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, .3));
+        flex-direction: column;
+        flex-shrink: 0;
+        justify-content: center;
+        position: relative;
+
+        .video-author {
+          vertical-align: bottom;
+          position: relative;
+          padding: 10px 0;
+
+          .user-avatar {
+          }
+
+          .user-att {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 10%);
+          }
+
+        }
+
+        .op {
+          vertical-align: bottom;
+          position: relative;
+          padding: 10px;
+          cursor: pointer;
+
+          .iconfont {
+            color: white;
+          }
+
+          .video-nums {
+            align-items: center;
+            color: #fff;
+            display: flex;
+            font-size: 15px;
+            font-weight: 500;
+            justify-content: center;
+            line-height: 23px;
+            opacity: .9;
+          }
+
+        }
+      }
+    }
+  }
+
+  .user-video-slidebar {
+    width: 30%;
+    padding: 0 1rem;
+    transition: width .5s ease; /* 添加过渡效果 */
+    display: inline-block;
+    backdrop-filter: blur(40px);
+
+
+  }
+}
+
+:deep(.el-tabs__header) {
+  background: transparent;
+  margin-bottom: 0;
+  border-bottom: 2px solid rgba(144, 144, 144, 0.2);
+}
 
 </style>
 

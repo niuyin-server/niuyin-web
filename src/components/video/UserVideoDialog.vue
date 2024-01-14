@@ -1,5 +1,9 @@
 <template>
-  <el-dialog>
+  <el-dialog
+      v-model="videoDialogVisible"
+      title=""
+      width="100%"
+      align-center>
     <div>
       123
     </div>
@@ -15,11 +19,15 @@
 export default {
   name: "UserVideoDialog",
   components: {},
-  props: {},
+  props: {
+  },
   data() {
-    return {}
+    return {
+      videoDialogVisible: true
+    }
   },
   created() {
+    console.log(this.videoDialogVisible)
   },
   mounted() {
   },
@@ -29,5 +37,8 @@ export default {
 </script>
 
 <style scoped>
-
+:deep(.el-dialog) {
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
 </style>

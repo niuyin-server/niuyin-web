@@ -63,6 +63,9 @@ html.dark {
   --theme-light-button-color: var(---primary-red-color);
   --theme-dark-button-color: var(---primary-blue-color);
   --el-text-color-disabled: rgba(192, 196, 204, 0.3); // el-avatar
+  --el-text-color-regular: #000000;
+
+  --el-font-size-base: 16px;
 }
 
 /*空状态颜色填充*/
@@ -255,4 +258,14 @@ html.dark {
 
 .el-carousel__item.is-animating {
   transition: transform .25s ease !important;
+}
+
+.user-video-dialog .el-dialog__header {
+  padding: 0 !important;
+}
+
+.user-video-dialog .el-dialog__body {
+  height: 100% !important;
+  padding: 0 !important;
+  overflow: hidden;
 }
