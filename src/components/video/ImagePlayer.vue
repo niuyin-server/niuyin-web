@@ -1,5 +1,5 @@
 <template>
-  <div class="wh100 pr" style="background: black">
+  <div class="wh100 pr" style="background-color: black">
     <!--    arrow="always"-->
     <el-carousel class="wh100" trigger="hover" arrow="always" @change="handleCarouselChange">
       <el-carousel-item v-for="item in imageList" :key="item">

@@ -301,6 +301,7 @@
           <VideoPlayer v-if="dialogVideo.publishType==='0'"
                        class="videoPlayer wh100"
                        id="videoPlayer"
+                       ref="videoPlayer"
                        :video="dialogVideo"/>
           <!--            视频类型-->
           <div v-if="dialogVideo.publishType==='1'" class="flex-center video-type-pics">
@@ -489,7 +490,10 @@
                 <!--                作品区域-->
                 <div class="user-post-area">
                   <el-scrollbar>
-                    <div class="user-post" v-for="item in userPostList" :key="item.videoId">
+                    <div class="user-post"
+                         v-for="item in userPostList"
+                         :key="item.videoId"
+                    @click="handlePlayVideoPost(item)">
                       <div class="post-card cp wh100 flex-center">
                         <!--                      封面-->
                         <img class="post-cover" :src="item.coverImage"/>
@@ -635,6 +639,13 @@ export default {
   },
   emits: ['reloadVideoFeed'],
   mounted() {
+  },
+  watch: {
+    dialogVideo(newVideo) {
+      // 监听 dialogVideo 的变化
+
+      // this.$refs.videoPlayer.loadVideo(newVideo); // 调用 VideoPlayer 组件的方法重新加载视频
+    }
   },
   methods: {
     // 鼠标悬停显示
@@ -951,10 +962,10 @@ export default {
           videos[i].pause();
         }, 2);
       }
-      console.log(userId)
-
-
-      console.log(video)
+      // console.log(userId)
+      //
+      //
+      // console.log(video)
       this.dialogVideo = video
       this.userVideoDialogVisible = true
     },
@@ -967,19 +978,21 @@ export default {
     handleUserVideoDialogMoreOpen(userId) {
       this.showUserVideoMore = !this.showUserVideoMore
       // 获取他的作品
-      console.log(userId)
       this.videoUserPageDTO.userId = userId
       videoUserpage(this.videoUserPageDTO).then(res => {
         if (res.code === 200) {
           this.userPostList = res.rows
           this.userPostTotal = res.total
-          console.log(this.userPostList)
         }
       })
     },
     handleTabUserVideoMoreClick() {
       console.log(this.tabActiveId)
-    }
+    },
+    // 点击用户作品
+    handlePlayVideoPost(video){
+      this.dialogVideo = video
+    },
   },
 }
 </script>
@@ -1211,7 +1224,9 @@ export default {
 
 .user-video-dialog-body {
   position: relative;
-
+  :deep(.el-carousel__container){
+    height: 100%;
+  }
   /*关闭按钮*/
 
   .user-video-dialog-close {
@@ -1404,5 +1419,6 @@ export default {
     flex-flow: row wrap;
   }
 }
+
 </style>
 
