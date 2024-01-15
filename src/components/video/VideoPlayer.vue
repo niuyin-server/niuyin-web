@@ -61,11 +61,10 @@ export default {
   },
   emits: ['videoDuration', 'videoOnPlay', 'videoOnPause'],
   created() {
-    // console.log(this.video)
+    console.log(this.video)
   },
   watch: {
     video(newVideo) {
-      console.log(newVideo)
       this.options.src=newVideo.videoUrl
       this.options.poster=newVideo.coverImage
     }

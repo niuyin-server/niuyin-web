@@ -29,7 +29,7 @@
             <!--            顶部搜索历史-->
             <div class="pop-top">
               <div v-if="searchHistory">
-                <h4 class="mb5">搜索历史</h4>
+                <h5 class="mb5">搜索历史</h5>
                 <el-tag class="cp tcm m5px text-hv-gold"
                         v-for="item in searchHistory"
                         :key="item.id"
@@ -44,9 +44,9 @@
             <!--            中间搜索推荐-->
             <div class="pop-center">
               <div v-if="searchHistory">
-                <h4 class="mtb5">猜你想搜</h4>
+                <h5 class="mtb5">猜你想搜</h5>
                 <div class="flex-between">
-                  <p class="cp w49 p5px mtb5 one-line search-hover-item text-hv-gold"
+                  <p class="cp w49 p5px mtb5 one-line search-hover-item text-hv-gold fs8"
                      v-for="item in searchDiscover"
                      @click="handleSearchDiscoverSelect(item.keyword)">
                     {{ item.keyword }}
@@ -58,9 +58,9 @@
             <div class="pop-bottom">
               <!--获取热门搜索标题的列表-->
               <div v-if="hotSearch">
-                <h4 class="mtb5">牛音热搜</h4>
+                <h5 class="mtb5">牛音热搜</h5>
                 <div v-for="(item,index) in hotSearch"
-                     class="cp p5px one-line flex-row search-hover-item text-hv-gold">
+                     class="cp p5px one-line flex-row search-hover-item text-hv-gold fs8">
                   <div v-if="index===0" class="flex-center">
                     <img class="mr5px" src="@/assets/images/rank/r1.png"/>
                     <span @click="handleSearchHotSelect(item)">{{ item }}</span>

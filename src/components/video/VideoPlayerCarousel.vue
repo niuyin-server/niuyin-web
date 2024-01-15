@@ -9,6 +9,7 @@
                  direction="vertical"
                  :autoplay="false"
                  :loop="false"
+                 :lazy="true"
                  indicator-position="none"
                  @keydown.stop="keyDown"
                  @mousewheel="rollScroll($event)"
