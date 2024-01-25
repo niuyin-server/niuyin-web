@@ -46,7 +46,6 @@
   width: 95%;
   border-radius: 1rem;
   height: 100%;
-  backdrop-filter: blur(10px);
 }
 
 .video-container * {
@@ -72,7 +71,6 @@
     .videoPlayer {
       height: 100%;
       width: 100%;
-      backdrop-filter: blur(50px);
       border-radius: 1rem;
     }
 

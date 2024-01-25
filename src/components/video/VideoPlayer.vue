@@ -65,8 +65,8 @@ export default {
   },
   watch: {
     video(newVideo) {
-      this.options.src=newVideo.videoUrl
-      this.options.poster=newVideo.coverImage
+      this.options.src = newVideo.videoUrl
+      this.options.poster = newVideo.coverImage
     }
   },
   methods: {
@@ -105,8 +105,19 @@ export default {
 <style scoped>
 /*@import 'vue3-video-play/dist/style.css'; */
 .vue3-video-play {
-  backdrop-filter: blur(60px) !important;
+  /*//backdrop-filter: blur(60px) !important;*/
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(50px);
+  }
 }
+
 
 .video-play {
   float: left;

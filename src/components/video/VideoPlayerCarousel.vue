@@ -314,7 +314,7 @@
           <!--          视频简介区域-->
           <div class="videoinfo-area">
             <!--              定位信息-->
-            <div v-if="dialogVideo.positionFlag==='1'" class="video-position mtb5 flex-center">
+            <div v-if="dialogVideo.positionFlag==='1'&& dialogVideo.position" class="video-position mtb5 flex-center">
               <svg class="icon mr5px" aria-hidden="true">
                 <use xlink:href="#icon-position"></use>
               </svg>
@@ -494,7 +494,7 @@
                     <div class="user-post"
                          v-for="item in userPostList"
                          :key="item.videoId"
-                    @click="handlePlayVideoPost(item)">
+                         @click="handlePlayVideoPost(item)">
                       <div class="post-card cp wh100 flex-center">
                         <!--                      封面-->
                         <img class="post-cover" :src="item.coverImage"/>
@@ -991,18 +991,17 @@ export default {
       console.log(this.tabActiveId)
     },
     // 点击用户作品
-    handlePlayVideoPost(video){
+    handlePlayVideoPost(video) {
       this.dialogVideo = video
     },
   },
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .video-player {
   width: 95%;
   border-radius: 1rem;
   height: 100%;
-  backdrop-filter: blur(10px);
 }
 
 .video-container * {
@@ -1028,7 +1027,6 @@ export default {
     .videoPlayer {
       height: 100%;
       width: 100%;
-      backdrop-filter: blur(20px);
       border-radius: 1rem;
     }
 
@@ -1218,6 +1216,16 @@ export default {
 
 }
 
+$video-sidebar-width: 520px;
+
+@media (max-width: 1500px) {
+  $video-sidebar-width: 420px;
+}
+
+@media (max-width: 768px) {
+  $video-sidebar-width: 320px;
+}
+
 /*用户视频弹窗*/
 .user-video-dialog .el-dialog__header {
   display: none;
@@ -1225,16 +1233,18 @@ export default {
 
 .user-video-dialog-body {
   position: relative;
-  :deep(.el-carousel__container){
+
+  :deep(.el-carousel__container) {
     height: 100%;
   }
+
   /*关闭按钮*/
 
   .user-video-dialog-close {
     position: absolute;
     left: 2rem;
     top: 2rem;
-    z-index: 1;
+    z-index: 11;
     cursor: pointer;
     width: 4rem;
     height: 4rem;
@@ -1258,6 +1268,7 @@ export default {
 
   .user-video-container {
     flex-grow: 1; /* 占据剩余空间 */
+    width: calc(100% - $video-sidebar-width);
     display: inline-block;
     transition: width .5s ease; /* 添加过渡效果 */
     /*展开按钮*/
@@ -1266,7 +1277,7 @@ export default {
       position: absolute;
       right: 2rem;
       top: 2rem;
-      z-index: 1;
+      z-index: 11;
       cursor: pointer;
       width: 3rem;
       height: 3rem;
@@ -1357,7 +1368,7 @@ export default {
   }
 
   .user-video-slidebar {
-    width: 30%;
+    width: $video-sidebar-width;
     padding: 0 1rem;
     transition: width .5s ease; /* 添加过渡效果 */
     display: inline-block;

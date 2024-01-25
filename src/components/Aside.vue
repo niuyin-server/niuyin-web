@@ -113,13 +113,11 @@ export default {
 
 <style>
 .niuyin-aside {
-  width: 160px;
+  width: fit-content;
 }
 
-@media (max-width: 500px) {
-  .niuyin-aside {
-    width: 60px;
-  }
+@media (max-width: 520px) {
+
 }
 
 .tab-top-item {

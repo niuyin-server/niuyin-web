@@ -69,6 +69,8 @@ export default {
 $light-bg-image: "@/assets/background/theme-light.jpg";
 $dark-bg-image: "@/assets/background/theme-dark.jpg";
 
+
+
 .niuyin-light {
   background-image: url($light-bg-image);
   background-position: center;

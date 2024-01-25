@@ -53,7 +53,7 @@
               :limit="1"
               :on-success="handleCoverImageSuccess"
               :before-upload="beforeCoverImagerUpload">
-            <img v-if="videoForm.coverImage" :src="videoForm.coverImage" class="avatar"/>
+            <img v-if="videoForm.coverImage" :src="videoForm.coverImage" class="avatar" alt=""/>
             <el-icon v-else class="avatar-uploader-icon">
               <Plus/>
             </el-icon>
@@ -549,7 +549,6 @@ export default {
     }
 
     .carousel-item {
-
     }
   }
 

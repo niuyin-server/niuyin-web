@@ -1,6 +1,6 @@
 <template>
   <!--  导航栏-->
-  <el-header class="niuyin-header backdrop-filter">
+  <el-header class="niuyin-header">
     <div class="nav-left"></div>
     <!-- 导航栏中间区域 -->
     <NavCenter/>
