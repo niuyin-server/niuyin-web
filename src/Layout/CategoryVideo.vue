@@ -121,9 +121,9 @@ export default {
         this.loadingIcon = false
         this.loadingData = true
         this.dataNotMore = false
-        console.log("to path > " + to.path)
-        console.log("from path > " + from.path)
-        console.log("watch categoryId change > " + this.categoryId)
+        // console.log("to path > " + to.path)
+        // console.log("from path > " + from.path)
+        // console.log("watch categoryId change > " + this.categoryId)
         this.pushCategoryVideo();
       }
     }

@@ -310,7 +310,7 @@ export default {
     // 热门视频卡片hover播放视频
     handleHoverPlayVideo(videoUrl) {
       this.playVideoUrl = videoUrl
-      console.log(this.playVideoUrl)
+      // console.log(this.playVideoUrl)
     },
     // 热搜点击
     handleClickHotTable(it){

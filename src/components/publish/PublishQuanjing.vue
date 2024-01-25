@@ -105,7 +105,7 @@ export default {
             }
           })
         } else {
-          console.log('error submit!!');
+          // console.log('error submit!!');
           return false;
         }
       });
@@ -130,7 +130,7 @@ export default {
         this.imageFileList.forEach(item => {
           this.videoForm.imageFileList.push(item.response.data)
         })
-        console.log(this.videoForm.imageFileList)
+        // console.log(this.videoForm.imageFileList)
         if (this.imageFileList.length >= this.imageLimit) {
           this.uploaderVisible = true
         }
@@ -151,7 +151,7 @@ export default {
             if (!this.videoTagIds.includes(res.data)) {
               this.videoTags.push(this.videoTag)
               this.videoTagIds.push(res.data)
-              console.log(this.videoTagIds)
+              // console.log(this.videoTagIds)
             }
             this.tagInputVisible = false
             this.tagInputValue = null

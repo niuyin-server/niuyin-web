@@ -87,7 +87,7 @@ export default {
       })
     },
     reloadVideoFeedEmit(val) {
-      console.log("reloadVideoFeedEmit" + val)
+      // console.log("reloadVideoFeedEmit" + val)
       this.getFollowVideoFeed()
     },
     // 获取关注视频流
@@ -103,7 +103,7 @@ export default {
           this.queryParams.lastTime = new Date(this.videoList[this.videoList.length - 1].createTime).getTime()
           this.loading = false
           this.showVideoPlayer = true
-          console.log(this.queryParams.lastTime)
+          // console.log(this.queryParams.lastTime)
         }
       })
     },

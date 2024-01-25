@@ -444,8 +444,8 @@ export default {
     /**省市区三级联动 */
     addressChoose(value) {
       // console.log(this.regionData);
-      console.log("地址", value)
-      console.log("地址编码", value[value.length - 1])
+      // console.log("地址", value)
+      // console.log("地址编码", value[value.length - 1])
       this.memberInfoForm.adcode = value[value.length - 1]
       this.memberInfoForm.province = value[0]
       this.memberInfoForm.city = value[1]
@@ -465,7 +465,7 @@ export default {
     },
     // 确认提交用户详情
     confirmUpdateInfo() {
-      console.log(this.memberInfoForm)
+      // console.log(this.memberInfoForm)
       updateMemberInfo(this.memberInfoForm).then(res => {
         if (res.code === 200) {
           this.editInfoDialogVisible = false
@@ -477,7 +477,7 @@ export default {
       })
     },
     searchConfirm() {
-      console.log("searchConfirm keyword >" + this.searchKeyword)
+      // console.log("searchConfirm keyword >" + this.searchKeyword)
     },
   }
 }

@@ -329,7 +329,7 @@ export default {
   methods: {
     submitForm() {
       this.videoForm.videoTags = this.videoTagIds
-      console.log(this.videoForm)
+      // console.log(this.videoForm)
       publishVideo(this.videoForm).then(res => {
         if (res.code === 200) {
           this.$message.success(res.msg)

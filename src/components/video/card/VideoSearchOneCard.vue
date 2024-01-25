@@ -1,7 +1,7 @@
 <template>
   <div class="video-card">
     <div class="video-box pr oh">
-      <div class="video-container" :style="{ backgroundImage: `url(${video.coverImage})` }">
+      <div class="video-container" ref="videoContainer" :style="{ backgroundImage: `url(${video.coverImage})` }">
         <!--            图文轮播-->
         <ImagePlayer v-if="video.publishType==='1'" :image-list="video.imageList"/>
         <!--            视频-->
@@ -296,7 +296,11 @@ export default {
       activeVideoId: undefined,
     }
   },
-  created() {
+  mounted() {
+    window.addEventListener('scroll', this.playVisibleVideos);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.playVisibleVideos);
   },
   methods: {
     // 鼠标悬停显示
@@ -490,7 +494,23 @@ export default {
         }
       }
 
-    }
+    },
+    playVisibleVideos() {
+
+      const container = this.$refs.videoContainer;
+      const videos = container.querySelectorAll('.video');
+
+      videos.forEach(video => {
+        const rect = video.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+
+        if (isVisible) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    },
   },
 }
 </script>

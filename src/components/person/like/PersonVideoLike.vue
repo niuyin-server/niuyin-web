@@ -67,7 +67,7 @@ export default {
     initVideoList() {
       this.loading = true
       personVideoLikePage(this.videoQueryParams).then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.code === 200) {
           this.likeVideoList = res.rows
           this.likeVideoTotal = res.total

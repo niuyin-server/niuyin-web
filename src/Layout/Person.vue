@@ -96,7 +96,7 @@ export default {
       getPersonInfo(this.userId).then(res => {
         if (res.code === 200) {
           this.user = res.data
-          console.log(this.user)
+          // console.log(this.user)
           // this.getUserFollowFansLike(res.data.userId)
         }
       })

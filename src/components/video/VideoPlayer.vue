@@ -61,7 +61,7 @@ export default {
   },
   emits: ['videoDuration', 'videoOnPlay', 'videoOnPause'],
   created() {
-    console.log(this.video)
+    // console.log(this.video)
   },
   watch: {
     video(newVideo) {

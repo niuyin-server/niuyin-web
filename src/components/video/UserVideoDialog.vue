@@ -27,7 +27,7 @@ export default {
     }
   },
   created() {
-    console.log(this.videoDialogVisible)
+    // console.log(this.videoDialogVisible)
   },
   mounted() {
   },

@@ -156,7 +156,7 @@ export default {
     },
     // 删除通知
     handleDelNoticeConfirm(noticeId) {
-      console.log(noticeId)
+      // console.log(noticeId)
       delNotice(noticeId).then(res => {
         if (res.code === 200) {
           this.getNoticeList()
@@ -168,7 +168,7 @@ export default {
     },
     loadMore() {
       if (this.dataNotMore) {
-        console.log("dataNotMore")
+        // console.log("dataNotMore")
         this.loading = false
         this.noticeQueryParams = {
           pageNum: 1,
@@ -177,7 +177,7 @@ export default {
         return
       }
       //加载更多
-      console.log("loadMore")
+      // console.log("loadMore")
       this.loading = true
       this.noticeQueryParams.pageNum += 1
       noticePage(this.noticeQueryParams).then(res => {

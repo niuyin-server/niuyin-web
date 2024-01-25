@@ -459,72 +459,78 @@
           </div>
         </div>
         <div v-if="showUserVideoMore" class="user-video-slidebar h100">
-          <el-tabs v-model="tabActiveId" @tab-click="handleTabUserVideoMoreClick">
-            <el-tab-pane v-for="item in tabUserVideoMore"
-                         :key="item.id"
-                         :lazy="true"
-                         :label="item.tabName"
-                         :name="item.id">
-              <div v-if="tabActiveId===1">
-                <!--                todo 查询用户详情，粉丝，总获赞-->
-                <div class="user-info mb10px flex-between p1rem" style="border-bottom: 2px solid rgba(144,144,144,0.2)">
-                  <div class="user-info-left">
-                    <div class="user-info-name fw600 fs9 cp text-hv-primary mb5px">
-                      @<span @click="handleToUserProfile(dialogVideo.userId)">{{ dialogVideo.userNickName }}</span> >
-                    </div>
-                    <div class="flex-start">
-                      <div class="=user-info-fans flex-center">
-                        <div class="mr-5r fs8">粉丝</div>
-                        <div class="follow-right-8 fw600">{{ 10 }}</div>
-                      </div>
-                      <div class="user-info-like flex-center">
-                        <div class="mr-5r fs8">获赞</div>
-                        <div class="fw600">{{ 1 }}</div>
-                      </div>
-                    </div>
+          <div class="flex-between">
+            <el-tabs v-model="tabActiveId" @tab-click="handleTabUserVideoMoreClick">
+              <el-tab-pane v-for="item in tabUserVideoMore"
+                           :key="item.id"
+                           :lazy="true"
+                           :label="item.tabName"
+                           :name="item.id">
+
+              </el-tab-pane>
+            </el-tabs>
+            <div class="video-more-close cp flex-center" @click="showUserVideoMore = false">
+              <Close style="width: 1rem; height: 1rem"/>
+            </div>
+          </div>
+          <div v-if="tabActiveId===1">
+            <!--                todo 查询用户详情，粉丝，总获赞-->
+            <div class="user-info mb10px flex-between p1rem" style="border-bottom: 2px solid rgba(144,144,144,0.2)">
+              <div class="user-info-left">
+                <div class="user-info-name fw600 fs9 cp text-hv-primary mb5px">
+                  @<span @click="handleToUserProfile(dialogVideo.userId)">{{ dialogVideo.userNickName }}</span> >
+                </div>
+                <div class="flex-start">
+                  <div class="=user-info-fans flex-center">
+                    <div class="mr-5r fs8">粉丝</div>
+                    <div class="follow-right-8 fw600">{{ 10 }}</div>
                   </div>
-                  <div class="user-info-follow">
-                    <el-button v-if="dialogVideo.weatherFollow" type="info" class="fs9">已关注</el-button>
-                    <el-button v-else type="primary" class="fs9">关注</el-button>
+                  <div class="user-info-like flex-center">
+                    <div class="mr-5r fs8">获赞</div>
+                    <div class="fw600">{{ 1 }}</div>
                   </div>
-                </div>
-                <!--                作品区域-->
-                <div class="user-post-area">
-                  <el-scrollbar>
-                    <div class="user-post"
-                         v-for="item in userPostList"
-                         :key="item.videoId"
-                         @click="handlePlayVideoPost(item)">
-                      <div class="post-card cp wh100 flex-center">
-                        <!--                      封面-->
-                        <img class="post-cover" :src="item.coverImage"/>
-                        <!--                      获赞-->
-                        <div class="post-like flex-center">
-                          <svg class="icon1rem" aria-hidden="true">
-                            <use xlink:href="#icon-like-num"></use>
-                          </svg>
-                          <span class="ml-5r">{{ item.likeNum }}</span>
-                        </div>
-                        <!--                      视频类型：图文-->
-                        <div v-if="item.publishType===1" class="post-type flex-center">
-                          <svg class="icon1rem" aria-hidden="true">
-                            <use xlink:href="#icon-pics"></use>
-                          </svg>
-                          <span class="type-desc fs7 fw500 ml5px">图文</span>
-                        </div>
-                      </div>
-                    </div>
-                  </el-scrollbar>
-                </div>
-                <div v-if="tabActiveId===2">
-                  评论
-                </div>
-                <div v-if="tabActiveId===3">
-                  相关推荐
                 </div>
               </div>
-            </el-tab-pane>
-          </el-tabs>
+              <div class="user-info-follow">
+                <el-button v-if="dialogVideo.weatherFollow" type="info" class="fs9">已关注</el-button>
+                <el-button v-else type="primary" class="fs9">关注</el-button>
+              </div>
+            </div>
+            <!--                作品区域-->
+            <div class="user-post-area">
+              <el-scrollbar>
+                <div class="user-post"
+                     v-for="item in userPostList"
+                     :key="item.videoId"
+                     @click="handlePlayVideoPost(item)">
+                  <div class="post-card cp wh100 flex-center">
+                    <!--                      封面-->
+                    <img class="post-cover" :src="item.coverImage"/>
+                    <!--                      获赞-->
+                    <div class="post-like flex-center">
+                      <svg class="icon1rem" aria-hidden="true">
+                        <use xlink:href="#icon-like-num"></use>
+                      </svg>
+                      <span class="ml-5r">{{ item.likeNum }}</span>
+                    </div>
+                    <!--                      视频类型：图文-->
+                    <div v-if="item.publishType===1" class="post-type flex-center">
+                      <svg class="icon1rem" aria-hidden="true">
+                        <use xlink:href="#icon-pics"></use>
+                      </svg>
+                      <span class="type-desc fs7 fw500 ml5px">图文</span>
+                    </div>
+                  </div>
+                </div>
+              </el-scrollbar>
+            </div>
+            <div v-if="tabActiveId===2">
+              评论
+            </div>
+            <div v-if="tabActiveId===3">
+              相关推荐
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1432,5 +1438,17 @@ $video-sidebar-width: 520px;
   }
 }
 
+.video-more-close {
+  border-radius: 50%;
+  padding: 5px;
+  background-color: rgba(10, 10, 10, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: rgba(10, 10, 10, 0.2);
+  }
+}
 </style>
 

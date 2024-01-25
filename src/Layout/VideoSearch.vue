@@ -159,7 +159,7 @@ export default {
       }
     },
     searchFrom(o, n) {
-      console.log("watch searchFrom change > " + o)
+      // console.log("watch searchFrom change > " + o)
     },
   },
   methods: {
@@ -175,7 +175,7 @@ export default {
     hintContainerScrollToTop() {
       this.$nextTick(() => {
         const divElement = this.$refs.hintContainer;
-        console.log(divElement.scrollTop)
+        // console.log(divElement.scrollTop)
         divElement.scrollTop = 0;
       });
     },
@@ -190,11 +190,11 @@ export default {
       })
     },
     handleClick(tab, event) {
-      console.log(tab.props.name);
+      // console.log(tab.props.name);
       const route = tab.props.name
     },
     handleSearchSortFilter(item) {
-      console.log(item)
+      // console.log(item)
       this.filterSort = item.id
       this.loading = true
       searchVideo(this.searchFrom).then(res => {
@@ -205,7 +205,7 @@ export default {
       })
     },
     handleSearchTimeFilter(item) {
-      console.log(item)
+      // console.log(item)
       this.filterTime = item.id
       this.searchFrom.publishTimeLimit = this.filterTime
       this.loading = true

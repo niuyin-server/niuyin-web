@@ -173,7 +173,7 @@ export default {
     },
     // 上传进度显示
     uploadVideoProcess(event, file, fileList) {
-      console.log(event.percent, file, fileList)
+      // console.log(event.percent, file, fileList)
       this.videoFlag = true
       this.loading = true
       this.videoUploadPercent = Math.floor(event.percent)
@@ -204,7 +204,7 @@ export default {
             if (!this.videoTagIds.includes(res.data)) {
               this.videoTags.push(this.videoTag)
               this.videoTagIds.push(res.data)
-              console.log(this.videoTagIds)
+              // console.log(this.videoTagIds)
             }
             this.tagInputVisible = false
             this.tagInputValue = null
