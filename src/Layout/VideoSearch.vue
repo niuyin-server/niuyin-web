@@ -1,11 +1,12 @@
 <template>
-  <div class="search-container custom-loading-svg"
+  <div class="search-container custom-loading-svg wh100"
+       ref="searchContainer"
        :element-loading-svg="svg"
        element-loading-svg-view-box="-10, -10, 50, 50"
        v-loading="loading">
-    <div class="grid-3-1" >
-      <div class="search-left" >
-        <div class="search-select flex-between" >
+    <div class="grid-3-1">
+      <div class="search-left">
+        <div class="search-select flex-between">
           <div class="search-select-left">
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane v-for="item in videoSearchTabShow"
@@ -174,7 +175,7 @@ export default {
     },
     hintContainerScrollToTop() {
       this.$nextTick(() => {
-        const divElement = this.$refs.hintContainer;
+        const divElement = this.$refs.searchContainer;
         // console.log(divElement.scrollTop)
         divElement.scrollTop = 0;
       });

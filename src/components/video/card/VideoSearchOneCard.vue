@@ -498,7 +498,9 @@ export default {
     playVisibleVideos() {
 
       const container = this.$refs.videoContainer;
-      const videos = container.querySelectorAll('.video');
+      const videos = container.querySelectorAll(".d-player-video-main");
+
+      console.log(videos)
 
       videos.forEach(video => {
         const rect = video.getBoundingClientRect();

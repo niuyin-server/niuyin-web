@@ -2,12 +2,12 @@
   <div class="nav-right">
     <div class="flex-center dn-phone">
       <!--通知-->
-   <el-popover :width="320" ref="noticePopover">
+      <el-popover :width="320" ref="noticePopover">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="flex-column icon-click cg plr10px">
               <el-badge :value="noticeCount" class="item">
-                <div s   tyle="height: 20px; justify-content: center; width: 20px;">
+                <div s tyle="height: 20px; justify-content: center; width: 20px;">
                   <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-notice"></use>
                   </svg>
