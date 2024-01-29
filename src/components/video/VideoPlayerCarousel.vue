@@ -20,9 +20,9 @@
                         :lazy="true"
                         @keydown="keyDownZ(item.videoId,$event)">
         <div class="video-box">
-          <div class="video-container" :style="{ backgroundImage: `url(${item.coverImage})` }">
+          <div class="video-container">
             <!--            图文轮播-->
-            <ImagePlayer v-if="item.publishType==='1'" :image-list="item.imageList"/>
+            <ImagePlayer v-if="item.publishType==='1'" :cover-image="item.coverImage" :image-list="item.imageList"/>
             <!--            视频-->
             <VideoPlayer v-if="item.publishType==='0'"
                          class="videoPlayer"
@@ -185,24 +185,24 @@
             </div>
           </div>
         </div>
+        <!-- 视频评论抽屉 -->
+        <el-drawer class="video-sidebar"
+                   v-model="drawer"
+                   v-if="showVideoComment"
+                   :show-close="false"
+                   @mousewheel.stop
+                   :before-close="videoCommentTree=null">
+          <template #header="{ close, titleId, titleClass }">
+            <h2 class="cw" :id="titleId" :class="titleClass">评论 <span>( {{ item.commentNum }} )</span></h2>
+<!--            <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>-->
+            <el-button circle class="cb" :icon="Close" type="info" @click="close">
+            </el-button>
+          </template>
+          <VideoComment :video-id="videoId"
+                        :show="true"
+                        @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
+        </el-drawer>
       </el-carousel-item>
-      <!-- 视频评论抽屉 -->
-      <el-drawer class="video-sidebar"
-                 v-model="drawer"
-                 v-if="showVideoComment"
-                 :show-close="false"
-                 @mousewheel.stop
-                 :before-close="videoCommentTree=null">
-        <template #header="{ close, titleId, titleClass }">
-          <!--                <h2 class="cw" :id="titleId" :class="titleClass">评论<span>({{ item.commentNum }})</span></h2>-->
-          <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>
-          <el-button circle class="cb" :icon="Close" type="info" @click="close">
-          </el-button>
-        </template>
-        <VideoComment :video-id="videoId"
-                      :show="true"
-                      @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
-      </el-drawer>
     </el-carousel>
     <!-- 视频右侧控制按钮-->
     <div class="player-playswitch flex-center">
@@ -286,6 +286,11 @@
           <use xlink:href="#icon-back"></use>
         </svg>
       </div>
+      <!--      背景-->
+      <div class="pa wh100" style="background-color: black">
+        <img v-if="dialogVideo.coverImage" class="video-cover wh100"
+             style="filter: blur(60px);opacity: 0.8;user-select: none;" :src="dialogVideo.coverImage" alt=""/>
+      </div>
       <div class="user-video-box wh100" :style="{ backgroundImage: `url(${dialogVideo.coverImage})` }">
         <div class="user-video-container h100 pr">
           <!--      展开按钮-->
@@ -295,9 +300,9 @@
               <use xlink:href="#icon-open"></use>
             </svg>
           </div>
-
           <!--            图文轮播-->
-          <ImagePlayer v-if="dialogVideo.publishType==='1'" :image-list="dialogVideo.imageList"/>
+          <ImagePlayer v-if="dialogVideo.publishType==='1'" :cover-image="dialogVideo.coverImage"
+                       :image-list="dialogVideo.imageList"/>
           <!--            视频-->
           <VideoPlayer v-if="dialogVideo.publishType==='0'"
                        class="videoPlayer wh100"
@@ -751,7 +756,6 @@ export default {
       for (let i = 0; i < videos.length; i++) {
         setTimeout(() => {
           videos[i].pause();
-          // videos[i].load();
         }, 100);
       }
       if (newVal === this.videoList.length - 1) {
@@ -1378,9 +1382,6 @@ $video-sidebar-width: 520px;
     padding: 0 1rem;
     transition: width .5s ease; /* 添加过渡效果 */
     display: inline-block;
-    backdrop-filter: blur(40px);
-
-
   }
 }
 

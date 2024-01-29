@@ -1,5 +1,8 @@
 <template>
-  <div class="wh100 pr bdf" >
+  <div class="wh100 pr bdf">
+    <div class="pa wh100" style="background-color: black">
+      <img v-if="coverImage" class="video-cover wh100" style="" :src="coverImage" alt=""/>
+    </div>
     <!--    arrow="always"-->
     <el-carousel class="wh100" trigger="hover" arrow="always" @change="handleCarouselChange">
       <el-carousel-item v-for="item in imageList" :key="item">
@@ -17,6 +20,7 @@
 export default {
   name: "ImagePlayer",
   props: {
+    coverImage: String,
     imageList: Array,
   },
   data() {
@@ -43,6 +47,12 @@ export default {
   right: 8%;
 }
 
+.video-cover {
+  filter: blur(60px);
+  opacity: 0.8;
+  user-select: none;
+}
+
 .carousel-point-num {
   position: absolute;
   top: 2%;
@@ -50,7 +60,7 @@ export default {
   font-size: 0.8rem;
   font-weight: 600;
   padding: 10px 6px;
-  background-color: var(--niuyin-bg-color5);
+  background-color: var(--niuyin-bg-color3);
   backdrop-filter: blur(2px);
   border-radius: 50%;
 

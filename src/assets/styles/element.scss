@@ -269,3 +269,7 @@ html.dark {
   padding: 0 !important;
   overflow: hidden;
 }
+
+.el-carousel {
+  --el-carousel-arrow-background: rgba(40, 50, 70, 0.2)
+}

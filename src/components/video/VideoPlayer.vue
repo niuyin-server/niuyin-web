@@ -1,5 +1,8 @@
 <template>
-  <div class="vue3-video-play">
+  <div class="vue3-video-play pr">
+    <div class="pa wh100" style="background-color: black">
+      <img v-if="video.coverImage" class="video-cover wh100" style="" :src="video.coverImage" alt=""/>
+    </div>
     <videoPlay
         v-bind="options"
         :poster="options.poster"
@@ -51,7 +54,7 @@ export default {
           "setting",
           "volume",
           "pip",
-          "pageFullScreen",
+          // "pageFullScreen",
           "fullScreen",
         ], //显示所有按钮,
       },
@@ -107,17 +110,13 @@ export default {
 .vue3-video-play {
   /*//backdrop-filter: blur(60px) !important;*/
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(60px);
-  }
 }
 
+.video-cover {
+  filter: blur(60px);
+  opacity: 0.8;
+  user-select: none;
+}
 
 .video-play {
   float: left;

@@ -24,7 +24,6 @@ export default {
   data() {
     return {
       siteTitle: "牛音",
-      videoUrl: undefined,
       niuyinTheme: "niuyin-light",
     }
   },

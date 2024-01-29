@@ -4,7 +4,7 @@
     <el-scrollbar>
       <!-- logo -->
       <div class="oh w100"
-           style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;backdrop-filter: blur(10px)">
+           style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;">
         <router-link class="link-type flex-center wh100"
                      :to="'/index'"
                      tag="div">
