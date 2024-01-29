@@ -194,7 +194,7 @@
                    :before-close="videoCommentTree=null">
           <template #header="{ close, titleId, titleClass }">
             <h2 class="cw" :id="titleId" :class="titleClass">评论 <span>( {{ item.commentNum }} )</span></h2>
-<!--            <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>-->
+            <!--            <h2 class="cw" :id="titleId" :class="titleClass">评论</h2>-->
             <el-button circle class="cb" :icon="Close" type="info" @click="close">
             </el-button>
           </template>
@@ -345,12 +345,12 @@
             <div class="operate-area">
               <div class="video-author">
                 <el-avatar v-if="dialogVideo.userAvatar"
-                           class="user-avatar cp"
+                           class="user-avatar cp hv-scale"
                            :size="64"
                            :src="dialogVideo.userAvatar"
                            lazy/>
                 <el-avatar v-else
-                           class="user-avatar cp"
+                           class="user-avatar cp hv-scale"
                            :icon="UserFilled"/>
                 <span v-if="!dialogVideo.weatherFollow" class="user-att cp operate-icon">
                     <svg class="icon1-5rem" aria-hidden="true" @click="handleAttUser(dialogVideo.userId)">
@@ -561,7 +561,7 @@ import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
 import ImagePlayer from "@/components/video/ImagePlayer.vue";
 import {userInfoX} from "@/store/userInfoX";
-import {encodeData} from "@/utils/roydon.js";
+import {encodeData, smartDateFormat} from "@/utils/roydon.js";
 import UserVideoDialog from "@/components/video/UserVideoDialog.vue";
 import {videoUserpage} from "@/api/video.js";
 
@@ -660,6 +660,7 @@ export default {
     }
   },
   methods: {
+    smartDateFormat,
     // 鼠标悬停显示
     handleFavoriteOver(videoId) {
       // console.log("handleFavoriteShow" + videoId)
@@ -1380,6 +1381,7 @@ $video-sidebar-width: 520px;
   .user-video-slidebar {
     width: $video-sidebar-width;
     padding: 0 1rem;
+    z-index: 10;
     transition: width .5s ease; /* 添加过渡效果 */
     display: inline-block;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="wh100 pr bdf">
+  <div class="wh100 pr">
     <div class="pa wh100" style="background-color: black">
       <img v-if="coverImage" class="video-cover wh100" style="" :src="coverImage" alt=""/>
     </div>

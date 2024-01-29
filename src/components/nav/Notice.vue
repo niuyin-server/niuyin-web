@@ -26,13 +26,15 @@
           <!--          头像-->
           <el-avatar v-if="item.operateAvatar"
                      lazy
+                     class="hv-scale"
                      :size="50"
                      :src="item.operateAvatar"/>
           <el-avatar v-else
+                     class="hv-scale"
                      :icon="UserFilled"/>
           <!--          信息-->
           <div class="notice-info ml-5r flex-wrap">
-            <p class="one-line"><strong>@ {{ item.nickName }}</strong></p>
+            <p class="one-line text-hv-gold"><strong>@ {{ item.nickName }}</strong></p>
             <p class="one-line mtb5"><span>{{ item.content }}</span></p>
             <p class="one-line cg fs8 flex-between">
               <div>
@@ -44,6 +46,7 @@
           <!--            原-->
           <div class="notice-origin flex-column" style="align-items: flex-end">
             <img v-if="item.videoCoverImage"
+                 class="hv-scale"
                  style="height: 60px;width: 60px;border-radius: 6px;object-fit: cover"
                  :src="item.videoCoverImage"/>
             <!--              关注通知-->
@@ -225,4 +228,5 @@ export default {
     display: inline-block;
   }
 }
+
 </style>
