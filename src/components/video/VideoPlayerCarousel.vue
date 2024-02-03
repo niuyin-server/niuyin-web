@@ -64,7 +64,7 @@
               <div class="operate-area">
                 <div class="video-author" @click="handlePersonInfo(item.userId,item)">
                   <el-avatar v-if="item.userAvatar"
-                             class="user-avatar cp"
+                             class="user-avatar cp hv-scale"
                              :size="64"
                              :src="item.userAvatar"
                              lazy/>
@@ -350,7 +350,7 @@
                            :src="dialogVideo.userAvatar"
                            lazy/>
                 <el-avatar v-else
-                           class="user-avatar cp hv-scale"
+                           class="user-avatar cp"
                            :icon="UserFilled"/>
                 <span v-if="!dialogVideo.weatherFollow" class="user-att cp operate-icon">
                     <svg class="icon1-5rem" aria-hidden="true" @click="handleAttUser(dialogVideo.userId)">

@@ -36,12 +36,14 @@
                                  :lazy="true"
                                  :name="item.tabName">
                       <!--                    <router-view/>-->
-                      <div v-for="(it,index) in item.dataList" class="p5px">
-                        <p class="text-hv-primary cp one-line hot-hover-item">
-                          <span class="mr5px">{{ index + 1 }}、</span>
-                          <span class="lh-1-5" @click="handleClickHotTable(it)"> {{ it }}</span>
-                        </p>
-                      </div>
+                      <el-scrollbar>
+                        <div v-for="(it,index) in item.dataList" class="p5px">
+                          <p class="text-hv-primary cp one-line hot-hover-item">
+                            <span class="mr5px">{{ index + 1 }}、</span>
+                            <span class="lh-1-5" @click="handleClickHotTable(it)"> {{ it }}</span>
+                          </p>
+                        </div>
+                      </el-scrollbar>
                     </el-tab-pane>
                   </el-tabs>
                 </el-card>
@@ -173,6 +175,10 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
+      hotSearchPageDto: {
+        pageNum: 1,
+        pageSize: 50
+      },
       userVideoLikes: "",
       followedNums: "",
       fanNums: "",
@@ -237,7 +243,7 @@ export default {
           this.loading = false
         }
       })
-      searchHotLoad(this.pageDto).then(res => {
+      searchHotLoad(this.hotSearchPageDto).then(res => {
         if (res.code === 200) {
           this.hotTabShow[0].dataList = res.data
         }
@@ -313,7 +319,7 @@ export default {
       // console.log(this.playVideoUrl)
     },
     // 热搜点击
-    handleClickHotTable(it){
+    handleClickHotTable(it) {
       this.routerJumpVideoSearch(it)
     },
     // 视频搜索路由跳转

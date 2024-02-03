@@ -57,7 +57,7 @@
                 popper-style="padding: 20px;">
       <template #reference>
         <router-link class="user-container" :to="'/user'">
-          <el-avatar v-if="user.avatar" :src="user.avatar"/>
+          <el-avatar v-if="user.avatar" class="hv-scale" :src="user.avatar"/>
           <el-avatar v-else :icon="UserFilled"/>
         </router-link>
       </template>
@@ -88,7 +88,7 @@
               <router-link class="link-type flex-center" :to="item.url" v-for="item in userPostInfo">
                 <div class="flex-center icon-click cg cp"
                      style="flex-direction: column;padding: 0 10px;">
-                  <div class="tac wh32">
+                  <div class="tac wh32 hv-scale">
                     <svg class="icon" aria-hidden="true">
                       <use :xlink:href="item.icon"></use>
                     </svg>
