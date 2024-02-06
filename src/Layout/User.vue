@@ -43,7 +43,7 @@
             <p class="one-line fs8">{{ memberInfo.description }}</p>
           </div>
         </div>
-        <div class="flex-column">
+        <div class="user-op h100" style="min-height: 100px">
           <div class="trust-login-switch dn-phone">
             <div class="trust-login-tips">
               <el-tooltip content="保存登录信息，下次登陆免验证" placement="top">
@@ -486,22 +486,4 @@ export default {
 
 <style scoped>
 @import "@/assets/styles/user.scss";
-
-@media (max-width: 500px) {
-  .user-container .user-info {
-    margin-left: 0 !important;
-  }
-}
-
-.image-dot {
-  width: 28px;
-  height: 28px;
-  background: var(--niuyin-online-color);
-  position: absolute;
-  border-radius: 50%;
-  border: 4px solid var(--niuyin-bg-color);
-  top: 50%;
-  left: 50%;
-  transform: translate(25px, 30px);
-}
 </style>

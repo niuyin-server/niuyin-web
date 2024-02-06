@@ -1,22 +1,21 @@
 <template>
   <!--  视频合集区域-->
   <div v-show="videoCompilationTotal!==0" class="video-ca">
-    <h5>视频合集</h5>
-    <div class="mtb5 flex-between">
-      <div v-for="item in videoCompilationList" class="flex-start cp">
-        <div class="wh5rem">
+    <h5>视频合集<span class="fs7 cg cp ml-5r">查看更多 ></span></h5>
+  </div>
+  <div class="video-compilation-list">
+    <div v-for="item in videoCompilationList" class="video-compilation-item">
+      <div class="video-compilation flex-start cp cbx">
+        <div class="wh5rem compilation-cover oh b-radius1">
           <img v-if="item.coverImage" class="wh100 b-radius1" :src="item.coverImage" :alt="item.title"/>
           <img v-else class="wh100 b-radius1" src="@/assets/logo/logo-niuyin-new.png" :alt="item.title"/>
         </div>
         <div style="margin-left: 10px">
-          <h5>{{ item.title }}</h5>
+          <h5 class="title">{{ item.title }}</h5>
           <div class="mtb5">
-            <span class="fs7 cg one-line">{{ item.description }}</span>
+            <span class="fs7 cg two-line">{{ item.description }}</span>
           </div>
         </div>
-      </div>
-      <div>
-        <span class="fs7 cg cp">查看更多 ></span>
       </div>
     </div>
   </div>
@@ -117,7 +116,7 @@ export default {
     //   console.log('scroll', this.$refs.box.scrollTop)
     // });
   },
-  beforeDestroy(){
+  beforeDestroy() {
     // this.$refs.box.removeEventListener('scroll',this.handleScroll);
   },
   destroyed() {
@@ -200,4 +199,44 @@ export default {
     padding: 0 0.5rem 1rem;
   }
 }
+
+.video-compilation-list {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  align-items: center;
+  overflow-x: scroll;
+  margin: .5rem 0;
+  height: calc(80px + 2rem);
+
+  .video-compilation-item {
+    width: 20%;
+    padding: .5rem 5px;
+
+    .video-compilation {
+      padding: .5rem;
+      border-radius: 1rem;
+      transition: all .3s ease;
+
+      &:hover {
+        transition: all .3s ease;
+        box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .12);
+
+        .compilation-cover img {
+          transition: all .3s ease;
+          transform: scale(1.1);
+        }
+
+        .title {
+          transition: all .3s ease;
+          color: gold;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+}
+
+
 </style>

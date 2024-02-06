@@ -88,5 +88,4 @@ router.beforeEach((to, from, next ) => {
     matchedLength === 0 ? redirect() : next();
 });
 
-
 export default router;

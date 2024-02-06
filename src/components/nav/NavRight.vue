@@ -5,6 +5,7 @@
       <el-popover :width="320" ref="noticePopover">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
+            <!--          <div class="link-type cp" >-->
             <div class="flex-column icon-click cg plr10px">
               <el-badge :value="noticeCount" class="item">
                 <div s tyle="height: 20px; justify-content: center; width: 20px;">
@@ -207,21 +208,21 @@ export default {
       // 封装用户作品量、喜欢量、收藏量
       myVideoCount().then(res => {
         if (res.code === 200) {
-          this.userPostInfo.forEach((item, index) => {
+          this.userPostInfo.forEach((item) => {
             return item.id === 1 ? item.num = res.data : 0
           })
         }
       })
       myLikeCount().then(res => {
         if (res.code === 200) {
-          this.userPostInfo.forEach((item, index) => {
+          this.userPostInfo.forEach((item) => {
             return item.id === 2 ? item.num = res.data : 0
           })
         }
       })
       myFavoriteCount().then(res => {
         if (res.code === 200) {
-          this.userPostInfo.forEach((item, index) => {
+          this.userPostInfo.forEach((item) => {
             return item.id === 3 ? item.num = res.data : 0
           })
         }
@@ -269,5 +270,3 @@ export default {
 
 <style scoped>
 </style>
-<script setup lang="ts">
-</script>
