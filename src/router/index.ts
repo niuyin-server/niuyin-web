@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 // import beforeEach from "@/router/beforeEach.ts";
+import NotFound from "@/Layout/error/404.vue"
 
 // 创建路由
 const router = createRouter({
@@ -53,15 +54,16 @@ const router = createRouter({
             ],
         },
         {
-            path: '/404',
-            component: () => import('@/Layout/error/404.vue'),
-            hidden: true,
+            path: '/:pathMatch(.*)*',
+            name: "NotFound",
+            component: () => NotFound,
+            // hidden: true,
         },
-        {
-            path: '/401',
-            component: () => import('@/Layout/error/401.vue'),
-            hidden: true,
-        },
+        // {
+        //     path: '/401',
+        //     component: () => import('@/Layout/error/401.vue'),
+        //     // hidden: true,
+        // },
 
     ],
 });
@@ -74,18 +76,30 @@ const router = createRouter({
 //     beforeEach.checkAuth(guard, router)
 // })
 
-router.beforeEach((to, from, next ) => {
-    const matchedLength = to.matched.length;
+// router.beforeEach((to, from, next ) => {
+//     const matchedLength = to.matched.length;
+//
+//     const redirect = () => {
+//         if (from.path) {
+//             next({ name: from.name });
+//         } else {
+//             next('/404');
+//         }
+//     };
+//
+//     matchedLength === 0 ? redirect() : next();
+// });
 
-    const redirect = () => {
-        if (from.path) {
-            next({ name: from.name });
-        } else {
-            next('/404');
-        }
-    };
-
-    matchedLength === 0 ? redirect() : next();
+router.beforeEach((to, from, next) => {
+    // 在这里编写你的路由守卫逻辑
+    console.log(from.path + " - " + to.path)
+    // 如果路由未匹配到任何已定义的路由，则重定向到404页面
+    if (to.matched.length === 0) {
+        next({name: 'NotFound'});
+    } else {
+        next();
+    }
 });
+
 
 export default router;
