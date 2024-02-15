@@ -5,9 +5,10 @@
       <Aside :siteTitle="siteTitle"></Aside>
       <el-container class="is-vertical">
         <Header @themeChangeEmit="emitThemeChange"></Header>
-        <el-main>
+        <el-main class="main-container">
           <!--路由-->
           <router-view/>
+          <el-backtop :right="16" :bottom="16" target=".main-container"></el-backtop>
         </el-main>
       </el-container>
     </el-container>
@@ -30,8 +31,8 @@ export default {
   created() {
     this.initTheme()
   },
-  mounted(){
-    this.$nextTick(()=>{
+  mounted() {
+    this.$nextTick(() => {
       const dark = themeX().dark
       if (dark) {
         this.niuyinTheme = "niuyin-dark"
@@ -50,7 +51,7 @@ export default {
       }
     },
     // 换肤事件
-    emitThemeChange(dark){
+    emitThemeChange(dark) {
       if (dark) {
         this.niuyinTheme = "niuyin-dark"
       } else {
@@ -67,7 +68,6 @@ export default {
 /*@import "@/assets/styles/index.scss";*/
 $light-bg-image: "@/assets/background/theme-light.jpg";
 $dark-bg-image: "@/assets/background/theme-dark.jpg";
-
 
 
 .niuyin-light {

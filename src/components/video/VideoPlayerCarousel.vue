@@ -464,7 +464,7 @@
           </div>
         </div>
         <div v-if="showUserVideoMore" class="user-video-slidebar h100">
-          <div class="flex-between">
+          <div class="flex-between" style="height: 40px;">
             <el-tabs v-model="tabActiveId" @tab-click="handleTabUserVideoMoreClick">
               <el-tab-pane v-for="item in tabUserVideoMore"
                            :key="item.id"
@@ -478,7 +478,7 @@
               <Close style="width: 1rem; height: 1rem"/>
             </div>
           </div>
-          <div v-if="tabActiveId===1">
+          <div v-if="tabActiveId===1" class="user-info-post">
             <!--                todo 查询用户详情，粉丝，总获赞-->
             <div class="user-info mb10px flex-between p1rem" style="border-bottom: 2px solid rgba(144,144,144,0.2)">
               <div class="user-info-left">
@@ -503,7 +503,8 @@
             </div>
             <!--                作品区域-->
             <div class="user-post-area">
-              <el-scrollbar>
+              <el-scrollbar ref="scrollUserPost" @scroll="onScrollUserPost"
+                            style="padding: 0 .5rem;">
                 <div class="user-post"
                      v-for="item in userPostList"
                      :key="item.videoId"
@@ -527,6 +528,8 @@
                     </div>
                   </div>
                 </div>
+                <el-backtop :right="16" :bottom="16" target=".el-dialog .el-scrollbar__wrap"
+                            :visibility-height="10"/>
               </el-scrollbar>
             </div>
             <div v-if="tabActiveId===2">
@@ -540,6 +543,7 @@
       </div>
     </div>
   </el-dialog>
+
 </template>
 
 <script>
@@ -643,7 +647,7 @@ export default {
         userId: null,
         videoTitle: "",
         pageNum: 1,
-        pageSize: 10
+        pageSize: 30
       },
       userPostList: [],
       userPostTotal: 0,
@@ -1004,6 +1008,17 @@ export default {
     // 点击用户作品
     handlePlayVideoPost(video) {
       this.dialogVideo = video
+    },
+    onScrollUserPost() {
+      console.log("滚动")
+      const scrollElement = this.$refs.scrollUserPost;
+      console.log(scrollElement)
+      // 判断是否滚动到底部
+      if (scrollElement.scrollTop + scrollElement.clientHeight >= scrollElement.scrollHeight) {
+        // 加载更多数据
+        // this.loadMorePosts();
+        console.log("加载更多")
+      }
     },
   },
 }
@@ -1379,7 +1394,7 @@ $video-sidebar-width: 520px;
   }
 
   .user-video-slidebar {
-    width: $video-sidebar-width;
+    width: 30%;
     padding: 0 1rem;
     z-index: 10;
     transition: width .5s ease; /* 添加过渡效果 */
@@ -1434,12 +1449,24 @@ $video-sidebar-width: 520px;
   }
 }
 
-.user-post-area {
-  :deep(.el-scrollbar__view) {
-    display: flex;
-    flex-flow: row wrap;
+.user-info-post {
+  display: flex;
+  height: calc(100% - 40px);
+  flex-direction: column;
+
+  .user-post-area {
+    height: 100%;
+    margin: 0 -1rem;
+    overflow: hidden;
+
+    :deep(.el-scrollbar__view) {
+      display: flex;
+      flex-flow: row wrap;
+    }
   }
+
 }
+
 
 .video-more-close {
   border-radius: 50%;

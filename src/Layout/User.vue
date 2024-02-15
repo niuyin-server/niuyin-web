@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container" id="main-container">
+  <div class="">
     <el-scrollbar class="scrollbar">
       <!--      用户信息区域-->
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
@@ -35,9 +35,12 @@
               <use xlink:href="#icon-sex-primary"></use></svg>
               <span class="ml-5r">{{ '22岁' }}</span></span>
             <span class="city">{{ memberInfo.province + " · " + memberInfo.city }}</span>
-            <span v-if="memberInfo.campus" class="school"><el-icon :size="16" class="mr-5r"><School/></el-icon>{{
-                memberInfo.campus
-              }}</span>
+            <span v-if="memberInfo.campus" class="school">
+              <el-icon :size="16" class="mr-5r">
+                <School/>
+              </el-icon>
+              {{ memberInfo.campus }}
+            </span>
           </div>
           <div class="user-description ">
             <p class="one-line fs8">{{ memberInfo.description }}</p>
@@ -267,7 +270,6 @@
         </div>
       </el-scrollbar>
     </el-dialog>
-    <el-backtop target=".main-container" :visibility-height=600></el-backtop>
   </div>
 </template>
 

@@ -76,14 +76,14 @@ const router = createRouter({
 //     beforeEach.checkAuth(guard, router)
 // })
 
-// router.beforeEach((to, from, next ) => {
+// router.beforeEach((to, from, next) => {
 //     const matchedLength = to.matched.length;
 //
 //     const redirect = () => {
 //         if (from.path) {
-//             next({ name: from.name });
+//             next({path: from.path});
 //         } else {
-//             next('/404');
+//             next({name: 'NotFound'});
 //         }
 //     };
 //

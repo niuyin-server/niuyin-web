@@ -1,23 +1,23 @@
 <template>
   <!--  侧边栏-->
   <el-aside class="niuyin-aside">
-    <el-scrollbar>
-      <!-- logo -->
-      <div class="oh w100"
-           style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;">
-        <router-link class="link-type flex-center wh100"
-                     :to="'/index'"
-                     tag="div">
-          <div class="" style="text-align: right;width: 60px">
-            <img style="width: 32px;height: 32px;display: inline-block"
-                 src="@/assets/logo/logo-niuyin-new.png">
-          </div>
-          <div class="" style="width: calc(100% - 60px)">
+    <!-- logo -->
+    <div class="oh w100"
+         style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;">
+      <router-link class="link-type flex-center wh100"
+                   :to="'/index'"
+                   tag="div">
+        <div class="" style="text-align: right;width: 60px">
+          <img style="width: 32px;height: 32px;display: inline-block"
+               src="@/assets/logo/logo-niuyin-new.png">
+        </div>
+        <div class="" style="width: calc(100% - 60px)">
             <span class="dn-phone fw500"
                   style="display:inline-block;line-height: 60px;height: 60px">牛音</span>
-          </div>
-        </router-link>
-      </div>
+        </div>
+      </router-link>
+    </div>
+    <el-scrollbar style="height: calc(100% - 60px)">
       <!-- tab栏区域 -->
       <div class="tabs-area">
         <ul class="tab-top">

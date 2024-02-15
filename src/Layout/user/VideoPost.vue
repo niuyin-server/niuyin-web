@@ -215,15 +215,17 @@ export default {
 
     .video-compilation {
       padding: .5rem;
+      width: 100%;
+      background-color: var(--el-bg-color-page);
       border-radius: 1rem;
-      transition: all .3s ease;
 
       &:hover {
-        transition: all .3s ease;
+        transition: all .5s ease;
+        background-color: var(--niuyin-primary-color-5);
         box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .12);
 
         .compilation-cover img {
-          transition: all .3s ease;
+          transition: all .5s ease;
           transform: scale(1.1);
         }
 

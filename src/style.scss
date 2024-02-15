@@ -3,11 +3,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "DouyinSansBold", "AlibabaHealthFont2-45R", "AlimamaFangYuanTiVF-Thin", "AlimamaShuHeiTi-Bold", PingFang SC, "Microsoft YaHei", "Helvetica Neue", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "微软雅黑", sans-serif;
+  font-family: PingFang SC, "Helvetica Neue", "Microsoft YaHei", "AlimamaFangYuanTiVF-Thin", "AlibabaHealthFont2-45R", "DouyinSansBold", "AlimamaShuHeiTi-Bold", Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, "Hiragino Sans GB", "微软雅黑", sans-serif;
 }
 
 html {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -19,6 +20,10 @@ body {
 
 #app {
   height: 100%;
+}
+
+ul > li {
+  list-style: none;
 }
 
 .video-card-transition {
