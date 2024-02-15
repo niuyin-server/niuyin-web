@@ -20,7 +20,12 @@
     </div>
   </div>
   <!--  视频作品区域-->
-  <div class="flex-between videoPost" ref="videoPost" v-loading="loadingIcon">
+  <div class="flex-between videoPost" ref="videoPost" v-loading="loadingIcon"
+       style="overflow-y: auto"
+       v-infinite-scroll="loadMore"
+       :infinite-scroll-disabled="loadingVideoPost"
+       :infinite-scroll-delay="500"
+       :infinite-scroll-distance="10">
     <el-skeleton class="w100" :loading="loading" animated>
       <template #template>
         <div class="loading-container" v-for="i in 1">
@@ -103,6 +108,8 @@ export default {
       },
       videoCompilationList: [],
       videoCompilationTotal: 0,
+      loadingVideoPost: false,
+
     }
   },
   created() {
@@ -110,14 +117,9 @@ export default {
     this.initVideoCompilation()
   },
   mounted() {
-    // const vc = document.getElementsByClassName("videoPost")
-    window.addEventListener('scroll', this.handleScroll, true);
-    // this.$refs.videoPost.addEventListener("scroll", () => {
-    //   console.log('scroll', this.$refs.box.scrollTop)
-    // });
+    // window.addEventListener('scroll', this.handleScroll, true);
   },
   beforeDestroy() {
-    // this.$refs.box.removeEventListener('scroll',this.handleScroll);
   },
   destroyed() {
     document.removeEventListener('scroll', this.handleScroll);
@@ -183,6 +185,37 @@ export default {
         }
       }
     },
+    loadMore() {
+      if (this.dataNotMore) {
+        return
+      }
+      //加载更多
+      if (this.loadingData) {
+        // this.loadingIcon = true
+        this.loadingData = false
+        this.videoQueryParams.pageNum += 1
+        console.log("loadMore")
+        videoMypage(this.videoQueryParams).then(res => {
+          if (res.code === 200) {
+            if (res.rows == null || res.rows.length === 0) {
+              this.dataNotMore = true
+              this.loadingIcon = false
+              this.loadingData = false
+              return;
+            }
+            this.postVideoList = this.postVideoList.concat(res.rows)
+            this.loadingIcon = false
+
+          } else {
+            this.loadingIcon = false
+          }
+        })
+        setTimeout(() => {
+          // 流控
+          this.loadingData = true
+        }, 1000);
+      }
+    }
   }
 }
 
