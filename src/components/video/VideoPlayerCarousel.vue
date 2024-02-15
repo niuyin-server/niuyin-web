@@ -503,8 +503,7 @@
             </div>
             <!--                作品区域-->
             <div class="user-post-area">
-              <el-scrollbar ref="scrollUserPost" @scroll="onScrollUserPost"
-                            style="padding: 0 .5rem;">
+              <el-scrollbar v-infinite-scroll="loadMoreUserPost" style="padding: 0 .5rem;">
                 <div class="user-post"
                      v-for="item in userPostList"
                      :key="item.videoId"
@@ -528,6 +527,9 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="UserPostNotMore" class="w100">
+                  <el-divider>暂无更多数据</el-divider>
+                </div>
                 <el-backtop :right="16" :bottom="16" target=".el-dialog .el-scrollbar__wrap"
                             :visibility-height="10"/>
               </el-scrollbar>
@@ -543,7 +545,6 @@
       </div>
     </div>
   </el-dialog>
-
 </template>
 
 <script>
@@ -647,10 +648,12 @@ export default {
         userId: null,
         videoTitle: "",
         pageNum: 1,
-        pageSize: 30
+        pageSize: 15
       },
       userPostList: [],
       userPostTotal: 0,
+      loadingMoreUserPost: false,
+      UserPostNotMore: false,
     }
   },
   emits: ['reloadVideoFeed'],
@@ -989,6 +992,16 @@ export default {
     handleUserVideoDialogClose() {
       this.userVideoDialogVisible = false
       this.showUserVideoMore = false
+      this.videoUserPageDTO = {
+        userId: null,
+        videoTitle: "",
+        pageNum: 1,
+        pageSize: 15
+      }
+      this.userPostList = []
+      this.userPostTotal = 0
+      this.loadingMoreUserPost = false
+      this.UserPostNotMore = false
     },
     // 展开更多
     handleUserVideoDialogMoreOpen(userId) {
@@ -999,6 +1012,9 @@ export default {
         if (res.code === 200) {
           this.userPostList = res.rows
           this.userPostTotal = res.total
+          if (res.total < this.videoUserPageDTO.pageSize) {
+            this.UserPostNotMore = true
+          }
         }
       })
     },
@@ -1009,16 +1025,25 @@ export default {
     handlePlayVideoPost(video) {
       this.dialogVideo = video
     },
-    onScrollUserPost() {
-      console.log("滚动")
-      const scrollElement = this.$refs.scrollUserPost;
-      console.log(scrollElement)
-      // 判断是否滚动到底部
-      if (scrollElement.scrollTop + scrollElement.clientHeight >= scrollElement.scrollHeight) {
-        // 加载更多数据
-        // this.loadMorePosts();
-        console.log("加载更多")
+    loadMoreUserPost() {
+      if (this.UserPostNotMore) {
+        return;
       }
+      if (this.loadingMoreUserPost) {
+        return
+      }
+      this.loadingMoreUserPost = true
+      console.log("加载更多")
+      this.videoUserPageDTO.pageNum += 1
+      videoUserpage(this.videoUserPageDTO).then(res => {
+        if (res.code === 200) {
+          this.userPostList = this.userPostList.concat(res.rows)
+          this.loadingMoreUserPost = false
+          if (this.userPostList.length == res.total) {
+            this.UserPostNotMore = true
+          }
+        }
+      })
     },
   },
 }

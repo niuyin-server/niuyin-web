@@ -16,9 +16,10 @@
         </el-select>
       </div>
     </div>
-    <div class="notice-list plrb10" style="height:60vh;overflow:auto !important;"
-         v-infinite-scroll="loadMore">
-      <!--      <el-scrollbar class="h100" ref="noticeScrollbar" @scroll="handleScroll" >-->
+    <div class="notice-list plrb10" style="height:60vh;overflow-y:auto !important;"
+         v-infinite-scroll="loadMore"
+         :infinite-scroll-disabled="loadingNotice"
+         :infinite-scroll-distance="10">
       <div class="infinite-list" v-loading="loading">
         <div class="infinite-list-item notice-item flex-start cp p5-10 mtb5 pr"
              style="background-color: var(--el-bg-color-page);border-radius: 10px"
@@ -80,7 +81,6 @@
       <div v-if="dataNotMore">
         <el-divider>暂无更多数据</el-divider>
       </div>
-      <!--      </el-scrollbar>-->
     </div>
   </div>
 </template>
@@ -122,7 +122,8 @@ export default {
         {id: 5, label: "视频被评论", value: "3"},
         {id: 6, label: "回复评论", value: "4"},
         {id: 7, label: "赞了评论", value: "5"},
-      ]
+      ],
+      loadingNotice: false,
     }
   },
   created() {
@@ -183,16 +184,18 @@ export default {
       //加载更多
       // console.log("loadMore")
       this.loading = true
+      this.loadingNotice = true
       this.noticeQueryParams.pageNum += 1
       noticePage(this.noticeQueryParams).then(res => {
         if (res.code === 200) {
-          if (res.rows == null) {
+          if (res.rows == null || res.rows.length < this.noticeQueryParams.pageSize) {
             this.dataNotMore = true
             this.loading = false
             return;
           }
           this.noticeList = this.noticeList.concat(res.rows)
           this.loading = false
+          this.loadingNotice = false
         }
       })
     },
@@ -212,6 +215,10 @@ export default {
 .el-select:deep(.el-input.is-focus .el-input__wrapper) {
   border-color: #000000;
   box-shadow: none !important;
+}
+
+.infinite-list {
+  height: 100%;
 }
 
 .notice-item {
