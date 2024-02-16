@@ -35,20 +35,28 @@
   }
 }
 
-@media (max-width: 1320px) {
+@media (max-width: 1450px) {
+  .discover-item {
+    width: 20%;
+  }
   .hotVideo-list .hotVideos .hotVideo-item {
 
   }
 }
 
-
 @media (max-width: 1208px) {
+  .discover-item {
+    width: 25%;
+  }
   .hotVideo-list .hotVideos .hotVideo-item {
     width: 25%;
   }
 }
 
 @media (max-width: 768px) {
+  .discover-item {
+    width: 50%;
+  }
   .hotVideo-list .hotVideos .hotVideo-item {
     width: 50%;
   }

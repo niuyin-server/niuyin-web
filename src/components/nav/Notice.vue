@@ -77,9 +77,9 @@
             </div>
           </div>
         </div>
-      </div>
-      <div v-if="dataNotMore">
-        <el-divider>暂无更多数据</el-divider>
+        <div v-if="dataNotMore">
+          <el-divider>暂无更多数据</el-divider>
+        </div>
       </div>
     </div>
   </div>

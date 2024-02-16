@@ -1,6 +1,6 @@
 <template>
   <div class="video-card flex-row">
-    <div class="video-cover-image wh100" :style="{ backgroundImage: `url(${video.coverImage})` }"
+    <div class="video-cover-image wh100"
          @mouseover="handleMouseover" @mouseleave="handleMouseleave">
       <!--      <el-image class="cover-image pa eli-ofc cp wh100" :src="video.coverImage"/>-->
       <div v-if="!playVideo" class="cover-image">
@@ -31,7 +31,7 @@
     <div class="video-info">
       <p v-html="video.videoTitle" class="video-title two-line fs8"></p>
       <div class="video-author one-line flex-between">
-        <span v-if="video.userNickName" class="fs7">@{{ video.userNickName }}</span>
+        <span v-if="video.userNickName" class="fs7 cp text-hv-gold">@{{ video.userNickName }}</span>
         <span class="cg fs7">发布于 · {{ smartDateFormat(video.createTime) }}</span>
       </div>
     </div>
@@ -117,7 +117,7 @@ export default {
     }
 
     .video-author {
-
+      margin-top: .5rem;
     }
   }
 
@@ -145,6 +145,13 @@ export default {
     height: 160px;
   }
 }
+
+/*@media (max-width: 1440px) {
+  .video-card {
+    width: 25%;
+    height: 160px;
+  }
+}*/
 
 :deep(.d-player-wrap .d-player-control) {
   height: 10px !important;

@@ -161,6 +161,7 @@ export default {
 .round {
   display: inline-block;
   width: 36px;
+  text-align: center;
   height: 36px;
   line-height: 36px;
 }

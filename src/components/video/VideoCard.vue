@@ -141,10 +141,10 @@ export default {
 }
 
 /*移动端适配*/
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .video-card {
     width: 49%;
-    height: 160px;
+    height: 200px;
   }
 }
 
