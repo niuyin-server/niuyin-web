@@ -474,7 +474,7 @@
 
               </el-tab-pane>
             </el-tabs>
-            <div class="video-more-close cp flex-center" @click="showUserVideoMore = false">
+            <div class="video-more-close cp flex-center" @click="handleCloseMorePostDialog">
               <Close style="width: 1rem; height: 1rem"/>
             </div>
           </div>
@@ -1017,6 +1017,15 @@ export default {
           }
         }
       })
+    },
+    // 关闭展开侧边栏
+    handleCloseMorePostDialog() {
+      this.showUserVideoMore = false
+      this.videoUserPageDTO.pageNum = 1
+      this.userPostList = []
+      this.userPostTotal = 0
+      this.loadingMoreUserPost = false
+      this.UserPostNotMore = false
     },
     handleTabUserVideoMoreClick() {
       console.log(this.tabActiveId)
