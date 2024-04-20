@@ -281,7 +281,6 @@ import {Check, Close, QuestionFilled, School, Search, UserFilled} from "@element
 import {
   regionData,
 } from "element-china-area-data";
-import {tokenX} from "@/store/tokenX";
 import {userInfoX} from "@/store/userInfoX";
 import {getToken} from "@/utils/auth.js";
 

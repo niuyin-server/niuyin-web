@@ -31,8 +31,8 @@ import VueAMap, {initAMapApiLoader} from "@vuemap/vue-amap";
 import "@vuemap/vue-amap/dist/style.css";
 
 initAMapApiLoader({
-    key: '1',
-    securityJsCode: '2',
+    key: '1***',
+    securityJsCode: '2***',
     plugins: [
         'AMap.Geocoder',
     ]
