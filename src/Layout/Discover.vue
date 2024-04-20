@@ -139,6 +139,11 @@ export default {
         if (res.code === 200) {
           this.videoList = res.data
           this.loading = false
+          pushVideo().then(res => {
+            if (res.code === 200) {
+              this.videoList = this.videoList.concat(res.data)
+            }
+          })
         }
       })
     },
