@@ -16,11 +16,11 @@
                 @keyup.enter.native="searchConfirm"
                 clearable>
             </el-input>
-            <el-button class="search-btn fw600 tcm" type="info" plain @click="searchConfirm">
-              <svg class="icon mr-5r" aria-hidden="true">
+            <el-button class="search-btn fw600 tcm flex-center" type="info" plain @click="searchConfirm">
+              <svg class="icon flex-center" aria-hidden="true">
                 <use xlink:href="#icon-search"></use>
               </svg>
-              <span>搜索</span>
+              <span class="ml-5r dn-phone">搜索</span>
             </el-button>
           </div>
         </template>

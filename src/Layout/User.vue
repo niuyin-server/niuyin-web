@@ -3,10 +3,10 @@
     <el-scrollbar class="scrollbar">
       <!--      用户信息区域-->
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
-        <div v-viewer class="avatar-area dn-phone">
+        <div v-viewer class="avatar-area">
           <el-avatar v-if="user.avatar" class="user-avatar pr" :src="user.avatar"/>
           <el-avatar v-else class="user-avatar pr" :icon="UserFilled"/>
-          <div class="image-dot"></div>
+          <div class="image-dot dn-phone"></div>
         </div>
         <div class="user-info">
           <div class="username"><h1>{{ user.nickName }}</h1></div>
@@ -24,7 +24,7 @@
               <div class="fw600">{{ likeAllNum }}</div>
             </div>
           </div>
-          <div class="user-profile mtb5">
+          <div class="user-profile mtb5 dn-phone">
             <span class="userid">牛音ID：{{ user.userId }}</span>
             <span class="gender-age">
               <svg v-if="user.sex==='1'" class="icon1rem" aria-hidden="true">
@@ -64,8 +64,8 @@
             </div>
           </div>
           <div class="user-edit">
-            <el-button @click="handleEditProfile" type="primary">编辑资料</el-button>
-            <el-button @click="handleEditInfo" type="primary">详细信息</el-button>
+            <el-button class="user-edit-btn" @click="handleEditProfile" type="primary">编辑资料</el-button>
+            <el-button class="user-edit-btn" @click="handleEditInfo" type="primary">详细信息</el-button>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
           </el-tabs>
           <div v-if="activeName==='/user/videoPost'" class="pa flex-center"
                style="height: 40px;top: 0;right: 0px;z-index: 200">
-            <div class="" style="padding: 5px 0">
+            <div class="dn-phone" style="padding: 5px 0">
               <el-input
                   class="search-input fs8"
                   style="height: 30px"

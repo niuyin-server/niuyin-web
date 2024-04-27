@@ -10,10 +10,10 @@
           <img v-if="item.coverImage" class="wh100 b-radius1" :src="item.coverImage" :alt="item.title"/>
           <img v-else class="wh100 b-radius1" src="@/assets/logo/logo-niuyin-new.png" :alt="item.title"/>
         </div>
-        <div style="margin-left: 10px">
-          <h5 class="title">{{ item.title }}</h5>
+        <div class="video-compilation-right" style="margin-left: 10px">
+          <h5 class="title one-line">{{ item.title }}</h5>
           <div class="mtb5">
-            <span class="fs7 cg two-line">{{ item.description }}</span>
+            <span class="desc fs7 cg two-line">{{ item.description }}</span>
           </div>
         </div>
       </div>
@@ -240,7 +240,7 @@ export default {
   align-items: center;
   overflow-x: scroll;
   margin: .5rem 0;
-  height: calc(80px + 2rem);
+  /*height: calc(80px + 2rem);*/
 
   .video-compilation-item {
     width: 20%;
@@ -273,5 +273,26 @@ export default {
 
 }
 
+@media (max-width: 768px) {
+  .video-compilation-list{
+    .video-compilation-right{
+      margin-left: 0 !important;
+    }
+    .title{
+      /* 一行显示 */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+    }
+    .desc{
+      /* 一行显示 */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+    }
+  }
+}
 
 </style>

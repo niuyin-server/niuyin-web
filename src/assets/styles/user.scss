@@ -24,9 +24,9 @@
 
     .user-avatar {
       width: 112px;
+      height: 112px;
       border-radius: 50%;
       cursor: pointer;
-      height: 112px;
     }
   }
 
@@ -232,7 +232,28 @@
 }
 
 @media (max-width: 768px) {
+  .avatar-area {
+    width: 56px !important;
 
+    .user-avatar {
+      width: 56px !important;
+      height: 56px !important;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+  .user-edit {
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+
+    .user-edit-btn {
+      height: fit-content !important;
+      font-size: .8rem;
+      padding: 5px 10px !important;
+      border-radius: .3rem !important;
+    }
+  }
 }
 
 @media (max-width: 500px) {

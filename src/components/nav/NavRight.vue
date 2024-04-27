@@ -1,6 +1,6 @@
 <template>
   <div class="nav-right">
-    <div class="flex-center dn-phone">
+    <div class="flex-center ">
       <!--通知-->
       <el-popover :width="320" ref="noticePopover">
         <template #reference>
@@ -25,7 +25,7 @@
         </template>
       </el-popover>
       <!--消息 -->
-      <router-link class="link-type cp" :to="'/message'">
+      <router-link class="link-type cp dn-phone" :to="'/message'">
         <div class="flex-column icon-click cg plr10px">
           <div style="height: 20px;width: 20px;">
             <svg class="icon" aria-hidden="true">
@@ -84,7 +84,7 @@
             </div>
           </div>
           <div class="userinfo-center">
-            <div class="flex-between dn-phone">
+            <div class="flex-between">
               <!-- 我的作品 -->
               <router-link class="link-type flex-center" :to="item.url" v-for="item in userPostInfo">
                 <div class="flex-center icon-click cg cp"
