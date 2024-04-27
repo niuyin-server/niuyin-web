@@ -38,7 +38,7 @@
         </div>
       </router-link>
       <!--发布视频-->
-      <router-link class="link-type cp" :to="'/publish'">
+      <router-link class="link-type cp" to="" @click.native="openTargetLink('http://106.14.105.101:5273')">
         <div class="flex-column icon-click cg plr10px">
           <div style="height: 20px;width: 20px;">
             <svg class="icon" aria-hidden="true">
@@ -263,6 +263,9 @@ export default {
     // 接收子事件
     emitNoticeRefresh() {
       this.initNotice()
+    },
+    openTargetLink(link){
+      window.open(link, "_blank")
     }
   }
 }

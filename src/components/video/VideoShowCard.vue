@@ -66,7 +66,7 @@ export default {
       this.playVideo = false
     },
     formatDuration(videoInfo) {
-      if (videoInfo == null || videoInfo == "") {
+      if (videoInfo == null || videoInfo == "" || videoInfo == undefined) {
         return
       }
       const info = JSON.parse(videoInfo);
@@ -80,10 +80,6 @@ export default {
       }
 
       return formattedDuration;
-      // const info = JSON.parse(videoInfo);
-      // const durationInSeconds = info.duration;
-      // const formattedDuration = new Date(durationInSeconds).toISOString().substr(11, 8);
-      // return formattedDuration;
     }
   },
 }
