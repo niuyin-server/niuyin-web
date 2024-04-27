@@ -59,11 +59,9 @@ export default {
     }
   },
   created() {
-    // this.getDivHeight()
   },
   mounted() {
     this.$nextTick(() => {
-      this.getDivHeight();
     });
   },
   methods: {
@@ -93,10 +91,6 @@ export default {
 
       return formattedDuration;
     },
-    getDivHeight() {
-      // const coverImageHeight = this.$refs.coverImage.clientHeight;
-      // console.log('Cover Image Height:', coverImageHeight);
-    }
   },
 }
 </script>

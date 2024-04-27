@@ -17,8 +17,8 @@
             <marquee class="one-line cg fs7">{{ item.videoDesc }}</marquee>
           </div>
           <div class="cp">
-            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>
-            <el-avatar v-else :icon="UserFilled"/>
+            <!--            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
+            <!--            <el-avatar v-else :icon="UserFilled"/>-->
           </div>
         </div>
       </el-card>
@@ -37,7 +37,6 @@
   </div>
   <el-dialog v-model="dialogVisible"
              @close="dialogDestroy"
-             style="height: calc(100% - 10vh);"
              width="80%"
              :show-close="false">
     <template #header="{ close, titleId, titleClass }">
@@ -75,7 +74,7 @@ export default {
       videoQueryParams: {
         categoryId: undefined,
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 15,
       },
       videoList: [],
       videoTotal: undefined,
@@ -125,10 +124,14 @@ export default {
 .video-card {
   width: 19%;
   border-radius: 1rem;
-  height: 400px;
+  height: 200px;
   background-color: rgba(242, 242, 243, 0.8);
   margin-bottom: 1rem;
   box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
+}
+
+.dialog-video {
+  height: 60vh;
 }
 
 @media (max-width: 500px) {
