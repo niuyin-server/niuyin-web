@@ -47,6 +47,10 @@ export default {
   right: 8%;
 }
 
+:deep(.el-carousel__container) {
+  height: 100% !important;
+}
+
 .video-cover {
   filter: blur(60px);
   opacity: 0.8;

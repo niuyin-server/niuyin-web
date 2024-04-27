@@ -3,8 +3,8 @@
     <div class="video-cover-image wh100"
          @mouseover="handleMouseover" @mouseleave="handleMouseleave">
       <!--      <el-image class="cover-image pa eli-ofc cp wh100" :src="video.coverImage"/>-->
-      <div v-if="!playVideo" class="cover-image">
-        <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
+      <div v-if="!playVideo" class="cover-image" ref="coverImage">
+        <el-image class="eli-ofc cp" :src="video.coverImage"/>
         <div class="video-like  flex-center">
           <svg class="icon1rem" aria-hidden="true">
             <use xlink:href="#icon-like-num"></use>
@@ -23,7 +23,8 @@
       </div>
       <div v-if="playVideo" class="background-custom">
         <!--            图文轮播-->
-        <ImagePlayer v-if="video.publishType==='1'" :image-list="video.imageList"/>
+        <ImagePlayer v-if="video.publishType==='1'" class="imagePlayer wh100"
+                     :style="{ height: imagePlayerHeight + 'px' }" :image-list="video.imageList"/>
         <!--            视频-->
         <VideoPlayer v-if="video.publishType==='0'"
                      class="videoPlayer wh100"
@@ -54,13 +55,24 @@ export default {
   data() {
     return {
       playVideo: false,
+      imagePlayerHeight: 0,
     }
   },
   created() {
+    // this.getDivHeight()
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.getDivHeight();
+    });
   },
   methods: {
     handleMouseover() {
       this.playVideo = true
+      if (this.video.publishType === '1') {
+        const coverImageHeight = this.$refs.coverImage.clientHeight;
+        this.imagePlayerHeight = coverImageHeight;
+      }
     },
     handleMouseleave() {
       this.playVideo = false
@@ -80,6 +92,10 @@ export default {
       }
 
       return formattedDuration;
+    },
+    getDivHeight() {
+      // const coverImageHeight = this.$refs.coverImage.clientHeight;
+      // console.log('Cover Image Height:', coverImageHeight);
     }
   },
 }
@@ -97,7 +113,6 @@ export default {
   }
 
   .video-cover-image {
-    width: auto;
     object-fit: contain;
     overflow: hidden;
     border-radius: 1rem 1rem 0 0;
@@ -135,7 +150,7 @@ export default {
   }
 
   .video-info {
-    width: auto;
+    width: 100%;
     padding: 10px;
     display: flex;
     flex-flow: column;
