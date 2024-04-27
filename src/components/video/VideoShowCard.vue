@@ -168,12 +168,12 @@ export default {
 }
 
 /*移动端适配*/
-@media (max-width: 500px) {
+/*@media (max-width: 500px) {
   .video-card {
     width: 49%;
     height: 160px;
   }
-}
+}*/
 
 /*@media (max-width: 1440px) {
   .video-card {
