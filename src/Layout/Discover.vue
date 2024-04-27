@@ -20,7 +20,7 @@
           <div class="hotVideo-list w100" style="height: auto">
             <div v-loading="loadingIcon"
                  :element-loading-svg="svg"
-                 class="hotVideos"
+                 class="hotVideos cp"
                  element-loading-svg-view-box="-10, -10, 50, 50"
                  v-masonry
                  fit-width="true"

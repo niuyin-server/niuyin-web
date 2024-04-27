@@ -30,6 +30,7 @@ export default {
   },
   created() {
     this.initTheme()
+    this.roydonLog()
   },
   mounted() {
     this.$nextTick(() => {
@@ -42,6 +43,26 @@ export default {
     })
   },
   methods: {
+    roydonLog() {
+      console.log(
+          "%croydon",
+          "background-color: gold ; color: pink ;text-shadow: 3px 1px 3px black ; font-weight: bolder ; border-radius: 10px;font-size: 30px ;padding: 10px 100px;"
+      );
+      console.log(
+          "%chttps://github.com/niuyin-server",
+          "background-color: pink ; color: white ; font-weight: bold ; border-radius: 6px;padding:5px 10px;" +
+          "font-size: 16px ; font-style: italic ; text-decoration: underline ; " +
+          "font-family: 'american typewriter' ; text-shadow: 1px 2px 3px black ;"
+      );
+      console.group(
+          "%cniuyin产品列表",
+          "background-color: #e0005a ; color: #ffffff ; font-weight: bold ; padding: 4px ;"
+      );
+      console.log("niuyin-web");
+      console.log("niuyin-creator");
+      console.log("niuyin-android");
+      console.groupEnd();
+    },
     initTheme() {
       const dark = themeX().dark
       if (dark) {

@@ -88,8 +88,9 @@
 <script>
 import {delNotice, noticePage} from "@/api/notice.js";
 import {InfoFilled, MoreFilled, UserFilled} from "@element-plus/icons-vue";
-import {videoMypage} from "@/api/video.js";
+import {userInfoX} from "@/store/userInfoX";
 
+let socket;
 export default {
   name: "Notice",
   components: {MoreFilled},
@@ -124,13 +125,49 @@ export default {
         {id: 7, label: "赞了评论", value: "5"},
       ],
       loadingNotice: false,
+      loginUser: userInfoX().userInfo,
     }
   },
   created() {
     this.getNoticeList()
+    this.initWebSocket()
   },
   emits: ['noticeRefreshEmit'],
   methods: {
+    initWebSocket() {
+      // this.user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {}
+      console.log(this.loginUser.userId);
+      let _this = this;
+      if (typeof (WebSocket) == "undefined") {
+        console.log("您的浏览器不支持WebSocket");
+      } else {
+        console.log("您的浏览器支持WebSocket");
+        // let socketUrl = "ws://127.0.0.1:8088/chat-server/" + username;
+        let socketUrl = import.meta.env.VITE_API_WS_URL + "/notice/websocket/" + this.loginUser.userId;
+        if (socket != null) {
+          socket.close();
+          socket = null;
+        }
+        // 开启一个websocket服务
+        socket = new WebSocket(socketUrl);
+        //打开事件
+        socket.onopen = function () {
+          console.log("websocket已打开");
+        };
+        //  浏览器端收消息，获得从服务端发送过来的文本消息
+        socket.onmessage = function (msg) {
+          console.log("收到数据====" + msg.data);
+        };
+        //关闭事件
+        socket.onclose = function () {
+          console.log("websocket已关闭");
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+          console.log("websocket发生了错误");
+        }
+      }
+    },
     // 分页获取通知
     getNoticeList() {
       this.loading = true

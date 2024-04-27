@@ -5,11 +5,14 @@
       <!--      <el-image class="cover-image pa eli-ofc cp wh100" :src="video.coverImage"/>-->
       <div v-if="!playVideo" class="cover-image">
         <el-image class="cover-image eli-ofc cp" :src="video.coverImage"/>
-        <div class="video-like">
+        <div class="video-like  flex-center">
           <svg class="icon1rem" aria-hidden="true">
             <use xlink:href="#icon-like-num"></use>
           </svg>
           <span class="ml-5r">{{ video.likeNum }}</span>
+        </div>
+        <div class="video-duration flex-center">
+          <span class="fs8 cw">{{ formatDuration(video.videoInfo) }}</span>
         </div>
         <div v-if="video.publishType==='1'" class="flex-center video-type-pics">
           <svg class="icon1rem ml5" aria-hidden="true">
@@ -62,6 +65,26 @@ export default {
     handleMouseleave() {
       this.playVideo = false
     },
+    formatDuration(videoInfo) {
+      if (videoInfo == null || videoInfo == "") {
+        return
+      }
+      const info = JSON.parse(videoInfo);
+      const durationInSeconds = info.duration;
+      let formattedDuration = '';
+
+      if (durationInSeconds >= 3600 * 1000) {
+        formattedDuration = new Date(durationInSeconds).toISOString().substr(11, 8);
+      } else {
+        formattedDuration = new Date(durationInSeconds).toISOString().substr(14, 5);
+      }
+
+      return formattedDuration;
+      // const info = JSON.parse(videoInfo);
+      // const durationInSeconds = info.duration;
+      // const formattedDuration = new Date(durationInSeconds).toISOString().substr(11, 8);
+      // return formattedDuration;
+    }
   },
 }
 </script>
@@ -99,9 +122,19 @@ export default {
 
     .video-like {
       position: absolute;
-      bottom: 3%;
+      bottom: .5rem;
       color: white;
-      left: 5%;
+      left: .5rem;
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: .5rem;
+      color: white;
+      right: .5rem;
+      background-color: rgba(51, 51, 51, 0.57);
+      border-radius: .4rem;
+      padding: 3px 6px;
     }
   }
 

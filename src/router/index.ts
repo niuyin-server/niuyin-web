@@ -51,6 +51,8 @@ const router = createRouter({
                     //     {path: "/person/:userId/videoPost", component: () => import("@/Layout/person/VideoPost.vue")},
                     // ]
                 },
+                {path: "cooperation", component: () => import("@/Layout/Cooperation.vue")},
+                {path: "niuyinGithub", component: () => import("@/Layout/NiuyinGithub.vue")},
             ],
         },
         {
