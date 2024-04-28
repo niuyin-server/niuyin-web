@@ -19,6 +19,7 @@
 <script>
 // vue3视频播放器
 import videoPlay from 'vue3-video-play/lib/index' // 引入组件
+import {syncViewBehave} from "@/api/behave.js"
 
 export default {
   name: "VideoPlayer",
@@ -60,11 +61,15 @@ export default {
       },
       videoPlay: false,
       videoDuration: "00:00",
+      timer: null,
+      videoCountdown: 60, // 秒
     }
   },
   emits: ['videoDuration', 'videoOnPlay', 'videoOnPause'],
   created() {
     // console.log(this.video)
+  },
+  mounted() {
   },
   watch: {
     video(newVideo) {
@@ -74,9 +79,12 @@ export default {
   },
   methods: {
     onPlay(ev) {
-      // console.log('播放')
+      console.log('播放 play ' + this.video.videoId)
       this.videoPlay = true
       this.$emit("videoOnPlay", this.video.videoId)
+      this.timer = setTimeout(() => {
+        this.apiSyncViewBehave()
+      }, this.videoCountdown * 1000);
     },
     onPause(ev) {
       // console.log('暂停')
@@ -88,18 +96,27 @@ export default {
       console.log('end')
     },
     onTimeupdate(ev) {
-      // console.log(ev.target.duration)
       this.videoDuration = ev.target.duration
-      // console.log(this.videoDuration)
+      this.videoCountdown = this.videoDuration / 3 // 视频时长的1/3
+      console.log(this.videoDuration + " -> " + this.videoCountdown)
+      console.log()
       this.$emit("videoDuration", this.videoDuration)
       // console.log(ev.target.currentTime)
     },
     onCanplay(ev) {
       // console.log(ev, '可以播放')
     },
+    apiSyncViewBehave() {
+      syncViewBehave(this.video.videoId).then(res => {
+        if (res.code === 200) {
+
+        }
+      })
+    }
   },
   beforeDestroy() {
     console.log("beforeDestroy")
+    clearInterval(this.timer);
   },
 }
 

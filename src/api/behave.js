@@ -171,3 +171,11 @@ export function deleteFavorite(favoriteId) {
         method: 'DELETE',
     })
 }
+
+// 同步视频观看行为埋点
+export function syncViewBehave(videoId) {
+    return request({
+        url: '/behave/api/v1/userVideoBehave/syncViewBehave/' + videoId,
+        method: 'get',
+    })
+}

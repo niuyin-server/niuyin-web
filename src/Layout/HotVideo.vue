@@ -133,7 +133,6 @@
       </div>
       <el-dialog v-model="dialogVisible"
                  @close="dialogDestroy"
-                 style="height: calc(100% - 10vh);"
                  width="80%"
                  :show-close="false">
         <template #header="{ close, titleId, titleClass }">
@@ -142,7 +141,7 @@
           </el-button>
         </template>
         <video class="dialog-video"
-               style="width: 100%;max-height: 100%;border-radius: 1rem"
+               style="width: 100%;max-height: 100%;height: 60vh; border-radius: 1rem"
                autoplay
                :src="video.videoUrl"
                controls/>
