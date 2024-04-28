@@ -141,7 +141,7 @@
           </el-button>
         </template>
         <video class="dialog-video"
-               style="width: 100%;max-height: 100%;height: 60vh; border-radius: 1rem"
+               style="width: 100%;max-height: 100vh;height: 60vh; border-radius: 1rem"
                autoplay
                :src="video.videoUrl"
                controls/>
