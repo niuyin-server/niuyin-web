@@ -84,9 +84,9 @@
 
       .gender-age {
         align-items: center;
-        background: #f2f2f4;
+        background: var(--bg_secondly_mask);
         border-radius: 4px;
-        color: rgba(22, 24, 35, .75);
+        color: var(--color-text-t2);
         display: flex;
         font-size: 12px;
         height: 20px;
@@ -97,9 +97,9 @@
 
       .city {
         align-items: center;
-        background: #f2f2f4;
+        background: var(--bg_secondly_mask);
         border-radius: 4px;
-        color: rgba(22, 24, 35, .75);
+        color: var(--color-text-t2);
         display: flex;
         font-size: 12px;
         height: 20px;
@@ -110,9 +110,9 @@
 
       .school {
         align-items: center;
-        background: #f2f2f4;
+        background: var(--bg_secondly_mask);
         border-radius: 4px;
-        color: rgba(22, 24, 35, .75);
+        color: var(--color-text-t2);
         display: flex;
         font-size: 12px;
         height: 20px;
@@ -122,6 +122,10 @@
       }
     }
   }
+}
+
+.avatar-uploader-icon {
+  height: 200px;
 }
 
 .user-op {

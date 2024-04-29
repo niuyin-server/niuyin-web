@@ -147,7 +147,7 @@ export default {
   mounted() {
     this.loadSearchVideo()
     this.loadVideoSearchSuggest()
-    this.hintContainerScrollToTop()
+    // this.hintContainerScrollToTop()
   },
   watch: {
     $route(to, from) {
@@ -173,13 +173,13 @@ export default {
         }
       })
     },
-    hintContainerScrollToTop() {
-      this.$nextTick(() => {
-        const divElement = this.$refs.searchContainer;
-        // console.log(divElement.scrollTop)
-        divElement.scrollTop = 0;
-      });
-    },
+    // hintContainerScrollToTop() {
+    //   this.$nextTick(() => {
+    //     const divElement = this.$refs.searchContainer;
+    //     // console.log(divElement.scrollTop)
+    //     divElement.scrollTop = 0;
+    //   });
+    // },
     loadVideoSearchSuggest() {
       const params = {
         "keyword": this.searchFrom.keyword
@@ -244,13 +244,12 @@ export default {
   max-width: 1500px;
 
   .search-left {
-
+    z-index: 9999;
 
     .search-select {
       position: sticky;
       top: 0;
       z-index: 10;
-      background-color: var(--niuyin-bg-color);
     }
   }
 
@@ -303,5 +302,9 @@ export default {
 
 :deep(.el-tabs__item) {
   font-size: 1rem;
+}
+
+:deep(.bg-mask) {
+  background: none !important;
 }
 </style>

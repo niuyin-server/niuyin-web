@@ -97,7 +97,7 @@ export default {
 
 <style scoped>
 .video-card {
-  background-color: var(--el-bg-color-page);
+  background-color: var(--bg-video-card);
   border-radius: 1rem;
   display: flex;
   overflow: hidden;

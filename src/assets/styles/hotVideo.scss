@@ -1,6 +1,6 @@
 .hot-container {
-  border-radius: 1rem;
-  padding-right: 1rem;
+  //border-radius: 1rem;
+  //padding-right: 1rem;
 }
 
 .loading-container {
@@ -18,7 +18,7 @@
 }
 
 .hotVideo-item {
-  width: 20%;
+  width: 16.66666%;
   padding: 0 8px;
   margin-bottom: 10px;
 
@@ -26,6 +26,7 @@
     display: flex;
     border-radius: 1rem;
     overflow: hidden;
+    background-color: var(--bg-video-card);
 
     .user-info {
       height: 20%;

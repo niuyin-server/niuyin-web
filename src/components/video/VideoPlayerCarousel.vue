@@ -1,5 +1,5 @@
 <template>
-  <div class="wh100 pr flex-between"
+  <div class="video-carousel-container wh100 pr flex-between"
        v-loading="loading"
        :element-loading-svg="svg"
        element-loading-svg-view-box="-10, -10, 50, 50">
@@ -1058,6 +1058,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.video-carousel-container {
+  padding-bottom: 1rem;
+}
+
 .video-player {
   width: 95%;
   border-radius: 1rem;

@@ -1,19 +1,19 @@
 <template>
   <!--  视频播放-->
-    <VideoPlayerCarousel
-        v-if="showVideoPlayer"
-        :loading="loading"
-        :video-list="videoList"
-        @reloadVideoFeed="reloadVideoFeedEmit"/>
-<!--  <div v-loading="loading"-->
-<!--       class="wh100"-->
-<!--       :element-loading-svg="svg"-->
-<!--       element-loading-svg-view-box="-10, -10, 50, 50">-->
-<!--    <VideoPlayerSwiper v-if="showVideoPlayer"-->
-<!--                       :loading="loading"-->
-<!--                       :video-list="videoList"-->
-<!--                       @reloadVideoFeed="reloadVideoFeedEmit"/>-->
-<!--  </div>-->
+  <VideoPlayerCarousel
+      v-if="showVideoPlayer"
+      :loading="loading"
+      :video-list="videoList"
+      @reloadVideoFeed="reloadVideoFeedEmit"/>
+  <!--  <div v-loading="loading"-->
+  <!--       class="wh100"-->
+  <!--       :element-loading-svg="svg"-->
+  <!--       element-loading-svg-view-box="-10, -10, 50, 50">-->
+  <!--    <VideoPlayerSwiper v-if="showVideoPlayer"-->
+  <!--                       :loading="loading"-->
+  <!--                       :video-list="videoList"-->
+  <!--                       @reloadVideoFeed="reloadVideoFeedEmit"/>-->
+  <!--  </div>-->
 </template>
 
 <script>

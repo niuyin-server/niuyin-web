@@ -331,9 +331,31 @@ export default {
 .comment-input-area {
   width: 100%;
   position: absolute;
-  bottom: 0;
+  bottom: 1rem;
   left: 0;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  :deep(.el-input__wrapper) {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: .8rem;
+  }
+
+  :deep(.el-input__inner) {
+    color: white !important;
+  }
+
+  :deep(.el-input__count-inner) {
+    color: #fff;
+  }
+
+  :deep(.el-input-group__append, .el-input-group__prepend) {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: var(--el-component-size);
+  }
 }
+
 
 .operate-icon {
   transition: all 0.3s linear, width 0.3s linear;

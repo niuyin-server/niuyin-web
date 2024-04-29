@@ -434,7 +434,8 @@ a {
 }
 
 .el-main {
-  padding: 0 0 1rem 0;
+  padding: 0;
+  z-index: 1;
 }
 
 .el-upload {
@@ -464,7 +465,8 @@ a {
 
 /*el抽屉drawer*/
 .el-drawer {
-  --el-drawer-bg-color: rgba(0, 0, 0, 0.95);
+  --el-drawer-bg-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
 }
 
 /*el卡片card*/
@@ -523,7 +525,7 @@ a {
 
 .router-is-focus .tab-item {
   backdrop-filter: blur(10px);
-  background-color: var(--niuyin-custom-bg5);
+  background-color: var(--bg-aside-a);
   font-weight: 900;
 }
 
@@ -717,6 +719,7 @@ div,
 
   // 滚动条整体部分
   &::-webkit-scrollbar {
+    z-index: 10;
     cursor: pointer;
     overflow: hidden;
     width: 5px;
@@ -745,6 +748,12 @@ div,
     display: none;
   }
 }
+
+//*{
+//  scrollbar-color: #f2f2f4 transparent;
+//  scrollbar-color: rgb(64 64 180 / 74%) transparent;
+//  scrollbar-width: thin;
+//}
 
 .grid-3-1 {
   display: grid;

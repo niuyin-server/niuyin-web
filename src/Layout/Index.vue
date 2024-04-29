@@ -1,6 +1,7 @@
 <template>
   <!--  首页-->
   <div :class="niuyinTheme">
+    <div class="bg-mask"></div>
     <el-container class="layout-container" style="height: 100vh">
       <Aside :siteTitle="siteTitle"></Aside>
       <el-container class="is-vertical">
@@ -92,17 +93,25 @@ $dark-bg-image: "@/assets/background/theme-dark.jpg";
 
 
 .niuyin-light {
-  background-image: url($light-bg-image);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  //background-image: url($light-bg-image);
+  //background-position: center;
+  //background-repeat: no-repeat;
+  //background-size: cover;
 }
 
 .niuyin-dark {
-  background-image: url($dark-bg-image);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  //background-image: url($dark-bg-image);
+  //background-position: center;
+  //background-repeat: no-repeat;
+  //background-size: cover;
+}
+
+.bg-mask {
+  width: 100vw;
+  height: 100vh;
+  background: #f9f9fa;
+  background: no-repeat var(--global-bg-img) var(--color-bg-b0);
+  position: fixed;
 }
 
 .el-footer {

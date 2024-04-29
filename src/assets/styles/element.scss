@@ -30,6 +30,12 @@ html.dark {
   --niuyin-online-color: #78ce27;
   --niuyin-gray-bg: rgba(95, 95, 164, 0.8);
 
+  --color-bg-b0: #161823;
+  --global-bg-img: url(https://p-pc-weboff.byteimg.com/tos-cn-i-9r5gewecjs/test.png);
+  --bg-aside-a: #f2f2f414;
+  --bg-video-card: #252632;
+  --color-text-t2: #ffffffbf;
+
 }
 
 :root {
@@ -73,21 +79,28 @@ html.dark {
   --el-text-color-disabled: rgba(192, 196, 204, 0.3); // el-avatar
   --el-text-color-regular: #000000;
 
-  --el-font-size-base: 16px;
+  --el-font-size-base: 14px;
+  --bg_secondly_mask: #f2f2f414;
+
+  --color-bg-b0: #f9f9fa;
+  --global-bg-img: url(https://p-pc-weboff.byteimg.com/tos-cn-i-9r5gewecjs/test.png);
+  --bg-aside-a: #25263214;
+  --bg-video-card: #fff;
+  --color-text-t2: #000000bf;
 }
 
 /*空状态颜色填充*/
 .el-empty {
-  --el-empty-fill-color-0: #f4f3f3;
-  --el-empty-fill-color-1: #7294d8;
-  --el-empty-fill-color-2: #bec8dc;
-  --el-empty-fill-color-3: #757d9f;
-  --el-empty-fill-color-4: #8e9dd9;
-  --el-empty-fill-color-5: #e5d3db;
-  --el-empty-fill-color-6: #98a1b2;
-  --el-empty-fill-color-7: #d1b8be;
-  --el-empty-fill-color-8: #a4b3d2;
-  --el-empty-fill-color-9: #7280b1;
+  --el-empty-fill-color-0: rgba(244, 243, 243, 0.53);
+  --el-empty-fill-color-1: rgba(114, 148, 216, 0.76);
+  --el-empty-fill-color-2: rgba(190, 200, 220, 0.52);
+  --el-empty-fill-color-3: rgba(117, 125, 159, 0.84);
+  --el-empty-fill-color-4: rgba(142, 157, 217, 0.68);
+  --el-empty-fill-color-5: rgba(229, 211, 219, 0.29);
+  --el-empty-fill-color-6: rgba(152, 161, 178, 0.83);
+  --el-empty-fill-color-7: rgba(209, 184, 190, 0.47);
+  --el-empty-fill-color-8: rgba(164, 179, 210, 0.75);
+  --el-empty-fill-color-9: rgba(114, 128, 177, 0.51);
 }
 
 .el-checkbox__inner {
@@ -137,7 +150,6 @@ html.dark {
   top: 0;
   z-index: 100;
   margin-bottom: 10px;
-  background: var(--niuyin-bg-color);
 
   .el-tabs__header {
     z-index: 99;
