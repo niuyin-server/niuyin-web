@@ -293,3 +293,29 @@ html.dark {
 .el-carousel {
   --el-carousel-arrow-background: rgba(40, 50, 70, 0.2)
 }
+
+// message弹窗
+.el-message {
+  backdrop-filter: blur(10px);
+  border-radius: .8rem;
+  padding: .8rem 1.2rem;
+}
+
+.el-message--warning {
+  --el-message-bg-color: rgba(251, 225, 189, 0.4);
+  --el-message-border-color: rgba(251, 225, 189, 0.1);
+}
+
+.el-message--error {
+  --el-message-bg-color: rgba(248, 196, 196, 0.4);
+  --el-message-border-color: rgba(248, 196, 196, 0.1);
+}
+
+.el-message--info {
+  --el-message-text-color: var(--niuyin-text-color);
+}
+
+.el-message--success {
+  --el-message-bg-color: rgba(225, 243, 216, 0.4);
+  --el-message-border-color: rgba(225, 243, 216, 0.1);
+}

@@ -6,6 +6,8 @@
       <el-popover popper-class="search-popover"
                   :width="480"
                   trigger="hover"
+                  :offset="10"
+                  :show-arrow="false"
                   popper-style="padding: 20px;">
         <template #reference>
           <div class="flex-center wh100">

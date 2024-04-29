@@ -3,7 +3,7 @@
   <el-aside class="niuyin-aside">
     <!-- logo -->
     <div class="oh w100"
-         style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 100;">
+         style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 1;">
       <router-link class="link-type flex-center wh100"
                    :to="'/index'"
                    tag="div">

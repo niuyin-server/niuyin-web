@@ -1,14 +1,26 @@
 <template>
   <div class="nav-right">
-    <div class="flex-center ">
+    <div class="flex-center">
+      <!--移动端 -->
+      <router-link class="link-type cp dn-phone" :to="'/niuyinGithub'">
+        <div class="link-div icon-click cg plr10px">
+          <div style="height: 20px;width: 20px;">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-lightning"></use>
+            </svg>
+          </div>
+          <p>
+            <span class="cg fs7">移动端</span>
+          </p>
+        </div>
+      </router-link>
       <!--通知-->
-      <el-popover :width="320" ref="noticePopover">
+      <el-popover :width="360" ref="noticePopover">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
-            <!--          <div class="link-type cp" >-->
-            <div class="flex-column icon-click cg plr10px">
+            <div class="link-div icon-click cg plr10px">
               <el-badge :value="noticeCount" class="item">
-                <div s tyle="height: 20px; justify-content: center; width: 20px;">
+                <div style="height: 20px; justify-content: center; width: 20px;">
                   <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-notice"></use>
                   </svg>
@@ -26,7 +38,7 @@
       </el-popover>
       <!--消息 -->
       <router-link class="link-type cp dn-phone" :to="'/message'">
-        <div class="flex-column icon-click cg plr10px">
+        <div class="link-div icon-click cg plr10px">
           <div style="height: 20px;width: 20px;">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-message"></use>
@@ -39,7 +51,7 @@
       </router-link>
       <!--发布视频-->
       <router-link class="link-type cp" to="" @click.native="openTargetLink('http://106.14.105.101:5273')">
-        <div class="flex-column icon-click cg plr10px">
+        <div class="link-div icon-click cg plr10px">
           <div style="height: 20px;width: 20px;">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-upload"></use>
@@ -264,7 +276,7 @@ export default {
     emitNoticeRefresh() {
       this.initNotice()
     },
-    openTargetLink(link){
+    openTargetLink(link) {
       window.open(link, "_blank")
     }
   }
@@ -272,4 +284,10 @@ export default {
 </script>
 
 <style scoped>
+.link-div {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
 </style>
