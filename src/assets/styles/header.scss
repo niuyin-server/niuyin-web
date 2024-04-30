@@ -20,6 +20,10 @@
       border-radius: 1rem;
       border: 2px solid var(--niuyin-text-color);
 
+      &:hover {
+        border: 2px solid var(--niuyin-primary-color);
+      }
+
       .search-input {
         flex: 1;
         height: 40px;
@@ -51,17 +55,18 @@
   }
 
 }
+
 /*搜索框弹出层*/
 .search-pop {
-    .search-hover-item {
-      line-height: 1.8;
-      border-radius: 6px;
-      transition: all .3s ease-in;
+  .search-hover-item {
+    line-height: 1.8;
+    border-radius: 6px;
+    transition: all .3s ease-in;
 
-      &:hover {
-        background-color: rgba(211, 211, 211, 0.5)
-      }
+    &:hover {
+      background-color: rgba(211, 211, 211, 0.5)
     }
+  }
 }
 
 .user-container {

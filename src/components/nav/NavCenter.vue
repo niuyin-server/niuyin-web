@@ -202,4 +202,23 @@ export default {
 </script>
 
 <style scoped>
+.nav-center-search:hover {
+  border: 2px solid var(--niuyin-primary-color);
+}
+
+:deep(.el-input__wrapper.is-focus) {
+  box-shadow: none;
+}
+
+:deep(.el-button) {
+  border: none !important;
+  background-color: var(--bg-video-card)
+}
+
+:deep(.el-button:hover) {
+  /* color: var(--el-button-hover-text-color); */
+  color: var(--niuyin-text-color) !important;
+  background-color: var(--niuyin-primary-color);
+  outline: 0;
+}
 </style>

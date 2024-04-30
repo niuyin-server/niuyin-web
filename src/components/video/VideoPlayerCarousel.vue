@@ -38,14 +38,16 @@
             <!--          视频简介区域-->
             <div class="videoinfo-area">
               <!--              定位信息-->
-              <div v-if="item.positionFlag==='1'" class="video-position mtb5 flex-center">
-                <svg class="icon mr5px" aria-hidden="true">
-                  <use xlink:href="#icon-position"></use>
-                </svg>
-                <span v-if="item.position.city" class="position-city fs9">{{ item.position.city }}</span>
-                <span v-else class="position-city fs9">{{ item.position.province }}</span>
-                <span class="position-dist fs9">{{ item.position.district }}</span>
-                <span class="position-add fs9">{{ parseAddress(item.position) }}</span>
+              <div v-if="item.positionFlag==='1'">
+                <div v-if="item.position!=null" class="video-position mtb5 flex-center">
+                  <svg class="icon mr5px" aria-hidden="true">
+                    <use xlink:href="#icon-position"></use>
+                  </svg>
+                  <span v-if="item.position.city!==null" class="position-city fs9">{{ item.position.city }}</span>
+                  <span v-else class="position-city fs9">{{ item.position.province }}</span>
+                  <span class="position-dist fs9">{{ item.position.district }}</span>
+                  <span class="position-add fs9">{{ parseAddress(item.position) }}</span>
+                </div>
               </div>
               <!--              视频信息-->
               <div class="video-title one-line cw fs125 fw600">
@@ -319,14 +321,16 @@
           <!--          视频简介区域-->
           <div class="videoinfo-area">
             <!--              定位信息-->
-            <div v-if="dialogVideo.positionFlag==='1'&& dialogVideo.position" class="video-position mtb5 flex-center">
-              <svg class="icon mr5px" aria-hidden="true">
-                <use xlink:href="#icon-position"></use>
-              </svg>
-              <span v-if="dialogVideo.position.city" class="position-city fs9">{{ dialogVideo.position.city }}</span>
-              <span v-else class="position-city fs9">{{ dialogVideo.position.province }}</span>
-              <span class="position-dist fs9">{{ dialogVideo.position.district }}</span>
-              <span class="position-add fs9">{{ parseAddress(dialogVideo.position) }}</span>
+            <div v-if="dialogVideo.positionFlag==='1'">
+              <div v-if="dialogVideo.position!=null" class="video-position mtb5 flex-center">
+                <svg class="icon mr5px" aria-hidden="true">
+                  <use xlink:href="#icon-position"></use>
+                </svg>
+                <span v-if="dialogVideo.position.city" class="position-city fs9">{{ dialogVideo.position.city }}</span>
+                <span v-else class="position-city fs9">{{ dialogVideo.position.province }}</span>
+                <span class="position-dist fs9">{{ dialogVideo.position.district }}</span>
+                <span class="position-add fs9">{{ parseAddress(dialogVideo.position) }}</span>
+              </div>
             </div>
             <!--              视频信息-->
             <div class="video-title one-line cw fs125 fw600">
