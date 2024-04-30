@@ -1,17 +1,16 @@
 <template>
-  <div class="follow-container" style="display: flex">
+  <div class="follow-container">
     <div class="follow-left" :style="'width:' + followListWidth">
       <div class="p5-10 flex-between tac">
         <span v-if="followExpand" class="fs9 fw600 flex-center" style="flex: 1 1">我的关注（{{ followTotal }}）</span>
-
         <span class="cp flex-center" style="margin: 0 auto" @click="handleExpandFold()">
-       <el-tooltip
-           class="box-item"
-           effect="dark"
-           :auto-close="1000"
-           content="展开/收起"
-           placement="top"
-       >    <svg v-if="followExpand" class="icon" aria-hidden="true">
+          <el-tooltip
+              class="box-item"
+              effect="dark"
+              :auto-close="1000"
+              content="展开/收起"
+              placement="top">
+         <svg v-if="followExpand" class="icon" aria-hidden="true">
               <use xlink:href="#icon-fold"></use>
           </svg>
           <svg v-else class="icon" aria-hidden="true">
@@ -20,10 +19,11 @@
         </span>
       </div>
       <el-scrollbar class="p5-10" v-loading="followListLoading">
-        <div class="user-card"
-             v-for="item in followList"
-             :key="item.userId"
-             shadow="hover">
+        <div
+            :class="{'user-card user-card-cur': item.userId===curPlayUserId, 'user-card':true}"
+            v-for="item in followList"
+            :key="item.userId"
+            shadow="hover">
           <div class="user-info flex-start pr" @click="getFollowedVideoList(item.userId)">
             <el-avatar class="user-avatar"
                        v-if="item.avatar"
@@ -33,7 +33,7 @@
             <div v-if="followExpand" class="user-nickname dn-phone">
               <p class="nickname one-line">{{ item.nickName }}</p>
             </div>
-            <span v-if="curPlayUserId==item.userId" class="cur-play-dot pa"></span>
+            <span v-if="curPlayUserId===item.userId" class="cur-play-dot pa"></span>
           </div>
         </div>
         <el-empty v-show="followTotal<=0" description="暂无数据"/>
@@ -46,6 +46,7 @@
           :loading="loading"
           :video-list="videoList"
           @reloadVideoFeed="reloadVideoFeedEmit"/>
+      <el-empty v-show="dataNotMore" description="暂无视频数据"/>
     </div>
   </div>
 </template>
@@ -54,7 +55,7 @@
 import VideoPlayerCarousel from "@/components/video/VideoPlayerCarousel.vue";
 import {UserFilled} from "@element-plus/icons-vue";
 import {videoUserpage} from "@/api/video"
-import {followPageList, followVideoFeed} from '@/api/social'
+import {followPageList, followVideoFeed, initUserInBox} from '@/api/social'
 
 export default {
   name: "Follow",
@@ -72,9 +73,10 @@ export default {
         pageNum: 1,
         pageSize: 20,
       },
-      followTotal: undefined,
+      followTotal: null,
       followList: [],
       videoList: [],
+      videoTotal: 0,
       userPageQueryParams: {
         videoTitle: "",
         pageNum: 1,
@@ -87,14 +89,24 @@ export default {
       followListLoading: true,
       followExpand: true, // 默认展开，false：fold
       followListWidth: '208px',
-      curPlayUserId: undefined,
+      curPlayUserId: null,
+      curPlayUserVideoNotMore: false,
     };
   },
   created() {
+    this.getInitUserInBox()
     this.getFollowList()
     this.getFollowVideoFeed()
   },
   methods: {
+    getInitUserInBox() {
+      initUserInBox().then(res => {
+        if (res.code === 200) {
+
+        }
+      })
+    },
+    // 获取关注用户列表
     getFollowList() {
       this.followListLoading = true
       followPageList(this.followQueryParams).then(res => {
@@ -109,24 +121,37 @@ export default {
       this.userPageQueryParams.userId = userId
       this.curPlayUserId = userId
       this.loading = true
+      this.followQueryParams = {
+        pageNum: 1,
+        pageSize: 20,
+      }
       videoUserpage(this.userPageQueryParams).then(res => {
         if (res.code === 200) {
-          this.videoList = res.rows
+          console.log(typeof res.rows)
+          if (res.rows === null) {
+            this.$message.info("暂无更多视频")
+          } else {
+            this.videoList = res.rows
+          }
           this.showVideoPlayer = true
+          this.loading = false
         }
-        this.loading = false
       })
     },
     reloadVideoFeedEmit(val) {
-      // console.log("reloadVideoFeedEmit" + val)
-      this.getFollowVideoFeed()
+      if (this.curPlayUserId !== null) {
+        this.userPageQueryParams.pageNum++
+        this.getFollowedVideoList(this.curPlayUserId)
+      } else {
+        this.getFollowVideoFeed()
+      }
     },
     // 获取关注视频流
     getFollowVideoFeed() {
       this.loading = true
       followVideoFeed(this.queryParams).then(res => {
         if (res.code === 200) {
-          if (res.data.length === 0) {
+          if (res.data === null) {
             this.loading = false
             this.dataNotMore = true
           }
@@ -180,6 +205,11 @@ export default {
 
     }
   }
+}
+
+.user-card-cur {
+  background-color: var(--bg-aside-a);
+  backdrop-filter: blur(10px);
 }
 
 .user-card:hover {

@@ -12,7 +12,7 @@
               <div class="mr-5r cg fs8">关注</div>
               <div class="follow-right fw600">{{ followNum }}</div>
             </div>
-            <div class="=user-info-fans flex-center">
+            <div class="user-info-fans flex-center">
               <div class="mr-5r cg fs8">粉丝</div>
               <div class="follow-right fw600">{{ fansNum }}</div>
             </div>

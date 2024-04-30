@@ -2,20 +2,38 @@
   <div class="nav-right">
     <div class="flex-center">
       <!--移动端 -->
-      <router-link class="link-type cp dn-phone" :to="'/niuyinGithub'">
-        <div class="link-div icon-click cg plr10px">
-          <div style="height: 20px;width: 20px;">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-lightning"></use>
-            </svg>
+<!--      <router-link class="link-type cp dn-phone" :to="'/niuyinGithub'">-->
+<!--        <div class="link-div icon-click cg plr10px">-->
+<!--          <div style="height: 20px;width: 20px;">-->
+<!--            <svg class="icon" aria-hidden="true">-->
+<!--              <use xlink:href="#icon-lightning"></use>-->
+<!--            </svg>-->
+<!--          </div>-->
+<!--          <p>-->
+<!--            <span class="cg fs7">移动端</span>-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </router-link>-->
+      <el-popover :width="200" ref="lightingPopover" :offset="9" :show-arrow="false">
+        <template #reference>
+          <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
+            <div class="link-div icon-click cg plr10px">
+              <div style="height: 20px;  width: 20px;">
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-lightning"></use>
+                </svg>
+              </div>
+              <p>
+                <span class="cg fs7">移动端</span>
+              </p>
+            </div>
           </div>
-          <p>
-            <span class="cg fs7">移动端</span>
-          </p>
-        </div>
-      </router-link>
+        </template>
+        <template #default>111
+        </template>
+      </el-popover>
       <!--通知-->
-      <el-popover :width="360" ref="noticePopover">
+      <el-popover :width="360" ref="noticePopover" :offset="9">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="link-div icon-click cg plr10px">
@@ -66,6 +84,7 @@
     <el-popover class="user-popover"
                 :width="400"
                 :inert="60"
+                :offset="10"
                 @show="handlePopoverShow"
                 popper-style="padding: 20px;">
       <template #reference>

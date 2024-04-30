@@ -33,3 +33,11 @@ export function followVideoFeed(lastTime) {
         params: lastTime
     })
 }
+
+// 初始化用户收件箱
+export function initUserInBox() {
+    return request({
+        url: '/social/api/v1/follow/initUserInBox',
+        method: 'get'
+    })
+}

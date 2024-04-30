@@ -19,6 +19,7 @@
 <script>
 import VideoPlayerCarousel from "@/components/video/VideoPlayerCarousel.vue";
 import {videoFeed} from "@/api/video"
+import {recommendVideoFeed} from "@/api/recommend"
 import VideoPlayerSwiper from "@/components/video/VideoPlayerSwiper.vue";
 
 export default {
@@ -37,7 +38,8 @@ export default {
     }
   },
   created() {
-    this.getVideoFeed()
+    // this.getVideoFeed()
+    this.getRecommendVideoFeed()
   },
   mounted() {
   },
@@ -56,6 +58,20 @@ export default {
         }
       })
     },
+    getRecommendVideoFeed() {
+      this.loading = true
+      recommendVideoFeed().then(res => {
+        if (res.code === 200 && res.data != null) {
+          this.videoList = this.videoList.concat(res.data)
+          // this.videoList = [...this.videoList, ...res.data];
+          this.loading = false
+          // this.publishTime = this.videoList[this.videoList.length - 1].createTime
+          this.showVideoPlayer = true
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     autoPlayVideo(val) {
       this.autoPlay = val;
     },
@@ -66,13 +82,13 @@ export default {
       // this.$nextTick(() => {
       // this.showVideoPlayer = true;
       // this.getVideoFeed();
-      videoFeed(this.publishTime).then(res => {
+      recommendVideoFeed().then(res => {
         if (res.code === 200 && res.data != null) {
           this.videoList = res.data
           // Object.assign(this.videoList, res.data)
           // this.videoList = [...this.videoList, ...res.data];
           this.loading = false
-          this.publishTime = this.videoList[this.videoList.length - 1].createTime
+          // this.publishTime = this.videoList[this.videoList.length - 1].createTime
           this.showVideoPlayer = true
         } else {
           this.$message.error(res.msg)
