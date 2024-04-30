@@ -22,8 +22,7 @@
         <div
             :class="{'user-card user-card-cur': item.userId===curPlayUserId, 'user-card':true}"
             v-for="item in followList"
-            :key="item.userId"
-            shadow="hover">
+            :key="item.userId">
           <div class="user-info flex-start pr" @click="getFollowedVideoList(item.userId)">
             <el-avatar class="user-avatar"
                        v-if="item.avatar"
@@ -35,6 +34,9 @@
             </div>
             <span v-if="curPlayUserId===item.userId" class="cur-play-dot pa"></span>
           </div>
+        </div>
+        <div v-if="followListDataNotMore">
+          <el-divider>到底了</el-divider>
         </div>
         <el-empty v-show="followTotal<=0" description="暂无数据"/>
       </el-scrollbar>
@@ -75,6 +77,8 @@ export default {
       },
       followTotal: null,
       followList: [],
+      followListDataNotMore: false,
+      loadingFollowListData: true,
       videoList: [],
       videoTotal: 0,
       userPageQueryParams: {
@@ -98,6 +102,10 @@ export default {
     this.getFollowList()
     this.getFollowVideoFeed()
   },
+  mounted() {
+    // 事件监听
+    window.addEventListener('scroll', this.listenFollowListScroll, true)
+  },
   methods: {
     getInitUserInBox() {
       initUserInBox().then(res => {
@@ -108,11 +116,19 @@ export default {
     },
     // 获取关注用户列表
     getFollowList() {
+      if (this.followListDataNotMore) {
+        return
+      }
       this.followListLoading = true
       followPageList(this.followQueryParams).then(res => {
         if (res.code === 200) {
-          this.followList = res.rows
+          this.followList = this.followList.concat(res.rows)
           this.followTotal = res.total
+          if (res.rows === null || res.rows.length == 0) {
+            this.followListDataNotMore = true
+          } else {
+            this.followListDataNotMore = false
+          }
         }
         this.followListLoading = false
       })
@@ -163,9 +179,6 @@ export default {
         }
       })
     },
-    load() {
-      this.$message.warning("没有更多数据了")
-    },
     handleExpandFold() {
       this.followExpand = !this.followExpand
       if (this.followExpand) {
@@ -174,6 +187,24 @@ export default {
         this.followListWidth = '76px'
       }
     },
+    listenFollowListScroll(e) {
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
+        if (this.loadingFollowListData) {
+          this.followQueryParams.pageNum++;
+          this.getFollowList()
+          this.loadingFollowListData = false
+          setTimeout(() => {
+            // 流控
+            this.loadingFollowListData = true
+          }, 1000);
+        }
+
+      }
+    },
+  },
+  destroyed() {
+    // 离开页面取消监听
+    window.removeEventListener('scroll', this.listenFollowListScroll)
   }
 };
 </script>

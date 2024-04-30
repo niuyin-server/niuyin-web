@@ -2,19 +2,7 @@
   <div class="nav-right">
     <div class="flex-center">
       <!--移动端 -->
-<!--      <router-link class="link-type cp dn-phone" :to="'/niuyinGithub'">-->
-<!--        <div class="link-div icon-click cg plr10px">-->
-<!--          <div style="height: 20px;width: 20px;">-->
-<!--            <svg class="icon" aria-hidden="true">-->
-<!--              <use xlink:href="#icon-lightning"></use>-->
-<!--            </svg>-->
-<!--          </div>-->
-<!--          <p>-->
-<!--            <span class="cg fs7">移动端</span>-->
-<!--          </p>-->
-<!--        </div>-->
-<!--      </router-link>-->
-      <el-popover :width="200" ref="lightingPopover" :offset="9" :show-arrow="false">
+      <el-popover :width="240" ref="lightingPopover" trigger="hover" :offset="9" :show-arrow="false">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="link-div icon-click cg plr10px">
@@ -29,11 +17,30 @@
             </div>
           </div>
         </template>
-        <template #default>111
+        <template #default>
+          <div class="mobile-popover">
+            <div class="mobile-download-container">
+              <img class="niuyin-mobile-download-qrcode" src="@/assets/images/niuyinMobileDownloadQRCode.png"
+                   alt="移动端下载二维码"/>
+              <h4 class="one-line mb5px">扫码下载安卓端</h4>
+              <p class="fs8 cg one-line">扫码即可前往百度网盘下载安装包</p>
+            </div>
+            <div>
+              <div class="flex-row p1rem">
+                <svg class="icon2rem" aria-hidden="true">
+                  <use xlink:href="#icon-lightning"></use>
+                </svg>
+                <div class="ml-5r">
+                  <h5 class="one-line mb5px">收藏网页到收藏夹</h5>
+                  <p class="fs7 cg one-line">ctrl+D 收藏到浏览器收藏夹</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </template>
       </el-popover>
       <!--通知-->
-      <el-popover :width="360" ref="noticePopover" :offset="9">
+      <el-popover :width="320" ref="noticePopover" :offset="9">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="link-div icon-click cg plr10px">
@@ -186,7 +193,7 @@ export default {
     return {
       // 右侧导航栏
       rightNavList: [
-        {id: 1, icon: "iconfont icon-notice", num: 2, title: "通知", url: "/notice"},
+        {id: 1, icon: "iconfont icon-notice", num: 0, title: "通知", url: "/notice"},
         {id: 2, icon: "iconfont icon-message", num: 0, title: "消息", url: "/message"},
         {id: 3, icon: "iconfont icon-upload", num: 0, title: "投稿", url: "/publish"},
       ],
@@ -201,7 +208,8 @@ export default {
       noticeCount: undefined,
       noticeCountQueryParams: {
         receiveFlag: "0"
-      }
+      },
+      niuyinMobileDownloadQRCode: "@/assets/images/niuyinMobileDownloadQRCode.png",
     }
   },
   created() {
@@ -308,5 +316,21 @@ export default {
   flex-flow: column;
   align-items: center;
   justify-content: center;
+}
+
+.mobile-popover {
+  background: var(--bg-video-card);
+  border-radius: var(--el-popover-border-radius);
+}
+
+.mobile-download-container {
+  padding: 1rem;
+  text-align: center;
+}
+
+.niuyin-mobile-download-qrcode {
+  width: 120px;
+  height: 120px;
+  border-radius: .5rem;
 }
 </style>
