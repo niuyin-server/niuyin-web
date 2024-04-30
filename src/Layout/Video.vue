@@ -62,7 +62,8 @@ export default {
       this.loading = true
       recommendVideoFeed().then(res => {
         if (res.code === 200 && res.data != null) {
-          this.videoList = this.videoList.concat(res.data)
+          var that = this;
+          that.videoList = that.videoList.concat(res.data)
           // this.videoList = [...this.videoList, ...res.data];
           this.loading = false
           // this.publishTime = this.videoList[this.videoList.length - 1].createTime

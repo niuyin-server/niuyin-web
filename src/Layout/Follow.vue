@@ -136,6 +136,7 @@ export default {
     getFollowedVideoList(userId) {
       this.userPageQueryParams.userId = userId
       this.curPlayUserId = userId
+      this.curPlayUserVideoNotMore = false
       this.loading = true
       this.followQueryParams = {
         pageNum: 1,

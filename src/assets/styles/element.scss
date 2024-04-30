@@ -10,6 +10,7 @@ html.dark {
   --el-overlay-color-lighter: rgba(0, 0, 0, 0.8); //弹窗遮罩层
   --el-text-color-disabled: rgba(108, 110, 114, 0.3); // el-avatar
   --el-fill-color-blank: #3c3d3f54;
+  --el-skeleton-main-color: rgba(27, 27, 44, 0.8);
 
   --niuyin-text-color: #fff;
   --niuyin-text-color8: rgba(255, 255, 255, 0.8);
@@ -78,6 +79,7 @@ html.dark {
   --theme-dark-button-color: var(---primary-blue-color);
   --el-text-color-disabled: rgba(192, 196, 204, 0.3); // el-avatar
   --el-text-color-regular: #000000;
+  --el-skeleton-main-color: rgba(240, 242, 245, 0.8);
 
   --el-font-size-base: 14px;
   --bg_secondly_mask: #f2f2f414;
@@ -323,3 +325,7 @@ html.dark {
 //.el-popper.is-light {
 //  background: var(--bg-video-card);
 //}
+.el-skeleton {
+  --el-skeleton-color: var(--el-skeleton-main-color);
+  --el-skeleton-to-color: var(--bg-video-card);
+}
