@@ -8,7 +8,8 @@
                   trigger="hover"
                   :offset="10"
                   :show-arrow="false"
-                  popper-style="padding: 20px;">
+                  popper-style="padding: 20px;"
+                  @show="searchPopoverShow">
         <template #reference>
           <div class="flex-center wh100">
             <el-input
@@ -45,10 +46,10 @@
             </div>
             <!--            中间搜索推荐-->
             <div class="pop-center">
-              <div v-if="searchHistory">
+              <div v-if="searchDiscover">
                 <h5 class="mtb5">猜你想搜</h5>
                 <div class="flex-between">
-                  <p class="cp w49 p5px mtb5 one-line search-hover-item text-hv-gold fs8"
+                  <p class="cp w49 p5px mb5px one-line search-hover-item text-hv-gold fs8"
                      v-for="item in searchDiscover"
                      @click="handleSearchDiscoverSelect(item.keyword)">
                     {{ item.keyword }}
@@ -117,7 +118,7 @@ export default {
       // 默认搜索词
       searchDefaults: "输入你感兴趣的内容",
       // 搜索历史
-      searchHistory: [],
+      searchHistory: null,
       // 猜你想搜：
       searchDiscover: [],
       // 热搜数据
@@ -130,29 +131,27 @@ export default {
     }
   },
   created() {
-    // 搜索记录
-    this.getSearchHistory()
-    // 猜你想搜
-    this.getSearchDiscover()
-    this.getHotSearch(this.pageDto)
+
   },
   mounted() {
-    this.$nextTick(() => {
-      this.getSearchHistory()
-    })
+    // this.$nextTick(() => {
+    //   this.getSearchHistory()
+    // })
   },
   methods: {
     getSearchHistory() {
       searchHistoryLoad().then(res => {
         if (res.code === 200) {
-          this.searchHistory = res.data
+          if (res.data.length > 0) {
+            this.searchHistory = res.data
+          }
         }
       })
     },
     getSearchDiscover() {
       // todo
       this.searchDiscover.push({id: 1, keyword: "你好"})
-      this.searchDiscover.push({id: 1, keyword: "你好"})
+      this.searchDiscover = this.searchDiscover.slice(0, 10)
     },
     //分页获取热搜列表
     getHotSearch(pageDto) {
@@ -197,6 +196,14 @@ export default {
         }
       })
     },
+    // 搜索框pop展示
+    searchPopoverShow() {
+      // 搜索记录
+      this.getSearchHistory()
+      // 猜你想搜
+      this.getSearchDiscover()
+      this.getHotSearch(this.pageDto)
+    }
   },
 }
 </script>

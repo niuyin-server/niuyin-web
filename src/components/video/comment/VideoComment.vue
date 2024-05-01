@@ -349,6 +349,11 @@ export default {
     color: #fff;
   }
 
+  :deep(.el-input-group__prepend) {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: .8rem;
+  }
+
   :deep(.el-input-group__append, .el-input-group__prepend) {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;

@@ -13,8 +13,8 @@
         </div>
         <div style="height:20%;padding:10px;display: flex;justify-content: space-between;align-items: center">
           <div class="w100">
-            <p class="one-line cb fs9">{{ item.videoTitle }}</p>
-            <marquee class="one-line cg fs7">{{ item.videoDesc }}</marquee>
+            <p class="one-line fs9">{{ item.videoTitle }}</p>
+            <marquee class="one-line cg fs8">{{ item.videoDesc }}</marquee>
           </div>
           <div class="cp">
             <!--            <el-avatar v-if="item.userAvatar" :src="item.userAvatar"/>-->
@@ -74,7 +74,7 @@ export default {
       videoQueryParams: {
         categoryId: undefined,
         pageNum: 1,
-        pageSize: 15,
+        pageSize: 12,
       },
       videoList: [],
       videoTotal: undefined,
@@ -122,12 +122,13 @@ export default {
 }
 
 .video-card {
-  width: 19%;
+  width: 24%;
   border-radius: 1rem;
-  height: 200px;
-  background-color: rgba(242, 242, 243, 0.8);
+  height: 260px;
+  color: var(--niuyin-text-color);
+  background-color: var(--bg-video-card);
   margin-bottom: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
+  box-shadow: var(--video-card-box-shadow);
 }
 
 .dialog-video {

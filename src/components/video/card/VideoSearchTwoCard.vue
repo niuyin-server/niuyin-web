@@ -69,10 +69,10 @@ export default {
   background-color: var(--el-bg-color-page);
   border-radius: 1rem;
   width: 19%;
-  box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
+  box-shadow: var(--video-card-box-shadow);
   transition: all 0.3s ease;
   height: 400px;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 
   &:hover {
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .12);

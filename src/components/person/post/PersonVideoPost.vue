@@ -4,7 +4,7 @@
       <template #template>
         <div class="loading-container" v-for="i in 1">
           <div class="loading-item" v-for="i in 5">
-            <el-skeleton-item variant="image" style="width: 100%; height: 300px"/>
+            <el-skeleton-item variant="image" style="width: 100%; height: 200px"/>
             <div style="padding: 14px">
               <el-skeleton-item variant="h1" style="width: 70%"/>
               <div>
@@ -21,22 +21,22 @@
       </template>
     </el-skeleton>
     <!--  视频播放弹框  -->
-    <el-dialog v-model="dialogVisible"
-               @close="dialogDestroy"
-               style="height: calc(100% - 10vh);"
-               width="80%"
-               :show-close="false">
-      <template #header="{ close, titleId, titleClass }">
-        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>
-        <el-button circle :icon="Close" class="cb" type="info" @click="close">
-        </el-button>
-      </template>
-      <video class="dialog-video w100"
-             autoplay
-             style="max-height: 100%;border-radius: 1rem"
-             :src="video.videoUrl"
-             controls/>
-    </el-dialog>
+<!--    <el-dialog v-model="dialogVisible"-->
+<!--               @close="dialogDestroy"-->
+<!--               style="height: calc(100% - 10vh);"-->
+<!--               width="80%"-->
+<!--               :show-close="false">-->
+<!--      <template #header="{ close, titleId, titleClass }">-->
+<!--        <h3 class="one-line" :id="titleId" :class="titleClass" style="color: black">{{ video.videoTitle }}</h3>-->
+<!--        <el-button circle :icon="Close" class="cb" type="info" @click="close">-->
+<!--        </el-button>-->
+<!--      </template>-->
+<!--      <video class="dialog-video w100"-->
+<!--             autoplay-->
+<!--             style="max-height: 100%;border-radius: 1rem"-->
+<!--             :src="video.videoUrl"-->
+<!--             controls/>-->
+<!--    </el-dialog>-->
     <div class="w100">
       <el-empty v-show="postVideoTotal<=0" description="暂无数据"/>
     </div>

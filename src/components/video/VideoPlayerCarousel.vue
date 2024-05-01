@@ -291,7 +291,7 @@
       <!--      背景-->
       <div class="pa wh100" style="background-color: black">
         <img v-if="dialogVideo.coverImage" class="video-cover wh100"
-             style="filter: blur(60px);opacity: 0.8;user-select: none;" :src="dialogVideo.coverImage" alt=""/>
+             style="filter: blur(40px);opacity: 0.8;user-select: none;" :src="dialogVideo.coverImage" alt=""/>
       </div>
       <div class="user-video-box wh100" :style="{ backgroundImage: `url(${dialogVideo.coverImage})` }">
         <div class="user-video-container h100 pr">
@@ -311,13 +311,6 @@
                        id="videoPlayer"
                        ref="videoPlayer"
                        :video="dialogVideo"/>
-          <!--            视频类型-->
-          <div v-if="dialogVideo.publishType==='1'" class="flex-center video-type-pics">
-            <svg class="icon1rem" aria-hidden="true">
-              <use xlink:href="#icon-pics"></use>
-            </svg>
-            <span class="type-desc fs7 fw500">图文</span>
-          </div>
           <!--          视频简介区域-->
           <div class="videoinfo-area">
             <!--              定位信息-->

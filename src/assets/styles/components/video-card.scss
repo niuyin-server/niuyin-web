@@ -1,0 +1,93 @@
+.video-card {
+  background-color: var(--el-bg-color-page);
+  border-radius: 1rem;
+  width: 24%;
+  box-shadow: var(--video-card-box-shadow);
+  transition: all 0.3s ease;
+  height: 260px;
+  margin-bottom: 1rem;
+
+  &:hover {
+    box-shadow: var(--video-card-hv-box-shadow);
+  }
+
+  .video-cover-image {
+    width: auto;
+    object-fit: contain;
+    height: 75%;
+    overflow: hidden;
+    border-radius: 1rem 1rem 0 0;
+    position: relative;
+
+    .cover-image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 1rem 1rem 0 0;
+    }
+
+    .cover-image:hover {
+      transition: all 1s ease;
+      transform: scale(1.1);
+    }
+
+    .video-like {
+      position: absolute;
+      bottom: .5rem;
+      color: white;
+      left: .5rem;
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: .5rem;
+      color: white;
+      right: .5rem;
+      background-color: rgba(51, 51, 51, 0.57);
+      border-radius: .4rem;
+      padding: 3px 6px;
+    }
+
+  }
+
+  .video-info {
+    width: auto;
+    height: 25%;
+    padding: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    .video-title {
+
+    }
+
+    .video-author {
+
+    }
+  }
+
+}
+
+.video-type-pics {
+  position: absolute;
+  left: 5%;
+  top: 4%;
+  padding: 5px 10px;
+  background: var(--niuyin-bg-color2);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+
+  .type-desc {
+    margin-left: 2px;
+    color: gold;
+  }
+}
+
+/*移动端适配*/
+@media (max-width: 768px) {
+  .video-card {
+    width: 49%;
+    height: 200px;
+  }
+}
