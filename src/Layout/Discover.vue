@@ -18,14 +18,13 @@
         </template>
         <template #default>
           <div class="hotVideo-list w100" style="height: auto">
-            <div v-loading="loadingIcon"
-                 :element-loading-svg="svg"
-                 class="hotVideos cp"
-                 element-loading-svg-view-box="-10, -10, 50, 50"
-                 v-masonry
-                 fit-width="true"
-                 transition-duration="0.2s"
-                 item-selector=".discover-item">
+            <div
+                class="hotVideos cp"
+                element-loading-svg-view-box="-10, -10, 50, 50"
+                v-masonry
+                fit-width="true"
+                transition-duration="0.2s"
+                item-selector=".discover-item">
               <!--              热榜-->
               <!--              <div style="height: 600px;" class="discover-item">-->
               <!--                <el-card class="discover-card wh100">-->
@@ -48,42 +47,10 @@
                    :key="item.videoId"
                    v-masonry-tile
                    class="discover-item">
-                <!--                <el-card class="discover-card">-->
-                <!--                  <div class="video-cover">-->
-                <!--                    <el-image v-if="item.coverImage" class="eli-ofc wh100"-->
-                <!--                              :src="item.coverImage">-->
-                <!--                      <template #error>-->
-                <!--                        <div class="image-slot">-->
-                <!--                          <img class="failed-image wh100" src="@/assets/images/bg-mobile.png">-->
-                <!--                          <el-icon>-->
-                <!--                            <icon-picture/>-->
-                <!--                          </el-icon>-->
-                <!--                        </div>-->
-                <!--                      </template>-->
-                <!--                    </el-image>-->
-                <!--                    &lt;!&ndash;                    <el-image v-else class="eli-ofc h100"&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                              src="@/assets/images/bg-mobile.png"/>&ndash;&gt;-->
-                <!--                  </div>-->
-                <!--                  <div class="user-info">-->
-                <!--                    <div>-->
-                <!--                      <p class="one-line fs9">{{ item.videoTitle }}</p>-->
-                <!--                      <p class="one-line fs7 cg">{{ item.videoDesc }}</p>-->
-                <!--                    </div>-->
-                <!--                    <div>-->
-                <!--                      <el-avatar v-if="item.userAvatar"-->
-                <!--                                 class="cp"-->
-                <!--                                 :lazy="true"-->
-                <!--                                 :src="item.userAvatar"-->
-                <!--                                 @click="handlePersonInfo(item.userId)"/>-->
-                <!--                      <el-avatar v-else class="cp"-->
-                <!--                                 :icon="UserFilled"-->
-                <!--                                 @click="handlePersonInfo(item.userId)"/>-->
-                <!--                    </div>-->
-                <!--                  </div>-->
-                <!--                </el-card>-->
                 <VideoShowCard :video="item"/>
               </div>
             </div>
+            <Loading v-if="loadingIcon" :is-full-screen="false"/>
           </div>
         </template>
       </el-skeleton>
@@ -103,6 +70,7 @@
 import {pushVideo} from "@/api/video.js";
 import {UserFilled} from "@element-plus/icons-vue";
 import VideoShowCard from "@/components/video/VideoShowCard.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: 'Discover',
@@ -112,7 +80,7 @@ export default {
     }
   },
   props: {},
-  components: {VideoShowCard},
+  components: {VideoShowCard, Loading},
   data() {
     return {
       loading: true,
