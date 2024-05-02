@@ -176,7 +176,7 @@ import Notice from "@/components/nav/Notice.vue";
 import {noticeCount} from "@/api/notice.js";
 import {tokenX} from "@/store/tokenX";
 import {userInfoX} from "@/store/userInfoX";
-import {removeToken} from "@/utils/auth.js";
+import {getToken, hasToken, removeToken} from "@/utils/auth.js";
 
 export default {
   name: "NavRight",
@@ -214,10 +214,10 @@ export default {
   },
   created() {
     this.initTheme()
-    this.initNotice()
   },
   emits: ['darkChangeEmit'],
   mounted() {
+    this.initNotice()
     // this.$nextTick(()=> {
     //   this.$refs.noticePopover.updatePopper()
     // })
@@ -236,11 +236,13 @@ export default {
     },
     // 获取评论数量
     initNotice() {
-      noticeCount(this.noticeCountQueryParams).then(res => {
-        if (res.code === 200) {
-          this.noticeCount = res.data
-        }
-      })
+      if (getToken() !== undefined) {
+        noticeCount(this.noticeCountQueryParams).then(res => {
+          if (res.code === 200) {
+            this.noticeCount = res.data
+          }
+        })
+      }
     },
     // 用户popover的show时间
     handlePopoverShow() {

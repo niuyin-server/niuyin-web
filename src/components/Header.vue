@@ -14,6 +14,7 @@ import NavCenter from "@/components/nav/NavCenter.vue"
 import NavRight from "@/components/nav/NavRight.vue";
 import {getInfo} from "@/api/member.js";
 import {userInfoX} from "@/store/userInfoX";
+import {getToken} from "@/utils/auth.js";
 
 export default {
   name: "Header",
@@ -32,13 +33,15 @@ export default {
   methods: {
     // 获取用户信息
     getUserInfo() {
-      if (this.user === null || this.user === undefined || this.user === "") {
-        getInfo().then(res => {
-          if (res.code === 200) {
-            this.user = res.data
-            userInfoX().setUserInfo(res.data)
-          }
-        })
+      if (getToken() !== undefined) {
+        if (this.user === null || this.user === undefined || this.user === "") {
+          getInfo().then(res => {
+            if (res.code === 200) {
+              this.user = res.data
+              userInfoX().setUserInfo(res.data)
+            }
+          })
+        }
       }
     },
     // 换肤事件
