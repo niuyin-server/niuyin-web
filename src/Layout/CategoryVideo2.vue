@@ -36,8 +36,9 @@
                 <div v-for='(item,index) in videoList'
                      :key="item.videoId"
                      v-masonry-tile
+                     @click="handleVideoDialog(item)"
                      class="video-item">
-                  <el-card class="video-card">
+                  <el-card class="video-card cp">
                     <div class="video-cover">
                       <el-image class="eli-ofc h100"
                                 :src="item.coverImage"/>
@@ -69,6 +70,22 @@
           <el-divider>暂无更多数据</el-divider>
         </div>
       </el-scrollbar>
+      <el-dialog v-model="videoPlayDialogVisible"
+                 @close="dialogDestroy"
+                 width="80%"
+                 :destroy-on-close="true"
+                 :show-close="false">
+        <template #header="{ close, titleId, titleClass }">
+          <h3 class="one-line" :id="titleId" :class="titleClass">{{ playingVideo.videoTitle }}</h3>
+          <el-button circle :icon="Close" type="info" @click="close">
+          </el-button>
+        </template>
+        <video class="dialog-video"
+               style="width: 100%;max-height: 100vh;height: 60vh; border-radius: 1rem"
+               autoplay
+               :src="playingVideo.videoUrl"
+               controls/>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -107,6 +124,8 @@ export default {
       videoTotal: null,
       videoCategoryChildrenList: null,
       childrenCategoryId: null,
+      videoPlayDialogVisible: false,
+      playingVideo: null,
     }
   },
   created() {
@@ -210,6 +229,13 @@ export default {
     handlePullCategoryVideo(id) {
       this.childrenCategoryId = id
       this.pushCategoryVideo(this.childrenCategoryId)
+    },
+    handleVideoDialog(item) {
+      this.playingVideo = item
+      this.videoPlayDialogVisible = true
+    },
+    dialogDestroy() {
+      this.videoPlayDialogVisible = false
     }
   }
 }
