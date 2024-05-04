@@ -135,7 +135,7 @@ export default {
         {id: 6, name: "生活", '--color': "red", class: "#icon-food", link: "/category/17"},
         {id: 7, name: "美食", '--color': "red", class: "#icon-food", link: "/category/18"},
       ],
-      videoCategoryParentList: null,
+      videoCategoryParentList: localStorage.getItem("videoCategoryParentList") ? JSON.parse(localStorage.getItem("videoCategoryParentList")) : null,
       tabsBottomList: [
         {id: 1, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
         {id: 2, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
@@ -153,6 +153,7 @@ export default {
       videoCategoryParentList().then(res => {
         if (res.code === 200) {
           this.videoCategoryParentList = res.data
+          localStorage.setItem("videoCategoryParentList", JSON.stringify(res.data))
         }
       })
     },

@@ -228,6 +228,7 @@ export default {
     // 点击指定子分类的视频
     handlePullCategoryVideo(id) {
       this.childrenCategoryId = id
+      this.videoList = []
       this.pushCategoryVideo(this.childrenCategoryId)
     },
     handleVideoDialog(item) {
