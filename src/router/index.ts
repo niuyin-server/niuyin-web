@@ -45,7 +45,7 @@ const router = createRouter({
                     ]
                 },
                 {
-                    path: 'category/:categoryId', component: () => import('@/Layout/CategoryVideo.vue'),
+                    path: 'category/:categoryId', component: () => import('@/Layout/CategoryVideo2.vue'),
                     // redirect: '/person/:userId(\\d+)/videoPost',
                     // children: [
                     //     {path: "/person/:userId/videoPost", component: () => import("@/Layout/person/VideoPost.vue")},

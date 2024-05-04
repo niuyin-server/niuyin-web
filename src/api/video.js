@@ -123,3 +123,27 @@ export async function pushVideoByCategory(categoryId) {
         method: 'GET'
     })
 }
+
+// 视频分类树
+export async function videoCategoryTree() {
+    return await request({
+        url: '/video/api/v1/category/tree',
+        method: 'GET'
+    })
+}
+
+// 视频分类树
+export async function videoCategoryParentList() {
+    return await request({
+        url: '/video/api/v1/category/parentList',
+        method: 'GET'
+    })
+}
+
+// 视频父分类子分类
+export async function videoCategoryChildrenList(id) {
+    return await request({
+        url: '/video/api/v1/category/children/' + id,
+        method: 'GET'
+    })
+}

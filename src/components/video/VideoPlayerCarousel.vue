@@ -101,6 +101,7 @@
                   <!--收藏按钮弹框-->
                   <el-popover placement="left-end"
                               :width="300"
+                              :show-arrow="false"
                               :ref="'favoritePop'+item.videoId">
                     <!--收藏按钮根据是否收藏显示不同的状态-->
                     <template #reference>
@@ -177,11 +178,49 @@
                 </div>
                 <!--                更多-->
                 <div class="op">
-                  <el-icon class="operate-icon"
-                           :size="28"
-                           color="white">
-                    <MoreFilled/>
-                  </el-icon>
+                  <el-popover placement="left-end"
+                              :show-arrow="false"
+                              trigger="click"
+                              :width="240">
+                    <!--收藏按钮根据是否收藏显示不同的状态-->
+                    <template #reference>
+                      <el-icon class="operate-icon"
+                               :size="28"
+                               color="white">
+                        <MoreFilled/>
+                      </el-icon>
+                    </template>
+                    <template #default>
+                      <div class="p1rem">
+                        <div class="flex-between">
+                          <div class="flex-center flex-column cp">
+                            <div class="more-pop-icon hv-svg">
+                              <svg class="icon1-5rem flex-center" aria-hidden="true">
+                                <use xlink:href="#icon-unlike"></use>
+                              </svg>
+                            </div>
+                            <div class="mtb5 cg fs8">不感兴趣</div>
+                          </div>
+                          <div class="flex-center flex-column cp">
+                            <div class="more-pop-icon hv-svg">
+                              <svg class="icon1-5rem flex-center" aria-hidden="true">
+                                <use xlink:href="#icon-report"></use>
+                              </svg>
+                            </div>
+                            <div class="mtb5 cg fs8">举报</div>
+                          </div>
+                          <div class="flex-center flex-column cp">
+                            <div class="more-pop-icon hv-svg">
+                              <svg class="icon1-5rem flex-center" aria-hidden="true">
+                                <use xlink:href="#icon-shortcut"></use>
+                              </svg>
+                            </div>
+                            <div class="mtb5 cg fs8">快捷键列表</div>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </el-popover>
                 </div>
               </div>
             </div>
@@ -377,6 +416,7 @@
                 <!--收藏按钮弹框-->
                 <el-popover placement="left-end"
                             :width="300"
+                            :show-arrow="false"
                             :ref="'favoritePop'+dialogVideo.videoId">
                   <!--收藏按钮根据是否收藏显示不同的状态-->
                   <template #reference>
@@ -451,11 +491,20 @@
               </div>
               <!--                更多-->
               <div class="op">
-                <el-icon class="operate-icon"
-                         :size="28"
-                         color="white">
-                  <MoreFilled/>
-                </el-icon>
+                <el-popover placement="left-end"
+                            :width="300">
+                  <!--收藏按钮根据是否收藏显示不同的状态-->
+                  <template #reference>
+                    <el-icon class="operate-icon"
+                             :size="28"
+                             color="white">
+                      <MoreFilled/>
+                    </el-icon>
+                  </template>
+                  <template #default>
+                    <div class="p1rem">更多</div>
+                  </template>
+                </el-popover>
               </div>
             </div>
           </div>
@@ -1515,5 +1564,13 @@ $video-sidebar-width: 520px;
     background-color: rgba(10, 10, 10, 0.2);
   }
 }
+
+// 操作栏：更多
+.more-pop-icon {
+  background-color: var(--niuyin-icon-bg0);
+  padding: 1rem;
+  border-radius: 50%
+}
+
 </style>
 

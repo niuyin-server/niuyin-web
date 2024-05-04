@@ -13,8 +13,8 @@
         </div>
         <div class="" style="width: calc(100% - 60px)">
           <span style="display:inline-block;width: 4px"></span>
-            <span class="dn-phone fw500"
-                  style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">牛音</span>
+          <span class="dn-phone fw500"
+                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">牛音</span>
         </div>
       </router-link>
     </div>
@@ -40,25 +40,47 @@
           </li>
         </ul>
         <!-- 分隔符 -->
-        <el-divider/>
-        <ul class="tab-center">
-          <li class="tab-center-item"
-              v-for="(item, i) in tabsCenterList"
-              :key="i">
-            <router-link class="router-link"
-                         active-class="router-is-focus"
-                         :to="item.link">
-              <div class="tab-item">
-                <div class="round">
-                  <svg class="icon operate-svg" aria-hidden="true">
-                    <use :xlink:href="item.class"></use>
-                  </svg>
+        <div v-if="videoCategoryParentList">
+          <el-divider/>
+          <ul class="tab-center">
+            <li class="tab-center-item"
+                v-for="(item, i) in videoCategoryParentList"
+                :key="i">
+              <router-link class="router-link"
+                           active-class="router-is-focus"
+                           :to="'/category/'+item.id">
+                <div class="tab-item">
+                  <div class="round flex-center">
+                    <!--                    <svg class="icon operate-svg" aria-hidden="true">-->
+                    <!--                      <use :xlink:href="item.class"></use>-->
+                    <!--                    </svg>-->
+                    <img class="wh1point25rem" style="vertical-align: middle;" :src="item.categoryImage"/>
+                  </div>
+                  <span class="dn-phone">{{ item.name }}</span>
                 </div>
-                <span class="dn-phone">{{ item.name }}</span>
-              </div>
-            </router-link>
-          </li>
-        </ul>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+        <!--        <el-divider/>-->
+        <!--        <ul class="tab-center">-->
+        <!--          <li class="tab-center-item"-->
+        <!--              v-for="(item, i) in tabsCenterList"-->
+        <!--              :key="i">-->
+        <!--            <router-link class="router-link"-->
+        <!--                         active-class="router-is-focus"-->
+        <!--                         :to="item.link">-->
+        <!--              <div class="tab-item">-->
+        <!--                <div class="round">-->
+        <!--                  <svg class="icon operate-svg" aria-hidden="true">-->
+        <!--                    <use :xlink:href="item.class"></use>-->
+        <!--                  </svg>-->
+        <!--                </div>-->
+        <!--                <span class="dn-phone">{{ item.name }}</span>-->
+        <!--              </div>-->
+        <!--            </router-link>-->
+        <!--          </li>-->
+        <!--        </ul>-->
         <!-- 分隔符 -->
         <el-divider/>
         <ul class="tab-center">
@@ -86,6 +108,7 @@
 
 <script>
 import {Message} from "@element-plus/icons-vue";
+import {videoCategoryParentList, videoCategoryTree} from "@/api/video.js";
 
 export default {
   name: "Aside",
@@ -112,16 +135,27 @@ export default {
         {id: 6, name: "生活", '--color': "red", class: "#icon-food", link: "/category/17"},
         {id: 7, name: "美食", '--color': "red", class: "#icon-food", link: "/category/18"},
       ],
+      videoCategoryParentList: null,
       tabsBottomList: [
         {id: 1, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
         {id: 2, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
       ],
     }
   },
+  mounted() {
+    this.initVideoCategoryParentList()
+  },
   methods: {
     handleSelect(index) {
       // console.log(this.$router.options.routes)
-    }
+    },
+    initVideoCategoryParentList() {
+      videoCategoryParentList().then(res => {
+        if (res.code === 200) {
+          this.videoCategoryParentList = res.data
+        }
+      })
+    },
   }
 }
 </script>

@@ -19,6 +19,7 @@
     "element-china-area-data": "^6.1.0",
     "element-plus": "^2.4.1",
     "js-cookie": "^3.0.5",
+    "jsencrypt": "^3.3.2",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
     "qiniu-js": "^3.4.1",

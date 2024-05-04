@@ -37,6 +37,8 @@ html.dark {
   --bg-video-card: #252632;
   --color-text-t2: #ffffffbf;
 
+  --el-bg-color-overlay: var(--color-bg-b0);
+  --niuyin-icon-bg0: rgba(245, 245, 255, 0.1);
 }
 
 :root {
@@ -93,6 +95,9 @@ html.dark {
   --video-card-box-shadow: rgba(0, 0, 0, 0.13) 0 2px 3px 0, rgba(0, 0, 0, 0.11) 0 1px 1px 0;
   --video-card-hv-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .12);
 
+  --el-bg-color-overlay: var(--color-bg-b0);
+
+  --niuyin-icon-bg0: rgba(83, 84, 84, 0.1);
 }
 
 /*空状态颜色填充*/
@@ -332,4 +337,9 @@ html.dark {
 .el-skeleton {
   --el-skeleton-color: var(--el-skeleton-main-color);
   --el-skeleton-to-color: var(--bg-video-card);
+}
+
+.el-divider--horizontal {
+  width: auto !important;
+  margin: 1rem !important;
 }

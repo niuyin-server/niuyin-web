@@ -18,13 +18,12 @@
         </template>
         <template #default>
           <div class="hotVideo-list w100" style="height: auto">
-            <div
-                class="hotVideos cp"
-                element-loading-svg-view-box="-10, -10, 50, 50"
-                v-masonry
-                fit-width="true"
-                transition-duration="0.2s"
-                item-selector=".discover-item">
+            <div class="hotVideos cp"
+                 v-masonry
+                 fit-width="true"
+                 transition-duration="0.2s"
+                 column-width=".discover-item"
+                 item-selector=".discover-item">
               <!--              热榜-->
               <!--              <div style="height: 600px;" class="discover-item">-->
               <!--                <el-card class="discover-card wh100">-->

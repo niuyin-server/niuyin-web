@@ -717,6 +717,11 @@ a {
   height: 5rem;
 }
 
+.wh1point25rem {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 html,
 div,
 .el-main {
@@ -806,6 +811,14 @@ div,
 
 .hv-scale {
   transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.hv-svg {
+  transition: transform 0.2s ease-in;
 
   &:hover {
     transform: scale(1.1);
