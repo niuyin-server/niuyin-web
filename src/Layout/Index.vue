@@ -8,7 +8,9 @@
         <Header @themeChangeEmit="emitThemeChange"></Header>
         <el-main class="main-container">
           <!--路由-->
-          <router-view/>
+          <keep-alive :include="['Video','Discover']">
+            <router-view></router-view>
+          </keep-alive>
           <el-backtop :right="16" :bottom="16" target=".main-container"></el-backtop>
         </el-main>
       </el-container>
@@ -30,10 +32,10 @@ export default {
     }
   },
   created() {
-    this.initTheme()
-    this.roydonLog()
   },
   mounted() {
+    this.initTheme()
+    this.roydonLog()
     this.$nextTick(() => {
       const dark = themeX().dark
       if (dark) {

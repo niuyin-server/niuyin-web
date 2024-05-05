@@ -15,8 +15,16 @@ const router = createRouter({
             redirect: '/index',
             component: () => import("@/Layout/Index.vue"),
             children: [
-                {path: "index", component: () => import("@/Layout/Video.vue")},
-                {path: "discover", component: () => import("@/Layout/Discover.vue")},
+                {
+                    path: "index", name: "index", component: () => import("@/Layout/Video.vue"), meta: {
+                        keepAlive: true
+                    }
+                },
+                {
+                    path: "discover", name: "discover", component: () => import("@/Layout/Discover.vue"), meta: {
+                        keepAlive: true
+                    }
+                },
                 {
                     path: "user", component: () => import("@/Layout/User.vue"),
                     redirect: '/user/videoPost',

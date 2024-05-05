@@ -313,283 +313,292 @@
     </div>
   </el-dialog>
   <!-- 用户视频详情弹窗 -->
+  <!--  <el-dialog-->
+  <!--      v-model="userVideoDialogVisible"-->
+  <!--      modal="false"-->
+  <!--      custom-class="user-video-dialog"-->
+  <!--      fullscreen-->
+  <!--      destroy-on-close="true"-->
+  <!--      align-center>-->
+  <!--    <div class="user-video-dialog-body wh100">-->
+  <!--      &lt;!&ndash;      关闭按钮&ndash;&gt;-->
+  <!--      <div class="user-video-dialog-close flex-center" @click="handleUserVideoDialogClose">-->
+  <!--        <svg class="icon1-5rem" aria-hidden="true">-->
+  <!--          <use xlink:href="#icon-back"></use>-->
+  <!--        </svg>-->
+  <!--      </div>-->
+  <!--      &lt;!&ndash;      背景&ndash;&gt;-->
+  <!--      <div class="pa wh100" style="background-color: black">-->
+  <!--        <img v-if="dialogVideo.coverImage" class="video-cover wh100"-->
+  <!--             style="filter: blur(40px);opacity: 0.8;user-select: none;" :src="dialogVideo.coverImage" alt=""/>-->
+  <!--      </div>-->
+  <!--      <div class="user-video-box wh100" :style="{ backgroundImage: `url(${dialogVideo.coverImage})` }">-->
+  <!--        <div class="user-video-container h100 pr">-->
+  <!--          &lt;!&ndash;      展开按钮&ndash;&gt;-->
+  <!--          <div class="user-video-dialog-more-open flex-center"-->
+  <!--               @click="handleUserVideoDialogMoreOpen(dialogVideo.userId)">-->
+  <!--            <svg class="icon1-5rem" aria-hidden="true">-->
+  <!--              <use xlink:href="#icon-open"></use>-->
+  <!--            </svg>-->
+  <!--          </div>-->
+  <!--          &lt;!&ndash;            图文轮播&ndash;&gt;-->
+  <!--          <ImagePlayer v-if="dialogVideo.publishType==='1'" :cover-image="dialogVideo.coverImage"-->
+  <!--                       :image-list="dialogVideo.imageList"/>-->
+  <!--          &lt;!&ndash;            视频&ndash;&gt;-->
+  <!--          <VideoPlayer v-if="dialogVideo.publishType==='0'"-->
+  <!--                       class="videoPlayer wh100"-->
+  <!--                       id="videoPlayer"-->
+  <!--                       ref="videoPlayer"-->
+  <!--                       :video="dialogVideo"/>-->
+  <!--          &lt;!&ndash;          视频简介区域&ndash;&gt;-->
+  <!--          <div class="videoinfo-area">-->
+  <!--            &lt;!&ndash;              定位信息&ndash;&gt;-->
+  <!--            <div v-if="dialogVideo.positionFlag==='1'">-->
+  <!--              <div v-if="dialogVideo.position!=null" class="video-position mtb5 flex-center">-->
+  <!--                <svg class="icon mr5px" aria-hidden="true">-->
+  <!--                  <use xlink:href="#icon-position"></use>-->
+  <!--                </svg>-->
+  <!--                <span v-if="dialogVideo.position.city" class="position-city fs9">{{ dialogVideo.position.city }}</span>-->
+  <!--                <span v-else class="position-city fs9">{{ dialogVideo.position.province }}</span>-->
+  <!--                <span class="position-dist fs9">{{ dialogVideo.position.district }}</span>-->
+  <!--                <span class="position-add fs9">{{ parseAddress(dialogVideo.position) }}</span>-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;              视频信息&ndash;&gt;-->
+  <!--            <div class="video-title one-line cw fs125 fw600">-->
+  <!--              <span>@ </span><span v-html="dialogVideo.userNickName" class="cp"-->
+  <!--                                   @click="handleLinkUserInfo(dialogVideo.userId)"></span>-->
+  <!--              <span class="fs9 fw400 cg"> · {{ smartDateFormat(dialogVideo.createTime) }}</span>-->
+  <!--            </div>-->
+  <!--            <div v-html="dialogVideo.videoTitle" class="video-title one-line cw fw400 mtb5"></div>-->
+  <!--            <div>-->
+  <!--                <span v-for="tag in dialogVideo.tags" class="video-tag fs9 cp mr5px"-->
+  <!--                      @click="handleClickVideoTag(tag)"><span>#</span>{{ tag }}</span>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          &lt;!&ndash;          视频点赞等操作区域&ndash;&gt;-->
+  <!--          <div class="video-operate">-->
+  <!--            <div class="operate-area">-->
+  <!--              <div class="video-author">-->
+  <!--                <el-avatar v-if="dialogVideo.userAvatar"-->
+  <!--                           class="user-avatar cp hv-scale"-->
+  <!--                           :size="64"-->
+  <!--                           :src="dialogVideo.userAvatar"-->
+  <!--                           lazy/>-->
+  <!--                <el-avatar v-else-->
+  <!--                           class="user-avatar cp"-->
+  <!--                           :icon="UserFilled"/>-->
+  <!--                <span v-if="!dialogVideo.weatherFollow" class="user-att cp operate-icon">-->
+  <!--                    <svg class="icon1-5rem" aria-hidden="true" @click="handleAttUser(dialogVideo.userId)">-->
+  <!--                      <use xlink:href="#icon-attention"></use></svg>-->
+  <!--                  </span>-->
+  <!--              </div>-->
+  <!--              &lt;!&ndash;            点赞  &ndash;&gt;-->
+  <!--              <div class="op">-->
+  <!--                <svg v-if="dialogVideo.weatherLike" class="icon32 operate-svg" aria-hidden="true"-->
+  <!--                     @click="videoLikeClick(dialogVideo.videoId)">-->
+  <!--                  <use xlink:href="#icon-like-ed"></use>-->
+  <!--                </svg>-->
+  <!--                <svg v-else class="icon32 operate-svg" aria-hidden="true" @click="videoLikeClick(dialogVideo.videoId)">-->
+  <!--                  <use xlink:href="#icon-like"></use>-->
+  <!--                </svg>-->
+  <!--                <div style="text-align: center;color: white">{{ dialogVideo.likeNum }}</div>-->
+  <!--              </div>-->
+  <!--              &lt;!&ndash;              评论&ndash;&gt;-->
+  <!--              <div class="op">-->
+  <!--                <svg class="icon32 operate-svg" aria-hidden="true" @click="videoCommentClick(dialogVideo.videoId)">-->
+  <!--                  <use xlink:href="#icon-comment"></use>-->
+  <!--                </svg>-->
+  <!--                <div style="text-align: center;color: white">{{ dialogVideo.commentNum }}</div>-->
+  <!--              </div>-->
+  <!--              &lt;!&ndash;              收藏&ndash;&gt;-->
+  <!--              <div class="op">-->
+  <!--                &lt;!&ndash;收藏按钮弹框&ndash;&gt;-->
+  <!--                <el-popover placement="left-end"-->
+  <!--                            :width="300"-->
+  <!--                            :show-arrow="false"-->
+  <!--                            :ref="'favoritePop'+dialogVideo.videoId">-->
+  <!--                  &lt;!&ndash;收藏按钮根据是否收藏显示不同的状态&ndash;&gt;-->
+  <!--                  <template #reference>-->
+  <!--                    <svg v-if="dialogVideo.weatherFavorite" class="icon32 operate-svg" aria-hidden="true"-->
+  <!--                         @click="handleCancelFavoriteOver(dialogVideo.videoId)"-->
+  <!--                         @mouseover.stop="handleFavoriteOver(dialogVideo.videoId)">-->
+  <!--                      <use xlink:href="#icon-favorite-ed"></use>-->
+  <!--                    </svg>-->
+  <!--                    <svg v-else class="icon32 operate-svg" aria-hidden="true">-->
+  <!--                      <use xlink:href="#icon-favorite"></use>-->
+  <!--                    </svg>-->
+  <!--                  </template>-->
+  <!--                  <template #default>-->
+  <!--                    &lt;!&ndash;弹窗主体&ndash;&gt;-->
+  <!--                    <div class="p1rem" style="min-height: 12vh;">-->
+  <!--                      &lt;!&ndash;头部&ndash;&gt;-->
+  <!--                      <div class="flex-between mb5">-->
+  <!--                        <span>选择收藏夹</span>-->
+  <!--                        &lt;!&ndash;新建文件夹按钮&ndash;&gt;-->
+  <!--                        <div>-->
+  <!--                          <el-button class="tac" @click="dialogFormVisible = true">-->
+  <!--                            <el-icon class="mr-5r" :size="16">-->
+  <!--                              <CirclePlus/>-->
+  <!--                            </el-icon>-->
+  <!--                            新建-->
+  <!--                          </el-button>-->
+  <!--                        </div>-->
+  <!--                      </div>-->
+  <!--                      &lt;!&ndash;卡片主题内容列表&ndash;&gt;-->
+  <!--                      <div class="favorite-container">-->
+  <!--                        <el-checkbox-group v-model="favoriteChecked"-->
+  <!--                                           @change="handleFavoriteCheckedChange">-->
+  <!--                          <el-checkbox class="mb5 w100"-->
+  <!--                                       v-for="item2 in userFavoriteList"-->
+  <!--                                       border-->
+  <!--                                       :key="item2.favoriteId"-->
+  <!--                                       :label="item2.favoriteId"-->
+  <!--                                       :name="item2.title">{{ item2.title }}-->
+  <!--                          </el-checkbox>-->
+  <!--                        </el-checkbox-group>-->
+  <!--                      </div>-->
+  <!--                      <div class="favorite-op tac">-->
+  <!--                        &lt;!&ndash;                          已收藏&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                          <el-button v-if="item.weatherFavorite"&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                                     type="warning"&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                                     disabled>已收藏&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                          </el-button>&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                          <el-button v-else&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                                     type="info"&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                                     @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频&ndash;&gt;-->
+  <!--                        &lt;!&ndash;                          </el-button>&ndash;&gt;-->
+  <!--                        <el-button-->
+  <!--                            type="info"-->
+  <!--                            @click="handleOnlyFavoriteVideo(dialogVideo.videoId)">仅收藏视频-->
+  <!--                        </el-button>-->
+  <!--                        <el-button type="primary"-->
+  <!--                                   :disabled="favoriteBtn"-->
+  <!--                                   @click="handleCollectVideo(dialogVideo.videoId)">收藏至收藏夹-->
+  <!--                        </el-button>-->
+  <!--                      </div>-->
+  <!--                    </div>-->
+  <!--                  </template>-->
+  <!--                </el-popover>-->
+  <!--                <div class="video-nums cw tac">{{ dialogVideo.favoritesNum }}</div>-->
+  <!--              </div>-->
+  <!--              &lt;!&ndash;              分享&ndash;&gt;-->
+  <!--              <div class="op">-->
+  <!--                <svg class="icon32 operate-svg" aria-hidden="true">-->
+  <!--                  <use xlink:href="#icon-share"></use>-->
+  <!--                </svg>-->
+  <!--                <div class="video-nums cw tac">{{ dialogVideo.favoritesNum }}</div>-->
+  <!--              </div>-->
+  <!--              &lt;!&ndash;                更多&ndash;&gt;-->
+  <!--              <div class="op">-->
+  <!--                <el-popover placement="left-end"-->
+  <!--                            :width="300">-->
+  <!--                  &lt;!&ndash;收藏按钮根据是否收藏显示不同的状态&ndash;&gt;-->
+  <!--                  <template #reference>-->
+  <!--                    <el-icon class="operate-icon"-->
+  <!--                             :size="28"-->
+  <!--                             color="white">-->
+  <!--                      <MoreFilled/>-->
+  <!--                    </el-icon>-->
+  <!--                  </template>-->
+  <!--                  <template #default>-->
+  <!--                    <div class="p1rem">更多</div>-->
+  <!--                  </template>-->
+  <!--                </el-popover>-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--        <div v-if="showUserVideoMore" class="user-video-slidebar h100">-->
+  <!--          <div class="flex-between" style="height: 40px;">-->
+  <!--            <el-tabs v-model="tabActiveId" @tab-click="handleTabUserVideoMoreClick">-->
+  <!--              <el-tab-pane v-for="item in tabUserVideoMore"-->
+  <!--                           :key="item.id"-->
+  <!--                           :lazy="true"-->
+  <!--                           :label="item.tabName"-->
+  <!--                           :name="item.id">-->
+
+  <!--              </el-tab-pane>-->
+  <!--            </el-tabs>-->
+  <!--            <div class="video-more-close cp flex-center" @click="handleCloseMorePostDialog">-->
+  <!--              <Close style="width: 1rem; height: 1rem"/>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          <div v-if="tabActiveId===1" class="user-info-post">-->
+  <!--            &lt;!&ndash;                todo 查询用户详情，粉丝，总获赞&ndash;&gt;-->
+  <!--            <div class="user-info mb10px flex-between p1rem" style="border-bottom: 2px solid rgba(144,144,144,0.2)">-->
+  <!--              <div class="user-info-left">-->
+  <!--                <div class="user-info-name fw600 fs9 cp text-hv-primary mb5px">-->
+  <!--                  @<span @click="handleToUserProfile(dialogVideo.userId)">{{ dialogVideo.userNickName }}</span> >-->
+  <!--                </div>-->
+  <!--                <div class="flex-start">-->
+  <!--                  <div class="=user-info-fans flex-center">-->
+  <!--                    <div class="mr-5r fs8">粉丝</div>-->
+  <!--                    <div class="follow-right-8 fw600">{{ 10 }}</div>-->
+  <!--                  </div>-->
+  <!--                  <div class="user-info-like flex-center">-->
+  <!--                    <div class="mr-5r fs8">获赞</div>-->
+  <!--                    <div class="fw600">{{ 1 }}</div>-->
+  <!--                  </div>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--              <div class="user-info-follow">-->
+  <!--                <el-button v-if="dialogVideo.weatherFollow" type="info" class="fs9">已关注</el-button>-->
+  <!--                <el-button v-else type="primary" class="fs9">关注</el-button>-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;                作品区域&ndash;&gt;-->
+  <!--            <div class="user-post-area">-->
+  <!--              <el-scrollbar v-infinite-scroll="loadMoreUserPost" style="padding: 0 .5rem;">-->
+  <!--                <div class="user-post"-->
+  <!--                     v-for="item in userPostList"-->
+  <!--                     :key="item.videoId"-->
+  <!--                     @click="handlePlayVideoPost(item)">-->
+  <!--                  <div class="post-card cp wh100 flex-center">-->
+  <!--                    &lt;!&ndash;                      封面&ndash;&gt;-->
+  <!--                    <img class="post-cover" :src="item.coverImage"/>-->
+  <!--                    &lt;!&ndash;                      获赞&ndash;&gt;-->
+  <!--                    <div class="post-like flex-center">-->
+  <!--                      <svg class="icon1rem" aria-hidden="true">-->
+  <!--                        <use xlink:href="#icon-like-num"></use>-->
+  <!--                      </svg>-->
+  <!--                      <span class="ml-5r">{{ item.likeNum }}</span>-->
+  <!--                    </div>-->
+  <!--                    &lt;!&ndash;                      视频类型：图文&ndash;&gt;-->
+  <!--                    <div v-if="item.publishType===1" class="post-type flex-center">-->
+  <!--                      <svg class="icon1rem" aria-hidden="true">-->
+  <!--                        <use xlink:href="#icon-pics"></use>-->
+  <!--                      </svg>-->
+  <!--                      <span class="type-desc fs7 fw500 ml5px">图文</span>-->
+  <!--                    </div>-->
+  <!--                  </div>-->
+  <!--                </div>-->
+  <!--                <div v-if="UserPostNotMore" class="w100">-->
+  <!--                  <el-divider>暂无更多数据</el-divider>-->
+  <!--                </div>-->
+  <!--                <el-backtop :right="16" :bottom="16" target=".el-dialog .el-scrollbar__wrap"-->
+  <!--                            :visibility-height="10"/>-->
+  <!--              </el-scrollbar>-->
+  <!--            </div>-->
+  <!--            <div v-if="tabActiveId===2">-->
+  <!--              评论-->
+  <!--            </div>-->
+  <!--            <div v-if="tabActiveId===3">-->
+  <!--              相关推荐-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </el-dialog>-->
   <el-dialog
       v-model="userVideoDialogVisible"
-      modal="false"
+      :modal="false"
       custom-class="user-video-dialog"
       fullscreen
-      destroy-on-close="true"
+      :destroy-on-close="true"
       align-center>
-    <div class="user-video-dialog-body wh100">
-      <!--      关闭按钮-->
-      <div class="user-video-dialog-close flex-center" @click="handleUserVideoDialogClose">
-        <svg class="icon1-5rem" aria-hidden="true">
-          <use xlink:href="#icon-back"></use>
-        </svg>
-      </div>
-      <!--      背景-->
-      <div class="pa wh100" style="background-color: black">
-        <img v-if="dialogVideo.coverImage" class="video-cover wh100"
-             style="filter: blur(40px);opacity: 0.8;user-select: none;" :src="dialogVideo.coverImage" alt=""/>
-      </div>
-      <div class="user-video-box wh100" :style="{ backgroundImage: `url(${dialogVideo.coverImage})` }">
-        <div class="user-video-container h100 pr">
-          <!--      展开按钮-->
-          <div class="user-video-dialog-more-open flex-center"
-               @click="handleUserVideoDialogMoreOpen(dialogVideo.userId)">
-            <svg class="icon1-5rem" aria-hidden="true">
-              <use xlink:href="#icon-open"></use>
-            </svg>
-          </div>
-          <!--            图文轮播-->
-          <ImagePlayer v-if="dialogVideo.publishType==='1'" :cover-image="dialogVideo.coverImage"
-                       :image-list="dialogVideo.imageList"/>
-          <!--            视频-->
-          <VideoPlayer v-if="dialogVideo.publishType==='0'"
-                       class="videoPlayer wh100"
-                       id="videoPlayer"
-                       ref="videoPlayer"
-                       :video="dialogVideo"/>
-          <!--          视频简介区域-->
-          <div class="videoinfo-area">
-            <!--              定位信息-->
-            <div v-if="dialogVideo.positionFlag==='1'">
-              <div v-if="dialogVideo.position!=null" class="video-position mtb5 flex-center">
-                <svg class="icon mr5px" aria-hidden="true">
-                  <use xlink:href="#icon-position"></use>
-                </svg>
-                <span v-if="dialogVideo.position.city" class="position-city fs9">{{ dialogVideo.position.city }}</span>
-                <span v-else class="position-city fs9">{{ dialogVideo.position.province }}</span>
-                <span class="position-dist fs9">{{ dialogVideo.position.district }}</span>
-                <span class="position-add fs9">{{ parseAddress(dialogVideo.position) }}</span>
-              </div>
-            </div>
-            <!--              视频信息-->
-            <div class="video-title one-line cw fs125 fw600">
-              <span>@ </span><span v-html="dialogVideo.userNickName" class="cp"
-                                   @click="handleLinkUserInfo(dialogVideo.userId)"></span>
-              <span class="fs9 fw400 cg"> · {{ smartDateFormat(dialogVideo.createTime) }}</span>
-            </div>
-            <div v-html="dialogVideo.videoTitle" class="video-title one-line cw fw400 mtb5"></div>
-            <div>
-                <span v-for="tag in dialogVideo.tags" class="video-tag fs9 cp mr5px"
-                      @click="handleClickVideoTag(tag)"><span>#</span>{{ tag }}</span>
-            </div>
-          </div>
-          <!--          视频点赞等操作区域-->
-          <div class="video-operate">
-            <div class="operate-area">
-              <div class="video-author">
-                <el-avatar v-if="dialogVideo.userAvatar"
-                           class="user-avatar cp hv-scale"
-                           :size="64"
-                           :src="dialogVideo.userAvatar"
-                           lazy/>
-                <el-avatar v-else
-                           class="user-avatar cp"
-                           :icon="UserFilled"/>
-                <span v-if="!dialogVideo.weatherFollow" class="user-att cp operate-icon">
-                    <svg class="icon1-5rem" aria-hidden="true" @click="handleAttUser(dialogVideo.userId)">
-                      <use xlink:href="#icon-attention"></use></svg>
-                  </span>
-              </div>
-              <!--            点赞  -->
-              <div class="op">
-                <svg v-if="dialogVideo.weatherLike" class="icon32 operate-svg" aria-hidden="true"
-                     @click="videoLikeClick(dialogVideo.videoId)">
-                  <use xlink:href="#icon-like-ed"></use>
-                </svg>
-                <svg v-else class="icon32 operate-svg" aria-hidden="true" @click="videoLikeClick(dialogVideo.videoId)">
-                  <use xlink:href="#icon-like"></use>
-                </svg>
-                <div style="text-align: center;color: white">{{ dialogVideo.likeNum }}</div>
-              </div>
-              <!--              评论-->
-              <div class="op">
-                <svg class="icon32 operate-svg" aria-hidden="true" @click="videoCommentClick(dialogVideo.videoId)">
-                  <use xlink:href="#icon-comment"></use>
-                </svg>
-                <div style="text-align: center;color: white">{{ dialogVideo.commentNum }}</div>
-              </div>
-              <!--              收藏-->
-              <div class="op">
-                <!--收藏按钮弹框-->
-                <el-popover placement="left-end"
-                            :width="300"
-                            :show-arrow="false"
-                            :ref="'favoritePop'+dialogVideo.videoId">
-                  <!--收藏按钮根据是否收藏显示不同的状态-->
-                  <template #reference>
-                    <svg v-if="dialogVideo.weatherFavorite" class="icon32 operate-svg" aria-hidden="true"
-                         @click="handleCancelFavoriteOver(dialogVideo.videoId)"
-                         @mouseover.stop="handleFavoriteOver(dialogVideo.videoId)">
-                      <use xlink:href="#icon-favorite-ed"></use>
-                    </svg>
-                    <svg v-else class="icon32 operate-svg" aria-hidden="true">
-                      <use xlink:href="#icon-favorite"></use>
-                    </svg>
-                  </template>
-                  <template #default>
-                    <!--弹窗主体-->
-                    <div class="p1rem" style="min-height: 12vh;">
-                      <!--头部-->
-                      <div class="flex-between mb5">
-                        <span>选择收藏夹</span>
-                        <!--新建文件夹按钮-->
-                        <div>
-                          <el-button class="tac" @click="dialogFormVisible = true">
-                            <el-icon class="mr-5r" :size="16">
-                              <CirclePlus/>
-                            </el-icon>
-                            新建
-                          </el-button>
-                        </div>
-                      </div>
-                      <!--卡片主题内容列表-->
-                      <div class="favorite-container">
-                        <el-checkbox-group v-model="favoriteChecked"
-                                           @change="handleFavoriteCheckedChange">
-                          <el-checkbox class="mb5 w100"
-                                       v-for="item2 in userFavoriteList"
-                                       border
-                                       :key="item2.favoriteId"
-                                       :label="item2.favoriteId"
-                                       :name="item2.title">{{ item2.title }}
-                          </el-checkbox>
-                        </el-checkbox-group>
-                      </div>
-                      <div class="favorite-op tac">
-                        <!--                          已收藏-->
-                        <!--                          <el-button v-if="item.weatherFavorite"-->
-                        <!--                                     type="warning"-->
-                        <!--                                     disabled>已收藏-->
-                        <!--                          </el-button>-->
-                        <!--                          <el-button v-else-->
-                        <!--                                     type="info"-->
-                        <!--                                     @click="handleOnlyFavoriteVideo(item.videoId)">仅收藏视频-->
-                        <!--                          </el-button>-->
-                        <el-button
-                            type="info"
-                            @click="handleOnlyFavoriteVideo(dialogVideo.videoId)">仅收藏视频
-                        </el-button>
-                        <el-button type="primary"
-                                   :disabled="favoriteBtn"
-                                   @click="handleCollectVideo(dialogVideo.videoId)">收藏至收藏夹
-                        </el-button>
-                      </div>
-                    </div>
-                  </template>
-                </el-popover>
-                <div class="video-nums cw tac">{{ dialogVideo.favoritesNum }}</div>
-              </div>
-              <!--              分享-->
-              <div class="op">
-                <svg class="icon32 operate-svg" aria-hidden="true">
-                  <use xlink:href="#icon-share"></use>
-                </svg>
-                <div class="video-nums cw tac">{{ dialogVideo.favoritesNum }}</div>
-              </div>
-              <!--                更多-->
-              <div class="op">
-                <el-popover placement="left-end"
-                            :width="300">
-                  <!--收藏按钮根据是否收藏显示不同的状态-->
-                  <template #reference>
-                    <el-icon class="operate-icon"
-                             :size="28"
-                             color="white">
-                      <MoreFilled/>
-                    </el-icon>
-                  </template>
-                  <template #default>
-                    <div class="p1rem">更多</div>
-                  </template>
-                </el-popover>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="showUserVideoMore" class="user-video-slidebar h100">
-          <div class="flex-between" style="height: 40px;">
-            <el-tabs v-model="tabActiveId" @tab-click="handleTabUserVideoMoreClick">
-              <el-tab-pane v-for="item in tabUserVideoMore"
-                           :key="item.id"
-                           :lazy="true"
-                           :label="item.tabName"
-                           :name="item.id">
-
-              </el-tab-pane>
-            </el-tabs>
-            <div class="video-more-close cp flex-center" @click="handleCloseMorePostDialog">
-              <Close style="width: 1rem; height: 1rem"/>
-            </div>
-          </div>
-          <div v-if="tabActiveId===1" class="user-info-post">
-            <!--                todo 查询用户详情，粉丝，总获赞-->
-            <div class="user-info mb10px flex-between p1rem" style="border-bottom: 2px solid rgba(144,144,144,0.2)">
-              <div class="user-info-left">
-                <div class="user-info-name fw600 fs9 cp text-hv-primary mb5px">
-                  @<span @click="handleToUserProfile(dialogVideo.userId)">{{ dialogVideo.userNickName }}</span> >
-                </div>
-                <div class="flex-start">
-                  <div class="=user-info-fans flex-center">
-                    <div class="mr-5r fs8">粉丝</div>
-                    <div class="follow-right-8 fw600">{{ 10 }}</div>
-                  </div>
-                  <div class="user-info-like flex-center">
-                    <div class="mr-5r fs8">获赞</div>
-                    <div class="fw600">{{ 1 }}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="user-info-follow">
-                <el-button v-if="dialogVideo.weatherFollow" type="info" class="fs9">已关注</el-button>
-                <el-button v-else type="primary" class="fs9">关注</el-button>
-              </div>
-            </div>
-            <!--                作品区域-->
-            <div class="user-post-area">
-              <el-scrollbar v-infinite-scroll="loadMoreUserPost" style="padding: 0 .5rem;">
-                <div class="user-post"
-                     v-for="item in userPostList"
-                     :key="item.videoId"
-                     @click="handlePlayVideoPost(item)">
-                  <div class="post-card cp wh100 flex-center">
-                    <!--                      封面-->
-                    <img class="post-cover" :src="item.coverImage"/>
-                    <!--                      获赞-->
-                    <div class="post-like flex-center">
-                      <svg class="icon1rem" aria-hidden="true">
-                        <use xlink:href="#icon-like-num"></use>
-                      </svg>
-                      <span class="ml-5r">{{ item.likeNum }}</span>
-                    </div>
-                    <!--                      视频类型：图文-->
-                    <div v-if="item.publishType===1" class="post-type flex-center">
-                      <svg class="icon1rem" aria-hidden="true">
-                        <use xlink:href="#icon-pics"></use>
-                      </svg>
-                      <span class="type-desc fs7 fw500 ml5px">图文</span>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="UserPostNotMore" class="w100">
-                  <el-divider>暂无更多数据</el-divider>
-                </div>
-                <el-backtop :right="16" :bottom="16" target=".el-dialog .el-scrollbar__wrap"
-                            :visibility-height="10"/>
-              </el-scrollbar>
-            </div>
-            <div v-if="tabActiveId===2">
-              评论
-            </div>
-            <div v-if="tabActiveId===3">
-              相关推荐
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <VideoPlayDialog :dialog-video="dialogVideo" @dialogVisible="dialogVisibleEmit"/>
   </el-dialog>
 </template>
 
@@ -615,6 +624,7 @@ import {userInfoX} from "@/store/userInfoX";
 import {encodeData, smartDateFormat} from "@/utils/roydon.js";
 import UserVideoDialog from "@/components/video/UserVideoDialog.vue";
 import {videoUserpage} from "@/api/video.js";
+import VideoPlayDialog from "@/components/video/VideoPlayDialog.vue";
 
 export default {
   name: 'VideoPlayerCarousel',
@@ -628,7 +638,8 @@ export default {
     ArrowUpBold,
     MoreFilled,
     VideoPlayer,
-    VideoComment
+    VideoComment,
+    VideoPlayDialog
   },
   computed: {
     UserFilled() {
@@ -714,6 +725,9 @@ export default {
   },
   methods: {
     smartDateFormat,
+    dialogVisibleEmit(flag) {
+      this.userVideoDialogVisible = flag
+    },
     // 鼠标悬停显示
     handleFavoriteOver(videoId) {
       // console.log("handleFavoriteShow" + videoId)
@@ -1033,6 +1047,7 @@ export default {
       // console.log(video)
       this.dialogVideo = video
       this.userVideoDialogVisible = true
+      console.log(this.userVideoDialogVisible)
     },
     // 关闭用户视频弹窗
     handleUserVideoDialogClose() {
@@ -1109,7 +1124,7 @@ export default {
 }
 
 .video-player {
-  width: 95%;
+  flex: 1;
   border-radius: 1rem;
   height: 100%;
 }
@@ -1247,7 +1262,7 @@ export default {
 }
 
 .player-playswitch {
-  width: 5%;
+  margin: auto .5rem;
   z-index: 2;
 
   .player-playswitch-tab {

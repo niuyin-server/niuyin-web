@@ -40,7 +40,6 @@
                          :label="item.tabName"
                          :lazy="true"
                          :name="item.id">
-              <!--              <router-view/>-->
             </el-tab-pane>
           </el-tabs>
           <PersonVideoPost v-if="activeName===1"/>

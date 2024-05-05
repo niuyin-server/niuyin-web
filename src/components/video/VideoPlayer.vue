@@ -28,6 +28,14 @@ export default {
   },
   props: {
     video: Object,
+    videoAutoPlay:{
+      type: Boolean,
+      default: false,
+    },
+    videoMuted:{
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -42,7 +50,7 @@ export default {
         speed: true, // 关闭进度条拖动
         webFullScreen: false,
         speedRate: ["0.5", "0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
-        autoPlay: false, //自动播放
+        autoPlay: this.videoAutoPlay, //自动播放
         loop: false, //循环播放
         mirror: false, //镜像画面
         ligthOff: false, //关灯模式

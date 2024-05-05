@@ -295,7 +295,7 @@ export default {
     .collection-video {
 
       .videos {
-        width: 16.666666%;
+        width: 20%;
 
         .video-cover {
           width: 48px;

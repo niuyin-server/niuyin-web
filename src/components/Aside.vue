@@ -152,7 +152,9 @@ export default {
     initVideoCategoryParentList() {
       videoCategoryParentList().then(res => {
         if (res.code === 200) {
-          this.videoCategoryParentList = res.data
+          if (this.videoCategoryParentList == null) {
+            this.videoCategoryParentList = res.data
+          }
           localStorage.setItem("videoCategoryParentList", JSON.stringify(res.data))
         }
       })

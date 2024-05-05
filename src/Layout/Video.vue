@@ -39,9 +39,10 @@ export default {
   },
   created() {
     // this.getVideoFeed()
-    this.getRecommendVideoFeed()
+    // this.getRecommendVideoFeed()
   },
   mounted() {
+    this.getRecommendVideoFeed()
   },
   methods: {
     getVideoFeed() {

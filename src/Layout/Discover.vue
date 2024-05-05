@@ -33,7 +33,6 @@
               <!--                                 :label="item.tabName"-->
               <!--                                 :lazy="true"-->
               <!--                                 :name="item.tabName">-->
-              <!--                      &lt;!&ndash;                    <router-view/>&ndash;&gt;-->
               <!--                      <div v-for="it in item.dataList" class="p10px">-->
               <!--                        <p>{{ it }}</p>-->
               <!--                      </div>-->
@@ -91,9 +90,10 @@ export default {
     }
   },
   created() {
-    this.initPushVideo()
+    // this.initPushVideo()
   },
   mounted() {
+    this.initPushVideo()
     window.addEventListener('scroll', this.handleScroll, true);
   },
   destroyed() {
