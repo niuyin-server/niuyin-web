@@ -39,6 +39,7 @@ html.dark {
 
   --el-bg-color-overlay: var(--color-bg-b0);
   --niuyin-icon-bg0: rgba(245, 245, 255, 0.1);
+  --md-bg-code: #1c1e29;
 }
 
 :root {
@@ -98,6 +99,7 @@ html.dark {
   --el-bg-color-overlay: var(--color-bg-b0);
 
   --niuyin-icon-bg0: rgba(83, 84, 84, 0.1);
+  --md-bg-code: #f4f4f4;
 }
 
 /*空状态颜色填充*/
@@ -112,6 +114,7 @@ html.dark {
   --el-empty-fill-color-7: rgba(209, 184, 190, 0.47);
   --el-empty-fill-color-8: rgba(164, 179, 210, 0.75);
   --el-empty-fill-color-9: rgba(114, 128, 177, 0.51);
+
 }
 
 .el-checkbox__inner {
@@ -342,4 +345,33 @@ html.dark {
 .el-divider--horizontal {
   width: auto !important;
   margin: 1rem !important;
+}
+
+.v-md-editor {
+  background-color: var(--color-bg-b0) !important;
+  border-radius: .5rem !important;
+}
+
+.github-markdown-body {
+  padding: .5rem !important;
+  background-color: var(--color-bg-b0) !important;
+  border-radius: .5rem !important;
+  overflow: hidden;
+}
+
+.v-md-editor__toolbar {
+  z-index: 1;
+}
+
+.github-markdown-body div {
+  background-color: var(--color-bg-b0) !important;
+}
+
+.github-markdown-body pre {
+  border-radius: .5rem !important;
+  background-color: var(--md-bg-code) !important;
+}
+
+.github-markdown-body table tr {
+  background-color: var(--md-bg-code) !important;
 }

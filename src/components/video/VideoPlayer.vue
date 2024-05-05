@@ -5,7 +5,6 @@
     </div>
     <videoPlay
         v-bind="options"
-        :poster="options.poster"
         :ref="'videoPlay'+video.videoId"
         :id="video.videoId"
         @play="onPlay"
@@ -35,6 +34,10 @@ export default {
     videoMuted:{
       type: Boolean,
       default: false,
+    },
+    videoControl:{
+      type: Boolean,
+      default: true,
     }
   },
   data() {
@@ -46,7 +49,7 @@ export default {
         title: "", //视频名称
         src: this.video.videoUrl, //视频源
         poster: this.video.coverImage, // 视频封面
-        muted: false, //静音
+        muted: this.videoMuted, //静音
         speed: true, // 关闭进度条拖动
         webFullScreen: false,
         speedRate: ["0.5", "0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
@@ -55,7 +58,7 @@ export default {
         mirror: false, //镜像画面
         ligthOff: false, //关灯模式
         volume: 0.5, //默认音量大小
-        control: true, //是否显示控制
+        control: this.videoControl, //是否显示控制
         controlBtns: [
           "audioTrack",
           "quality",

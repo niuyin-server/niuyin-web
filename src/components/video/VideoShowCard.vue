@@ -32,7 +32,7 @@
                      :video="video"/>
       </div>
     </div>
-    <div class="video-info">
+    <div class="video-info" @click="handleVideoPlayDialog">
       <p v-html="video.videoTitle" class="video-title two-line fs8"></p>
       <div class="video-author one-line flex-between">
         <span v-if="video.userNickName" class="fs7 cp text-hv-gold">@{{ video.userNickName }}</span>
@@ -40,15 +40,25 @@
       </div>
     </div>
   </div>
+  <el-dialog
+      v-model="userVideoDialogVisible"
+      :modal="false"
+      custom-class="user-video-dialog"
+      fullscreen
+      :destroy-on-close="true"
+      align-center>
+    <VideoPlayDialog :dialog-video="video" @dialogVisible="dialogVisibleEmit"/>
+  </el-dialog>
 </template>
 
 <script>
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import ImagePlayer from "@/components/video/ImagePlayer.vue";
+import VideoPlayDialog from "@/components/video/VideoPlayDialog.vue";
 
 export default {
   name: "VideoShowCard",
-  components: {ImagePlayer, VideoPlayer},
+  components: {VideoPlayDialog, ImagePlayer, VideoPlayer},
   props: {
     video: Object,
   },
@@ -56,6 +66,7 @@ export default {
     return {
       playVideo: false,
       imagePlayerHeight: 0,
+      userVideoDialogVisible: false,
     }
   },
   created() {
@@ -90,6 +101,12 @@ export default {
       }
 
       return formattedDuration;
+    },
+    handleVideoPlayDialog() {
+      this.userVideoDialogVisible = true
+    },
+    dialogVisibleEmit(flag) {
+      this.userVideoDialogVisible = flag
     },
   },
 }

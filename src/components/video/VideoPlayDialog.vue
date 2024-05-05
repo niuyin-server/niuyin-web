@@ -30,6 +30,7 @@
                      ref="videoPlayer"
                      :video-auto-play="true"
                      :video-muted="true"
+                     :video-control="true"
                      :video="videoData"/>
         <!--          视频简介区域-->
         <div class="videoinfo-area">
@@ -271,8 +272,11 @@
                           @emitUpdateVideoCommentNum="updateVideoCommentNumEmit"/>
           </div>
         </div>
-        <div v-else-if="tabActiveId===3">
+        <div v-else-if="tabActiveId===3" class="user-info-post">
           相关推荐
+        </div>
+        <div v-else-if="tabActiveId===4" class="user-info-post">
+          <video-note :video-id="videoData.videoId"/>
         </div>
       </div>
     </div>
@@ -291,6 +295,7 @@ import {CirclePlus, Close, MoreFilled, UserFilled} from "@element-plus/icons-vue
 import {favoriteVideoToCollection, myFavoriteList, onlyFavoriteVideo, videoInWhoseCollection} from "@/api/behave.js";
 import {videoUserpage} from "@/api/video.js";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
+import VideoNote from "@/components/video/note/VideoNote.vue";
 
 export default {
   name: 'VideoPlayDialog',
@@ -303,6 +308,7 @@ export default {
     dialogVideo: Object,
   },
   components: {
+    VideoNote,
     Close,
     MoreFilled,
     CirclePlus,
@@ -324,7 +330,8 @@ export default {
       tabUserVideoMore: [
         {id: 1, tabName: "他的作品"},
         {id: 2, tabName: "评论"},
-        {id: 3, tabName: "相关推荐"}
+        // {id: 3, tabName: "相关推荐"},
+        {id: 4, tabName: "视频笔记"},
       ],
       // 他的作品dto
       videoUserPageDTO: {
@@ -652,7 +659,7 @@ $video-sidebar-width: 520px;
     position: absolute;
     left: 2rem;
     top: 2rem;
-    z-index: 11;
+    z-index: 2;
     cursor: pointer;
     width: 4rem;
     height: 4rem;
@@ -685,7 +692,7 @@ $video-sidebar-width: 520px;
       position: absolute;
       right: 2rem;
       top: 2rem;
-      z-index: 11;
+      z-index: 2;
       cursor: pointer;
       width: 3rem;
       height: 3rem;

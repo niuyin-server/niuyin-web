@@ -40,6 +40,32 @@ initAMapApiLoader({
 // vue瀑布流插件
 import {VueMasonryPlugin} from 'vue-masonry';
 
+// v-md-editor
+import VMdEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
+
+import VMdPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
+// 引入所有语言包
+import hljs from 'highlight.js';
+
+VMdEditor.use(vuepressTheme, {
+    Prism,
+});
+VMdEditor.use(githubTheme, {
+    Hljs: hljs,
+});
+
+// highlightjs
+VMdPreview.use(githubTheme, {
+    Hljs: hljs,
+});
+
 const app = createApp(App);
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
@@ -69,5 +95,7 @@ VueViewer.setDefaults({
 })
 app.use(VueAMap)
 app.use(VueMasonryPlugin);
+app.use(VMdEditor);
+app.use(VMdPreview);
 
 app.mount("#app");

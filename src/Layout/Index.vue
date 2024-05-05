@@ -8,9 +8,11 @@
         <Header @themeChangeEmit="emitThemeChange"></Header>
         <el-main class="main-container">
           <!--路由-->
-          <keep-alive :include="['Video','Discover']">
-            <router-view></router-view>
-          </keep-alive>
+          <router-view v-slot="{ Component }">
+            <keep-alive :include="['Video','Discover','HotVideo','Follow','User','CategoryVideo2']">
+              <component :is="Component"/>
+            </keep-alive>
+          </router-view>
           <el-backtop :right="16" :bottom="16" target=".main-container"></el-backtop>
         </el-main>
       </el-container>

@@ -179,3 +179,29 @@ export function syncViewBehave(videoId) {
         method: 'get',
     })
 }
+
+// 视频笔记分页
+export function videoNotePage(data) {
+    return request({
+        url: '/behave/api/v1/videoNote/page',
+        method: 'post',
+        data: data
+    })
+}
+
+// 视频笔记
+export function addVideoNote(data) {
+    return request({
+        url: '/behave/api/v1/videoNote',
+        method: 'post',
+        data: data
+    })
+}
+
+// 视频笔记
+export function getVideoNote(noteId) {
+    return request({
+        url: '/behave/api/v1/videoNote/' + noteId,
+        method: 'get'
+    })
+}
