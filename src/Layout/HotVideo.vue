@@ -51,14 +51,14 @@
               <div v-for='(item,index) in hotVideoList'
                    :key="item.videoId"
                    v-masonry-tile
-                   class="hotVideo-item">
+                   class="hotVideo-item cp">
                 <el-card class="hotVideo-card">
                   <div class="video-cover tac">
                     <el-image class="eli-ofc wh100"
                               @click="videoDialog(item.videoId)"
                               :src="item.coverImage"/>
                   </div>
-                  <div class="user-info">
+                  <div class="user-info" @click="handleVideoPlayDialog(item)">
                     <div>
                       <p class="one-line fs9">{{ item.videoTitle }}</p>
                       <p class="one-line fs7 cg">{{ item.videoDesc }}</p>
@@ -76,7 +76,7 @@
                                      class="cp"
                                      :lazy="true"
                                      :src="item.userAvatar"
-                                     @click="handlePersonInfo(item.userId)"
+                                     @click.stop="handlePersonInfo(item.userId)"
                                      @mouseover="handleSocialBehaveNumsHover(item.userId,index)"
                                      @mouseleave="handleSocialBehaveNumsHoverLeave(item.userId,index)"/>
                           <el-avatar v-else class="cp"
@@ -147,18 +147,29 @@
       </el-dialog>
     </el-scrollbar>
   </div>
+  <el-dialog
+      v-model="userVideoDialogVisible"
+      :modal="false"
+      custom-class="user-video-dialog"
+      fullscreen
+      :destroy-on-close="true"
+      align-center>
+    <VideoPlayDialog :dialog-video="video" @dialogVisible="dialogVisibleEmit"/>
+  </el-dialog>
 </template>
 
 <script>
-import {hotVideoPage, userLikeNums} from "@/api/video";
+import {getVideoVOById, hotVideoPage, userLikeNums} from "@/api/video";
 import {Close, UserFilled} from "@element-plus/icons-vue";
 import {followAndFans} from "@/api/social.js";
 import {encodeData} from "@/utils/roydon.js";
 import {userInfoX} from "@/store/userInfoX";
 import {searchHotLoad} from "@/api/search.js";
+import VideoPlayDialog from "@/components/video/VideoPlayDialog.vue";
 
 export default {
   name: "HotVideo",
+  components: {VideoPlayDialog},
   computed: {
     Close() {
       return Close
@@ -202,6 +213,7 @@ export default {
       ],
       hotMsg: [],
       playVideoUrl: "",//hover之后播放的video
+      userVideoDialogVisible: false,
     };
   },
   created() {
@@ -325,6 +337,17 @@ export default {
       // 跳转到搜索页面
       this.$router.push(`/videoSearch?keyword=${keyword}`);
     },
+    handleVideoPlayDialog(item) {
+      getVideoVOById(item.videoId).then(res => {
+        if (res.code === 200) {
+          this.video = res.data
+          this.userVideoDialogVisible = true
+        }
+      })
+    },
+    dialogVisibleEmit(flag) {
+      this.userVideoDialogVisible = flag
+    }
   }
 };
 </script>

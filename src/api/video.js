@@ -147,3 +147,11 @@ export async function videoCategoryChildrenList(id) {
         method: 'GET'
     })
 }
+
+// 视频vo
+export async function getVideoVOById(id) {
+    return await request({
+        url: '/video/api/v1/videoVO/' + id,
+        method: 'GET'
+    })
+}

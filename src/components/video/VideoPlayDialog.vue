@@ -292,10 +292,18 @@ import ImagePlayer from "@/components/video/ImagePlayer.vue";
 import VideoPlayer from "@/components/video/VideoPlayer.vue";
 import {encodeData, smartDateFormat} from "@/utils/roydon.js";
 import {CirclePlus, Close, MoreFilled, UserFilled} from "@element-plus/icons-vue";
-import {favoriteVideoToCollection, myFavoriteList, onlyFavoriteVideo, videoInWhoseCollection} from "@/api/behave.js";
+import {
+  favoriteVideoToCollection,
+  likeVideo,
+  myFavoriteList,
+  onlyFavoriteVideo, userUnFavoriteVideo,
+  videoInWhoseCollection
+} from "@/api/behave.js";
 import {videoUserpage} from "@/api/video.js";
 import VideoComment from "@/components/video/comment/VideoComment.vue";
 import VideoNote from "@/components/video/note/VideoNote.vue";
+import {followUser} from "@/api/social.js";
+import {userInfoX} from "@/store/userInfoX";
 
 export default {
   name: 'VideoPlayDialog',
@@ -595,6 +603,7 @@ export default {
           path: '/person/' + encodeData(userId)
         })
       }
+      this.emitDialogVisible(false)
     },
     loadMoreUserPost() {
       if (this.UserPostNotMore) {
