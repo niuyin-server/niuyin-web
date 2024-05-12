@@ -29,7 +29,7 @@
                        :src="item.avatar"
                        lazy/>
             <el-avatar v-else :icon="UserFilled"/>
-            <div v-if="followExpand" class="user-nickname dn-phone">
+            <div v-if="followExpand" class="user-nickname">
               <p class="nickname one-line">{{ item.nickName }}</p>
             </div>
             <span v-if="curPlayUserId===item.userId" class="cur-play-dot pa"></span>
@@ -41,8 +41,10 @@
         <el-empty v-show="followTotal<=0" description="暂无数据"/>
       </el-scrollbar>
     </div>
+    <!--    <div class="video-container"-->
+    <!--         :style="'width:calc(100% - '+followListWidth+');'"> -->
     <div class="video-container"
-         :style="'width:calc(100% - '+followListWidth+');'">
+         style="flex: 1;width: 100%"><!--width: 100%不会有动画效果-->
       <VideoPlayerCarousel
           v-if="showVideoPlayer"
           :loading="loading"
@@ -216,6 +218,7 @@ export default {
   height: 100%;
   border-radius: 1rem;
   display: flex;
+  transition: all .3s ease-in-out;
 }
 
 .user-card {
@@ -255,7 +258,7 @@ export default {
 }
 
 .video-container {
-  transition: all .3s ease;
+  transition: all .3s ease-in-out;
 }
 
 .cur-play-dot {
