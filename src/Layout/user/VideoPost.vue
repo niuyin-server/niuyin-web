@@ -55,22 +55,22 @@
     <el-divider>暂无更多数据</el-divider>
   </div>
   <!--  视频播放弹框  -->
-<!--  <el-dialog v-model="dialogVisible"-->
-<!--             @close="dialogDestroy"-->
-<!--             style="height: calc(100% - 10vh);"-->
-<!--             width="80%"-->
-<!--             :show-close="false">-->
-<!--    <template #header="{ close, titleId, titleClass }">-->
-<!--      <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>-->
-<!--      <el-button circle :icon="Close" type="primary" @click="close">-->
-<!--      </el-button>-->
-<!--    </template>-->
-<!--    <video class="dialog-video w100"-->
-<!--           autoplay-->
-<!--           style="max-height: 100%;border-radius: 1rem"-->
-<!--           :src="video.videoUrl"-->
-<!--           controls/>-->
-<!--  </el-dialog>-->
+  <!--  <el-dialog v-model="dialogVisible"-->
+  <!--             @close="dialogDestroy"-->
+  <!--             style="height: calc(100% - 10vh);"-->
+  <!--             width="80%"-->
+  <!--             :show-close="false">-->
+  <!--    <template #header="{ close, titleId, titleClass }">-->
+  <!--      <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>-->
+  <!--      <el-button circle :icon="Close" type="primary" @click="close">-->
+  <!--      </el-button>-->
+  <!--    </template>-->
+  <!--    <video class="dialog-video w100"-->
+  <!--           autoplay-->
+  <!--           style="max-height: 100%;border-radius: 1rem"-->
+  <!--           :src="video.videoUrl"-->
+  <!--           controls/>-->
+  <!--  </el-dialog>-->
 </template>
 
 <script>
@@ -246,6 +246,14 @@ export default {
     width: 20%;
     padding: .5rem 5px;
 
+    &:nth-child(5n+1) {
+      padding-left: 0 !important;
+    }
+
+    &:nth-child(5n+5) {
+      padding-right: 0 !important;
+    }
+
     .video-compilation {
       padding: .5rem;
       width: 100%;
@@ -274,18 +282,20 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .video-compilation-list{
-    .video-compilation-right{
+  .video-compilation-list {
+    .video-compilation-right {
       margin-left: 0 !important;
     }
-    .title{
+
+    .title {
       /* 一行显示 */
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
       overflow: hidden;
     }
-    .desc{
+
+    .desc {
       /* 一行显示 */
       display: -webkit-box;
       -webkit-box-orient: vertical;

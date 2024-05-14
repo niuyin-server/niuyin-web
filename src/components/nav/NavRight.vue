@@ -62,18 +62,18 @@
         </template>
       </el-popover>
       <!--消息 -->
-      <router-link class="link-type cp dn-phone" :to="'/message'">
-        <div class="link-div icon-click cg plr10px">
-          <div style="height: 20px;width: 20px;">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-message"></use>
-            </svg>
-          </div>
-          <p>
-            <span class="cg fs7">消息</span>
-          </p>
-        </div>
-      </router-link>
+<!--      <router-link class="link-type cp dn-phone" :to="'/message'">-->
+<!--        <div class="link-div icon-click cg plr10px">-->
+<!--          <div style="height: 20px;width: 20px;">-->
+<!--            <svg class="icon" aria-hidden="true">-->
+<!--              <use xlink:href="#icon-message"></use>-->
+<!--            </svg>-->
+<!--          </div>-->
+<!--          <p>-->
+<!--            <span class="cg fs7">消息</span>-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </router-link>-->
       <!--发布视频-->
       <router-link class="link-type cp" to="" @click.native="openTargetLink('http://106.14.105.101:5273')">
         <div class="link-div icon-click cg plr10px">

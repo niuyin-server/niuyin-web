@@ -113,7 +113,6 @@ $dark-bg-image: "@/assets/background/theme-dark.jpg";
 .bg-mask {
   width: 100vw;
   height: 100vh;
-  background: #f9f9fa;
   background: no-repeat var(--global-bg-img) var(--color-bg-b0);
   position: fixed;
 }

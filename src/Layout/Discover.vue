@@ -45,7 +45,7 @@
                    :key="item.videoId"
                    v-masonry-tile
                    class="discover-item">
-                <VideoShowCard :video="item"/>
+                <VideoDiscoverCard :video="item"/>
               </div>
             </div>
             <Loading v-if="loadingIcon" :is-full-screen="false"/>
@@ -69,6 +69,7 @@ import {pushVideo} from "@/api/video.js";
 import {UserFilled} from "@element-plus/icons-vue";
 import VideoShowCard from "@/components/video/VideoShowCard.vue";
 import Loading from "@/components/Loading.vue";
+import VideoDiscoverCard from "@/components/video/card/VideoDiscoverCard.vue";
 
 export default {
   name: 'Discover',
@@ -78,7 +79,7 @@ export default {
     }
   },
   props: {},
-  components: {VideoShowCard, Loading},
+  components: {VideoDiscoverCard, VideoShowCard, Loading},
   data() {
     return {
       loading: true,

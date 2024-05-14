@@ -66,7 +66,7 @@ export default {
           "setting",
           "volume",
           "pip",
-          // "pageFullScreen",
+          "pageFullScreen",
           "fullScreen",
         ], //显示所有按钮,
       },

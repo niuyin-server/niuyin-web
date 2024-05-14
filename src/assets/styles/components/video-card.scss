@@ -1,70 +1,87 @@
 .video-card {
-  background-color: var(--el-bg-color-page);
   border-radius: 1rem;
-  width: 24%;
-  box-shadow: var(--video-card-box-shadow);
+  width: 20%;
+  padding: 0 .5rem 1rem;
   transition: all 0.3s ease;
-  height: 260px;
-  margin-bottom: 1rem;
+  height: 240px;
+  overflow: hidden;
 
-  &:hover {
-    box-shadow: var(--video-card-hv-box-shadow);
+  &:nth-child(5n+1) {
+    padding-left: 0 !important;
   }
 
-  .video-cover-image {
-    width: auto;
-    object-fit: contain;
-    height: 75%;
-    overflow: hidden;
-    border-radius: 1rem 1rem 0 0;
-    position: relative;
+  &:nth-child(5n+5) {
+    padding-right: 0 !important;
+  }
 
-    .cover-image {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
+  .video-card-card {
+    border-radius: 1rem;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-video-card);
+    box-shadow: var(--video-card-box-shadow);
+
+    &:hover {
+      box-shadow: var(--video-card-hv-box-shadow);
+    }
+
+    .video-cover-image {
+      width: auto;
+      object-fit: contain;
+      height: 75%;
+      overflow: hidden;
       border-radius: 1rem 1rem 0 0;
-    }
+      position: relative;
 
-    .cover-image:hover {
-      transition: all 1s ease;
-      transform: scale(1.1);
-    }
+      .cover-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 1rem 1rem 0 0;
+      }
 
-    .video-like {
-      position: absolute;
-      bottom: .5rem;
-      color: white;
-      left: .5rem;
-    }
+      .cover-image:hover {
+        transition: all 1s ease;
+        transform: scale(1.1);
+      }
 
-    .video-duration {
-      position: absolute;
-      bottom: .5rem;
-      color: white;
-      right: .5rem;
-      background-color: rgba(51, 51, 51, 0.57);
-      border-radius: .4rem;
-      padding: 3px 6px;
-    }
+      .video-like {
+        position: absolute;
+        bottom: .5rem;
+        font-weight: bold;
+        color: white;
+        left: .5rem;
+      }
 
-  }
-
-  .video-info {
-    width: auto;
-    height: 25%;
-    padding: 10px;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-
-    .video-title {
+      .video-duration {
+        position: absolute;
+        bottom: .5rem;
+        color: white;
+        right: .5rem;
+        background-color: rgba(51, 51, 51, 0.57);
+        border-radius: .4rem;
+        padding: 3px 6px;
+      }
 
     }
 
-    .video-author {
+    .video-info {
+      width: auto;
+      height: 25%;
+      padding: 10px;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-between;
 
+      .video-title {
+
+      }
+
+      .video-author {
+
+      }
     }
+
   }
 
 }
