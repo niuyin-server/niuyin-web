@@ -28,24 +28,27 @@
                  item-selector=".hotVideo-item">
               <!--              热榜-->
               <div style="height: 600px;" class="hotVideo-item">
-                <el-card class="hotVideo-card wh100">
-                  <el-tabs v-model="activeName" @tab-click="handleHotTabClick">
+                <div class="hotVideo-card wh100">
+                  <el-tabs v-model="activeName" @tab-click="handleHotTabClick" class="wh100">
                     <el-tab-pane v-for="item in hotTabShow"
                                  :key="item.id"
                                  :label="item.tabName"
                                  :lazy="true"
                                  :name="item.tabName">
                       <el-scrollbar>
-                        <div v-for="(it,index) in item.dataList" class="p5px">
-                          <p class="text-hv-primary cp one-line hot-hover-item">
-                            <span class="mr5px">{{ index + 1 }}、</span>
-                            <span class="lh-1-5" @click="handleClickHotTable(it)"> {{ it }}</span>
-                          </p>
+                        <div class="hot-search-list w100" style="height: auto">
+                          <div v-for="(it,index) in item.dataList" class="p5px">
+                            <div class="text-hv-primary cp hot-hover-item">
+                              <p class="one-line">
+                                <span class="mr5px">{{ index + 1 }}、</span>
+                                <span class="" @click="handleClickHotTable(it)"> {{ it }}</span>
+                              </p></div>
+                          </div>
                         </div>
                       </el-scrollbar>
                     </el-tab-pane>
                   </el-tabs>
-                </el-card>
+                </div>
               </div>
               <!--              热门视频-->
               <div v-for='(item,index) in hotVideoList'

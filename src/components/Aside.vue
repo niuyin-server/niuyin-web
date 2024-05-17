@@ -123,7 +123,7 @@ export default {
         {id: 1, name: "推荐", '--color': "blue", class: "#icon-discover", link: "/discover"},
         {id: 2, name: "热门", '--color': "blue", class: "#icon-hotVideo", link: "/hotVideo"},
         {id: 3, name: "关注", '--color': "black", class: "#icon-follow", link: "/follow"},
-        {id: 4, name: "频道", '--color': "black", class: "#icon-channel", link: "/channel",},
+        // {id: 4, name: "频道", '--color': "black", class: "#icon-channel", link: "/channel",},
         {id: 5, name: "我的", '--color': "black", class: "#icon-erciyuan", link: "/user",},
       ],
       tabsCenterList: [

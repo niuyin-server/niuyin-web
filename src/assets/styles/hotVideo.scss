@@ -39,10 +39,9 @@
 }
 
 .hot-hover-item {
-  line-height: 1;
-  border-radius: 8px;
-  padding: 4px 8px;
-  transition: all .3s ease-in;
+  border-radius: .5rem;
+  padding: .4rem .5rem;
+  transition: all .3s ease-in-out;
 
   &:hover {
     background-color: rgba(211, 211, 211, 0.5)
@@ -109,6 +108,12 @@
   justify-content: center;
   position: relative;
   transition: transform var(--el-transition-duration);
-   float: none;
+  float: none;
   z-index: calc(var(--el-index-normal) + 1);
+}
+
+:deep(.el-tabs__content ) {
+  overflow: auto;
+  position: relative;
+  height: 100%;
 }

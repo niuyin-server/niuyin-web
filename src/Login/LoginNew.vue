@@ -191,8 +191,8 @@ export default {
       if (this.mobileCodeTimer > 0) return;
       this.$refs.loginForm.validate(valid => {
         if (!valid) return;
-        sendSmsCode(this.loginForm.telephone).then(res => {
-          // this.$modal.msgSuccess("获取验证码成功")
+        // sendSmsCode(this.loginForm.telephone).then(res => {
+          this.$message.success("获取验证码成功")
           this.mobileCodeTimer = 60;
           let msgTimer = setInterval(() => {
             this.mobileCodeTimer = this.mobileCodeTimer - 1;
@@ -200,7 +200,7 @@ export default {
               clearInterval(msgTimer);
             }
           }, 1000);
-        });
+        // });
       });
     }
   },
