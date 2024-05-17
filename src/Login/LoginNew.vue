@@ -54,7 +54,7 @@
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="phoneCode">
-                  <el-input v-model="loginForm.phoneCode" type="text" auto-complete="off" placeholder="短信验证码"
+                  <el-input v-model="loginForm.smsCode" type="text" auto-complete="off" placeholder="短信验证码"
                             class="sms-login-mobile-code-prefix" @keyup.enter.native="handleLogin">
                     <template #prefix>
                       <el-icon class="el-input__icon">
@@ -96,7 +96,7 @@
   </div>
 </template>
 <script>
-import {userLogin} from "@/api/member.js";
+import {userLogin, userSmsLogin} from "@/api/member.js";
 import {tokenX} from "@/store/tokenX";
 import {setToken} from "@/utils/auth.js";
 
@@ -121,7 +121,7 @@ export default {
         username: "",
         password: "",
         telephone: "",
-        phoneCode: "",
+        smsCode: "",
       },
       loginRules: {
         username: [
@@ -162,27 +162,37 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          new Promise((resolve, reject) => {
-            userLogin(this.loginForm.username, this.loginForm.password).then(res => {
-              if (res.code === 200) {
-                // tokenX().setToken(res.data.token)
-                setToken(res.data.token)
-                this.$message.success(res.msg)
-                // getInfo().then(res => {
-                //   if (res.code === 200) {
-                //     this.user = res.data
-                //     localStorage.setItem("userInfo", JSON.stringify(res.data))
-                //   }
-                // })
-                this.$router.push('/')
-                resolve()
-              } else {
-                this.$message.error(res.msg)
-              }
-            }).catch(error => {
-              reject(error)
+          if(this.loginType==="up"){
+            new Promise((resolve, reject) => {
+              userLogin(this.loginForm.username, this.loginForm.password).then(res => {
+                if (res.code === 200) {
+                  setToken(res.data.token)
+                  this.$message.success(res.msg)
+                  this.$router.push('/')
+                  resolve()
+                } else {
+                  this.$message.error(res.msg)
+                }
+              }).catch(error => {
+                reject(error)
+              })
             })
-          })
+          }else if(this.loginType==="sms"){
+            new Promise((resolve, reject) => {
+              userSmsLogin(this.loginForm.telephone, this.loginForm.smsCode).then(res => {
+                if (res.code === 200) {
+                  setToken(res.data.token)
+                  this.$message.success(res.msg)
+                  this.$router.push('/')
+                  resolve()
+                } else {
+                  this.$message.error(res.msg)
+                }
+              }).catch(error => {
+                reject(error)
+              })
+            })
+          }
         }
       });
     },

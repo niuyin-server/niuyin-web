@@ -21,6 +21,13 @@ export const userLogin = (username, password) => {
     })
 }
 
+export const userSmsLogin = (telephone, smsCode) => {
+    return request.post('/member/api/v1/sms-login', {
+        telephone,
+        smsCode
+    })
+}
+
 // 注册方法
 export function register(data) {
     return request({
