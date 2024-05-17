@@ -132,22 +132,23 @@
       <div v-if="dataNotMore">
         <el-divider>暂无更多数据</el-divider>
       </div>
-<!--      <el-dialog v-model="dialogVisible"-->
-<!--                 @close="dialogDestroy"-->
-<!--                 width="80%"-->
-<!--                 :show-close="false">-->
-<!--        <template #header="{ close, titleId, titleClass }">-->
-<!--          <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>-->
-<!--          <el-button circle :icon="Close" type="info" @click="close">-->
-<!--          </el-button>-->
-<!--        </template>-->
-<!--        <video class="dialog-video"-->
-<!--               style="width: 100%;max-height: 100vh;height: 60vh; border-radius: 1rem"-->
-<!--               autoplay-->
-<!--               :src="video.videoUrl"-->
-<!--               controls/>-->
-<!--      </el-dialog>-->
+      <!--      <el-dialog v-model="dialogVisible"-->
+      <!--                 @close="dialogDestroy"-->
+      <!--                 width="80%"-->
+      <!--                 :show-close="false">-->
+      <!--        <template #header="{ close, titleId, titleClass }">-->
+      <!--          <h3 class="one-line" :id="titleId" :class="titleClass">{{ video.videoTitle }}</h3>-->
+      <!--          <el-button circle :icon="Close" type="info" @click="close">-->
+      <!--          </el-button>-->
+      <!--        </template>-->
+      <!--        <video class="dialog-video"-->
+      <!--               style="width: 100%;max-height: 100vh;height: 60vh; border-radius: 1rem"-->
+      <!--               autoplay-->
+      <!--               :src="video.videoUrl"-->
+      <!--               controls/>-->
+      <!--      </el-dialog>-->
     </el-scrollbar>
+    <el-backtop :right="16" :bottom="16" target=".main-container  .el-scrollbar__wrap"></el-backtop>
   </div>
   <!--  <el-dialog-->
   <!--      v-model="userVideoDialogVisible"-->
@@ -170,10 +171,11 @@ import {searchHotLoad} from "@/api/search.js";
 import VideoPlayDialog from "@/components/video/VideoPlayDialog.vue";
 import VideoDiscoverCard from "@/components/video/card/VideoDiscoverCard.vue";
 import VideoHotCard from "@/components/video/card/VideoHotCard.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: "HotVideo",
-  components: {VideoHotCard, VideoDiscoverCard, VideoPlayDialog},
+  components: {VideoHotCard, VideoDiscoverCard, VideoPlayDialog, Loading},
   computed: {
     Close() {
       return Close
