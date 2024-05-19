@@ -6,11 +6,13 @@
   height: 240px;
   overflow: hidden;
 
+  //第一个元素
   &:nth-child(5n+1) {
     padding-left: 0 !important;
   }
 
-  &:nth-child(5n+5) {
+  // 最后一个元素
+  &:nth-child(5n+9) {
     padding-right: 0 !important;
   }
 
