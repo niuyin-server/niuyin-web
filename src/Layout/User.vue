@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="user-profile mtb5 dn-phone">
-            <span class="userid">牛音ID：{{ user.userId }}</span>
+            <span class="userid">芝士ID：{{ user.userId }}</span>
             <span class="gender-age">
               <svg v-if="user.sex==='1'" class="icon1rem" aria-hidden="true">
               <use xlink:href="#icon-man"></use></svg>

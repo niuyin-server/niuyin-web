@@ -21,7 +21,7 @@
             <div class="hotVideos"
                  v-masonry
                  fit-width="true"
-                 transition-duration="0.3s"
+                 transition-duration="0.2s"
                  item-selector=".hotVideo-item">
               <!--              热榜-->
               <div style="height: 600px;" class="hotVideo-item">
@@ -212,9 +212,7 @@ export default {
       activeName: "热榜",//热榜区域
       hotTabShow: [
         {id: 1, tabName: "热榜", tabUrl: "/user/1", dataList: []},
-        // {id: 2, tabName: "娱乐榜", tabUrl: "/user/2", dataList: []},
-        // {id: 3, tabName: "社会榜", tabUrl: "/user/3", dataList: []},
-        // {id: 4, tabName: "挑战榜", tabUrl: "/user/4", dataList: []},
+        // {id: 2, tabName: "挑战榜", tabUrl: "/user/4", dataList: []},
       ],
       hotMsg: [],
       playVideoUrl: "",//hover之后播放的video

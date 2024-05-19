@@ -61,7 +61,7 @@
             <div class="pop-bottom">
               <!--获取热门搜索标题的列表-->
               <div v-if="hotSearch">
-                <h5 class="mtb5">牛音热搜</h5>
+                <h5 class="mtb5">芝士热搜</h5>
                 <div v-for="(item,index) in hotSearch"
                      class="cp p5px one-line flex-row search-hover-item text-hv-gold fs8">
                   <div v-if="index===0" class="flex-center">

@@ -1,6 +1,6 @@
 # niuyin-web
 
-牛音短视频开发平台前端
+芝士短视频开发平台前端
 
 # Vue 3 + TypeScript + Vite
 

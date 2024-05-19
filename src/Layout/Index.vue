@@ -29,7 +29,7 @@ export default {
   components: {Aside, Header},
   data() {
     return {
-      siteTitle: "牛音",
+      siteTitle: "芝士",
       niuyinTheme: "niuyin-light",
     }
   },

@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="user-profile">
-            <span class="userid">牛音ID：{{ user.userId }}</span>
+            <span class="userid">芝士ID：{{ user.userId }}</span>
             <span class="gender-age">
               <i class="iconfont icon-man"></i>
               <span>23岁</span></span>

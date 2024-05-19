@@ -14,7 +14,7 @@
         <div class="" style="width: calc(100% - 60px)">
           <span style="display:inline-block;width: 4px"></span>
           <span class="dn-phone fw500"
-                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">牛音</span>
+                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">芝士</span>
         </div>
       </router-link>
     </div>
