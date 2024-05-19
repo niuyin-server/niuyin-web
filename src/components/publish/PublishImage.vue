@@ -214,7 +214,7 @@
                     <div id="phoneText" class="input-text--1URCd"><span><span></span></span></div>
                     <div class="music-binder" style="display: flex;align-items: center">
                       <img class="mr5" style="width: 16px;height: 16px;display: inline-block"
-                           src="@/assets/logo/logo-niuyin-new.png"/>
+                           src="@/assets/logo/logo-cheese.png"/>
                       <marquee class="fs5" style="display: inline-block">roydon创作的原声</marquee>
                     </div>
                   </div>

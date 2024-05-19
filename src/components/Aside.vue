@@ -8,8 +8,8 @@
                    :to="'/index'"
                    tag="div">
         <div class="" style="text-align: right;width: 60px">
-          <img style="width: 32px;height: 32px;display: inline-block"
-               src="@/assets/logo/logo-niuyin-new.png">
+          <img style="width: 28px;height: 28px;display: inline-block"
+               src="@/assets/logo/logo-cheese.png">
         </div>
         <div class="" style="width: calc(100% - 60px)">
           <span style="display:inline-block;width: 4px"></span>

@@ -8,7 +8,7 @@
       <div class="video-compilation flex-start cp cbx">
         <div class="wh5rem compilation-cover oh b-radius1">
           <img v-if="item.coverImage" class="wh100 b-radius1" :src="item.coverImage" :alt="item.title"/>
-          <img v-else class="wh100 b-radius1" src="@/assets/logo/logo-niuyin-new.png" :alt="item.title"/>
+          <img v-else class="wh100 b-radius1" src="@/assets/logo/logo-cheese.png" :alt="item.title"/>
         </div>
         <div class="video-compilation-right" style="margin-left: 10px">
           <h5 class="title one-line">{{ item.title }}</h5>

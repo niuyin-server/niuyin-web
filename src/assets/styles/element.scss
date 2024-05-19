@@ -62,6 +62,12 @@ html.dark {
   --niuyin-online-color: #78ce27;
   --niuyin-gray-bg: rgba(184, 184, 229, 0.8);
 
+  --el-color-primary: var(--niuyin-primary-color);
+  --el-color-primary-light-3: var(--niuyin-primary-color-3);
+  --el-color-primary-light-5: var(--niuyin-primary-color-5);
+  --el-color-primary-light-7: #c6e2ff;
+  --el-color-primary-light-8: #d9ecff;
+  --el-color-primary-light-9: #ecf5ff;
   --el-color-info: #e2e3e3; /*按钮背景色*/
   --el-input-bg-color: rgb(242, 242, 243);
   --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/

@@ -20,10 +20,11 @@
                 clearable>
             </el-input>
             <el-button class="search-btn fw600 tcm flex-center" type="info" plain @click="searchConfirm">
+              <!--               黑色主题-->
               <svg class="icon flex-center" aria-hidden="true">
-                <use xlink:href="#icon-search"></use>
+                <use :xlink:href="[theme ? '#icon-search-dark' : '#icon-search']"></use>
               </svg>
-              <span class="ml-5r dn-phone">搜索</span>
+              <!--              <span class="ml-5r dn-phone">搜索</span>-->
             </el-button>
           </div>
         </template>
@@ -100,6 +101,7 @@ import {
 } from '@element-plus/icons-vue'
 import {searchHistoryLoad, delSearchHistory, searchHotLoad} from "@/api/search.js";
 import {userInfoX} from "@/store/userInfoX";
+import {themeX} from "@/store/themeX";
 
 export default {
   name: "NavCenter",
@@ -113,6 +115,7 @@ export default {
   data() {
     return {
       user: userInfoX().userInfo,
+      theme: themeX().dark,
       // 输入框的数据
       searchData: "",
       // 默认搜索词
