@@ -20,7 +20,7 @@
     </div>
   </div>
   <!--  视频作品区域-->
-  <div class="flex-between videoPost" ref="videoPost" v-loading="loadingIcon"
+  <div class="flex-between videoPost"
        style="overflow-y: auto"
        v-infinite-scroll="loadMore"
        :infinite-scroll-disabled="loadingVideoPost"
@@ -45,6 +45,7 @@
             v-for="item in postVideoList"
             :video="item"
             @click="handleVideoClick(item)"/>
+        <Loading v-if="loadingIcon" :is-full-screen="false"/>
       </template>
     </el-skeleton>
     <div class="w100">
@@ -77,6 +78,7 @@
 import {myVideoCompilationPage, videoMypage} from "@/api/video.js";
 import VideoCard from "@/components/video/VideoCard.vue";
 import {Close} from "@element-plus/icons-vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: "VideoPost",
@@ -85,13 +87,13 @@ export default {
       return Close
     }
   },
-  components: {VideoCard},
+  components: {Loading, VideoCard},
   data() {
     return {
       loading: true,
       dialogVisible: false,
       postVideoList: [],
-      postVideoTotal: undefined,
+      postVideoTotal: null,
       videoQueryParams: {
         videoTitle: "",
         pageNum: 1,
@@ -191,7 +193,7 @@ export default {
       }
       //加载更多
       if (this.loadingData) {
-        // this.loadingIcon = true
+        this.loadingIcon = true
         this.loadingData = false
         this.videoQueryParams.pageNum += 1
         console.log("loadMore")

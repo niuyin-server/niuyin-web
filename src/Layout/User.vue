@@ -1,5 +1,10 @@
 <template>
   <div class="">
+    <!--    <div style="position: fixed;-->
+    <!--    right: 0;-->
+    <!--    top: 0;-->
+    <!--    z-index: -10;"><img :src="memberInfo.backImage">-->
+    <!--    </div>-->
     <el-scrollbar class="scrollbar">
       <!--      用户信息区域-->
       <div class="user-container" :style="{ backgroundImage: `url(${memberInfo.backImage})` }">
@@ -48,7 +53,7 @@
         </div>
         <div class="user-op h100" style="min-height: 100px">
           <div class="trust-login-switch dn-phone">
-            <div class="trust-login-tips">
+            <div class="trust-login-tips flex-center">
               <el-tooltip content="保存登录信息，下次登陆免验证" placement="top">
                 <el-icon :size="20">
                   <QuestionFilled/>
@@ -76,12 +81,20 @@
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane v-for="item in userVideoTabShow"
                          :key="item.id"
-                         :label="item.tabName"
                          :lazy="true"
                          :name="item.tabUrl">
+              <template #label>
+                <div class="flex-center">
+                  <span>{{ item.tabName }}</span>
+                  <svg v-if="item.lock" class="icon1rem ml-5r" aria-hidden="true">
+                    <use xlink:href="#icon-lock"></use>
+                  </svg>
+                </div>
+              </template>
               <router-view/>
             </el-tab-pane>
           </el-tabs>
+          <!--          作品搜索-->
           <div v-if="activeName==='/user/videoPost'" class="pa flex-center"
                style="height: 40px;top: 0;right: 0px;z-index: 200">
             <div class="dn-phone" style="padding: 5px 0">
@@ -320,10 +333,10 @@ export default {
       fansNum: 0, //粉丝数
       likeAllNum: 0, //获赞数
       userVideoTabShow: [
-        {id: 1, tabName: "作品", tabUrl: "/user/videoPost"},
-        {id: 2, tabName: "喜欢", tabUrl: "/user/videoLike"},
-        {id: 3, tabName: "收藏", tabUrl: "/user/videoFavorite"},
-        {id: 4, tabName: "观看历史", tabUrl: "/user/videoViewHistory"}
+        {id: 1, tabName: "作品", tabUrl: "/user/videoPost", lock: false},
+        {id: 2, tabName: "喜欢", tabUrl: "/user/videoLike", lock: false},
+        {id: 3, tabName: "收藏", tabUrl: "/user/videoFavorite", lock: false},
+        {id: 4, tabName: "观看历史", tabUrl: "/user/videoViewHistory", lock: false}
       ],
       // 省市区级联
       options: regionData,
@@ -352,14 +365,7 @@ export default {
             // 喜欢被禁用
             this.userVideoTabShow.forEach((item, index) => {
               if (item.id === 2) {
-                item.tabName = "喜欢🔒"
-              }
-            })
-          } else {
-            // 喜欢未被禁用
-            this.userVideoTabShow.forEach((item, index) => {
-              if (item.id === 2) {
-                item.tabName = "喜欢"
+                item.lock = true
               }
             })
           }
@@ -367,14 +373,7 @@ export default {
             // 收藏被禁用
             this.userVideoTabShow.forEach((item, index) => {
               if (item.id === 3) {
-                item.tabName = "收藏🔒"
-              }
-            })
-          } else {
-            // 收藏未被禁用
-            this.userVideoTabShow.forEach((item, index) => {
-              if (item.id === 3) {
-                item.tabName = "收藏"
+                item.lock = true
               }
             })
           }
