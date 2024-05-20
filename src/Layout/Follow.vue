@@ -50,7 +50,7 @@
           :loading="loading"
           :video-list="videoList"
           @reloadVideoFeed="reloadVideoFeedEmit"/>
-      <el-empty v-show="dataNotMore" description="暂无视频数据"/>
+      <el-empty v-if="dataNotMore" description="暂无关注视频动态"/>
     </div>
   </div>
 </template>
@@ -170,9 +170,10 @@ export default {
       this.loading = true
       followVideoFeed(this.queryParams).then(res => {
         if (res.code === 200) {
-          if (res.data === null) {
+          if (res.data === null || res.data.length === 0) {
             this.loading = false
             this.dataNotMore = true
+            this.showVideoPlayer = false
           }
           this.videoList = res.data
           this.queryParams.lastTime = new Date(this.videoList[this.videoList.length - 1].createTime).getTime()

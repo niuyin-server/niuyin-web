@@ -122,8 +122,8 @@ export default {
       videoSearchList: [],
       videoSearchTabShow: [
         {id: 1, tabName: "综合", tabUrl: "/user/videoPost"},
-        {id: 2, tabName: "视频", tabUrl: "/user/videoLike"},
-        {id: 3, tabName: "用户", tabUrl: "/user/videoFavorite"}
+        // {id: 2, tabName: "视频", tabUrl: "/user/videoLike"},
+        // {id: 3, tabName: "用户", tabUrl: "/user/videoFavorite"}
       ],
       activeName: 1,
       FilterOptionSort: [
