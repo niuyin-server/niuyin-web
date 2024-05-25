@@ -45,8 +45,8 @@ export default {
       favoriteTab: [
         {id: 1, tabName: "收藏夹", tabUrl: "/user/videoPost"},
         {id: 2, tabName: "视频", tabUrl: "/user/videoLike"},
-        {id: 3, tabName: "音乐", tabUrl: "/user/videoFavorite"},
-        {id: 4, tabName: "合集", tabUrl: "/user/videoFavorite"},
+        // {id: 3, tabName: "音乐", tabUrl: "/user/videoFavorite"},
+        // {id: 4, tabName: "合集", tabUrl: "/user/videoFavorite"},
       ],
       activeName: 2,
     }

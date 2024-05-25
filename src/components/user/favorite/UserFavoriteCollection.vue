@@ -43,7 +43,7 @@
                 <p class="cg fs7 ptb10px">共 {{ item.videoCount }} 件作品</p>
               </div>
               <div class="collection-video flex-between">
-                <div class="videos flex-center"
+                <div class="video-cover-list flex-center"
                      v-for="(cover,index) in item.videoCoverList">
                   <el-image v-if="cover" class="video-cover eli-ofc" lazy :src="cover"/>
                   <el-avatar v-else class="video-cover eli-ofc" :icon="Film"/>
@@ -246,7 +246,7 @@ export default {
           this.collectionQueryParams.pageNum += 1
           collectionInfoPage(this.collectionQueryParams).then(res => {
             if (res.code === 200) {
-              if (res.rows === null || res.rows.length === 0 ) {
+              if (res.rows === null || res.rows.length === 0) {
                 this.dataNotMore = true
                 this.loadingIcon = false
                 this.loadingData = false
@@ -294,12 +294,12 @@ export default {
 
     .collection-video {
 
-      .videos {
-        width: 20%;
+      .video-cover-list {
+        width: 16%;
 
         .video-cover {
-          width: 48px;
-          height: 48px;
+          width: 80px;
+          height: 45px;
           border-radius: 6px;
         }
 
