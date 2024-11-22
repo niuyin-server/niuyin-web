@@ -9,6 +9,15 @@ export function searchVideo(data) {
     })
 }
 
+// 用户搜索
+export function searchUser(data) {
+    return request({
+        url: '/search/api/v1/user',
+        method: 'post',
+        data: data
+    })
+}
+
 // 搜索记录
 export function searchHistoryLoad() {
     return request({

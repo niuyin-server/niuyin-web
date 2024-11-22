@@ -36,7 +36,14 @@ const router = createRouter({
                     ]
                 },
                 {path: "publish", component: () => import("@/Layout/Publish.vue")},
-                {path: "videoSearch", component: () => import("@/Layout/VideoSearch.vue")},
+                {
+                    path: "search", component: () => import("@/Layout/Search.vue"),
+                    redirect: '/search/video',
+                    children: [
+                        {path: "/search/video", component: () => import("@/Layout/search/VideoSearch.vue")},
+                        {path: "/search/user", component: () => import("@/Layout/search/UserSearch.vue")},
+                    ]
+                },
                 {path: "follow", component: () => import("@/Layout/Follow.vue")},
                 {path: "channel", component: () => import("@/Layout/Channel.vue")},
                 {path: "hotVideo", component: () => import("@/Layout/HotVideo.vue")},

@@ -338,7 +338,7 @@ export default {
     // 视频搜索路由跳转
     routerJumpVideoSearch(keyword) {
       // 跳转到搜索页面
-      this.$router.push(`/videoSearch?keyword=${keyword}`);
+      this.$router.push(`/search/video?keyword=${keyword}`);
     },
     handleVideoPlayDialog(item) {
       getVideoVOById(item.videoId).then(res => {

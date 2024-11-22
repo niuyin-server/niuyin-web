@@ -189,7 +189,7 @@ export default {
     // 路由跳转
     routerJump() {
       // 跳转到搜索页面
-      this.$router.push(`/videoSearch?keyword=${this.searchData}`);
+      this.$router.push(`/search/video?keyword=${this.searchData}`);
     },
     // 删除搜索历史记录
     handleSearchHistoryClose(id) {
