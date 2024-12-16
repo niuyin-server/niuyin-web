@@ -65,23 +65,23 @@
                 <h5 class="mtb5">芝士热搜</h5>
                 <div v-for="(item,index) in hotSearch"
                      class="cp p5px one-line flex-row search-hover-item text-hv-gold fs8">
-                  <div v-if="index===0" class="flex-center">
+                  <div v-if="index===0" class="flex-center-nowrap">
                     <img class="mr5px" src="@/assets/images/rank/r1.png"/>
-                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                    <span class="text-clamp" @click="handleSearchHotSelect(item)">{{ item }}</span>
                   </div>
-                  <div v-else-if="index===1" class="flex-center">
+                  <div v-else-if="index===1" class="flex-center-nowrap">
                     <img class="mr5px" src="@/assets/images/rank/r2.png"/>
-                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                    <span class="text-clamp" @click="handleSearchHotSelect(item)">{{ item }}</span>
                   </div>
-                  <div v-else-if="index===2" class="flex-center">
+                  <div v-else-if="index===2" class="flex-center-nowrap">
                     <img class="mr5px" src="@/assets/images/rank/r3.png"/>
-                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                    <span class="text-clamp" @click="handleSearchHotSelect(item)">{{ item }}</span>
                   </div>
-                  <div v-else class="flex-center">
+                  <div v-else class="flex-center-nowrap">
                     <el-icon class="mr5px" style="width: 24px">
                       <CaretTop/>
                     </el-icon>
-                    <span @click="handleSearchHotSelect(item)">{{ item }}</span>
+                    <span class="text-clamp" @click="handleSearchHotSelect(item)">{{ item }}</span>
                   </div>
                 </div>
               </div>

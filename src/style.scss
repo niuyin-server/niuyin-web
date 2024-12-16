@@ -845,3 +845,26 @@ div,
     transform: scale(1.1);
   }
 }
+
+.text-clamp-2 {
+  display: -webkit-box; /* 必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。 */
+  -webkit-box-orient: vertical; /* 必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。 */
+  -webkit-line-clamp: 2; /* 用来限制在一个块元素显示的文本的行数。 */
+  overflow: hidden; /* 隐藏超出的内容 。 */
+  text-overflow: ellipsis; /* 用省略号(...)隐藏超出的内容 。 */
+}
+
+.text-clamp {
+  display: -webkit-box; /* 必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。 */
+  -webkit-box-orient: vertical; /* 必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。 */
+  -webkit-line-clamp: 1; /* 用来限制在一个块元素显示的文本的行数。 */
+  overflow: hidden; /* 隐藏超出的内容 。 */
+  text-overflow: ellipsis; /* 用省略号(...)隐藏超出的内容 。 */
+}
+
+.flex-center-nowrap {
+  display: flex;
+  justify-content: center;
+  flex-flow: row nowrap;
+  align-items: center;
+}
