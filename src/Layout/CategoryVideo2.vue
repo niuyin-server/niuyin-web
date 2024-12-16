@@ -300,8 +300,6 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1;
-  //backdrop-filter: blur(10px);
-  //background-color: var(--color-bg-b0);
 
   .category-children-item {
     display: inline-block;
