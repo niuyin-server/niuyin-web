@@ -9,6 +9,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import router from "./router/index.ts";
 import "@/assets/styles/element.scss"
 import "@/style.scss";
+import "./tailwind.css"
 import App from "./App.vue";
 //pinia 自动存储话插件
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
