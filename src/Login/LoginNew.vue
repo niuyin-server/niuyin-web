@@ -9,7 +9,7 @@
       <div class="field">
         <!-- [移动端]标题 -->
         <h2 class="mobile-title">
-          <div class="title" style="padding: 10px;">欢迎使用芝士</div>
+          <div class="title" style="padding: 10px;">欢迎使用芝士芝士学爆</div>
         </h2>
         <!-- 表单 -->
         <div class="form-cont">

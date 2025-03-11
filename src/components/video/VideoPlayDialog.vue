@@ -263,7 +263,6 @@
                           :visibility-height="10"/>
             </el-scrollbar>
           </div>
-
         </div>
         <div v-else-if="tabActiveId===2" class="user-info-post">
           <div class="pr wh100 ptb1rem">
@@ -617,7 +616,9 @@ export default {
       this.videoUserPageDTO.pageNum += 1
       videoUserpage(this.videoUserPageDTO).then(res => {
         if (res.code === 200) {
-          this.userPostList = this.userPostList.concat(res.rows)
+          if (res.rows != null && res.rows.length > 0) {
+            this.userPostList = this.userPostList.concat(res.rows)
+          }
           this.loadingMoreUserPost = false
           if (this.userPostList.length == res.total) {
             this.UserPostNotMore = true

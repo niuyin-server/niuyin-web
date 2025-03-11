@@ -7,14 +7,14 @@
       <router-link class="link-type flex-center wh100"
                    :to="'/index'"
                    tag="div">
-        <div class="" style="text-align: right;width: 60px">
+        <div class="" style="text-align: right;width: 32px">
           <img style="width: 28px;height: 28px;display: inline-block"
                src="@/assets/logo/logo-cheese.png">
         </div>
         <div class="" style="width: calc(100% - 60px)">
           <span style="display:inline-block;width: 4px"></span>
           <span class="dn-phone fw500"
-                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">芝士</span>
+                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">芝士学爆</span>
         </div>
       </router-link>
     </div>
@@ -137,8 +137,9 @@ export default {
       ],
       videoCategoryParentList: localStorage.getItem("videoCategoryParentList") ? JSON.parse(localStorage.getItem("videoCategoryParentList")) : null,
       tabsBottomList: [
-        {id: 1, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
-        {id: 2, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
+        {id: 1, name: "AI", '--color': "red", class: "#icon-deepseek", link: "/ai/chat"},
+        {id: 2, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
+        {id: 3, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
       ],
     }
   },

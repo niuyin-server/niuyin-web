@@ -110,6 +110,10 @@ $dark-bg-image: "@/assets/background/theme-dark.jpg";
   //background-size: cover;
 }
 
+.main-container {
+  height: calc(100vh - 60px);
+}
+
 .bg-mask {
   width: 100vw;
   height: 100vh;
