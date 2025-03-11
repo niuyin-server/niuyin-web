@@ -172,7 +172,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import {ref, onMounted, nextTick} from "vue";
 import {
   ChatRound,
@@ -183,12 +183,13 @@ import {
   Delete,
   Plus,
 } from "@element-plus/icons-vue";
+import {ElMessage} from "element-plus";
 
-const showChatList = ref(true);
+const showChatList = ref(false);
 const inputMessage = ref("");
 const isTyping = ref(false);
 const isReceiving = ref(false);
-const chatContainer = ref<HTMLElement | null>(null);
+const chatContainer = ref < HTMLElement | null > null;
 const userAvatar =
     "https://niuyin-server.oss-cn-shenzhen.aliyuncs.com/member/2024/10/07/4eb4963fa6bb4f85aa0ba1f748978993.jpeg";
 const aiAvatar =
@@ -221,7 +222,7 @@ const createNewChat = () => {
   chatList.value.push(newChat);
   switchChat(newChat.id);
 };
-const switchChat = (chatId: number) => {
+const switchChat = (chatId) => {
   currentChatId.value = chatId;
   const chat = chatList.value.find((c) => c.id === chatId);
   if (chat) {
@@ -231,7 +232,7 @@ const switchChat = (chatId: number) => {
     });
   }
 };
-const deleteChat = (chatId: number) => {
+const deleteChat = (chatId) => {
   if (chatList.value.length === 1) {
     ElMessage.warning("至少保留一个会话");
     return;
@@ -316,27 +317,32 @@ onMounted(() => {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
 .typing-indicator {
   display: flex;
   gap: 4px;
   padding: 4px;
 }
+
 .typing-indicator span {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #e2e8f0;
   animation: typing 1s infinite ease-in-out;
 }
+
 .typing-indicator span:nth-child(1) {
   animation-delay: 0.2s;
 }
+
 .typing-indicator span:nth-child(2) {
   animation-delay: 0.4s;
 }
+
 .typing-indicator span:nth-child(3) {
   animation-delay: 0.6s;
 }
+
 @keyframes typing {
   0%,
   100% {
