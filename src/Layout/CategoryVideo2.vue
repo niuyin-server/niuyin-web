@@ -245,7 +245,6 @@ export default {
 <style scoped>
 .category-video-container {
   border-radius: 1rem;
-  //padding-right: 1rem;
   overflow: hidden;
 }
 

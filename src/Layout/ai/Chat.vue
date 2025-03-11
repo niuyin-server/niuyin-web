@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col wh100 b-radius1 bg-gray-50 overflow-hidden">
+  <div class="flex flex-col wh100 b-radius1 overflow-hidden">
     <header
-        class="w-full h-[60px] bg-white border-b border-gray-100 flex items-center px-6 justify-between"
+        class="w-full h-[60px] border-b border-gray-100 flex items-center px-6 justify-between"
     >
       <div class="flex items-center gap-3">
         <el-icon class="text-blue-500 text-xl">
@@ -20,7 +20,7 @@
     <div class="flex flex-1 relative overflow-hidden">
       <!-- 会话列表 -->
       <div
-          class="w-[300px] bg-white border-r border-gray-100 transition-all duration-300 ease-in-out transform h-full absolute z-10"
+          class="w-[300px] border-r border-gray-100 transition-all duration-300 ease-in-out transform h-full absolute z-10"
           :class="showChatList ? 'translate-x-0' : '-translate-x-[300px]'"
       >
         <div class="p-4 space-y-4">
@@ -68,6 +68,7 @@
       <div
           class="flex-1 flex flex-col overflow-hidden"
           :class="{ 'ml-[300px]': showChatList }"
+          style="transition: .3s all"
       >
         <!-- 聊天区域 -->
         <main
@@ -123,7 +124,7 @@
         </main>
 
         <!-- 输入区域 -->
-        <footer class="bg-white border-t border-gray-100 p-4">
+        <footer class="border-t border-gray-100 p-4">
           <div class="max-w-4xl mx-auto flex items-end gap-4">
             <el-button
                 type="text"
