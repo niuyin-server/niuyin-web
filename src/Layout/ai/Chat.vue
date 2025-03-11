@@ -112,7 +112,7 @@
           </div>
         </main>
         <!-- 输入区域 -->
-        <footer class=" bg-white border-t border-gray-100 p-4">
+        <footer class="bg-white border-t border-gray-100 p-4">
           <div class="max-w-4xl mx-auto flex items-end gap-4">
             <el-button
                 type="text"
