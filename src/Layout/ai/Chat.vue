@@ -112,7 +112,7 @@
           </div>
         </main>
         <!-- 输入区域 -->
-        <footer class="h-[100px] bg-white border-t border-gray-100 p-4">
+        <footer class=" bg-white border-t border-gray-100 p-4">
           <div class="max-w-4xl mx-auto flex items-end gap-4">
             <el-button
                 type="text"
@@ -124,7 +124,7 @@
             <el-input
                 v-model="inputMessage"
                 type="textarea"
-                :autosize="{ minRows: 2, maxRows: 10 }"
+                :autosize="{ minRows: 2, maxRows: 6 }"
                 placeholder="请输入您的问题..."
                 resize="none"
                 class="flex-1 !rounded-button"
