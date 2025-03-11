@@ -4,12 +4,16 @@
         class="w-full h-[60px] bg-white border-b border-gray-100 flex items-center px-6 justify-between"
     >
       <div class="flex items-center gap-3">
-        <el-icon class="text-blue-500 text-xl"><ChatRound /></el-icon>
+        <el-icon class="text-blue-500 text-xl">
+          <ChatRound/>
+        </el-icon>
         <h1 class="text-lg font-medium">AI 智能助手</h1>
       </div>
       <div class="flex items-center gap-4">
         <el-button type="text" class="!rounded-button">
-          <el-icon><Setting /></el-icon>
+          <el-icon :size="16">
+            <Setting/>
+          </el-icon>
         </el-button>
       </div>
     </header>
@@ -27,7 +31,9 @@
                 class="!rounded-button"
                 @click="createNewChat"
             >
-              <el-icon class="mr-1"><Plus /></el-icon>
+              <el-icon class="mr-1">
+                <Plus/>
+              </el-icon>
               新建会话
             </el-button>
           </div>
@@ -40,7 +46,9 @@
                 @click="switchChat(chat.id)"
             >
               <div class="flex items-center gap-2 flex-1 min-w-0">
-                <el-icon><ChatRound /></el-icon>
+                <el-icon>
+                  <ChatRound/>
+                </el-icon>
                 <span class="truncate">{{ chat.title }}</span>
               </div>
               <el-button
@@ -49,7 +57,9 @@
                   class="!rounded-button"
                   @click.stop="deleteChat(chat.id)"
               >
-                <el-icon><Delete /></el-icon>
+                <el-icon>
+                  <Delete/>
+                </el-icon>
               </el-button>
             </div>
           </div>
@@ -73,7 +83,7 @@
                 :class="msg.type === 'user' ? 'justify-end' : 'justify-start'"
             >
               <div
-                  class="max-w-[70%] flex items-start gap-3"
+                  class="max-w-[88%] flex items-start gap-3"
                   :class="msg.type === 'user' ? 'flex-row-reverse' : ''"
               >
                 <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
@@ -92,7 +102,7 @@
               </div>
             </div>
             <div v-if="isTyping" class="flex justify-start">
-              <div class="max-w-[70%] flex items-start gap-3">
+              <div class="max-w-[88%] flex items-start gap-3">
                 <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                   <img
                       :src="aiAvatar"
@@ -111,6 +121,7 @@
             </div>
           </div>
         </main>
+
         <!-- 输入区域 -->
         <footer class="bg-white border-t border-gray-100 p-4">
           <div class="max-w-4xl mx-auto flex items-end gap-4">
@@ -119,12 +130,14 @@
                 class="!rounded-button"
                 @click="showChatList = !showChatList"
             >
-              <el-icon class="text-xl"><Files /></el-icon>
+              <el-icon class="text-xl">
+                <Files/>
+              </el-icon>
             </el-button>
             <el-input
                 v-model="inputMessage"
                 type="textarea"
-                :autosize="{ minRows: 2, maxRows: 6 }"
+                :autosize="{ minRows: 1, maxRows: 6 }"
                 placeholder="请输入您的问题..."
                 resize="none"
                 class="flex-1 !rounded-button"
@@ -134,19 +147,23 @@
                 v-if="!isReceiving"
                 type="primary"
                 :disabled="!inputMessage.trim()"
-                class="h-[50px] !rounded-button whitespace-nowrap"
+                class=" !rounded-button whitespace-nowrap"
                 @click="sendMessage"
             >
-              发送消息
-              <el-icon class="ml-1"><Position /></el-icon>
+              发送
+              <el-icon class="ml-1" :size="16">
+                <Position/>
+              </el-icon>
             </el-button>
             <el-button
                 v-else
                 type="danger"
-                class="h-[50px] !rounded-button whitespace-nowrap"
+                class=" !rounded-button whitespace-nowrap"
                 @click="stopReceiving"
             >
-              <el-icon><VideoPause /></el-icon>
+              <el-icon :size="16">
+                <VideoPause/>
+              </el-icon>
             </el-button>
           </div>
         </footer>
@@ -156,7 +173,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, nextTick } from "vue";
+import {ref, onMounted, nextTick} from "vue";
 import {
   ChatRound,
   Setting,
@@ -166,6 +183,7 @@ import {
   Delete,
   Plus,
 } from "@element-plus/icons-vue";
+
 const showChatList = ref(true);
 const inputMessage = ref("");
 const isTyping = ref(false);
@@ -279,7 +297,7 @@ const sendMessage = async () => {
 };
 const handleScroll = () => {
   if (!chatContainer.value) return;
-  const { scrollTop } = chatContainer.value;
+  const {scrollTop} = chatContainer.value;
   // 当滚动到顶部时，可以加载更多历史消息
   if (scrollTop === 0) {
     // 这里可以添加加载更多历史消息的逻辑
@@ -295,6 +313,8 @@ onMounted(() => {
   padding: 12px 16px;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .typing-indicator {
   display: flex;
@@ -327,3 +347,4 @@ onMounted(() => {
   }
 }
 </style>
+
