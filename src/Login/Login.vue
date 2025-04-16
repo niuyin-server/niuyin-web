@@ -158,7 +158,7 @@ export default {
         if (res.code === 200) {
           // tokenX().setToken(res.data.token)
           this.$message.success(res.msg)
-          this.$router.push('/index')
+          this.$router.push('/')
         } else {
           this.$message.error(res.msg)
         }

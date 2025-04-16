@@ -5,7 +5,7 @@
     <div class="oh w100"
          style="overflow:hidden;height: 60px;position:sticky;top: 0;left: 0;z-index: 1;">
       <router-link class="link-type flex-center wh100"
-                   :to="'/index'"
+                   :to="'/'"
                    tag="div">
         <div class="" style="text-align: right;width: 32px">
           <img style="width: 28px;height: 28px;display: inline-block"
@@ -119,7 +119,7 @@ export default {
   data() {
     return {
       tabsTopList: [
-        {id: 1, name: "首页", '--color': "blue", class: "#icon-index", link: "/index"},
+        {id: 0, name: "首页", '--color': "blue", class: "#icon-index", link: "/"},
         {id: 1, name: "推荐", '--color': "blue", class: "#icon-discover", link: "/discover"},
         {id: 2, name: "热门", '--color': "blue", class: "#icon-hotVideo", link: "/hotVideo"},
         {id: 3, name: "关注", '--color': "black", class: "#icon-follow", link: "/follow"},

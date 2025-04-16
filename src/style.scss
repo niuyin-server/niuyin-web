@@ -548,7 +548,7 @@ a {
   justify-content: center;
 }
 
-.router-is-focus .tab-item {
+.router-link-exact-active .tab-item {
   backdrop-filter: blur(10px);
   background-color: var(--bg-aside-a);
   font-weight: 900;

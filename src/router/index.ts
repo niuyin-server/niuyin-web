@@ -12,11 +12,10 @@ const router = createRouter({
         {
             path: "/",
             name: "Index",
-            redirect: '/index',
             component: () => import("@/Layout/Index.vue"),
             children: [
                 {
-                    path: "index", name: "index", component: () => import("@/Layout/Video.vue"), meta: {
+                    path: "/", name: "index", component: () => import("@/Layout/Video.vue"), meta: {
                         keepAlive: true
                     }
                 },
