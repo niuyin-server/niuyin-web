@@ -37,12 +37,12 @@
           <div class="notice-info ml-5r flex-wrap">
             <p class="one-line text-hv-gold"><strong>@ {{ item.nickName }}</strong></p>
             <p class="one-line mtb5"><span>{{ item.content }}</span></p>
-            <p class="one-line cg fs8 flex-between">
+            <div class="one-line cg fs8 flex-between">
               <div>
-                <span v-if="item.remark " class="mr-5r">{{ item.remark }}</span>
+                <span v-if="item.remark" class="mr-5r">{{ item.remark }}</span>
                 <span>{{ smartDateFormat(item.createTime) }}</span>
               </div>
-            </p>
+            </div>
           </div>
           <!--            原-->
           <div class="notice-origin flex-column" style="align-items: flex-end">

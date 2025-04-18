@@ -1,357 +1,306 @@
-<template>
-  <div class="flex flex-col wh100 b-radius1 overflow-hidden">
-    <header
-        class="w-full h-[60px] border-b border-gray-100 flex items-center px-6 justify-between"
-    >
-      <div class="flex items-center gap-3">
-        <el-icon class="text-blue-500 text-xl">
-          <ChatRound/>
-        </el-icon>
-        <h1 class="text-lg font-medium">AI 智能助手</h1>
-      </div>
-      <div class="flex items-center gap-4">
-        <el-button type="text" class="!rounded-button">
-          <el-icon :size="16">
-            <Setting/>
-          </el-icon>
-        </el-button>
-      </div>
-    </header>
-    <div class="flex flex-1 relative overflow-hidden">
-      <!-- 会话列表 -->
-      <div
-          class="w-[300px] border-r border-gray-100 transition-all duration-300 ease-in-out transform h-full absolute z-10"
-          :class="showChatList ? 'translate-x-0' : '-translate-x-[300px]'"
-      >
-        <div class="p-4 space-y-4">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-medium">会话列表</h2>
-            <el-button
-                type="primary"
-                class="!rounded-button"
-                @click="createNewChat"
-            >
-              <el-icon class="mr-1">
-                <Plus/>
-              </el-icon>
-              新建会话
-            </el-button>
-          </div>
-          <div class="space-y-2">
-            <div
-                v-for="chat in chatList"
-                :key="chat.id"
-                class="flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-100"
-                :class="{ 'bg-blue-50': currentChatId === chat.id }"
-                @click="switchChat(chat.id)"
-            >
-              <div class="flex items-center gap-2 flex-1 min-w-0">
-                <el-icon>
-                  <ChatRound/>
-                </el-icon>
-                <span class="truncate">{{ chat.title }}</span>
-              </div>
-              <el-button
-                  v-if="chatList.length > 1"
-                  type="text"
-                  class="!rounded-button"
-                  @click.stop="deleteChat(chat.id)"
-              >
-                <el-icon>
-                  <Delete/>
-                </el-icon>
-              </el-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-          class="flex-1 flex flex-col overflow-hidden"
-          :class="{ 'ml-[300px]': showChatList }"
-          style="transition: .3s all"
-      >
-        <!-- 聊天区域 -->
-        <main
-            ref="chatContainer"
-            class="flex-1 overflow-y-auto px-4 py-6"
-            @scroll="handleScroll"
-        >
-          <div class="max-w-4xl mx-auto space-y-6">
-            <div
-                v-for="(msg, index) in messages"
-                :key="index"
-                class="flex"
-                :class="msg.type === 'user' ? 'justify-end' : 'justify-start'"
-            >
-              <div
-                  class="max-w-[88%] flex items-start gap-3"
-                  :class="msg.type === 'user' ? 'flex-row-reverse' : ''"
-              >
-                <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                  <img
-                      :src="msg.type === 'user' ? userAvatar : aiAvatar"
-                      :alt="msg.type"
-                      class="w-full h-full object-cover"
-                  />
-                </div>
-                <div
-                    class="message-bubble"
-                    :class="msg.type === 'user' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800'"
-                >
-                  {{ msg.content }}
-                </div>
-              </div>
-            </div>
-            <div v-if="isTyping" class="flex justify-start">
-              <div class="max-w-[88%] flex items-start gap-3">
-                <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                  <img
-                      :src="aiAvatar"
-                      alt="ai"
-                      class="w-full h-full object-cover"
-                  />
-                </div>
-                <div class="message-bubble bg-white text-gray-800">
-                  <div class="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+<script setup lang="ts">
+import { ref, reactive, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 
-        <!-- 输入区域 -->
-        <footer class="border-t border-gray-100 p-4">
-          <div class="max-w-4xl mx-auto flex items-end gap-4">
-            <el-button
-                type="text"
-                class="!rounded-button"
-                @click="showChatList = !showChatList"
-            >
-              <el-icon class="text-xl">
-                <Files/>
-              </el-icon>
-            </el-button>
-            <el-input
-                v-model="inputMessage"
-                type="textarea"
-                :autosize="{ minRows: 1, maxRows: 6 }"
-                placeholder="请输入您的问题..."
-                resize="none"
-                class="flex-1 !rounded-button"
-                @keyup.enter.exact.prevent="sendMessage"
-            />
-            <el-button
-                v-if="!isReceiving"
-                type="primary"
-                :disabled="!inputMessage.trim()"
-                class=" !rounded-button whitespace-nowrap"
-                @click="sendMessage"
-            >
-              发送
-              <el-icon class="ml-1" :size="16">
-                <Position/>
-              </el-icon>
-            </el-button>
-            <el-button
-                v-else
-                type="danger"
-                class=" !rounded-button whitespace-nowrap"
-                @click="stopReceiving"
-            >
-              <el-icon :size="16">
-                <VideoPause/>
-              </el-icon>
-            </el-button>
-          </div>
-        </footer>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup>
-import {ref, onMounted, nextTick} from "vue";
-import {
-  ChatRound,
-  Setting,
-  Position,
-  VideoPause,
-  Files,
-  Delete,
-  Plus,
-} from "@element-plus/icons-vue";
-import {ElMessage} from "element-plus";
-
-const showChatList = ref(false);
-const inputMessage = ref("");
-const isTyping = ref(false);
-const isReceiving = ref(false);
-const chatContainer = ref < HTMLElement | null > null;
-const userAvatar =
-    "https://niuyin-server.oss-cn-shenzhen.aliyuncs.com/member/2024/10/07/4eb4963fa6bb4f85aa0ba1f748978993.jpeg";
-const aiAvatar =
-    "https://public.readdy.ai/ai/img_res/ce5e827dc0be17269a8c7efd4050aba6.jpg";
-const currentChatId = ref(1);
-const chatList = ref([
-  {
-    id: 1,
-    title: "默认会话",
-    messages: [
-      {
-        type: "ai",
-        content: "你好！我是你的AI助手，有什么我可以帮你的吗？",
-      },
-    ],
-  },
-]);
-const messages = ref(chatList.value[0].messages);
-const createNewChat = () => {
-  const newChat = {
-    id: chatList.value.length + 1,
-    title: `新会话 ${chatList.value.length + 1}`,
-    messages: [
-      {
-        type: "ai",
-        content: "你好！我是你的AI助手，有什么我可以帮你的吗？",
-      },
-    ],
-  };
-  chatList.value.push(newChat);
-  switchChat(newChat.id);
+// 生成随机用户ID（示例：8位字母数字组合）
+const generateUserId = () => {
+    return Math.random().toString(36).substr(2, 8);
 };
-const switchChat = (chatId) => {
-  currentChatId.value = chatId;
-  const chat = chatList.value.find((c) => c.id === chatId);
-  if (chat) {
-    messages.value = chat.messages;
+
+// 持久化存储用户ID
+const userId = ref('');
+
+enum MessageStatus {
+    Streaming = 'streaming',
+    Complete = 'complete',
+    Error = 'error',
+}
+
+interface Message {
+    id: string
+    content: string
+    isBot: boolean
+    status?: MessageStatus
+    timestamp: number
+    retry?: () => Promise<void>
+}
+
+const messages = ref<Message[]>([])
+const inputMessage = ref('')
+const isLoading = ref(false)
+const controller = ref<AbortController>()
+const messageContainer = ref<HTMLElement>()
+const inputRef = ref<HTMLInputElement>()
+
+// 自动滚动控制
+let autoScroll = true
+let lastCharType: 'chinese' | 'english' | 'other' = 'other'
+
+const scrollToBottom = () => {
     nextTick(() => {
-      scrollToBottom();
-    });
-  }
-};
-const deleteChat = (chatId) => {
-  if (chatList.value.length === 1) {
-    ElMessage.warning("至少保留一个会话");
-    return;
-  }
-  const index = chatList.value.findIndex((c) => c.id === chatId);
-  if (index > -1) {
-    chatList.value.splice(index, 1);
-    if (currentChatId.value === chatId) {
-      switchChat(chatList.value[0].id);
-    }
-  }
-};
-const scrollToBottom = async () => {
-  await nextTick();
-  if (chatContainer.value) {
-    chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
-  }
-};
-const simulateAIResponse = async () => {
-  isTyping.value = true;
-  isReceiving.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  isTyping.value = false;
-  const responses = [
-    "我明白你的问题，让我来帮你分析一下。",
-    "这是一个很好的问题，根据我的理解...",
-    "我可以从几个方面为你解答这个问题。",
-    "这个问题比较复杂，让我详细解释一下。",
-  ];
-  const currentChat = chatList.value.find((c) => c.id === currentChatId.value);
-  if (currentChat) {
-    currentChat.messages.push({
-      type: "ai",
-      content: responses[Math.floor(Math.random() * responses.length)],
-    });
-  }
-  isReceiving.value = false;
-  await scrollToBottom();
-};
-const stopReceiving = () => {
-  // 这里添加停止接收SSE数据的逻辑
-  isReceiving.value = false;
-  isTyping.value = false;
-};
-const sendMessage = async () => {
-  const message = inputMessage.value.trim();
-  if (!message) return;
-  const currentChat = chatList.value.find((c) => c.id === currentChatId.value);
-  if (currentChat) {
-    currentChat.messages.push({
-      type: "user",
-      content: message,
-    });
-    // 更新会话标题
-    if (currentChat.messages.length === 2) {
-      currentChat.title =
-          message.slice(0, 20) + (message.length > 20 ? "..." : "");
-    }
-  }
-  inputMessage.value = "";
-  await scrollToBottom();
-  await simulateAIResponse();
-};
+        if (messageContainer.value && autoScroll) {
+            messageContainer.value.scrollTop = messageContainer.value.scrollHeight
+        }
+    })
+}
+
 const handleScroll = () => {
-  if (!chatContainer.value) return;
-  const {scrollTop} = chatContainer.value;
-  // 当滚动到顶部时，可以加载更多历史消息
-  if (scrollTop === 0) {
-    // 这里可以添加加载更多历史消息的逻辑
-  }
-};
+    if (!messageContainer.value) return
+    const { scrollTop, scrollHeight, clientHeight } = messageContainer.value
+    autoScroll = scrollHeight - (scrollTop + clientHeight) < 50
+}
+
+// 字符类型检测
+const getCharType = (char: string): 'chinese' | 'english' | 'other' => {
+    if (/[\u4e00-\u9fa5\u3000-\u303F\uFF00-\uFFEF]/.test(char)) {
+        return 'chinese'
+    }
+    if (/[a-zA-Z]/.test(char)) {
+        return 'english'
+    }
+    return 'other'
+}
+
+// 智能空格处理核心逻辑
+const processContent = (prev: string, newData: string): string => {
+    if (prev.length === 0) return newData
+
+    const lastChar = prev.slice(-1)
+    const newFirstChar = newData[0] || ''
+
+    const prevType = getCharType(lastChar)
+    const newType = getCharType(newFirstChar)
+
+    let processed = newData
+
+    // 需要添加空格的情况
+    const shouldAddSpace =
+        (prevType === 'english' && newType === 'english') || // 英文接英文
+        (prevType === 'chinese' && newType === 'english') || // 中文接英文
+        (prevType === 'english' && newType === 'chinese' && !/[!?,.]$/.test(lastChar)) // 英文接中文（非标点结尾）
+
+    // 需要删除空格的情况
+    const shouldRemoveSpace =
+        (prevType === 'chinese' && newType === 'chinese') || // 中文接中文
+        (prevType === 'other' && /^[\u4e00-\u9fa5]/.test(newData)) // 特殊符号接中文
+
+    if (shouldAddSpace && !lastChar.match(/\s/) && !newFirstChar.match(/\s/)) {
+        processed = ' ' + processed
+    } else if (shouldRemoveSpace) {
+        processed = processed.replace(/^\s+/, '')
+    }
+
+    return processed
+}
+
+const sendChatRequest = async (content: string, botMessage: Message) => {
+    controller.value = new AbortController()
+
+    await fetchEventSource('http://localhost:9101/chat/stream', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'text/event-stream',
+            'X-Content-Lang': 'zh-CN'
+        },
+        body: JSON.stringify({ message: content, userId: userId.value }),
+        signal: controller.value?.signal,
+        openWhenHidden: true,
+
+        onopen: async response => {
+            if (!response.ok) throw new Error(`HTTP error ${response.status}`)
+        },
+
+        onmessage: event => {
+            if (event.data === '[DONE]') {
+                botMessage.status = MessageStatus.Complete
+                return
+            }
+
+            const processedData = processContent(botMessage.content, event.data)
+            botMessage.content += processedData
+            botMessage.timestamp = Date.now()
+
+            // 更新最后字符类型
+            const lastChar = processedData.slice(-1)
+            lastCharType = getCharType(lastChar)
+
+            scrollToBottom()
+        },
+
+        onerror: err => {
+            throw err
+        }
+    })
+}
+
+// 错误处理
+const handleRequestError = (botMessage: Message, error: unknown) => {
+    const errorMessage = error instanceof Error
+        ? navigator.onLine
+            ? error.message
+            : '网络连接不可用'
+        : '请求发生未知错误'
+
+    botMessage.status = MessageStatus.Error
+    botMessage.content = errorMessage
+    // botMessage.retry = createRetryHandler(botMessage.content)
+}
+
+// 主发送逻辑
+const sendMessage = async () => {
+    if (!inputMessage.value.trim() || isLoading.value) return
+
+    const userContent = inputMessage.value.trim()
+    inputMessage.value = ''
+
+    // 创建用户消息
+    const userMessage = reactive<Message>({
+        id: `user-${Date.now()}`,
+        content: userContent,
+        isBot: false,
+        timestamp: Date.now()
+    })
+    messages.value.push(userMessage)
+
+    // 创建机器人消息
+    const botMessage = reactive<Message>({
+        id: `bot-${Date.now()}`,
+        content: '',
+        isBot: true,
+        status: MessageStatus.Streaming,
+        timestamp: Date.now()
+    })
+    messages.value.push(botMessage)
+
+    isLoading.value = true
+
+    try {
+        await sendChatRequest(userContent, botMessage)
+    } catch (err) {
+        handleRequestError(botMessage, err)
+    } finally {
+        isLoading.value = false
+        nextTick(() => inputRef.value?.focus())
+    }
+}
+
+// 停止生成
+const stopGeneration = () => {
+    controller.value?.abort()
+    isLoading.value = false
+}
+
+// 生命周期
 onMounted(() => {
-  scrollToBottom();
-});
+    userId.value = localStorage.getItem('chatUserId') || generateUserId();
+    localStorage.setItem('chatUserId', userId.value);
+    messageContainer.value?.addEventListener('scroll', handleScroll)
+    inputRef.value?.focus()
+})
+
+onBeforeUnmount(() => {
+    messageContainer.value?.removeEventListener('scroll', handleScroll)
+    controller.value?.abort()
+})
 </script>
 
-<style scoped>
-.message-bubble {
-  padding: 12px 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
+<template>
+    <div class="flex flex-col h-full w-full bg-gray-50">
+        <!-- 顶部标题栏 -->
+        <header class="bg-blue-500 text-white shadow-sm py-4 px-6 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+                <h1 class="text-xl font-semibold">芝士学爆智能客服</h1>
+            </div>
+        </header>
 
-.typing-indicator {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-}
+        <!-- 聊天内容区域 -->
+        <div ref="messageContainer" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-50">
+            <div v-for="msg in messages" :key="msg.id" :class="[
+                'flex gap-4 mb-6 opacity-0 animate-fade-in',
+                msg.isBot ? 'justify-start' : 'justify-end',
+                { '!opacity-100': msg.status === MessageStatus.Streaming }
+            ]">
+                <div v-if="msg.isBot" class="flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                </div>
+                
+                <div :class="[
+                    'max-w-[70%] min-w-[200px]',
+                    msg.isBot ? 'order-1' : 'order-2'
+                ]">
+                    <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
+                        <span>{{ msg.isBot ? 'Spring AI' : '我' }}</span>
+                        <span>{{ new Date(msg.timestamp).toLocaleTimeString() }}</span>
+                    </div>
+                    <div :class="[
+                        'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words',
+                        msg.isBot 
+                            ? 'bg-white border border-gray-200 text-gray-800' 
+                            : 'bg-blue-500 text-white rounded-tr-none'
+                    ]">
+                        <template v-if="msg.status === MessageStatus.Streaming">
+                            <div v-if="msg.content" class="mb-2">{{ msg.content }}</div>
+                            <div class="flex gap-1 mt-2">
+                                <span class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 0.2s"></span>
+                                <span class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 0.4s"></span>
+                                <span class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 0.6s"></span>
+                            </div>
+                        </template>
+                        <div v-else>{{ msg.content }}</div>
+                    </div>
+                </div>
 
-.typing-indicator span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  animation: typing 1s infinite ease-in-out;
-}
+                <div v-if="!msg.isBot" class="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 shadow flex items-center justify-center order-3">
+                    <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
 
-.typing-indicator span:nth-child(1) {
-  animation-delay: 0.2s;
-}
+        <!-- 输入区域 -->
+        <div class="bg-white border-t border-gray-200 p-4">
+            <div class="max-w-4xl mx-auto flex gap-2">
+                <input 
+                    ref="inputRef" 
+                    v-model="inputMessage" 
+                    @keyup.enter="sendMessage" 
+                    placeholder="输入消息..." 
+                    :disabled="isLoading"
+                    class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
+                />
+                <button 
+                    @click="sendMessage" 
+                    :disabled="isLoading" 
+                    class="px-5 py-3 bg-blue-500 text-white rounded-xl font-medium disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                    <span v-if="isLoading">发送中...</span>
+                    <span v-else>发送</span>
+                </button>
+                <button 
+                    v-if="isLoading" 
+                    @click="stopGeneration" 
+                    class="px-5 py-3 bg-red-500 text-white rounded-xl font-medium"
+                >
+                    停止
+                </button>
+            </div>
+        </div>
+    </div>
+</template>
+ 
 
-.typing-indicator span:nth-child(2) {
-  animation-delay: 0.4s;
+<style>
+@keyframes fade-in {
+    to { opacity: 1; }
 }
-
-.typing-indicator span:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-@keyframes typing {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+.animate-fade-in {
+    animation: fade-in 0.3s ease forwards;
 }
 </style>
-

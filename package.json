@@ -14,6 +14,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@kangc/v-md-editor": "^2.3.18",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@vuemap/vue-amap": "^1.1.24",
     "axios": "^1.5.1",
     "crypto-js": "^4.2.0",
@@ -28,6 +29,7 @@
     "v-viewer": "^3.0.11",
     "viewerjs": "^1.11.6",
     "vue": "^3.3.4",
+    "vue-element-plus-x": "^1.1.6",
     "vue-masonry": "^0.16.0",
     "vue-router": "^4.0.13",
     "vue3-danmaku": "^1.6.0",
