@@ -18,7 +18,7 @@
         </div>
       </router-link>
     </div>
-    <el-scrollbar style="height: calc(100% - 60px)">
+    <el-scrollbar style="height: calc(100% - 120px)">
       <!-- tab栏区域 -->
       <div class="tabs-area">
         <ul class="tab-top">
@@ -29,7 +29,7 @@
                          active-class="router-is-focus"
                          :to="item.link">
               <div class="tab-item">
-                <div class="round">
+                <div class="round flex-center">
                   <svg class="icon operate-svg" aria-hidden="true">
                     <use :xlink:href="item.class"></use>
                   </svg>
@@ -91,7 +91,7 @@
                          active-class="router-is-focus"
                          :to="item.link">
               <div class="tab-item">
-                <div class="round">
+                <div class="round flex-center">
                   <svg class="icon operate-svg" aria-hidden="true">
                     <use :xlink:href="item.class"></use>
                   </svg>
@@ -103,16 +103,31 @@
         </ul>
       </div>
     </el-scrollbar>
+    <div class="aside-bottom flex-center" style="overflow:hidden;height: 60px;position:sticky;bottom: 0;left: 0;z-index: 1;">
+      <el-button type="success" :icon="Check" circle/>
+      <el-button type="info" :icon="Message" circle />
+      <el-button type="warning" :icon="Star" circle />
+    </div>
   </el-aside>
 </template>
 
 <script>
-import {Message} from "@element-plus/icons-vue";
+import {Check, Message, Star} from "@element-plus/icons-vue";
 import {videoCategoryParentList, videoCategoryTree} from "@/api/video.js";
 
 export default {
   name: "Aside",
-  components: {Message},
+  computed: {
+    Star() {
+      return Star
+    },
+    Message() {
+      return Message
+    },
+    Check() {
+      return Check
+    }
+  },
   props: {
     siteTitle: String,
   },
@@ -137,7 +152,7 @@ export default {
       ],
       videoCategoryParentList: localStorage.getItem("videoCategoryParentList") ? JSON.parse(localStorage.getItem("videoCategoryParentList")) : null,
       tabsBottomList: [
-        {id: 1, name: "AI", '--color': "red", class: "#icon-deepseek", link: "/ai/chat"},
+        {id: 1, name: "AI", '--color': "red", class: "#icon-deepseek", link: "/ai"},
         {id: 2, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
         {id: 3, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
       ],
@@ -212,7 +227,6 @@ export default {
 }
 
 .round {
-  display: inline-block;
   width: 36px;
   text-align: center;
   height: 36px;

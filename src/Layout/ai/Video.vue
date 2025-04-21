@@ -3,7 +3,7 @@
 </script>
 
 <template>
-image
+video
 </template>
 
 <style scoped>
