@@ -2,6 +2,7 @@ import axios from 'axios'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import errorCode from '@/utils/errorCode'
 import {getToken} from "@/utils/auth.js";
+import JSONBIG from "json-bigint"
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -19,6 +20,16 @@ instance.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 let loginDialog = true
+
+instance.defaults.transformResponse = [
+    function (data) {
+        const json = JSONBIG({
+            storeAsString: true
+        })
+        const res = json.parse(data)
+        return res
+    }
+]
 // 添加响应拦截器
 instance.interceptors.response.use(res => {
     // 未设置状态码则默认成功状态
