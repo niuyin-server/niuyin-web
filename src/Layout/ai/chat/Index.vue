@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted, reactive, ref} from 'vue'
+import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue'
 import {fetchEventSource} from '@microsoft/fetch-event-source'
 import {listConversation} from "@/api/ai/chat/conversation";
 import {listMessageByCid} from "@/api/ai/chat/message";
+import {userInfoX} from "@/store/userInfoX";
+import {MoreFilled} from "@element-plus/icons-vue";
+
+import type {ScrollbarInstance} from 'element-plus'
+
+const scrollbarRef = ref<ScrollbarInstance>()
+const max = ref(0)
 
 // 请求体
 const requestBody = reactive({
   pageNum: 1,
   pageSize: 20
 })
-
+const conversationExpand = ref<boolean>(true)
 const conversationList = ref<any[]>()
 const conversationListLoading = ref<boolean>(true) //0为空1为请求失败
 const conversationListTotal = ref<number>(0)
@@ -89,11 +96,18 @@ const handleSelectConversation = (id: string) => {
   listMessageByCid({cid: selectedConversationId.value}).then(res => {
     if (res?.code === 200) {
       messages.value = res?.data
+      // 滑动到对话底部
+      nextTick(() => {
+        max.value = messageContainer.value!.clientHeight
+        console.log('max', max.value)
+        scrollbarRef.value!.setScrollTop(max.value)
+      })
     } else {
 
     }
   })
 }
+
 
 // 格式化相对时间
 const formatRelativeTime = (dateStr: string): string => {
@@ -125,14 +139,6 @@ const formatRelativeTime = (dateStr: string): string => {
   }
 };
 
-// 生成随机用户ID（示例：8位字母数字组合）
-const generateUserId = () => {
-  return Math.random().toString(36).substr(2, 8);
-};
-
-// 持久化存储用户ID
-const userId = ref('');
-
 enum MessageStatus {
   Streaming = 'streaming',
   Complete = 'complete',
@@ -144,14 +150,12 @@ interface Message {
   content: string
   isBot: boolean
   timestamp: number
+  status: MessageStatus
 
   conversationId: string
   messageType: string
-  createBy: string
   createTime: string
-  delFlag: string
   replayId: string
-  updateBy: string
   updateTime: string
   useContext: string
   userId: string
@@ -166,11 +170,8 @@ const messages = ref<Message[]>([
 
     conversationId: '1',
     messageType: 'user',
-    createBy: '1',
     createTime: '2023-07-01 12:00:00Z',
-    delFlag: '0',
     replayId: '0',
-    updateBy: '1',
     updateTime: '2023-07-01 12:00:00Z',
     useContext: '0',
     userId: '1'
@@ -183,11 +184,8 @@ const messages = ref<Message[]>([
 
     conversationId: '1',
     messageType: 'assistant',
-    createBy: '1',
     createTime: '2023-07-01 12:00:00Z',
-    delFlag: '0',
     replayId: '0',
-    updateBy: '1',
     updateTime: '2023-07-01 12:00:00Z',
     useContext: '0',
     userId: '1'
@@ -203,19 +201,22 @@ const inputRef = ref<HTMLInputElement>()
 let autoScroll = true
 let lastCharType: 'chinese' | 'english' | 'other' = 'other'
 
+// 监听消息列表的变化，并自动滚动到底部
 const scrollToBottom = () => {
   nextTick(() => {
-    if (messageContainer.value && autoScroll) {
-      messageContainer.value.scrollTop = messageContainer.value.scrollHeight
-    }
+      if (messageContainer.value) {
+        max.value = messageContainer.value!.clientHeight
+        console.log('max', max.value)
+        scrollbarRef.value!.setScrollTop(max.value)
+      }
   })
 }
 
-const handleScroll = () => {
-  if (!messageContainer.value) return
-  const {scrollTop, scrollHeight, clientHeight} = messageContainer.value
-  autoScroll = scrollHeight - (scrollTop + clientHeight) < 50
-}
+// const handleScroll = () => {
+//   if (!messageContainer.value) return
+//   const {scrollTop, scrollHeight, clientHeight} = messageContainer.value
+//   autoScroll = scrollHeight - (scrollTop + clientHeight) < 50
+// }
 
 // 字符类型检测
 const getCharType = (char: string): 'chinese' | 'english' | 'other' => {
@@ -270,7 +271,11 @@ const sendChatRequest = async (content: string, botMessage: Message) => {
       'Accept': 'text/event-stream',
       'X-Content-Lang': 'zh-CN'
     },
-    body: JSON.stringify({message: content, userId: userId.value}),
+    body: JSON.stringify({
+      conversationId: selectedConversationId.value,
+      message: content,
+      userId: userInfoX().userInfo?.userId
+    }),
     signal: controller.value?.signal,
     openWhenHidden: true,
 
@@ -289,8 +294,8 @@ const sendChatRequest = async (content: string, botMessage: Message) => {
       botMessage.timestamp = Date.now()
 
       // 更新最后字符类型
-      const lastChar = processedData.slice(-1)
-      lastCharType = getCharType(lastChar)
+      // const lastChar = processedData.slice(-1)
+      // lastCharType = getCharType(lastChar)
 
       scrollToBottom()
     },
@@ -316,6 +321,8 @@ const handleRequestError = (botMessage: Message, error: unknown) => {
 
 // 主发送逻辑
 const sendMessage = async () => {
+  // todo 先创建对话？？
+
   if (!inputMessage.value.trim() || isLoading.value) return
 
   const userContent = inputMessage.value.trim()
@@ -326,7 +333,15 @@ const sendMessage = async () => {
     id: `user-${Date.now()}`,
     content: userContent,
     isBot: false,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    status: MessageStatus.Complete,
+    conversationId: selectedConversationId.value,
+    messageType: 'user',
+    createTime: Date.now().toString(),
+    replayId: '0',
+    updateTime: Date.now().toString(),
+    useContext: '1',
+    userId: userInfoX().userInfo?.userId
   })
   messages.value.push(userMessage)
 
@@ -336,7 +351,14 @@ const sendMessage = async () => {
     content: '',
     isBot: true,
     status: MessageStatus.Streaming,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    conversationId: selectedConversationId.value,
+    messageType: 'assistant',
+    createTime: Date.now().toString(),
+    replayId: '0',
+    updateTime: Date.now().toString(),
+    useContext: '1',
+    userId: userInfoX().userInfo?.userId
   })
   messages.value.push(botMessage)
 
@@ -357,25 +379,39 @@ const stopGeneration = () => {
   controller.value?.abort()
   isLoading.value = false
 }
+const handleClickConversationMore = (id) => {
+  // 显示更多对话框
+  console.log(id)
+}
+const handleDeleteConversation = (id) => {
+  // 删除对话
+  console.log(id)
+}
+const handleEditConversation = (id) => {
+  // 编辑对话
+  console.log(id)
+}
 
-// 生命周期
+// 展开/折叠对话列表
+const handleClickConversationExpand = () => {
+  conversationExpand.value = !conversationExpand.value
+}
+
 onMounted(() => {
-  userId.value = localStorage.getItem('chatUserId') || generateUserId();
-  localStorage.setItem('chatUserId', userId.value);
-  messageContainer.value?.addEventListener('scroll', handleScroll)
+  // messageContainer.value?.addEventListener('scroll', handleScroll)
   inputRef.value?.focus()
   getConversationList()
 })
 
 onBeforeUnmount(() => {
-  messageContainer.value?.removeEventListener('scroll', handleScroll)
+  // messageContainer.value?.removeEventListener('scroll', handleScroll)
   controller.value?.abort()
 })
 </script>
 
 <template>
   <div class="flex flex-1" style="flex-direction: row">
-    <div class="flex flex-col w-64 border-r border-gray-200">
+    <div v-if="conversationExpand" class="flex flex-col w-64 border-r border-gray-200">
       <div class="p-4 border-b border-gray-200">
         <button
             class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
@@ -408,28 +444,202 @@ onBeforeUnmount(() => {
                       <h3 class="text-sm font-medium text-gray-800 truncate">{{ conversation.title }}</h3>
                       <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1 truncate">{{ conversation.preview || '......' }}</p>
+                    <div class="flex-row flex-between">
+                      <p class="text-xs text-gray-500 mt-1 truncate">{{ conversation.preview || '......' }}</p>
+                      <el-popover
+                          placement="right"
+                          trigger="click"
+                      >
+                        <template #reference>
+                          <el-icon @click.stop="handleClickConversationMore(conversation.id)">
+                            <MoreFilled class=""/>
+                          </el-icon>
+                        </template>
+                        <template #default>
+                          <div class="p-4 flex flex-col">
+                            <button
+                                class="text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
+                                @click="handleEditConversation(conversation.id)">
+                              <i class="fas fa-copy text-gray-500"></i>
+                              <span>重命名</span>
+                            </button>
+                            <button
+                                class="mt-2 text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
+                                @click="handleDeleteConversation(conversation.id)">
+                              <i class="fas fa-copy text-gray-500"></i>
+                              <span>删除</span>
+                            </button>
+                          </div>
+                        </template>
+                      </el-popover>
+                    </div>
                   </div>
                 </div>
               </template>
             </el-skeleton>
           </div>
         </div>
-
       </el-scrollbar>
+
     </div>
     <div class="flex flex-1 flex-col">
 
       <!-- 聊天内容区域 -->
       <div class="flex flex-1 flex-col oh bg-gradient-to-b to-gray-50">
-        <el-scrollbar>
+        <el-scrollbar v-if="!selectedConversationId">
+        <div  class="flex-1 overflow-y-auto p-12">
+            <!-- 英雄区域 -->
+            <section class="flex items-center justify-between mb-24">
+              <div class="w-1/2">
+                <h1 class="text-5xl font-bold mb-6">与<span class="gradient-text">AI</span>开启<span
+                    class="gradient-text">智慧对话</span></h1>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                  我们的AI聊天助手能够理解您的需求，提供准确、有用的回答。
+                  无论是工作问题、学习辅导还是创意灵感，都能为您提供帮助。
+                </p>
+                <div class="flex space-x-4">
+                  <button
+                      class="px-8 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-all shadow-md hover:shadow-lg">
+                    立即体验
+                  </button>
+                  <button
+                      class="px-8 py-3 border border-blue-500 text-blue-500 rounded-full font-medium hover:bg-blue-50 transition-all">
+                    观看演示
+                  </button>
+                </div>
+              </div>
+              <div class="w-1/2 flex justify-center">
+                <div class="relative w-96 h-96">
+                  <!-- 聊天气泡示例 -->
+                  <div class="absolute top-0 left-0 bg-blue-100 p-4 chat-bubble w-64">
+                    <p class="text-gray-800">你好！今天有什么我可以帮助你的吗？</p>
+                  </div>
+                  <div class="absolute top-24 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-72">
+                    <p>我想学习关于机器学习的基础知识，有什么推荐的学习路径吗？</p>
+                  </div>
+                  <div class="absolute top-48 left-0 bg-blue-100 p-4 chat-bubble w-80">
+                    <p class="text-gray-800">当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
+                  </div>
+                  <div class="absolute top-72 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-64">
+                    <p>太好了！能推荐一些具体的学习资源吗？</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 功能亮点 -->
+            <section class="mb-24">
+              <h2 class="text-3xl font-bold text-center mb-4">核心功能</h2>
+              <p class="text-gray-500 text-center mb-12 max-w-2xl mx-auto">
+                我们的AI聊天助手拥有多项强大功能，为您提供卓越的对话体验
+              </p>
+
+              <div class="grid grid-cols-3 gap-8">
+                <!-- 功能卡片1 -->
+                <div
+                    class="feature-card bg-white p-8 rounded-xl shadow-md transition-all duration-300 border border-gray-100">
+                  <div class="text-blue-500 mb-4">
+                    <i class="fas fa-comment-dots text-4xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold mb-3">自然对话</h3>
+                  <p class="text-gray-600">
+                    采用最先进的自然语言处理技术，理解您的意图，提供流畅自然的对话体验，就像与真人交流一样。
+                  </p>
+                </div>
+
+                <!-- 功能卡片2 -->
+                <div
+                    class="feature-card bg-white p-8 rounded-xl shadow-md transition-all duration-300 border border-gray-100">
+                  <div class="text-blue-500 mb-4">
+                    <i class="fas fa-brain text-4xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold mb-3">多领域知识</h3>
+                  <p class="text-gray-600">
+                    覆盖科技、商业、教育、创意写作等多个领域，为您提供专业、准确的信息和建议。
+                  </p>
+                </div>
+
+                <!-- 功能卡片3 -->
+                <div
+                    class="feature-card bg-white p-8 rounded-xl shadow-md transition-all duration-300 border border-gray-100">
+                  <div class="text-blue-500 mb-4">
+                    <i class="fas fa-bolt text-4xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold mb-3">快速响应</h3>
+                  <p class="text-gray-600">
+                    毫秒级的响应速度，无需等待，即时获取您需要的信息和答案，提高工作效率。
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 使用场景 -->
+            <section class="mb-24">
+              <h2 class="text-3xl font-bold text-center mb-4">应用场景</h2>
+              <p class="text-gray-500 text-center mb-12 max-w-2xl mx-auto">
+                无论您是需要工作协助、学习辅导还是创意激发，我们的AI都能胜任
+              </p>
+
+              <div class="grid grid-cols-4 gap-6">
+                <!-- 场景1 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div class="text-blue-500 mb-3">
+                    <i class="fas fa-laptop-code text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mb-2">编程辅助</h4>
+                  <p class="text-sm text-gray-600">代码调试、算法解释、最佳实践建议</p>
+                </div>
+
+                <!-- 场景2 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div class="text-blue-500 mb-3">
+                    <i class="fas fa-book text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mb-2">学习辅导</h4>
+                  <p class="text-sm text-gray-600">概念解释、学习计划、题目解答</p>
+                </div>
+
+                <!-- 场景3 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div class="text-blue-500 mb-3">
+                    <i class="fas fa-lightbulb text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mb-2">创意生成</h4>
+                  <p class="text-sm text-gray-600">写作灵感、头脑风暴、内容创作</p>
+                </div>
+
+                <!-- 场景4 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div class="text-blue-500 mb-3">
+                    <i class="fas fa-briefcase text-2xl"></i>
+                  </div>
+                  <h4 class="font-semibold mb-2">商业应用</h4>
+                  <p class="text-sm text-gray-600">市场分析、商业计划、邮件撰写</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- CTA区域 -->
+            <section class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-12 text-center">
+              <h2 class="text-3xl font-bold mb-4">准备好体验智能对话了吗？</h2>
+              <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                立即注册，开启您的AI对话之旅。无需信用卡，免费试用我们的高级功能。
+              </p>
+              <button
+                  class="px-10 py-4 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-all shadow-lg hover:shadow-xl text-lg">
+                开始免费试用
+              </button>
+            </section>
+        </div>
+        </el-scrollbar>
+        <el-scrollbar v-else ref="scrollbarRef">
           <div ref="messageContainer" class="overflow-y-auto px-4 pt1rem">
             <div v-for="msg in messages" :key="msg.id" :class="[
                 'flex gap-4 mb-6 opacity-0 animate-fade-in',
-                msg.isBot ? 'justify-start' : 'justify-end',
+                msg.messageType === 'assistant' ? 'justify-start' : 'justify-end',
                 { '!opacity-100': msg.status === MessageStatus.Streaming }
             ]">
-              <div v-if="msg.isBot"
+              <div v-if="msg.messageType === 'assistant'"
                    class="flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow flex items-center justify-center">
                 <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24">
                   <path fill="currentColor"
@@ -439,34 +649,23 @@ onBeforeUnmount(() => {
 
               <div :class="[
                     'max-w-[70%] min-w-[200px]',
-                    msg.isBot ? 'order-1' : 'order-2'
+                    msg.messageType === 'assistant' ? 'order-1' : 'order-2'
                 ]">
                 <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
-                  <span>{{ msg.isBot ? 'Spring AI' : '我' }}</span>
+                  <span>{{ msg.messageType === 'assistant' ? 'Spring AI' : '我' }}</span>
                   <span>{{ new Date(msg.timestamp).toLocaleTimeString() }}</span>
                 </div>
                 <div :class="[
                         'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words',
-                        msg.isBot
+                        msg.messageType === 'assistant'
                             ? 'bg-white border border-gray-200 text-gray-800'
                             : 'bg-blue-500 text-white rounded-tr-none'
                     ]">
-                  <template v-if="msg.status === MessageStatus.Streaming">
-                    <div v-if="msg.content" class="mb-2">{{ msg.content }}</div>
-                    <div class="flex gap-1 mt-2">
-                      <span class="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
-                            style="animation-delay: 0.2s"></span>
-                      <span class="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
-                            style="animation-delay: 0.4s"></span>
-                      <span class="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
-                            style="animation-delay: 0.6s"></span>
-                    </div>
-                  </template>
-                  <div v-else>{{ msg.content }}</div>
+                  <Typewriter :content="msg.content" :is-markdown="true"/>
                 </div>
               </div>
 
-              <div v-if="!msg.isBot"
+              <div v-if="msg.messageType === 'user'"
                    class="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 shadow flex items-center justify-center order-3">
                 <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24">
                   <path fill="currentColor"
@@ -478,30 +677,51 @@ onBeforeUnmount(() => {
         </el-scrollbar>
         <!-- 输入区域 -->
         <div class="border-t border-gray-200 p-4">
-          <div class="max-w-4xl mx-auto flex gap-2">
-            <input
-                ref="inputRef"
-                v-model="inputMessage"
-                @keyup.enter="sendMessage"
-                placeholder="输入消息..."
-                :disabled="isLoading"
-                class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
-            />
-            <button
-                @click="sendMessage"
-                :disabled="isLoading"
-                class="px-5 py-3 bg-blue-500 text-white rounded-xl font-medium disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              <span v-if="isLoading">发送中...</span>
-              <span v-else>发送</span>
-            </button>
-            <button
-                v-if="isLoading"
-                @click="stopGeneration"
-                class="px-5 py-3 bg-red-500 text-white rounded-xl font-medium"
-            >
-              停止
-            </button>
+          <div class="max-w-4xl mx-auto">
+            <div class="relative">
+              <textarea
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
+                  rows="2"
+                  placeholder="输入您的消息或指令..."
+                  @keyup.enter="sendMessage"
+                  ref="inputRef"
+                  v-model="inputMessage"
+                  :disabled="isLoading"></textarea>
+              <div class="absolute right-3 bottom-3 flex gap-2">
+                <button
+                    class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">
+                  <i class="fas fa-microphone"></i>
+                </button>
+                <button
+                    class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">
+                  <i class="fas fa-image"></i>
+                </button>
+                <button
+                    class="w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center text-white transition-colors"
+                    :class="{ 'bg-red-500 hover:bg-red-600': isLoading }"
+                    @click="sendMessage">
+                  <i v-if="isLoading" @click="stopGeneration" class="fas fa-pause"/>
+                  <i v-else class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="max-w-4xl mx-auto flex flex-between gap-2 mt-4">
+            <div class="text-xs text-gray-500 flex-row">
+              <button
+                  class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors"
+              @click="handleClickConversationExpand">
+                <i class="fas fa-archive" />
+              </button>
+              <div class="mx-4">
+              AI助手 1.0 • 联网搜索已开启
+              </div>
+            </div>
+            <div class="text-xs text-gray-500">
+              <el-button type="text" class="hover:text-gray-700"><i class="fas fa-magic mr-1"/>快捷指令</el-button>
+              <span class="mx-2">•</span>
+              <el-button type="text" class="hover:text-gray-700"><i class="fas fa-cog mr-1"/>设置</el-button>
+            </div>
           </div>
         </div>
       </div>
