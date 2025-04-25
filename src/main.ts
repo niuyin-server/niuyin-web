@@ -67,12 +67,12 @@ VMdPreview.use(githubTheme, {
     Hljs: hljs,
 });
 
-import ElementPlusX from 'vue-element-plus-x'
+// import ElementPlusX from 'vue-element-plus-x'
 
 const app = createApp(App);
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
-app.use(ElementPlusX)
+// app.use(ElementPlusX)
 // 注册所有ele图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);

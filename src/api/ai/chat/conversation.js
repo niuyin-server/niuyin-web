@@ -8,3 +8,12 @@ export function listConversation(data) {
         data: data
     })
 }
+
+// 对话创建
+export function addConversation(data) {
+    return request({
+        url: '/ai/api/v1/chat/conversation',
+        method: 'post',
+        data: data
+    })
+}

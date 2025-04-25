@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue'
 import {fetchEventSource} from '@microsoft/fetch-event-source'
-import {listConversation} from "@/api/ai/chat/conversation";
+import {addConversation, listConversation} from "@/api/ai/chat/conversation";
 import {listMessageByCid} from "@/api/ai/chat/message";
 import {userInfoX} from "@/store/userInfoX";
 import {MoreFilled} from "@element-plus/icons-vue";
-
-import type {ScrollbarInstance} from 'element-plus'
+import {ElMessage, ScrollbarInstance} from 'element-plus'
+import {Typewriter} from 'vue-element-plus-x'
 
 const scrollbarRef = ref<ScrollbarInstance>()
 const max = ref(0)
@@ -16,7 +16,7 @@ const requestBody = reactive({
   pageNum: 1,
   pageSize: 20
 })
-const conversationExpand = ref<boolean>(true)
+const conversationExpand = ref<boolean>(false)
 const conversationList = ref<any[]>()
 const conversationListLoading = ref<boolean>(true) //0为空1为请求失败
 const conversationListTotal = ref<number>(0)
@@ -204,11 +204,10 @@ let lastCharType: 'chinese' | 'english' | 'other' = 'other'
 // 监听消息列表的变化，并自动滚动到底部
 const scrollToBottom = () => {
   nextTick(() => {
-      if (messageContainer.value) {
-        max.value = messageContainer.value!.clientHeight
-        console.log('max', max.value)
-        scrollbarRef.value!.setScrollTop(max.value)
-      }
+    if (messageContainer.value) {
+      max.value = messageContainer.value!.clientHeight
+      scrollbarRef.value!.setScrollTop(max.value)
+    }
   })
 }
 
@@ -261,7 +260,7 @@ const processContent = (prev: string, newData: string): string => {
   return processed
 }
 
-const sendChatRequest = async (content: string, botMessage: Message) => {
+const sendChatRequest = async (conversationId: string, content: string, botMessage: Message) => {
   controller.value = new AbortController()
 
   await fetchEventSource('http://localhost:9101/chat/stream', {
@@ -272,7 +271,7 @@ const sendChatRequest = async (content: string, botMessage: Message) => {
       'X-Content-Lang': 'zh-CN'
     },
     body: JSON.stringify({
-      conversationId: selectedConversationId.value,
+      conversationId: conversationId,
       message: content,
       userId: userInfoX().userInfo?.userId
     }),
@@ -321,13 +320,25 @@ const handleRequestError = (botMessage: Message, error: unknown) => {
 
 // 主发送逻辑
 const sendMessage = async () => {
-  // todo 先创建对话？？
 
   if (!inputMessage.value.trim() || isLoading.value) return
 
   const userContent = inputMessage.value.trim()
   inputMessage.value = ''
 
+  if (!selectedConversationId.value) {
+    // 先创建对话？？
+    await addConversation({title: userContent}).then(res => {
+      if (res.code === 200) {
+        // 插入对话列表
+        conversationListGroups.value.today.unshift(res.data)
+        selectedConversationId.value = res.data.id
+      } else {
+        ElMessage.error('创建对话失败')
+        return
+      }
+    })
+  }
   // 创建用户消息
   const userMessage = reactive<Message>({
     id: `user-${Date.now()}`,
@@ -363,9 +374,9 @@ const sendMessage = async () => {
   messages.value.push(botMessage)
 
   isLoading.value = true
-
+  const conversationId = selectedConversationId.value
   try {
-    await sendChatRequest(userContent, botMessage)
+    await sendChatRequest(conversationId, userContent, botMessage)
   } catch (err) {
     handleRequestError(botMessage, err)
   } finally {
@@ -397,6 +408,37 @@ const handleClickConversationExpand = () => {
   conversationExpand.value = !conversationExpand.value
 }
 
+// 创建新对话
+const handleCreateNewConversation = () => {
+  // 创建新对话
+  addConversation({title: '新对话'}).then(res => {
+    if (res.code === 200) {
+      // 插入对话列表
+      conversationListGroups.value.today.unshift(res.data)
+      selectedConversationId.value = res.data.id
+    } else {
+      ElMessage.error('创建对话失败')
+      return
+    }
+  })
+  messages.value = [
+    {
+      id: 'bot-1',
+      content: '你好，有什么可以帮到你的吗？',
+      isBot: true,
+      timestamp: Date.now(),
+
+      conversationId: '1',
+      messageType: 'assistant',
+      createTime: '2023-07-01 12:00:00Z',
+      replayId: '0',
+      updateTime: '2023-07-01 12:00:00Z',
+      useContext: '0',
+      userId: '1'
+    }
+  ]
+}
+
 onMounted(() => {
   // messageContainer.value?.addEventListener('scroll', handleScroll)
   inputRef.value?.focus()
@@ -414,6 +456,7 @@ onBeforeUnmount(() => {
     <div v-if="conversationExpand" class="flex flex-col w-64 border-r border-gray-200">
       <div class="p-4 border-b border-gray-200">
         <button
+            @click="handleCreateNewConversation"
             class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
           <i class="fas fa-plus"></i>
           <span>新对话</span>
@@ -461,13 +504,13 @@ onBeforeUnmount(() => {
                                 class="text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
                                 @click="handleEditConversation(conversation.id)">
                               <i class="fas fa-copy text-gray-500"></i>
-                              <span>重命名</span>
+                              <span class="fs8">重命名</span>
                             </button>
                             <button
                                 class="mt-2 text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
                                 @click="handleDeleteConversation(conversation.id)">
                               <i class="fas fa-copy text-gray-500"></i>
-                              <span>删除</span>
+                              <span class="fs8">删除</span>
                             </button>
                           </div>
                         </template>
@@ -487,7 +530,7 @@ onBeforeUnmount(() => {
       <!-- 聊天内容区域 -->
       <div class="flex flex-1 flex-col oh bg-gradient-to-b to-gray-50">
         <el-scrollbar v-if="!selectedConversationId">
-        <div  class="flex-1 overflow-y-auto p-12">
+          <div class="flex-1 overflow-y-auto p-12">
             <!-- 英雄区域 -->
             <section class="flex items-center justify-between mb-24">
               <div class="w-1/2">
@@ -518,7 +561,8 @@ onBeforeUnmount(() => {
                     <p>我想学习关于机器学习的基础知识，有什么推荐的学习路径吗？</p>
                   </div>
                   <div class="absolute top-48 left-0 bg-blue-100 p-4 chat-bubble w-80">
-                    <p class="text-gray-800">当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
+                    <p class="text-gray-800">
+                      当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
                   </div>
                   <div class="absolute top-72 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-64">
                     <p>太好了！能推荐一些具体的学习资源吗？</p>
@@ -630,7 +674,7 @@ onBeforeUnmount(() => {
                 开始免费试用
               </button>
             </section>
-        </div>
+          </div>
         </el-scrollbar>
         <el-scrollbar v-else ref="scrollbarRef">
           <div ref="messageContainer" class="overflow-y-auto px-4 pt1rem">
@@ -648,7 +692,7 @@ onBeforeUnmount(() => {
               </div>
 
               <div :class="[
-                    'max-w-[70%] min-w-[200px]',
+                    'max-w-[80%] min-w-[200px]',
                     msg.messageType === 'assistant' ? 'order-1' : 'order-2'
                 ]">
                 <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
@@ -660,7 +704,8 @@ onBeforeUnmount(() => {
                         msg.messageType === 'assistant'
                             ? 'bg-white border border-gray-200 text-gray-800'
                             : 'bg-blue-500 text-white rounded-tr-none'
-                    ]">
+                    ]"
+                     style="overflow: auto">
                   <Typewriter :content="msg.content" :is-markdown="true"/>
                 </div>
               </div>
@@ -710,11 +755,11 @@ onBeforeUnmount(() => {
             <div class="text-xs text-gray-500 flex-row">
               <button
                   class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors"
-              @click="handleClickConversationExpand">
-                <i class="fas fa-archive" />
+                  @click="handleClickConversationExpand">
+                <i class="fas fa-archive"/>
               </button>
               <div class="mx-4">
-              AI助手 1.0 • 联网搜索已开启
+                AI助手 1.0 • 联网搜索已开启
               </div>
             </div>
             <div class="text-xs text-gray-500">

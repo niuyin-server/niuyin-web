@@ -11,7 +11,7 @@
           <img style="width: 28px;height: 28px;display: inline-block"
                src="@/assets/logo/logo-cheese.png">
         </div>
-        <div class="" style="width: calc(100% - 60px)">
+        <div v-if="asideExpand" class="" style="width: calc(100% - 60px)">
           <span style="display:inline-block;width: 4px"></span>
           <span class="dn-phone fw500"
                 style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">芝士学爆</span>
@@ -34,7 +34,7 @@
                     <use :xlink:href="item.class"></use>
                   </svg>
                 </div>
-                <span class="dn-phone">{{ item.name }}</span>
+                <span v-if="asideExpand" class="dn-phone">{{ item.name }}</span>
               </div>
             </router-link>
           </li>
@@ -56,7 +56,7 @@
                     <!--                    </svg>-->
                     <img class="wh1point25rem" style="vertical-align: middle;" :src="item.categoryImage"/>
                   </div>
-                  <span class="dn-phone">{{ item.name }}</span>
+                  <span v-if="asideExpand" class="dn-phone">{{ item.name }}</span>
                 </div>
               </router-link>
             </li>
@@ -96,17 +96,26 @@
                     <use :xlink:href="item.class"></use>
                   </svg>
                 </div>
-                <span class="dn-phone">{{ item.name }}</span>
+                <span v-if="asideExpand" class="dn-phone">{{ item.name }}</span>
               </div>
             </router-link>
           </li>
         </ul>
       </div>
     </el-scrollbar>
-    <div class="aside-bottom flex-center" style="overflow:hidden;height: 60px;position:sticky;bottom: 0;left: 0;z-index: 1;">
-      <el-button type="success" :icon="Check" circle/>
-      <el-button type="info" :icon="Message" circle />
-      <el-button type="warning" :icon="Star" circle />
+    <div class="aside-bottom flex-center"
+         style="overflow:hidden;height: 60px;position:sticky;bottom: 0;left: 0;z-index: 1;">
+      <button
+          class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+          @click="handleClickAsideExpand"
+      >
+        <el-tooltip v-if="asideExpand" content="折叠菜单" placement="top">
+          <i class="fas fa-chevron-left"/>
+        </el-tooltip>
+        <el-tooltip v-else content="展开菜单" placement="top">
+          <i class="fas fa-chevron-right"/>
+        </el-tooltip>
+      </button>
     </div>
   </el-aside>
 </template>
@@ -156,6 +165,7 @@ export default {
         {id: 2, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
         {id: 3, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
       ],
+      asideExpand: true
     }
   },
   mounted() {
@@ -175,6 +185,9 @@ export default {
         }
       })
     },
+    handleClickAsideExpand() {
+      this.asideExpand = !this.asideExpand
+    }
   }
 }
 </script>
