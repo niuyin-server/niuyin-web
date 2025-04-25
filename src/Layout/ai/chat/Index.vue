@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue'
+import {nextTick, onBeforeUnmount, onMounted, reactive, ref} from 'vue'
 import {fetchEventSource} from '@microsoft/fetch-event-source'
 import {addConversation, listConversation} from "@/api/ai/chat/conversation";
 import {listMessageByCid} from "@/api/ai/chat/message";
@@ -31,7 +31,7 @@ const conversationListGroups = ref<any>({
 const selectedConversationId = ref<string>('')
 
 type GroupKey = 'today' | 'yesterday' | 'lastWeek' | 'lastMonth' | 'lastYear' | 'older'
-const getGroupTitle = (group: GroupKey): string => {
+const getGroupTitle = (group: any): string => {
   const titles: Record<GroupKey, string> = {
     today: '今天',
     yesterday: '昨天',
@@ -151,7 +151,6 @@ interface Message {
   isBot: boolean
   timestamp: number
   status: MessageStatus
-
   conversationId: string
   messageType: string
   createTime: string
@@ -167,7 +166,7 @@ const messages = ref<Message[]>([
     content: '你好',
     isBot: false,
     timestamp: Date.now(),
-
+    status: MessageStatus.Complete,
     conversationId: '1',
     messageType: 'user',
     createTime: '2023-07-01 12:00:00Z',
@@ -181,7 +180,7 @@ const messages = ref<Message[]>([
     content: '你好，有什么可以帮到你的吗？',
     isBot: true,
     timestamp: Date.now(),
-
+    status: MessageStatus.Complete,
     conversationId: '1',
     messageType: 'assistant',
     createTime: '2023-07-01 12:00:00Z',
@@ -196,10 +195,6 @@ const isLoading = ref(false)
 const controller = ref<AbortController>()
 const messageContainer = ref<HTMLElement>()
 const inputRef = ref<HTMLInputElement>()
-
-// 自动滚动控制
-let autoScroll = true
-let lastCharType: 'chinese' | 'english' | 'other' = 'other'
 
 // 监听消息列表的变化，并自动滚动到底部
 const scrollToBottom = () => {
@@ -329,7 +324,7 @@ const sendMessage = async () => {
   if (!selectedConversationId.value) {
     // 先创建对话？？
     await addConversation({title: userContent}).then(res => {
-      if (res.code === 200) {
+      if (res?.code === 200) {
         // 插入对话列表
         conversationListGroups.value.today.unshift(res.data)
         selectedConversationId.value = res.data.id
@@ -412,7 +407,7 @@ const handleClickConversationExpand = () => {
 const handleCreateNewConversation = () => {
   // 创建新对话
   addConversation({title: '新对话'}).then(res => {
-    if (res.code === 200) {
+    if (res?.code === 200) {
       // 插入对话列表
       conversationListGroups.value.today.unshift(res.data)
       selectedConversationId.value = res.data.id
@@ -427,7 +422,7 @@ const handleCreateNewConversation = () => {
       content: '你好，有什么可以帮到你的吗？',
       isBot: true,
       timestamp: Date.now(),
-
+      status: MessageStatus.Complete,
       conversationId: '1',
       messageType: 'assistant',
       createTime: '2023-07-01 12:00:00Z',
@@ -468,7 +463,15 @@ onBeforeUnmount(() => {
           <div class="px-4 pb-2">
             <el-skeleton :loading="conversationListLoading" animated>
               <template #template>
-                <div v-for="i in 3" class="space-y-4 mb-6">
+                <div class="space-y-4 mb-6">
+                  <el-skeleton-item variant="h3" style="width: 70%"/>
+                  <el-skeleton-item variant="text" style="width: 90%"/>
+                </div>
+                <div class="space-y-4 mb-6">
+                  <el-skeleton-item variant="h3" style="width: 70%"/>
+                  <el-skeleton-item variant="text" style="width: 90%"/>
+                </div>
+                <div class="space-y-4 mb-6">
                   <el-skeleton-item variant="h3" style="width: 70%"/>
                   <el-skeleton-item variant="text" style="width: 90%"/>
                 </div>
@@ -554,17 +557,17 @@ onBeforeUnmount(() => {
               <div class="w-1/2 flex justify-center">
                 <div class="relative w-96 h-96">
                   <!-- 聊天气泡示例 -->
-                  <div class="absolute top-0 left-0 bg-blue-100 p-4 chat-bubble w-64">
+                  <div class="absolute top-0 left-0 bg-blue-100 p-4 chat-bubble w-64 rounded-2xl">
                     <p class="text-gray-800">你好！今天有什么我可以帮助你的吗？</p>
                   </div>
-                  <div class="absolute top-24 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-72">
+                  <div class="absolute top-24 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-72 rounded-2xl">
                     <p>我想学习关于机器学习的基础知识，有什么推荐的学习路径吗？</p>
                   </div>
-                  <div class="absolute top-48 left-0 bg-blue-100 p-4 chat-bubble w-80">
+                  <div class="absolute top-48 left-0 bg-blue-100 p-4 chat-bubble w-80 rounded-2xl">
                     <p class="text-gray-800">
                       当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
                   </div>
-                  <div class="absolute top-72 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-64">
+                  <div class="absolute top-72 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-64 rounded-2xl">
                     <p>太好了！能推荐一些具体的学习资源吗？</p>
                   </div>
                 </div>
@@ -626,7 +629,7 @@ onBeforeUnmount(() => {
 
               <div class="grid grid-cols-4 gap-6">
                 <!-- 场景1 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-laptop-code text-2xl"></i>
                   </div>
@@ -635,7 +638,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景2 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-book text-2xl"></i>
                   </div>
@@ -644,7 +647,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景3 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-lightbulb text-2xl"></i>
                   </div>
@@ -653,7 +656,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景4 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-briefcase text-2xl"></i>
                   </div>
@@ -759,7 +762,7 @@ onBeforeUnmount(() => {
                 <i class="fas fa-archive"/>
               </button>
               <div class="mx-4">
-                AI助手 1.0 • 联网搜索已开启
+                AI助手 1.0-Beta • 联网搜索已开启
               </div>
             </div>
             <div class="text-xs text-gray-500">

@@ -125,7 +125,7 @@ export default {
   width: 24%;
   border-radius: 1rem;
   height: 260px;
-  color: var(--niuyin-text-color);
+  color: var(--niuyin-text-color) !important;
   background-color: var(--bg-video-card);
   margin-bottom: 1rem;
   box-shadow: var(--video-card-box-shadow);

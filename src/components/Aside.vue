@@ -14,7 +14,7 @@
         <div v-if="asideExpand" class="" style="width: calc(100% - 60px)">
           <span style="display:inline-block;width: 4px"></span>
           <span class="dn-phone fw500"
-                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color)">芝士学爆</span>
+                style="display:inline-block;line-height: 60px;height: 60px;font-family: DouyinSansBold;font-size: 1.2rem;color: var(--niuyin-text-color) !important">芝士学爆</span>
         </div>
       </router-link>
     </div>
@@ -220,7 +220,7 @@ export default {
 .router-link {
   border-radius: 0.5rem;
   padding: 0.3rem 0;
-  color: var(--niuyin-text-color);
+  color: var(--niuyin-text-color) !important;
   text-decoration: none;
 }
 

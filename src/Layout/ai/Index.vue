@@ -48,7 +48,7 @@ const aiRouters = [
   display: flex;
 
   .ai-router-link {
-    color: var(--niuyin-text-color);
+    color: var(--niuyin-text-color) !important;
     text-decoration: none;
     transition: all .3s ease-in-out;
     font-size: 1rem;

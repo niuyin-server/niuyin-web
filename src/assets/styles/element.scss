@@ -1,18 +1,18 @@
 html.dark {
-  --el-color-primary: #99173e;
-  --el-color-primary-light-3: #ca3862;
-  --el-color-primary-light-5: #951158;
-  --el-color-primary-light-7: #5b212f;
-  --el-color-primary-light-8: #431d2a;
-  --el-color-primary-light-9: #2c1820;
-  --el-color-primary-dark-2: #ff66a1;
-  --el-bg-color-page: rgb(37, 38, 50);
-  --el-overlay-color-lighter: rgba(0, 0, 0, 0.8); //弹窗遮罩层
-  --el-text-color-disabled: rgba(108, 110, 114, 0.3); // el-avatar
-  --el-fill-color-blank: #3c3d3f54;
-  --el-skeleton-main-color: rgba(27, 27, 44, 0.8);
+  --el-color-primary: #99173e !important;
+  --el-color-primary-light-3: #ca3862 !important;
+  --el-color-primary-light-5: #951158 !important;
+  --el-color-primary-light-7: #5b212f !important;
+  --el-color-primary-light-8: #431d2a !important;
+  --el-color-primary-light-9: #2c1820 !important;
+  --el-color-primary-dark-2: #ff66a1 !important;
+  --el-bg-color-page: rgb(37, 38, 50) !important;
+  --el-overlay-color-lighter: rgba(0, 0, 0, 0.8) !important; //弹窗遮罩层
+  --el-text-color-disabled: rgba(108, 110, 114, 0.3) !important; // el-avatar
+  --el-fill-color-blank: #3c3d3f54 !important;
+  --el-skeleton-main-color: rgba(27, 27, 44, 0.8) !important;
 
-  --niuyin-text-color: #fff;
+  --niuyin-text-color: #fff !important;
   --niuyin-text-color8: rgba(255, 255, 255, 0.8);
   --niuyin-text-color5: rgba(255, 255, 255, 0.5);
   --niuyin-bg-color: #000000;
@@ -36,19 +36,20 @@ html.dark {
   --niuyin-online-color: #78ce27;
   --niuyin-gray-bg: rgba(95, 95, 164, 0.8);
 
-  --color-bg-b0: #161823;
-  --global-bg-img: url(https://p-pc-weboff.byteimg.com/tos-cn-i-9r5gewecjs/test.png);
-  --bg-aside-a: #f2f2f414;
-  --bg-video-card: #252632;
-  --color-text-t2: #ffffffbf;
+  --el-text-color-regular: #CFD3DC !important;
+  --color-bg-b0: #161823 !important;
+  --global-bg-img: url(https://p-pc-weboff.byteimg.com/tos-cn-i-9r5gewecjs/test.png) !important;
+  --bg-aside-a: #f2f2f414 !important;
+  --bg-video-card: #252632 !important;
+  --color-text-t2: #ffffffbf !important;
 
-  --el-bg-color-overlay: var(--color-bg-b0);
+  --el-bg-color-overlay: var(--color-bg-b0) !important;
   --niuyin-icon-bg0: rgba(245, 245, 255, 0.1);
-  --md-bg-code: #1c1e29;
+  --md-bg-code: #1c1e29 !important;
 }
 
 :root {
-  --niuyin-text-color: #000;
+  --niuyin-text-color: #000 !important;
   --niuyin-text-color8: rgba(0, 0, 0, 0.8);
   --niuyin-text-color5: rgba(0, 0, 0, 0.5);
   --niuyin-bg-color: #ffffff;
@@ -72,36 +73,36 @@ html.dark {
   --niuyin-online-color: #78ce27;
   --niuyin-gray-bg: rgba(184, 184, 229, 0.8);
 
-  --el-color-primary: var(--niuyin-primary-color);
-  --el-color-primary-light-3: var(--niuyin-primary-color-3);
-  --el-color-primary-light-5: var(--niuyin-primary-color-5);
-  --el-color-primary-light-7: #c6e2ff;
-  --el-color-primary-light-8: #d9ecff;
-  --el-color-primary-light-9: #ecf5ff;
-  --el-color-info: #e2e3e3; /*按钮背景色*/
-  --el-input-bg-color: rgb(242, 242, 243);
-  --el-fill-color-blank: rgb(242, 242, 243); /*输入框*/
-  --el-loading-spinner-size: 100px; /*加载图标大小*/
-  --el-fill-color: rgba(240, 242, 245, 0.8); /*加载中图片背景色*/
-  --el-fill-color-darker: rgba(230, 232, 235, 0.6);
-  --el-messagebox-border-radius: 16px; /*弹框radius*/
-  --el-border-radius-small: 16px;
-  --el-border-radius-base: 8px; /*输入框圆角*/
+  --el-color-primary: var(--niuyin-primary-color) !important;
+  --el-color-primary-light-3: var(--niuyin-primary-color-3) !important;
+  --el-color-primary-light-5: var(--niuyin-primary-color-5) !important;
+  --el-color-primary-light-7: #c6e2ff !important;
+  --el-color-primary-light-8: #d9ecff !important;
+  --el-color-primary-light-9: #ecf5ff !important;
+  --el-color-info: #e2e3e3 !important; /*按钮背景色*/
+  --el-input-bg-color: rgb(242, 242, 243) !important;
+  --el-fill-color-blank: rgb(242, 242, 243) !important; /*输入框*/
+  --el-loading-spinner-size: 100px !important; /*加载图标大小*/
+  --el-fill-color: rgba(240, 242, 245, 0.8) !important; /*加载中图片背景色*/
+  --el-fill-color-darker: rgba(230, 232, 235, 0.6) !important;
+  --el-messagebox-border-radius: 16px !important; /*弹框radius*/
+  --el-border-radius-small: 16px !important;
+  --el-border-radius-base: 8px !important; /*输入框圆角*/
   ---primary-red-color: rgb(210, 27, 70);
   ---primary-blue-color: rgb(17, 72, 210);
-  --el-overlay-color-lighter: rgba(0, 0, 0, 0.5); //弹窗遮罩层
+  --el-overlay-color-lighter: rgba(0, 0, 0, 0.5) !important; //弹窗遮罩层
   /* 背景色 */
-  --theme-light-bg-color: #ffffff;
-  --theme-dark-bg-color: #000000;
+  --theme-light-bg-color: #ffffff !important;
+  --theme-dark-bg-color: #000000 !important;
   /* 按钮颜色 */
   --theme-light-button-color: var(---primary-red-color);
   --theme-dark-button-color: var(---primary-blue-color);
-  --el-text-color-disabled: rgba(192, 196, 204, 0.3); // el-avatar
-  --el-text-color-regular: #000000;
-  --el-skeleton-main-color: rgba(240, 242, 245, 0.8);
+  --el-text-color-disabled: rgba(192, 196, 204, 0.3) !important; // el-avatar
+  --el-text-color-regular: #000000 !important;
+  --el-skeleton-main-color: rgba(240, 242, 245, 0.8) !important;
 
-  --el-font-size-base: 14px;
-  --bg_secondly_mask: #f2f2f414;
+  --el-font-size-base: 14px !important;
+  --bg_secondly_mask: #f2f2f414 !important;
 
   --color-bg-b0: #f9f9fa;
   --global-bg-img: url(https://p-pc-weboff.byteimg.com/tos-cn-i-9r5gewecjs/test.png);
@@ -253,7 +254,7 @@ html.dark {
 
 /*输入框提示文字颜色*/
 .el-input__count-inner {
-  color: var(--niuyin-text-color);
+  color: var(--niuyin-text-color) !important;
 }
 
 /*消息弹框圆角*/
@@ -342,7 +343,7 @@ html.dark {
 }
 
 .el-message--info {
-  --el-message-text-color: var(--niuyin-text-color);
+  --el-message-text-color: var(--niuyin-text-color) !important;
 }
 
 .el-message--success {
@@ -390,4 +391,8 @@ html.dark {
 
 .github-markdown-body table tr {
   background-color: var(--md-bg-code) !important;
+}
+
+.el-popper.is-pure {
+  overflow: hidden !important;
 }

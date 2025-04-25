@@ -147,7 +147,7 @@
           <div class="N3OJZMVX">昵称</div>
           <el-input v-model="userForm.nickName"
                     maxlength="20"
-                    class="w-50 m-2"
+                    class="w-50"
                     placeholder="记得填写昵称"
                     show-word-limit
                     type="text"/>
@@ -171,7 +171,7 @@
               <svg class="icon1rem" aria-hidden="true">
                 <use xlink:href="#icon-sex-primary"></use>
               </svg>
-              保密
+              密
             </el-radio-button>
           </el-radio-group>
         </div>
@@ -229,7 +229,7 @@
           <el-input
               v-model="memberInfoForm.campus"
               maxlength="64"
-              class="w-50 m-2"
+              class="w-50"
               placeholder="输入学校"
               show-word-limit
               type="text"

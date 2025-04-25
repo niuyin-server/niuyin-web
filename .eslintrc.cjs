@@ -23,10 +23,8 @@ module.exports = {
       'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'max-len': ['error', 100], // 强制一行的最大长度
       'no-shadow': 'off', // 禁止变量声明与外层作用域的变量同名
-      'no-unused-vars': 'warn', // 禁止出现未使用过的变量
       eqeqeq: 'off', // 要求使用 === 和 !==
       'prefer-const': 'warn', // 要求使用 const 声明那些声明后不再被修改的变量
       '@typescript-eslint/no-empty-function': 'off', // 不允许空函数
-      '@typescript-eslint/no-explicit-any': 'off' // 禁止使用 any 类型
     }
 }

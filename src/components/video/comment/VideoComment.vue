@@ -338,7 +338,7 @@ export default {
 
   :deep(.el-input__wrapper) {
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: .8rem;
+    border-radius: .8rem !important;
   }
 
   :deep(.el-input__inner) {

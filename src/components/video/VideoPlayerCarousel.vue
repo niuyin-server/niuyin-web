@@ -1328,13 +1328,13 @@ export default {
   background-color: rgba(118, 195, 118, 0.46);
 
   .position-city:after {
-    border-left: 2px solid var(--niuyin-text-color);
+    border-left: 2px solid var(--niuyin-text-color) !important;
     content: "";
     margin: 0 5px;
   }
 
   .position-dist:after {
-    border-left: 2px solid var(--niuyin-text-color);
+    border-left: 2px solid var(--niuyin-text-color) !important;
     content: "";
     margin: 0 5px;
   }

@@ -21,6 +21,7 @@ instance.interceptors.request.use(config => {
 });
 let loginDialog = true
 
+// 解决后端返回Long类型数据过大
 instance.defaults.transformResponse = [
     function (data) {
         const json = JSONBIG({

@@ -110,7 +110,7 @@
              :width="400"
              :show-close="false" align-center>
     <template #header="{close}">
-      <p style="color: var(--niuyin-text-color)">确定删除此收藏夹吗？</p>
+      <p style="color: var(--niuyin-text-color) !important">确定删除此收藏夹吗？</p>
       <el-button circle :icon="Close" class="cb" type="info" @click="close">
       </el-button>
     </template>

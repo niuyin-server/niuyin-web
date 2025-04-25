@@ -73,7 +73,7 @@
 
 
       .follow-right:after {
-        border-left: 2px solid var(--niuyin-text-color);
+        border-left: 2px solid var(--niuyin-text-color) !important;
         content: "";
         height: 16px;
         margin: 0 16px;

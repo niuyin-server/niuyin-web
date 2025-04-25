@@ -211,7 +211,7 @@ a {
 }
 
 .tcm {
-  color: var(--niuyin-text-color)
+  color: var(--niuyin-text-color) !important
 }
 
 .mb5 {
@@ -469,7 +469,7 @@ a {
 
 .niuyin-header {
   .el-input__wrapper {
-    border-radius: 1rem 0 0 1rem;
+    border-radius: 1rem 0 0 1rem !important;
   }
 }
 
@@ -560,7 +560,7 @@ a {
 
 /*分割线背景色*/
 .el-divider__text {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .el-popper {
@@ -589,7 +589,7 @@ a {
   width: 250px !important;
 
   & input {
-    background: none;
+    background: none !important;
   }
 }
 
@@ -810,7 +810,7 @@ div,
 }
 
 .follow-right:after {
-  border-left: 2px solid var(--niuyin-text-color);
+  border-left: 2px solid var(--niuyin-text-color)  !important;
   content: "";
   height: 16px;
   margin: 0 16px;
@@ -818,7 +818,7 @@ div,
 }
 
 .follow-right-8:after {
-  border-left: 2px solid var(--niuyin-text-color);
+  border-left: 2px solid var(--niuyin-text-color) !important;
   content: "";
   font-size: 0.8rem;
   height: 0.8rem;

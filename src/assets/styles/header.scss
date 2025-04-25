@@ -18,7 +18,7 @@
       align-items: center;
       overflow: hidden;
       border-radius: 1rem;
-      border: 2px solid var(--niuyin-text-color);
+      border: 2px solid var(--niuyin-text-color) !important;
 
       &:hover {
         border: 2px solid var(--niuyin-primary-color);
