@@ -528,20 +528,20 @@ a {
 }
 
 .el-dialog {
-  margin: 3vh auto;
-  border-radius: 1rem;
+  margin: 3vh auto !important;
+  border-radius: 1rem !important;
 }
 
 .el-dialog__header {
-  margin: 0;
-  color: black;
-  display: flex;
-  justify-content: space-between
+  margin: 0 !important;
+  color: black !important;
+  display: flex !important;
+  justify-content: space-between !important
 }
 
 .el-dialog__body {
   //height: 90%;
-  padding: 10px 20px 30px;
+  padding: 10px 20px 30px !important;
 }
 
 .custom-loading-svg {
@@ -867,4 +867,7 @@ div,
   justify-content: center;
   flex-flow: row nowrap;
   align-items: center;
+}
+.el-dialog.is-fullscreen{
+  margin: 0 !important;
 }

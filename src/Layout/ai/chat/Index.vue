@@ -7,6 +7,8 @@ import {userInfoX} from "@/store/userInfoX";
 import {MoreFilled} from "@element-plus/icons-vue";
 import {ElMessage, ScrollbarInstance} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
+import {Copy, Check, Refresh, ThumbsUp, ThumbsDown} from '@icon-park/vue-next'
+import {parseTime} from "@/utils/roydon";
 
 const scrollbarRef = ref<ScrollbarInstance>()
 const max = ref(0)
@@ -91,7 +93,14 @@ const handleConversationGroup = () => {
 }
 
 const handleSelectConversation = (id: string) => {
+  if (selectedConversationId.value === id) {
+    return
+  }
   selectedConversationId.value = id
+  // 清空消息列表
+  messages.value = []
+  // 输入框focus
+  inputRef.value?.focus()
   // 请求消息列表
   listMessageByCid({cid: selectedConversationId.value}).then(res => {
     if (res?.code === 200) {
@@ -334,6 +343,7 @@ const sendMessage = async () => {
       }
     })
   }
+  const createTime = parseTime(Date.now())
   // 创建用户消息
   const userMessage = reactive<Message>({
     id: `user-${Date.now()}`,
@@ -343,9 +353,10 @@ const sendMessage = async () => {
     status: MessageStatus.Complete,
     conversationId: selectedConversationId.value,
     messageType: 'user',
-    createTime: Date.now().toString(),
-    replayId: '0',
-    updateTime: Date.now().toString(),
+    // 设置 yyyy-MM-dd HH:mm:ss 类型的当前时间
+    createTime: createTime,
+    replayId: '',
+    updateTime: createTime,
     useContext: '1',
     userId: userInfoX().userInfo?.userId
   })
@@ -360,9 +371,9 @@ const sendMessage = async () => {
     timestamp: Date.now(),
     conversationId: selectedConversationId.value,
     messageType: 'assistant',
-    createTime: Date.now().toString(),
-    replayId: '0',
-    updateTime: Date.now().toString(),
+    createTime: createTime,
+    replayId: '',
+    updateTime: createTime,
     useContext: '1',
     userId: userInfoX().userInfo?.userId
   })
@@ -370,6 +381,8 @@ const sendMessage = async () => {
 
   isLoading.value = true
   const conversationId = selectedConversationId.value
+  // 移动scroller
+  scrollToBottom()
   try {
     await sendChatRequest(conversationId, userContent, botMessage)
   } catch (err) {
@@ -434,6 +447,22 @@ const handleCreateNewConversation = () => {
   ]
 }
 
+const copyFlag = ref(false)
+const copyMessageId = ref<string>('')
+
+const handleCopyMessage = async (id: string, message: string) => {
+  // 复制到粘贴板
+  try {
+    await navigator.clipboard.writeText(message)
+    copyFlag.value = true
+    copyMessageId.value = id
+    setTimeout(() => {
+      copyFlag.value = false
+    }, 2000)
+  } catch (err) {
+  }
+}
+
 onMounted(() => {
   // messageContainer.value?.addEventListener('scroll', handleScroll)
   inputRef.value?.focus()
@@ -490,15 +519,17 @@ onBeforeUnmount(() => {
                       <h3 class="text-sm font-medium text-gray-800 truncate">{{ conversation.title }}</h3>
                       <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
                     </div>
-                    <div class="flex-row flex-between">
-                      <p class="text-xs text-gray-500 mt-1 truncate">{{ conversation.preview || '......' }}</p>
+                    <div class="flex-row flex-between mt-1 flex-nowrap">
+                      <p v-if="conversation.lastMessage" class="text-xs text-gray-500 mt-1 truncate">
+                        {{ conversation.lastMessage || '······' }}</p>
+                      <p v-else class="text-xs text-gray-500 mt-1 truncate">······</p>
                       <el-popover
                           placement="right"
                           trigger="click"
                       >
                         <template #reference>
-                          <el-icon @click.stop="handleClickConversationMore(conversation.id)">
-                            <MoreFilled class=""/>
+                          <el-icon @click.stop="handleClickConversationMore(conversation.id)" class="ml-2">
+                            <MoreFilled class="" color="grey"/>
                           </el-icon>
                         </template>
                         <template #default>
@@ -506,13 +537,13 @@ onBeforeUnmount(() => {
                             <button
                                 class="text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
                                 @click="handleEditConversation(conversation.id)">
-                              <i class="fas fa-copy text-gray-500"></i>
+                              <i class="fas fa-italic text-gray-500"></i>
                               <span class="fs8">重命名</span>
                             </button>
                             <button
                                 class="mt-2 text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
                                 @click="handleDeleteConversation(conversation.id)">
-                              <i class="fas fa-copy text-gray-500"></i>
+                              <i class="fas fa-trash-alt text-gray-500"></i>
                               <span class="fs8">删除</span>
                             </button>
                           </div>
@@ -699,8 +730,8 @@ onBeforeUnmount(() => {
                     msg.messageType === 'assistant' ? 'order-1' : 'order-2'
                 ]">
                 <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
-                  <span>{{ msg.messageType === 'assistant' ? 'Spring AI' : '我' }}</span>
-                  <span>{{ new Date(msg.timestamp).toLocaleTimeString() }}</span>
+                  <span>{{ msg.messageType === 'assistant' ? 'AI' : '我' }}</span>
+                  <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                 </div>
                 <div :class="[
                         'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words',
@@ -709,7 +740,59 @@ onBeforeUnmount(() => {
                             : 'bg-blue-500 text-white rounded-tr-none'
                     ]"
                      style="overflow: auto">
-                  <Typewriter :content="msg.content" :is-markdown="true"/>
+                  <div v-if="msg.messageType === 'user'">
+                    <div>
+                      {{ msg.content }}
+                    </div>
+
+                  </div>
+                  <div v-else-if="msg.messageType === 'assistant'">
+                    <Typewriter :content="msg.content" :is-markdown="true"/>
+                  </div>
+                </div>
+                <!-- 对话框下方操作栏 -->
+                <div class="flex items-center mt-2">
+                  <el-tooltip
+                      content="复制"
+                      placement="top">
+                    <button
+                        @click="handleCopyMessage(msg.id,msg.content)"
+                        class="w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-green-900 transition-colors">
+                      <Check v-if="copyFlag && copyMessageId===msg.id" theme="outline" size="16"/>
+                      <Copy v-else theme="outline" size="16"/>
+                    </button>
+                  </el-tooltip>
+                  <el-tooltip
+                      content="重新生成"
+                      v-if="msg.messageType === 'assistant'"
+                      placement="top">
+                    <button
+                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
+                      <Refresh theme="outline" size="16"></Refresh>
+                    </button>
+                  </el-tooltip>
+                  <!--                  <button-->
+                  <!--                      class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">-->
+                  <!--                    <i class="fas fa-download"></i>-->
+                  <!--                  </button>-->
+                  <el-tooltip
+                      v-if="msg.messageType === 'assistant'"
+                      content="喜欢"
+                      placement="top">
+                    <button
+                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
+                      <ThumbsUp theme="outline" size="16"/>
+                    </button>
+                  </el-tooltip>
+                  <el-tooltip
+                      v-if="msg.messageType === 'assistant'"
+                      content="不喜欢"
+                      placement="top">
+                    <button
+                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-yellow-900 transition-colors">
+                      <ThumbsDown theme="outline" size="16"/>
+                    </button>
+                  </el-tooltip>
                 </div>
               </div>
 
@@ -733,6 +816,7 @@ onBeforeUnmount(() => {
                   placeholder="输入您的消息或指令..."
                   @keyup.enter="sendMessage"
                   ref="inputRef"
+                  style="min-height: 74px"
                   v-model="inputMessage"
                   :disabled="isLoading"></textarea>
               <div class="absolute right-3 bottom-3 flex gap-2">

@@ -1353,14 +1353,14 @@ $video-sidebar-width: 520px;
 
 /*用户视频弹窗*/
 .user-video-dialog .el-dialog__header {
-  display: none;
+  display: none !important;
 }
 
 .user-video-dialog-body {
   position: relative;
 
   :deep(.el-carousel__container) {
-    height: 100%;
+    height: 100% !important;
   }
 
   /*关闭按钮*/

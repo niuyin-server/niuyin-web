@@ -68,6 +68,7 @@ VMdPreview.use(githubTheme, {
 });
 
 // import ElementPlusX from 'vue-element-plus-x'
+import '@icon-park/vue-next/styles/index.css';
 
 const app = createApp(App);
 const pinia = createPinia();
