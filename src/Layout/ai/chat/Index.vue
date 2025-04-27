@@ -7,7 +7,7 @@ import {userInfoX} from "@/store/userInfoX";
 import {MoreFilled} from "@element-plus/icons-vue";
 import {ElMessage, ScrollbarInstance} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
-import {Copy, Check, Refresh, ThumbsUp, ThumbsDown} from '@icon-park/vue-next'
+import {Copy, Check, Refresh, ThumbsUp, ThumbsDown,Delete} from '@icon-park/vue-next'
 import {parseTime} from "@/utils/roydon";
 
 const scrollbarRef = ref<ScrollbarInstance>()
@@ -463,6 +463,11 @@ const handleCopyMessage = async (id: string, message: string) => {
   }
 }
 
+const handleDeleteMessage = (id: string) => {
+  // 删除消息
+  console.log(id)
+}
+
 onMounted(() => {
   // messageContainer.value?.addEventListener('scroll', handleScroll)
   inputRef.value?.focus()
@@ -718,19 +723,19 @@ onBeforeUnmount(() => {
                 { '!opacity-100': msg.status === MessageStatus.Streaming }
             ]">
               <div v-if="msg.messageType === 'assistant'"
-                   class="flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24">
-                  <path fill="currentColor"
-                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                </svg>
+                   class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow flex items-center justify-center" style="border-radius: 50%">
+                <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#a)"><rect x="72.152" y="143.837" width="255.686" height="57.843" rx="13.923" fill="#2F9BFF"/></g><g filter="url(#b)"><rect x="191.653" y="64.493" width="16.707" height="32.212" rx="8.354" fill="#88BAFF" fill-opacity=".5"/></g><g filter="url(#c)"><circle cx="200" cy="56.825" r="19.222" fill="#2F9BFF"/></g><rect x="99.695" y="94.581" width="202.257" height="156.355" rx="46.387" fill="#fff" fill-opacity=".89" stroke="#2F9BFF" stroke-width="16.707"/><g filter="url(#d)"><rect x="104.991" y="99.111" width="191.668" height="147.882" rx="43.799" fill="#88BAFF" fill-opacity=".3"/></g><g filter="url(#e)"><rect x="148.723" y="138.463" width="34.826" height="56.592" rx="17.413" fill="#fff"/></g><g filter="url(#f)"><rect x="216.359" y="138.462" width="34.9" height="56.713" rx="17.45" fill="#fff"/></g><defs><filter id="a" x="56.561" y="128.245" width="286.869" height="89.026" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="2.495" dy="6.237"/><feGaussianBlur stdDeviation="4.114"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/><feBlend in2="shape" result="effect2_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/><feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/><feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/></filter><filter id="b" x="176.062" y="48.901" width="47.891" height="63.395" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="2.495" dy="6.237"/><feGaussianBlur stdDeviation="4.114"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/><feBlend in2="shape" result="effect2_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/><feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/><feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/></filter><filter id="c" x="165.187" y="22.011" width="69.627" height="69.627" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="2.495" dy="6.237"/><feGaussianBlur stdDeviation="4.114"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/><feBlend in2="shape" result="effect2_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/><feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/><feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/></filter><filter id="d" x="89.4" y="83.519" width="222.852" height="179.066" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="2.495" dy="6.237"/><feGaussianBlur stdDeviation="4.114"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/><feBlend in2="shape" result="effect2_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/><feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-1.559"/><feGaussianBlur stdDeviation="1.559"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/><feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/></filter><filter id="e" x="130.249" y="126.147" width="71.774" height="93.54" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="6.158"/><feGaussianBlur stdDeviation="9.237"/><feColorMatrix values="0 0 0 0 0.184314 0 0 0 0 0.607843 0 0 0 0 1 0 0 0 0.4 0"/><feBlend in2="BackgroundImageFix" result="effect1_dropShadow_35_2168"/><feBlend in="SourceGraphic" in2="effect1_dropShadow_35_2168" result="shape"/></filter><filter id="f" x="197.885" y="126.146" width="71.848" height="93.661" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="6.158"/><feGaussianBlur stdDeviation="9.237"/><feColorMatrix values="0 0 0 0 0.184314 0 0 0 0 0.607843 0 0 0 0 1 0 0 0 0.4 0"/><feBlend in2="BackgroundImageFix" result="effect1_dropShadow_35_2168"/><feBlend in="SourceGraphic" in2="effect1_dropShadow_35_2168" result="shape"/></filter></defs></svg>
               </div>
-
+              <div v-else-if="msg.messageType === 'user'"
+                   class="cp flex-shrink-0 w-10 h-10 shadow flex items-center justify-center order-3" style="border-radius: 50%">
+                <el-avatar :src="userInfoX().userInfo.avatar" :alt="userInfoX().userInfo.nickName"/>
+              </div>
               <div :class="[
                     'max-w-[80%] min-w-[200px]',
                     msg.messageType === 'assistant' ? 'order-1' : 'order-2'
                 ]">
                 <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
-                  <span>{{ msg.messageType === 'assistant' ? 'AI' : '我' }}</span>
+                  <span>{{ msg.messageType === 'assistant' ? 'AI' : userInfoX().userInfo.nickName }}</span>
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                 </div>
                 <div :class="[
@@ -793,15 +798,19 @@ onBeforeUnmount(() => {
                       <ThumbsDown theme="outline" size="16"/>
                     </button>
                   </el-tooltip>
+                  <el-popconfirm
+                      title="确认删除该条消息？"
+                      placement="top"
+                      @confirm="handleDeleteMessage(msg.id)"
+                  >
+                    <template #reference>
+                    <button
+                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
+                      <Delete theme="outline" size="16"/>
+                    </button>
+                    </template>
+                  </el-popconfirm>
                 </div>
-              </div>
-
-              <div v-if="msg.messageType === 'user'"
-                   class="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 shadow flex items-center justify-center order-3">
-                <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24">
-                  <path fill="currentColor"
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                </svg>
               </div>
             </div>
           </div>
