@@ -170,34 +170,20 @@ interface Message {
 }
 
 const messages = ref<Message[]>([
-  {
-    id: 'user-1',
-    content: '你好',
-    isBot: false,
-    timestamp: Date.now(),
-    status: MessageStatus.Complete,
-    conversationId: '1',
-    messageType: 'user',
-    createTime: '2023-07-01 12:00:00Z',
-    replayId: '0',
-    updateTime: '2023-07-01 12:00:00Z',
-    useContext: '0',
-    userId: '1'
-  },
-  {
-    id: 'bot-1',
-    content: '你好，有什么可以帮到你的吗？',
-    isBot: true,
-    timestamp: Date.now(),
-    status: MessageStatus.Complete,
-    conversationId: '1',
-    messageType: 'assistant',
-    createTime: '2023-07-01 12:00:00Z',
-    replayId: '0',
-    updateTime: '2023-07-01 12:00:00Z',
-    useContext: '0',
-    userId: '1'
-  }
+  // {
+  //   id: 'bot-1',
+  //   content: '你好，有什么可以帮到你的吗？',
+  //   isBot: true,
+  //   timestamp: Date.now(),
+  //   status: MessageStatus.Complete,
+  //   conversationId: '1',
+  //   messageType: 'assistant',
+  //   createTime: '2023-07-01 12:00:00Z',
+  //   replayId: '0',
+  //   updateTime: '2023-07-01 12:00:00Z',
+  //   useContext: '0',
+  //   userId: '1'
+  // }
 ])
 const inputMessage = ref('')
 const isLoading = ref(false)

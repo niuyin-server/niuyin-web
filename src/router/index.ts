@@ -72,7 +72,7 @@ const router = createRouter({
                     redirect: '/ai/chat',
                     children: [
                         {path: "/ai/chat", component: () => import("@/Layout/ai/chat/Index.vue")},
-                        {path: "/ai/image", component: () => import("@/Layout/ai/Image.vue")},
+                        {path: "/ai/image", component: () => import("@/Layout/ai/image/Index.vue")},
                         {path: "/ai/video", component: () => import("@/Layout/ai/Video.vue")},
                     ]
                 },
