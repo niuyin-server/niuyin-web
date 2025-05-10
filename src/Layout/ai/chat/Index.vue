@@ -1,28 +1,28 @@
-<script setup lang="ts">
+<script setup>
 import {nextTick, onBeforeUnmount, onMounted, reactive, ref} from 'vue'
 import {fetchEventSource} from '@microsoft/fetch-event-source'
-import {addConversation, listConversation} from "@/api/ai/chat/conversation";
-import {listMessageByCid} from "@/api/ai/chat/message";
-import {userInfoX} from "@/store/userInfoX";
-import {MoreFilled} from "@element-plus/icons-vue";
-import {ElMessage, ScrollbarInstance} from 'element-plus'
+import {addConversation, listConversation} from "@/api/ai/chat/conversation"
+import {listMessageByCid} from "@/api/ai/chat/message"
+import {userInfoX} from "@/store/userInfoX"
+import {MoreFilled} from "@element-plus/icons-vue"
+import {ElMessage} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
 import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete} from '@icon-park/vue-next'
-import {parseTime} from "@/utils/roydon";
+import {parseTime} from "@/utils/roydon"
 
-const scrollbarRef = ref<ScrollbarInstance>()
+const scrollbarRef = ref()
 const max = ref(0)
 
-// 请求体
+// Request body
 const requestBody = reactive({
   pageNum: 1,
   pageSize: 20
 })
-const conversationExpand = ref<boolean>(false)
-const conversationList = ref<any[]>()
-const conversationListLoading = ref<boolean>(true) //0为空1为请求失败
-const conversationListTotal = ref<number>(0)
-const conversationListGroups = ref<any>({
+const conversationExpand = ref(false)
+const conversationList = ref()
+const conversationListLoading = ref(true) // 0 is empty, 1 is request failed
+const conversationListTotal = ref(0)
+const conversationListGroups = ref({
   today: [],
   yesterday: [],
   lastWeek: [],
@@ -30,11 +30,10 @@ const conversationListGroups = ref<any>({
   lastYear: [],
   older: [],
 })
-const selectedConversationId = ref<string>('')
+const selectedConversationId = ref('')
 
-type GroupKey = 'today' | 'yesterday' | 'lastWeek' | 'lastMonth' | 'lastYear' | 'older'
-const getGroupTitle = (group: any): string => {
-  const titles: Record<GroupKey, string> = {
+const getGroupTitle = (group) => {
+  const titles = {
     today: '今天',
     yesterday: '昨天',
     lastWeek: '一周内',
@@ -44,171 +43,141 @@ const getGroupTitle = (group: any): string => {
   }
   return titles[group]
 }
+
 const getConversationList = () => {
   listConversation(requestBody).then(res => {
     if (res?.code === 200) {
       conversationList.value = res?.rows
       conversationListTotal.value = res?.total
-      // 处理对话，分组
+      // Process conversations, group them
       handleConversationGroup()
       conversationListLoading.value = false
-    } else {
-
     }
   })
 }
 
 /**
- * 处理对话，分组
+ * Process conversations and group them
  */
 const handleConversationGroup = () => {
-  const now = new Date();
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const yesterdayStart = new Date(todayStart);
-  yesterdayStart.setDate(yesterdayStart.getDate() - 1);
-  const lastWeekStart = new Date(todayStart);
-  lastWeekStart.setDate(lastWeekStart.getDate() - 7);
-  const lastMonthStart = new Date(todayStart);
-  lastMonthStart.setMonth(lastMonthStart.getMonth() - 1);
-  const lastYearStart = new Date(todayStart);
-  lastYearStart.setFullYear(lastYearStart.getFullYear() - 1);
-  // 将对话列表分组
+  const now = new Date()
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const yesterdayStart = new Date(todayStart)
+  yesterdayStart.setDate(yesterdayStart.getDate() - 1)
+  const lastWeekStart = new Date(todayStart)
+  lastWeekStart.setDate(lastWeekStart.getDate() - 7)
+  const lastMonthStart = new Date(todayStart)
+  lastMonthStart.setMonth(lastMonthStart.getMonth() - 1)
+  const lastYearStart = new Date(todayStart)
+  lastYearStart.setFullYear(lastYearStart.getFullYear() - 1)
+
+  // Reset groups
+  conversationListGroups.value = {
+    today: [],
+    yesterday: [],
+    lastWeek: [],
+    lastMonth: [],
+    lastYear: [],
+    older: [],
+  }
+
+  // Group conversations
   conversationList.value?.forEach(conversation => {
-    const convDate = new Date(conversation.createTime);
+    const convDate = new Date(conversation.createTime)
 
     if (convDate >= todayStart) {
-      conversationListGroups.value.today.push(conversation);
+      conversationListGroups.value.today.push(conversation)
     } else if (convDate >= yesterdayStart) {
-      conversationListGroups.value.yesterday.push(conversation);
+      conversationListGroups.value.yesterday.push(conversation)
     } else if (convDate >= lastWeekStart) {
-      conversationListGroups.value.lastWeek.push(conversation);
+      conversationListGroups.value.lastWeek.push(conversation)
     } else if (convDate >= lastMonthStart) {
-      conversationListGroups.value.lastMonth.push(conversation);
+      conversationListGroups.value.lastMonth.push(conversation)
     } else if (convDate >= lastYearStart) {
-      conversationListGroups.value.lastYear.push(conversation);
+      conversationListGroups.value.lastYear.push(conversation)
     } else {
-      conversationListGroups.value.older.push(conversation);
+      conversationListGroups.value.older.push(conversation)
     }
   })
 }
 
-const handleSelectConversation = (id: string) => {
+const handleSelectConversation = (id) => {
   if (selectedConversationId.value === id) {
     return
   }
   selectedConversationId.value = id
-  // 清空消息列表
+  // Clear message list
   messages.value = []
-  // 输入框focus
+  // Focus input
   inputRef.value?.focus()
-  // 请求消息列表
+  // Request message list
   listMessageByCid({cid: selectedConversationId.value}).then(res => {
     if (res?.code === 200) {
       messages.value = res?.data
-      // 滑动到对话底部
+      // Scroll to bottom of conversation
       nextTick(() => {
-        max.value = messageContainer.value!.clientHeight
-        console.log('max', max.value)
-        scrollbarRef.value!.setScrollTop(max.value)
+        max.value = messageContainer.value.clientHeight
+        scrollbarRef.value.setScrollTop(max.value)
       })
-    } else {
-
     }
   })
 }
 
+// Format relative time
+const formatRelativeTime = (dateStr) => {
+  const now = new Date()
+  const date = new Date(dateStr)
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
 
-// 格式化相对时间
-const formatRelativeTime = (dateStr: string): string => {
-  const now = new Date();
-  const date = new Date(dateStr);
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-  const minute = 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-  const week = day * 7;
-  const month = day * 30;
-  const year = day * 365;
+  const minute = 60
+  const hour = minute * 60
+  const day = hour * 24
+  const week = day * 7
+  const month = day * 30
+  const year = day * 365
 
   if (diffInSeconds < minute) {
-    return '刚刚';
+    return '刚刚'
   } else if (diffInSeconds < hour) {
-    return `${Math.floor(diffInSeconds / minute)}分钟前`;
+    return `${Math.floor(diffInSeconds / minute)}分钟前`
   } else if (diffInSeconds < day) {
-    return `${Math.floor(diffInSeconds / hour)}小时前`;
+    return `${Math.floor(diffInSeconds / hour)}小时前`
   } else if (diffInSeconds < week) {
-    return `${Math.floor(diffInSeconds / day)}天前`;
+    return `${Math.floor(diffInSeconds / day)}天前`
   } else if (diffInSeconds < month) {
-    return `${Math.floor(diffInSeconds / week)}周前`;
+    return `${Math.floor(diffInSeconds / week)}周前`
   } else if (diffInSeconds < year) {
-    return `${Math.floor(diffInSeconds / month)}个月前`;
+    return `${Math.floor(diffInSeconds / month)}个月前`
   } else {
-    return `${Math.floor(diffInSeconds / year)}年前`;
+    return `${Math.floor(diffInSeconds / year)}年前`
   }
-};
-
-enum MessageStatus {
-  Streaming = 'streaming',
-  Complete = 'complete',
-  Error = 'error',
 }
 
-interface Message {
-  id: string
-  content: string
-  isBot: boolean
-  timestamp: number
-  status: MessageStatus
-  conversationId: string
-  messageType: string
-  createTime: string
-  replayId: string
-  updateTime: string
-  useContext: string
-  userId: string
+const MessageStatus = {
+  Streaming: 'streaming',
+  Complete: 'complete',
+  Error: 'error'
 }
 
-const messages = ref<Message[]>([
-  // {
-  //   id: 'bot-1',
-  //   content: '你好，有什么可以帮到你的吗？',
-  //   isBot: true,
-  //   timestamp: Date.now(),
-  //   status: MessageStatus.Complete,
-  //   conversationId: '1',
-  //   messageType: 'assistant',
-  //   createTime: '2023-07-01 12:00:00Z',
-  //   replayId: '0',
-  //   updateTime: '2023-07-01 12:00:00Z',
-  //   useContext: '0',
-  //   userId: '1'
-  // }
-])
+const messages = ref([])
 const inputMessage = ref('')
 const isLoading = ref(false)
-const controller = ref<AbortController>()
-const messageContainer = ref<HTMLElement>()
-const inputRef = ref<HTMLInputElement>()
+const controller = ref()
+const messageContainer = ref()
+const inputRef = ref()
 
-// 监听消息列表的变化，并自动滚动到底部
+// Listen to message list changes and automatically scroll to bottom
 const scrollToBottom = () => {
   nextTick(() => {
     if (messageContainer.value) {
-      max.value = messageContainer.value!.clientHeight
-      scrollbarRef.value!.setScrollTop(max.value)
+      max.value = messageContainer.value.clientHeight
+      scrollbarRef.value.setScrollTop(max.value)
     }
   })
 }
 
-// const handleScroll = () => {
-//   if (!messageContainer.value) return
-//   const {scrollTop, scrollHeight, clientHeight} = messageContainer.value
-//   autoScroll = scrollHeight - (scrollTop + clientHeight) < 50
-// }
-
-// 字符类型检测
-const getCharType = (char: string): 'chinese' | 'english' | 'other' => {
+// Character type detection
+const getCharType = (char) => {
   if (/[\u4e00-\u9fa5\u3000-\u303F\uFF00-\uFFEF]/.test(char)) {
     return 'chinese'
   }
@@ -218,8 +187,8 @@ const getCharType = (char: string): 'chinese' | 'english' | 'other' => {
   return 'other'
 }
 
-// 智能空格处理核心逻辑
-const processContent = (prev: string, newData: string): string => {
+// Smart space processing core logic
+const processContent = (prev, newData) => {
   if (prev.length === 0) return newData
 
   const lastChar = prev.slice(-1)
@@ -230,16 +199,16 @@ const processContent = (prev: string, newData: string): string => {
 
   let processed = newData
 
-  // 需要添加空格的情况
+  // Cases where space should be added
   const shouldAddSpace =
-      (prevType === 'english' && newType === 'english') || // 英文接英文
-      (prevType === 'chinese' && newType === 'english') || // 中文接英文
-      (prevType === 'english' && newType === 'chinese' && !/[!?,.]$/.test(lastChar)) // 英文接中文（非标点结尾）
+      (prevType === 'english' && newType === 'english') || // English followed by English
+      (prevType === 'chinese' && newType === 'english') || // Chinese followed by English
+      (prevType === 'english' && newType === 'chinese' && !/[!?,.]$/.test(lastChar)) // English followed by Chinese (not ending with punctuation)
 
-  // 需要删除空格的情况
+  // Cases where space should be removed
   const shouldRemoveSpace =
-      (prevType === 'chinese' && newType === 'chinese') || // 中文接中文
-      (prevType === 'other' && /^[\u4e00-\u9fa5]/.test(newData)) // 特殊符号接中文
+      (prevType === 'chinese' && newType === 'chinese') || // Chinese followed by Chinese
+      (prevType === 'other' && /^[\u4e00-\u9fa5]/.test(newData)) // Special character followed by Chinese
 
   if (shouldAddSpace && !lastChar.match(/\s/) && !newFirstChar.match(/\s/)) {
     processed = ' ' + processed
@@ -250,7 +219,7 @@ const processContent = (prev: string, newData: string): string => {
   return processed
 }
 
-const sendChatRequest = async (conversationId: string, content: string, botMessage: Message) => {
+const sendChatRequest = async (conversationId, content, botMessage) => {
   controller.value = new AbortController()
 
   await fetchEventSource('http://localhost:9101/chat/stream', {
@@ -282,10 +251,6 @@ const sendChatRequest = async (conversationId: string, content: string, botMessa
       botMessage.content += processedData
       botMessage.timestamp = Date.now()
 
-      // 更新最后字符类型
-      // const lastChar = processedData.slice(-1)
-      // lastCharType = getCharType(lastChar)
-
       scrollToBottom()
     },
 
@@ -295,8 +260,8 @@ const sendChatRequest = async (conversationId: string, content: string, botMessa
   })
 }
 
-// 错误处理
-const handleRequestError = (botMessage: Message, error: unknown) => {
+// Error handling
+const handleRequestError = (botMessage, error) => {
   const errorMessage = error instanceof Error
       ? navigator.onLine
           ? error.message
@@ -305,22 +270,20 @@ const handleRequestError = (botMessage: Message, error: unknown) => {
 
   botMessage.status = MessageStatus.Error
   botMessage.content = errorMessage
-  // botMessage.retry = createRetryHandler(botMessage.content)
 }
 
-// 主发送逻辑
+// Main send logic
 const sendMessage = async () => {
-
   if (!inputMessage.value.trim() || isLoading.value) return
 
   const userContent = inputMessage.value.trim()
   inputMessage.value = ''
 
   if (!selectedConversationId.value) {
-    // 先创建对话？？
+    // First create conversation
     await addConversation({title: userContent}).then(res => {
       if (res?.code === 200) {
-        // 插入对话列表
+        // Insert into conversation list
         conversationListGroups.value.today.unshift(res.data)
         selectedConversationId.value = res.data.id
       } else {
@@ -330,8 +293,8 @@ const sendMessage = async () => {
     })
   }
   const createTime = parseTime(Date.now())
-  // 创建用户消息
-  const userMessage = reactive<Message>({
+  // Create user message
+  const userMessage = reactive({
     id: `user-${Date.now()}`,
     content: userContent,
     isBot: false,
@@ -339,7 +302,6 @@ const sendMessage = async () => {
     status: MessageStatus.Complete,
     conversationId: selectedConversationId.value,
     messageType: 'user',
-    // 设置 yyyy-MM-dd HH:mm:ss 类型的当前时间
     createTime: createTime,
     replayId: '',
     updateTime: createTime,
@@ -348,8 +310,8 @@ const sendMessage = async () => {
   })
   messages.value.push(userMessage)
 
-  // 创建机器人消息
-  const botMessage = reactive<Message>({
+  // Create bot message
+  const botMessage = reactive({
     id: `bot-${Date.now()}`,
     content: '',
     isBot: true,
@@ -367,7 +329,7 @@ const sendMessage = async () => {
 
   isLoading.value = true
   const conversationId = selectedConversationId.value
-  // 移动scroller
+  // Move scroller
   scrollToBottom()
   try {
     await sendChatRequest(conversationId, userContent, botMessage)
@@ -379,35 +341,34 @@ const sendMessage = async () => {
   }
 }
 
-// 停止生成
+// Stop generation
 const stopGeneration = () => {
   controller.value?.abort()
   isLoading.value = false
 }
+
 const handleClickConversationMore = (id) => {
-  // 显示更多对话框
-  console.log(id)
-}
-const handleDeleteConversation = (id) => {
-  // 删除对话
-  console.log(id)
-}
-const handleEditConversation = (id) => {
-  // 编辑对话
   console.log(id)
 }
 
-// 展开/折叠对话列表
+const handleDeleteConversation = (id) => {
+  console.log(id)
+}
+
+const handleEditConversation = (id) => {
+  console.log(id)
+}
+
+// Expand/collapse conversation list
 const handleClickConversationExpand = () => {
   conversationExpand.value = !conversationExpand.value
 }
 
-// 创建新对话
+// Create new conversation
 const handleCreateNewConversation = () => {
-  // 创建新对话
   addConversation({title: '新对话'}).then(res => {
     if (res?.code === 200) {
-      // 插入对话列表
+      // Insert into conversation list
       conversationListGroups.value.today.unshift(res.data)
       selectedConversationId.value = res.data.id
     } else {
@@ -434,10 +395,9 @@ const handleCreateNewConversation = () => {
 }
 
 const copyFlag = ref(false)
-const copyMessageId = ref<string>('')
+const copyMessageId = ref('')
 
-const handleCopyMessage = async (id: string, message: string) => {
-  // 复制到粘贴板
+const handleCopyMessage = async (id, message) => {
   try {
     await navigator.clipboard.writeText(message)
     copyFlag.value = true
@@ -446,22 +406,20 @@ const handleCopyMessage = async (id: string, message: string) => {
       copyFlag.value = false
     }, 2000)
   } catch (err) {
+    console.error('Failed to copy:', err)
   }
 }
 
-const handleDeleteMessage = (id: string) => {
-  // 删除消息
+const handleDeleteMessage = (id) => {
   console.log(id)
 }
 
 onMounted(() => {
-  // messageContainer.value?.addEventListener('scroll', handleScroll)
   inputRef.value?.focus()
   getConversationList()
 })
 
 onBeforeUnmount(() => {
-  // messageContainer.value?.removeEventListener('scroll', handleScroll)
   controller.value?.abort()
 })
 </script>
@@ -567,6 +525,7 @@ onBeforeUnmount(() => {
                 </p>
                 <div class="flex space-x-4">
                   <button
+                      @click="handleClickConversationExpand"
                       class="px-8 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-all shadow-md hover:shadow-lg">
                     立即体验
                   </button>
@@ -695,6 +654,7 @@ onBeforeUnmount(() => {
                 立即注册，开启您的AI对话之旅。无需信用卡，免费试用我们的高级功能。
               </p>
               <button
+                  @click="handleClickConversationExpand"
                   class="px-10 py-4 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-all shadow-lg hover:shadow-xl text-lg">
                 开始免费试用
               </button>

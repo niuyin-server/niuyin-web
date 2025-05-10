@@ -6,7 +6,7 @@ import JSONBIG from "json-bigint"
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
-    timeout: 20000,
+    timeout: 30000,
 });
 
 // 添加请求拦截器
@@ -56,7 +56,7 @@ instance.interceptors.response.use(res => {
             return Promise.reject('请重新登录。')
         }
     } else if (code === 500) {
-        ElMessage.error(msg)
+        // ElMessage.error(msg)
         return Promise.reject(new Error(msg))
     } else if (code !== 200) {
         ElMessage.error(msg)

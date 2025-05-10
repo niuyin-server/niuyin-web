@@ -21,7 +21,7 @@
       border: 2px solid var(--niuyin-text-color) !important;
 
       &:hover {
-        border: 2px solid var(--niuyin-primary-color);
+        border: 2px solid var(--niuyin-primary-color) !important;
       }
 
       .search-input {

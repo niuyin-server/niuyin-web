@@ -596,6 +596,7 @@
       :modal="false"
       custom-class="user-video-dialog"
       fullscreen
+      :show-close="false"
       :destroy-on-close="true"
       align-center>
     <VideoPlayDialog :dialog-video="dialogVideo" @dialogVisible="dialogVisibleEmit"/>
@@ -1587,5 +1588,12 @@ $video-sidebar-width: 520px;
   border-radius: 50%
 }
 
+:deep(.el-dialog){
+  padding: 0 !important;
+}
+
+:deep(.el-dialog__body){
+  height: 100% !important;
+}
 </style>
 
