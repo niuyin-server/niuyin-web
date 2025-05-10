@@ -33,8 +33,9 @@ v-masonry
 npm i js-cookie
 
 # 运行效果
+支持浅色/深色模式切换，下方截图皆为深色模式。
 
-首页
+## 首页
 
 ![index.png](docs/images/niuyin-index.png)
 
@@ -43,28 +44,40 @@ npm i js-cookie
 ![discover.png](docs/images/niuyin-discover.png)
 
 
-热门
+## 热门
 
 ![hot.png](docs/images/niuyin-hot.png)
 
-关注
+## 关注
 
 ![follow.png](docs/images/niuyin-follow.png)
 
-我的
+## 我的
 
 ![my.png](docs/images/niuyin-user.png)
 
-分类
+## 分类
 
 ![category.png](docs/images/niuyin-category.png)
 
-搜索
+## 搜索
 
 ![search.png](docs/images/niuyin-search.png)
 
-全屏
+## 全屏
 
 ![fullscreen.png](docs/images/niuyin-fullscreen.png)
+
+## ai智能
+
+![ai.png](docs/images/niuyin-ai.png)
+
+### 聊天
+
+![ai-chat.png](docs/images/niuyin-ai-chat.png)
+
+### 绘画
+
+![ai-image.png](docs/images/niuyin-ai-image.png)
 
 [//]: #

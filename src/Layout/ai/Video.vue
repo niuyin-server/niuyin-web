@@ -3,7 +3,7 @@
 </script>
 
 <template>
-video
+开发中...
 </template>
 
 <style scoped>
