@@ -125,15 +125,15 @@ onUnmounted(() => {
       <div class="flex space-x-4 justify-center items-center absolute left-1/2 -translate-x-1/2 top-2 z-10">
         <button
             v-for="item in imageRouter"
-            :class="[item.value===imageRouterActive?'bg-blue-400':'']"
-            class="px-4 py-2 bg-blue-100 hover:bg-blue-400 transition-all text-blue-600 border border-gray-200 rounded-full text-sm flex items-center"
+            :class="[item.value===imageRouterActive?'bg-[var(--niuyin-primary-color)]':'']"
+            class="px-4 py-2 hover:bg-[var(--niuyin-primary-color-8)] transition-all text-[var(--niuyin-text-color)] border border-[var(--niuyin-border-color)] rounded-full text-sm flex items-center"
             @click="handleClickImageRouter(item)"
         >
           <i class="fas mr-2" :class="item.fas"></i>{{ item.name }}
         </button>
       </div>
-      <div class="text-l font-semibold text-gray-800 flex items-center mt-4 mb-2">
-        <i class="fas fa-image mr-2 text-blue-500"></i> 图片生成记录/图片广场
+      <div class="text-l font-semibold flex items-center mt-4 mb-2">
+        <i class="fas fa-image mr-2 text-[var(--niuyin-primary-color)]"></i> 图片生成记录/图片广场
       </div>
       <el-scrollbar v-if="imageRouterActive===imageRouter[0].value" class="overflow-y-auto flex-1" ref="scrollbarRef">
         <div class="waterfall-grid p-4">
@@ -154,7 +154,7 @@ onUnmounted(() => {
             </template>
             <template #default>
               <div v-for="item in imageListData"
-                   class="waterfall-item relative hover:bg-gray-300 card-hover bg-gray-200 rounded-2xl overflow-hidden shadow-sm border border-gray-100 image-card cp">
+                   class="waterfall-item relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] image-card cp">
                 <img
                     v-if="item.status==='1'"
                     :src="item.picUrl"
@@ -168,14 +168,14 @@ onUnmounted(() => {
                 <span class="absolute top-0 text-gray-500 text-xs p-2"
                       v-if="item.status==='2'">{{ item.errorMessage }}</span>
                 <div class="p-3">
-                  <p class="text-sm text-gray-600  ">{{ item.prompt }}</p>
+                  <p class="text-sm">{{ item.prompt }}</p>
                   <div v-if="item.status === '0'" class="mt-1  ">
                     <i class="fas fa-spinner animate-spin text-yellow-500"/>
                     <span class="text-xs text-yellow-500 mt-1 ml-2">进行中</span>
                   </div>
                   <div class="flex justify-between items-center mt-1">
                     <span class="text-xs text-gray-500">{{ smartDateFormat(item.createTime) }}</span>
-                    <button class="text-blue-500 hover:text-blue-700">
+                    <button class="text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-primary-color-8)]">
                       <i class="fas fa-share-alt"></i>
                     </button>
                   </div>
@@ -225,10 +225,10 @@ onUnmounted(() => {
 
     <!-- 右侧生成区域 -->
     <div class="w-1/4 flex flex-col p-4">
-      <div class="flex-1 mb-4 bg-white rounded-xl shadow-sm p-4 overflow-y-auto">
+      <div class="flex-1 mb-4 bg-[var(--bg-video-card)] rounded-xl shadow-sm p-4 overflow-y-auto">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-            <i class="fas fa-magic mr-2 text-blue-500"></i> 文字生成图片
+          <h2 class="text-xl font-semibold flex items-center">
+            <i class="fas fa-magic mr-2 text-[var(--niuyin-primary-color)]"></i> 文字生成图片
           </h2>
         </div>
 
@@ -236,11 +236,12 @@ onUnmounted(() => {
         <div class="mb-4 space-y-4">
           <!--          生成尺寸-->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">画幅比例</label>
-            <div class="flex flex-row flex-between  overflow-hidden  border rounded-2xl">
+            <label class="block text-sm font-medium mb-2">画幅比例</label>
+            <div
+                class="flex flex-row flex-between overflow-hidden border border-[var(--niuyin-border-color)] rounded-2xl">
               <div v-for="item in genRatioOptions"
-                   class="flex content-center items-center hover:bg-blue-300 flex-col cp p-4 w-1/5 transition-all"
-                   :class="[item.value === genRadio ? 'bg-blue-400' : 'bg-gray-100']"
+                   class="flex content-center items-center hover:bg-[var(--niuyin-primary-color-8)] flex-col cp p-4 w-1/5 transition-all"
+                   :class="[item.value === genRadio ? 'bg-[var(--niuyin-primary-color)]' : 'bg-[var(--niuyin-icon-bg)]']"
                    @click="handleClickGenRadio(item)">
                 <img :src="item.image" :alt="item.label" class="   " width="32" height="32">
                 <span>{{ item.label }}</span>
@@ -249,8 +250,9 @@ onUnmounted(() => {
           </div>
           <!--          生成风格-->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">风格</label>
-            <select class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500">
+            <label class="block text-sm font-medium mb-2">风格</label>
+            <select
+                class="w-full border border-[var(--niuyin-border-color)] rounded-lg p-2 text-sm focus:ring-1 focus:ring-[var(--niuyin-primary-color)]">
               <option>写实风格</option>
               <option>卡通风格</option>
               <option>赛博朋克</option>
@@ -259,8 +261,9 @@ onUnmounted(() => {
             </select>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">生成质量</label>
-            <select class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500">
+            <label class="block text-sm font-medium mb-2">生成质量</label>
+            <select
+                class="w-full border border-[var(--niuyin-border-color)] rounded-lg p-2 text-sm focus:ring-1 focus:ring-[var(--niuyin-primary-color)]">
               <option>标准</option>
               <option selected>高性能</option>
               <option>高质量</option>
@@ -271,27 +274,27 @@ onUnmounted(() => {
         <!-- 高级设置 -->
         <div class="mb-4">
           <div class="flex items-center justify-between mb-2 cursor-pointer">
-            <h3 class="text-sm font-medium text-gray-700 flex items-center">
-              <i class="fas fa-cog mr-2 text-blue-500"></i> 高级设置
+            <h3 class="text-sm font-medium flex items-center">
+              <i class="fas fa-cog mr-2 text-[var(--niuyin-primary-color)]"></i> 高级设置
             </h3>
             <i class="fas fa-chevron-down text-gray-500"></i>
           </div>
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-[var(--niuyin-icon-bg)] p-4 rounded-xl">
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">参考图片</label>
+                <label class="block text-xs font-medium text-gray-500 mb-1">参考图片</label>
                 <div class="flex items-center">
                   <button class="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-sm flex items-center">
                     <i class="fas fa-upload mr-2"></i> 上传
                   </button>
-                  <span class="ml-2 text-xs text-gray-500">可选</span>
+                  <span class="ml-2 text-xs text-gray-200">可选</span>
                 </div>
               </div>
               <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">尾帧图</label>
+                <label class="block text-xs font-medium text-gray-500 mb-1">尾帧图</label>
                 <div class="flex items-center">
                   <input type="checkbox" class="rounded text-blue-500 mr-2">
-                  <span class="text-xs text-gray-500">需上传参考图片</span>
+                  <span class="text-xs text-gray-200">需上传参考图片</span>
                 </div>
               </div>
             </div>
@@ -301,14 +304,14 @@ onUnmounted(() => {
         <!-- 生成区域 -->
         <div class="mb-6">
           <div class="flex items-center mb-2">
-            <label class="block text-sm font-medium text-gray-700 mr-2">描述词</label>
-            <button class="text-xs text-blue-500 flex items-center">
+            <label class="block text-sm font-medium mr-2">描述词</label>
+            <button class="text-xs text-[var(--niuyin-primary-color)] flex items-center">
               <i class="fas fa-lightbulb mr-1"></i> 提示词建议
             </button>
           </div>
           <div class="relative">
               <textarea
-                  class="w-full input-field px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
+                  class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
                   rows="3"
                   placeholder="请输入您想要生成的图片描述，例如：'一只坐在太空中的猫，戴着宇航员头盔，背景是星云和行星'"
                   @keyup.enter="sendMessage"
@@ -318,11 +321,11 @@ onUnmounted(() => {
                   :disabled="isLoading"></textarea>
             <div class="absolute right-3 bottom-3 flex gap-2">
               <button
-                  class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
                 <i class="fas fa-image"></i>
               </button>
               <button
-                  class="w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center text-white transition-colors"
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-white transition-colors"
                   :class="{ 'bg-red-500 hover:bg-red-600': isLoading }"
                   @click="sendMessage">
                 <i v-if="isLoading" class="fas fa-spinner animate-spin"/>
@@ -334,9 +337,9 @@ onUnmounted(() => {
       </div>
 
       <!-- 底部说明 -->
-      <div class="bg-white rounded-xl shadow-sm p-4">
-        <h4 class="text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <i class="fas fa-info-circle mr-2 text-blue-500"></i> 使用说明
+      <div class="bg-[var(--bg-video-card)] rounded-xl shadow-sm p-4">
+        <h4 class="text-sm font-medium mb-2 flex items-center">
+          <i class="fas fa-info-circle mr-2 text-[var(--niuyin-primary-color)]"></i> 使用说明
         </h4>
         <ul class="text-xs text-gray-600 space-y-1 list-disc list-inside">
           <li>尾帧图需额外支付3积分</li>

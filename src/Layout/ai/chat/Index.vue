@@ -426,11 +426,11 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="flex flex-1 w100" style="flex-direction: row">
-    <div v-if="conversationExpand" class="flex flex-col w-64 border-r border-gray-200">
-      <div class="p-4 border-b border-gray-200">
+    <div v-if="conversationExpand" class="flex flex-col w-64 border-r border-[var(--niuyin-border-color)]">
+      <div class="p-4 border-b border-[var(--niuyin-border-color)]">
         <button
             @click="handleCreateNewConversation"
-            class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+            class="w-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)]  text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-all">
           <i class="fas fa-plus"></i>
           <span>新对话</span>
         </button>
@@ -462,11 +462,11 @@ onBeforeUnmount(() => {
                   <div v-for="conversation in group"
                        :key="conversation.id"
                        @click="handleSelectConversation(conversation.id)"
-                       class="p-3 rounded-lg hover:bg-gray-100 cursor-pointer border hover:border-gray-400 transition-all mb-2"
-                       :class="selectedConversationId === conversation.id ? 'bg-blue-100 border-blue-200' : 'border-gray-200'">
+                       class="p-3 rounded-lg hover:bg-[var(--niuyin-primary-color-8)] cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
+                       :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)]' : 'border-[var(--niuyin-border-color)]'">
                     <div class="flex items-center justify-between">
-                      <h3 class="text-sm font-medium text-gray-800 truncate">{{ conversation.title }}</h3>
-                      <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
+                      <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>
+                      <span class="text-xs text-gray-400">{{ formatRelativeTime(conversation.updateTime) }}</span>
                     </div>
                     <div class="flex-row flex-between mt-1 flex-nowrap">
                       <p v-if="conversation.lastMessage" class="text-xs text-gray-500 mt-1 truncate">
@@ -484,13 +484,13 @@ onBeforeUnmount(() => {
                         <template #default>
                           <div class="p-4 flex flex-col">
                             <button
-                                class="text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
+                                class="text-sm border border-[var(--niuyin-border-color)] rounded-md py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
                                 @click="handleEditConversation(conversation.id)">
                               <i class="fas fa-italic text-gray-500"></i>
                               <span class="fs8">重命名</span>
                             </button>
                             <button
-                                class="mt-2 text-sm border border-gray-300 rounded-md py-2 px-3 hover:bg-gray-100 transition-colors flex items-center justify-center gap-1"
+                                class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-md py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
                                 @click="handleDeleteConversation(conversation.id)">
                               <i class="fas fa-trash-alt text-gray-500"></i>
                               <span class="fs8">删除</span>
@@ -526,11 +526,11 @@ onBeforeUnmount(() => {
                 <div class="flex space-x-4">
                   <button
                       @click="handleClickConversationExpand"
-                      class="px-8 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-all shadow-md hover:shadow-lg">
+                      class="px-8 py-3 bg-[var(--niuyin-primary-color)] text-white rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all shadow-md hover:shadow-lg">
                     立即体验
                   </button>
                   <button
-                      class="px-8 py-3 border border-blue-500 text-blue-500 rounded-full font-medium hover:bg-blue-50 transition-all">
+                      class="px-8 py-3 border border-[var(--niuyin-border-color)] text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-text-color)] rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all">
                     观看演示
                   </button>
                 </div>
@@ -538,17 +538,19 @@ onBeforeUnmount(() => {
               <div class="w-1/2 flex justify-center">
                 <div class="relative w-96 h-96">
                   <!-- 聊天气泡示例 -->
-                  <div class="absolute top-0 left-0 bg-blue-100 p-4 chat-bubble w-64 rounded-2xl">
-                    <p class="text-gray-800">你好！今天有什么我可以帮助你的吗？</p>
+                  <div class="absolute top-0 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-64 rounded-2xl cp hover:scale-105 transition-all">
+                    <p class=" ">你好！今天有什么我可以帮助你的吗？</p>
                   </div>
-                  <div class="absolute top-24 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-72 rounded-2xl">
+                  <div
+                      class="absolute top-24 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-72 rounded-2xl cp hover:scale-105 transition-all">
                     <p>我想学习关于机器学习的基础知识，有什么推荐的学习路径吗？</p>
                   </div>
-                  <div class="absolute top-48 left-0 bg-blue-100 p-4 chat-bubble w-80 rounded-2xl">
-                    <p class="text-gray-800">
+                  <div class="absolute top-48 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-80 rounded-2xl cp hover:scale-105 transition-all">
+                    <p class=" ">
                       当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
                   </div>
-                  <div class="absolute top-72 right-0 bg-blue-500 text-white p-4 chat-bubble ai w-64 rounded-2xl">
+                  <div
+                      class="absolute top-72 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-64 rounded-2xl cp hover:scale-105 transition-all">
                     <p>太好了！能推荐一些具体的学习资源吗？</p>
                   </div>
                 </div>
@@ -565,7 +567,7 @@ onBeforeUnmount(() => {
               <div class="grid grid-cols-3 gap-8">
                 <!-- 功能卡片1 -->
                 <div
-                    class="feature-card bg-white p-8 rounded-xl shadow-md transition-all duration-300 border border-gray-100">
+                    class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
                   <div class="text-blue-500 mb-4">
                     <i class="fas fa-comment-dots text-4xl"></i>
                   </div>
@@ -577,7 +579,7 @@ onBeforeUnmount(() => {
 
                 <!-- 功能卡片2 -->
                 <div
-                    class="feature-card bg-white p-8 rounded-xl shadow-md transition-all duration-300 border border-gray-100">
+                    class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
                   <div class="text-blue-500 mb-4">
                     <i class="fas fa-brain text-4xl"></i>
                   </div>
@@ -589,7 +591,7 @@ onBeforeUnmount(() => {
 
                 <!-- 功能卡片3 -->
                 <div
-                    class="feature-card bg-white p-8 rounded-xl shadow-md transition-all duration-300 border border-gray-100">
+                    class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
                   <div class="text-blue-500 mb-4">
                     <i class="fas fa-bolt text-4xl"></i>
                   </div>
@@ -610,7 +612,7 @@ onBeforeUnmount(() => {
 
               <div class="grid grid-cols-4 gap-6">
                 <!-- 场景1 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-laptop-code text-2xl"></i>
                   </div>
@@ -619,7 +621,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景2 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-book text-2xl"></i>
                   </div>
@@ -628,7 +630,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景3 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-lightbulb text-2xl"></i>
                   </div>
@@ -637,7 +639,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景4 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-briefcase text-2xl"></i>
                   </div>
@@ -648,14 +650,14 @@ onBeforeUnmount(() => {
             </section>
 
             <!-- CTA区域 -->
-            <section class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-12 text-center">
+            <section class="bg-[var(--bg-video-card)] from-blue-50 to-indigo-50 rounded-2xl p-12 text-center">
               <h2 class="text-3xl font-bold mb-4">准备好体验智能对话了吗？</h2>
               <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
                 立即注册，开启您的AI对话之旅。无需信用卡，免费试用我们的高级功能。
               </p>
               <button
                   @click="handleClickConversationExpand"
-                  class="px-10 py-4 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-all shadow-lg hover:shadow-xl text-lg">
+                  class="px-10 py-4 bg-[var(--niuyin-primary-color)] text-white rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all shadow-lg hover:shadow-xl text-lg">
                 开始免费试用
               </button>
             </section>
@@ -669,7 +671,7 @@ onBeforeUnmount(() => {
                 { '!opacity-100': msg.status === MessageStatus.Streaming }
             ]">
               <div v-if="msg.messageType === 'assistant'"
-                   class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-white shadow flex items-center justify-center"
+                   class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-5)] shadow flex items-center justify-center"
                    style="border-radius: 50%">
                 <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g filter="url(#a)">
@@ -848,8 +850,8 @@ onBeforeUnmount(() => {
                 <div :class="[
                         'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words',
                         msg.messageType === 'assistant'
-                            ? 'bg-white border border-gray-200 text-gray-800'
-                            : 'bg-blue-500 text-white rounded-tr-none'
+                            ? 'bg-[var(--bg-video-card)] border border-[var(--niuyin-border-color)] text-[var(--niuyin-text-color)]'
+                            : 'bg-[var(--niuyin-primary-color)] text-white rounded-tr-none'
                     ]"
                      style="overflow: auto">
                   <div v-if="msg.messageType === 'user'">
@@ -869,7 +871,7 @@ onBeforeUnmount(() => {
                       placement="top">
                     <button
                         @click="handleCopyMessage(msg.id,msg.content)"
-                        class="w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-green-900 transition-colors">
+                        class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-green-900 transition-colors">
                       <Check v-if="copyFlag && copyMessageId===msg.id" theme="outline" size="16"/>
                       <Copy v-else theme="outline" size="16"/>
                     </button>
@@ -879,7 +881,7 @@ onBeforeUnmount(() => {
                       v-if="msg.messageType === 'assistant'"
                       placement="top">
                     <button
-                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
+                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
                       <Refresh theme="outline" size="16"></Refresh>
                     </button>
                   </el-tooltip>
@@ -892,7 +894,7 @@ onBeforeUnmount(() => {
                       content="喜欢"
                       placement="top">
                     <button
-                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
+                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
                       <ThumbsUp theme="outline" size="16"/>
                     </button>
                   </el-tooltip>
@@ -901,7 +903,7 @@ onBeforeUnmount(() => {
                       content="不喜欢"
                       placement="top">
                     <button
-                        class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-yellow-900 transition-colors">
+                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-yellow-900 transition-colors">
                       <ThumbsDown theme="outline" size="16"/>
                     </button>
                   </el-tooltip>
@@ -911,7 +913,7 @@ onBeforeUnmount(() => {
                       @confirm="handleDeleteMessage(msg.id)">
                     <template #reference>
                       <button
-                          class="ml-2 w-8 h-8 rounded-full bg-gray-100 border border-gray-300 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
+                          class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
                         <Delete theme="outline" size="16"/>
                       </button>
                     </template>
@@ -922,11 +924,11 @@ onBeforeUnmount(() => {
           </div>
         </el-scrollbar>
         <!-- 输入区域 -->
-        <div class="border-t border-gray-200 p-4">
+        <div class="border-t border-[var(--niuyin-border-color)] p-4">
           <div class="max-w-4xl mx-auto">
             <div class="relative">
               <textarea
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 disabled:opacity-50"
+                  class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
                   rows="2"
                   placeholder="输入您的消息或指令..."
                   @keyup.enter="sendMessage"
@@ -936,15 +938,15 @@ onBeforeUnmount(() => {
                   :disabled="isLoading"></textarea>
               <div class="absolute right-3 bottom-3 flex gap-2">
                 <button
-                    class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">
+                    class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
                   <i class="fas fa-microphone"></i>
                 </button>
                 <button
-                    class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">
+                    class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
                   <i class="fas fa-image"></i>
                 </button>
                 <button
-                    class="w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center text-white transition-colors"
+                    class="w-8 h-8 rounded-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-white transition-colors"
                     :class="{ 'bg-red-500 hover:bg-red-600': isLoading }"
                     @click="sendMessage">
                   <i v-if="isLoading" @click="stopGeneration" class="fas fa-pause"/>
@@ -956,7 +958,7 @@ onBeforeUnmount(() => {
           <div class="max-w-4xl mx-auto flex flex-between gap-2 mt-4">
             <div class="text-xs text-gray-500 flex-row">
               <button
-                  class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors"
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors"
                   @click="handleClickConversationExpand">
                 <i class="fas fa-archive"/>
               </button>

@@ -1,24 +1,23 @@
 <script setup>
 const aiRouters = [
-  {id: 1, name: "聊天", class: "#icon-index", link: "/ai/chat"},
-  {id: 2, name: "绘画", class: "#icon-index", link: "/ai/image"},
-  {id: 3, name: "视频", class: "#icon-index", link: "/ai/video"}
+  {id: 1, name: "聊天", class: "fa-robot", link: "/ai/chat"},
+  {id: 2, name: "绘画", class: "fa-image", link: "/ai/image"},
+  {id: 3, name: "视频", class: "fa-video", link: "/ai/video"}
 ]
-
 </script>
 <!-- ai助手引导页 todo 后续需要在引导页完成订阅才能调用对应功能 -->
 <template>
   <div class="flex flex-col h-full flex-1">
     <nav class="ai-nav flex flex-row">
       <div class="flex-col">
-        <div class="pl-3 pr-3 border-b border-gray-200">
-          <h1 class="text-xl font-semibold text-gray-800">AI助手</h1>
+        <div class="pl-3 pr-3 border-b border-[var(--niuyin-border-color)]">
+          <h1 class="text-xl font-semibold">AI助手</h1>
           <p class="text-sm text-gray-500 mt-1">探索AI的无限可能</p>
         </div>
       </div>
       <div class="flex-1 h100 flex-col">
         <!--        渲染ai路由-->
-        <div class="flex border-b border-gray-200 h100">
+        <div class="flex border-b border-[var(--niuyin-border-color)] h100">
           <div class="ai-router-container">
             <router-link class="ai-router-link h100 flex-center"
                          v-for="(item, i) in aiRouters"
@@ -26,9 +25,7 @@ const aiRouters = [
                          :to="item.link">
               <div class="ai-tab-item h100">
                 <div class="round flex-center">
-                  <svg class="icon operate-svg" aria-hidden="true">
-                    <use :xlink:href="item.class"></use>
-                  </svg>
+                  <i class="fas mr-2 text-[var(--niuyin-primary-color)]" :class="item.class"></i>
                 </div>
                 <span class="dn-phone">{{ item.name }}</span>
               </div>

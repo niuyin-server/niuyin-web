@@ -144,6 +144,7 @@ export default {
         pageNum: 1,
         pageSize: 20,
       }
+      this.dataNotMore = false
       videoUserpage(this.userPageQueryParams).then(res => {
         if (res.code === 200) {
           console.log(typeof res.rows)
