@@ -430,7 +430,7 @@ onBeforeUnmount(() => {
       <div class="p-4 border-b border-[var(--niuyin-border-color)]">
         <button
             @click="handleCreateNewConversation"
-            class="w-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)]  text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-all">
+            class="w-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] text-white py-2 px-4 rounded-2xl flex items-center justify-center gap-2 transition-all">
           <i class="fas fa-plus"></i>
           <span>新对话</span>
         </button>
@@ -462,14 +462,14 @@ onBeforeUnmount(() => {
                   <div v-for="conversation in group"
                        :key="conversation.id"
                        @click="handleSelectConversation(conversation.id)"
-                       class="p-3 rounded-lg hover:bg-[var(--niuyin-primary-color-8)] cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
-                       :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)]' : 'border-[var(--niuyin-border-color)]'">
+                       class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
+                       :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
                     <div class="flex items-center justify-between">
                       <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>
-                      <span class="text-xs text-gray-400">{{ formatRelativeTime(conversation.updateTime) }}</span>
+                      <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
                     </div>
                     <div class="flex-row flex-between mt-1 flex-nowrap">
-                      <p v-if="conversation.lastMessage" class="text-xs text-gray-500 mt-1 truncate">
+                      <p v-if="conversation.lastMessage" class="text-xs text-gray-400 mt-1 truncate">
                         {{ conversation.lastMessage || '······' }}</p>
                       <p v-else class="text-xs text-gray-500 mt-1 truncate">······</p>
                       <el-popover
@@ -484,16 +484,16 @@ onBeforeUnmount(() => {
                         <template #default>
                           <div class="p-4 flex flex-col">
                             <button
-                                class="text-sm border border-[var(--niuyin-border-color)] rounded-md py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
+                                class="text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
                                 @click="handleEditConversation(conversation.id)">
-                              <i class="fas fa-italic text-gray-500"></i>
-                              <span class="fs8">重命名</span>
+                              <i class="fas fa-italic text-white"></i>
+                              <span class="fs8 text-white">重命名</span>
                             </button>
                             <button
-                                class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-md py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
+                                class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
                                 @click="handleDeleteConversation(conversation.id)">
-                              <i class="fas fa-trash-alt text-gray-500"></i>
-                              <span class="fs8">删除</span>
+                              <i class="fas fa-trash-alt text-white"></i>
+                              <span class="fs8 text-white">删除</span>
                             </button>
                           </div>
                         </template>
@@ -987,5 +987,9 @@ onBeforeUnmount(() => {
 
 .animate-fade-in {
   animation: fade-in 0.3s ease forwards;
+}
+
+.title-color-white h3{
+  color: white;
 }
 </style>

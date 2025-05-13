@@ -205,7 +205,7 @@ export default {
   width: 100%;
   margin: 0.3rem 0;
   text-align: left;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   border-radius: 0.5rem;
 }
 

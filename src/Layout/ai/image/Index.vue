@@ -6,6 +6,8 @@ const inputMessage = ref('')
 const isLoading = ref(false)
 
 import img11 from '@/Layout/ai/image/assets/image-size-1-1.svg'
+import img12 from '@/Layout/ai/image/assets/image-size-1-2.svg'
+import img21 from '@/Layout/ai/image/assets/image-size-2-1.svg'
 import img34 from '@/Layout/ai/image/assets/image-size-3-4.svg'
 import img43 from '@/Layout/ai/image/assets/image-size-4-3.svg'
 import img169 from '@/Layout/ai/image/assets/image-size-16-9.svg'
@@ -13,13 +15,15 @@ import img916 from '@/Layout/ai/image/assets/image-size-9-16.svg'
 import {parseTime, smartDateFormat} from "@/utils/roydon";
 
 // 图片生成比例
-const genRadio = ref('0')
+const genRadio = ref('1:1')
 const genRatioOptions = [
-  {label: '1:1', value: '0', image: img11},
-  {label: '3:4', value: '1', image: img34},
-  {label: '4:3', value: '2', image: img43},
-  {label: '16:9', value: '3', image: img169},
-  {label: '9:16', value: '4', image: img916},
+  {label: '1:1', value: '1:1', image: img11},
+  {label: '1:2', value: '1:2', image: img12},
+  // {label: '2:1', value: '2:1', image: img21},
+  {label: '3:4', value: '3:4', image: img34},
+  {label: '4:3', value: '4:3', image: img43},
+  {label: '16:9', value: '16:9', image: img169},
+  {label: '9:16', value: '9:16', image: img916},
 ]
 const handleClickGenRadio = (item) => {
   genRadio.value = item.value
@@ -240,11 +244,11 @@ onUnmounted(() => {
             <div
                 class="flex flex-row flex-between overflow-hidden border border-[var(--niuyin-border-color)] rounded-2xl">
               <div v-for="item in genRatioOptions"
-                   class="flex content-center items-center hover:bg-[var(--niuyin-primary-color-8)] flex-col cp p-4 w-1/5 transition-all"
+                   class="flex content-center items-center hover:bg-[var(--niuyin-primary-color-8)] flex-col cp px-4 py-2 w-1/6 transition-all"
                    :class="[item.value === genRadio ? 'bg-[var(--niuyin-primary-color)]' : 'bg-[var(--niuyin-icon-bg)]']"
                    @click="handleClickGenRadio(item)">
-                <img :src="item.image" :alt="item.label" class="   " width="32" height="32">
-                <span>{{ item.label }}</span>
+                <img :src="item.image" :alt="item.label" width="32" height="32">
+                <span class="text-sm">{{ item.label }}</span>
               </div>
             </div>
           </div>
