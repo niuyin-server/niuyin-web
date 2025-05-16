@@ -436,6 +436,7 @@ const handleClickMessageEdit = (id, content) => {
 const loading = ref(false);
 const scrollContainer = ref(null);
 const hasMore = ref(true); // 是否还有更多数据可加载
+// el-scroll的另一种解决办法 https://blog.csdn.net/qq_62262918/article/details/140273735
 const handleScroll = () => {
   const container = scrollContainer.value;
   if (!container) return;
