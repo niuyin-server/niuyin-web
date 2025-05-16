@@ -7,7 +7,7 @@ import {userInfoX} from "@/store/userInfoX"
 import {MoreFilled} from "@element-plus/icons-vue"
 import {ElMessage} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
-import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete} from '@icon-park/vue-next'
+import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete, EditTwo} from '@icon-park/vue-next'
 import {parseTime} from "@/utils/roydon"
 
 // Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
@@ -399,9 +399,10 @@ const handleCreateNewConversation = () => {
   ]
 }
 
+// 消息处理
 const copyFlag = ref(false)
 const copyMessageId = ref('')
-
+// 复制消息
 const handleCopyMessage = async (id, message) => {
   try {
     await navigator.clipboard.writeText(message)
@@ -414,9 +415,22 @@ const handleCopyMessage = async (id, message) => {
     console.error('Failed to copy:', err)
   }
 }
-
+/**
+ * 删除消息
+ * @param id 消息id
+ */
 const handleDeleteMessage = (id) => {
   console.log(id)
+}
+/**
+ * 点击user消息编辑
+ * @param id 消息id
+ * @param content 消息内容
+ */
+const handleClickMessageEdit = (id, content) => {
+  // 将内容填充到输入框，并聚焦输入
+  inputMessage.value = content
+  nextTick(() => inputRef.value?.focus())
 }
 
 const loading = ref(false);
@@ -767,6 +781,16 @@ onBeforeUnmount(() => {
                         class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-green-900 transition-colors">
                       <Check v-if="copyFlag && copyMessageId===msg.id" theme="outline" size="16"/>
                       <Copy v-else theme="outline" size="16"/>
+                    </button>
+                  </el-tooltip>
+                  <el-tooltip
+                      content="编辑"
+                      v-if="msg.messageType === 'user'"
+                      placement="top">
+                    <button
+                        @click="handleClickMessageEdit(msg.id,msg.content)"
+                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
+                      <EditTwo theme="outline" size="16"></EditTwo>
                     </button>
                   </el-tooltip>
                   <el-tooltip
