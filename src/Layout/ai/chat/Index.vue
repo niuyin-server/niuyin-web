@@ -10,6 +10,11 @@ import {Typewriter} from 'vue-element-plus-x'
 import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete} from '@icon-park/vue-next'
 import {parseTime} from "@/utils/roydon"
 
+// Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
+import 'vue-element-plus-x/styles/prism.min.css'
+// 1. Coy 主题（简约浅色风格，适合日常阅读）
+import 'vue-element-plus-x/styles/prism-coy.min.css'
+
 const scrollbarRef = ref()
 const max = ref(0)
 
@@ -414,6 +419,49 @@ const handleDeleteMessage = (id) => {
   console.log(id)
 }
 
+const loading = ref(false);
+const scrollContainer = ref(null);
+const hasMore = ref(true); // 是否还有更多数据可加载
+const handleScroll = () => {
+  const container = scrollContainer.value;
+  if (!container) return;
+
+  // 检查是否滚动到底部
+  const scrollTop = container.scrollTop;
+  const scrollHeight = container.scrollHeight;
+  const clientHeight = container.clientHeight;
+  console.log(scrollTop, scrollHeight, clientHeight)
+
+  // 距离底部一定阈值(如50px)时触发加载
+  const threshold = 0;
+  if (scrollHeight - (scrollTop + clientHeight) <= threshold) {
+    loadMore();
+  }
+};
+
+const loadMore = () => {
+  console.log('loadMore')
+};
+
+// 模拟加载数据
+// const loadMore = async () => {
+//   if (loading.value || !hasMore.value) return;
+//
+//   loading.value = true;
+//   try {
+//     // 这里替换为你的实际数据获取逻辑
+//     const newItems = await fetchMoreData();
+//     items.value = [...items.value, ...newItems];
+//
+//     // 如果没有更多数据了
+//     if (newItems.length === 0) {
+//       hasMore.value = false;
+//     }
+//   } finally {
+//     loading.value = false;
+//   }
+// };
+
 onMounted(() => {
   inputRef.value?.focus()
   getConversationList()
@@ -436,76 +484,74 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <el-scrollbar>
-        <div class="flex-1 overflow-y-auto">
-          <div class="px-4 pb-2">
-            <el-skeleton :loading="conversationListLoading" animated>
-              <template #template>
-                <div class="space-y-4 mb-6">
-                  <el-skeleton-item variant="h3" style="width: 70%"/>
-                  <el-skeleton-item variant="text" style="width: 90%"/>
-                </div>
-                <div class="space-y-4 mb-6">
-                  <el-skeleton-item variant="h3" style="width: 70%"/>
-                  <el-skeleton-item variant="text" style="width: 90%"/>
-                </div>
-                <div class="space-y-4 mb-6">
-                  <el-skeleton-item variant="h3" style="width: 70%"/>
-                  <el-skeleton-item variant="text" style="width: 90%"/>
-                </div>
-              </template>
-              <template #default>
-                <div class="space-y-2" v-for="(group,index) in conversationListGroups">
-                  <h2 class="text-sm font-semibold text-gray-500 my-2" v-if="group.length>0">{{
-                      getGroupTitle(index)
-                    }}</h2>
-                  <div v-for="conversation in group"
-                       :key="conversation.id"
-                       @click="handleSelectConversation(conversation.id)"
-                       class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
-                       :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
-                    <div class="flex items-center justify-between">
-                      <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>
-                      <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
-                    </div>
-                    <div class="flex-row flex-between mt-1 flex-nowrap">
-                      <p v-if="conversation.lastMessage" class="text-xs text-gray-400 mt-1 truncate">
-                        {{ conversation.lastMessage || '······' }}</p>
-                      <p v-else class="text-xs text-gray-500 mt-1 truncate">······</p>
-                      <el-popover
-                          placement="right"
-                          trigger="click"
-                      >
-                        <template #reference>
-                          <el-icon @click.stop="handleClickConversationMore(conversation.id)" class="ml-2">
-                            <MoreFilled class="" color="grey"/>
-                          </el-icon>
-                        </template>
-                        <template #default>
-                          <div class="p-4 flex flex-col">
-                            <button
-                                class="text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
-                                @click="handleEditConversation(conversation.id)">
-                              <i class="fas fa-italic text-white"></i>
-                              <span class="fs8 text-white">重命名</span>
-                            </button>
-                            <button
-                                class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
-                                @click="handleDeleteConversation(conversation.id)">
-                              <i class="fas fa-trash-alt text-white"></i>
-                              <span class="fs8 text-white">删除</span>
-                            </button>
-                          </div>
-                        </template>
-                      </el-popover>
-                    </div>
+      <div class="flex-1 overflow-y-auto" ref="scrollContainer" @scroll="handleScroll">
+        <div class="px-4 pb-2">
+          <el-skeleton :loading="conversationListLoading" animated>
+            <template #template>
+              <div class="space-y-4 mb-6">
+                <el-skeleton-item variant="h3" style="width: 70%"/>
+                <el-skeleton-item variant="text" style="width: 90%"/>
+              </div>
+              <div class="space-y-4 mb-6">
+                <el-skeleton-item variant="h3" style="width: 70%"/>
+                <el-skeleton-item variant="text" style="width: 90%"/>
+              </div>
+              <div class="space-y-4 mb-6">
+                <el-skeleton-item variant="h3" style="width: 70%"/>
+                <el-skeleton-item variant="text" style="width: 90%"/>
+              </div>
+            </template>
+            <template #default>
+              <div class="space-y-2" v-for="(group,index) in conversationListGroups">
+                <h2 class="text-sm font-semibold text-gray-500 my-2" v-if="group.length>0">{{
+                    getGroupTitle(index)
+                  }}</h2>
+                <div v-for="conversation in group"
+                     :key="conversation.id"
+                     @click="handleSelectConversation(conversation.id)"
+                     class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
+                     :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>
+                    <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
+                  </div>
+                  <div class="flex-row flex-between mt-1 flex-nowrap">
+                    <p v-if="conversation.lastMessage" class="text-xs text-gray-400 mt-1 truncate">
+                      {{ conversation.lastMessage || '······' }}</p>
+                    <p v-else class="text-xs text-gray-500 mt-1 truncate">······</p>
+                    <el-popover
+                        placement="right"
+                        trigger="click"
+                    >
+                      <template #reference>
+                        <el-icon @click.stop="handleClickConversationMore(conversation.id)" class="ml-2">
+                          <MoreFilled class="" color="grey"/>
+                        </el-icon>
+                      </template>
+                      <template #default>
+                        <div class="p-4 flex flex-col">
+                          <button
+                              class="text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
+                              @click="handleEditConversation(conversation.id)">
+                            <i class="fas fa-italic text-white"></i>
+                            <span class="fs8 text-white">重命名</span>
+                          </button>
+                          <button
+                              class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
+                              @click="handleDeleteConversation(conversation.id)">
+                            <i class="fas fa-trash-alt text-white"></i>
+                            <span class="fs8 text-white">删除</span>
+                          </button>
+                        </div>
+                      </template>
+                    </el-popover>
                   </div>
                 </div>
-              </template>
-            </el-skeleton>
-          </div>
+              </div>
+            </template>
+          </el-skeleton>
         </div>
-      </el-scrollbar>
+      </div>
 
     </div>
     <div class="flex flex-1 flex-col" style="width: calc(100% - 16rem)">
@@ -538,14 +584,16 @@ onBeforeUnmount(() => {
               <div class="w-1/2 flex justify-center">
                 <div class="relative w-96 h-96">
                   <!-- 聊天气泡示例 -->
-                  <div class="absolute top-0 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-64 rounded-2xl cp hover:scale-105 transition-all">
+                  <div
+                      class="absolute top-0 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-64 rounded-2xl cp hover:scale-105 transition-all">
                     <p class=" ">你好！今天有什么我可以帮助你的吗？</p>
                   </div>
                   <div
                       class="absolute top-24 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-72 rounded-2xl cp hover:scale-105 transition-all">
                     <p>我想学习关于机器学习的基础知识，有什么推荐的学习路径吗？</p>
                   </div>
-                  <div class="absolute top-48 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-80 rounded-2xl cp hover:scale-105 transition-all">
+                  <div
+                      class="absolute top-48 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-80 rounded-2xl cp hover:scale-105 transition-all">
                     <p class=" ">
                       当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
                   </div>
@@ -612,7 +660,8 @@ onBeforeUnmount(() => {
 
               <div class="grid grid-cols-4 gap-6">
                 <!-- 场景1 -->
-                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                <div
+                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-laptop-code text-2xl"></i>
                   </div>
@@ -621,7 +670,8 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景2 -->
-                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                <div
+                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-book text-2xl"></i>
                   </div>
@@ -630,7 +680,8 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景3 -->
-                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                <div
+                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-lightbulb text-2xl"></i>
                   </div>
@@ -639,7 +690,8 @@ onBeforeUnmount(() => {
                 </div>
 
                 <!-- 场景4 -->
-                <div class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                <div
+                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-briefcase text-2xl"></i>
                   </div>
@@ -673,166 +725,7 @@ onBeforeUnmount(() => {
               <div v-if="msg.messageType === 'assistant'"
                    class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-5)] shadow flex items-center justify-center"
                    style="border-radius: 50%">
-                <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g filter="url(#a)">
-                    <rect x="72.152" y="143.837" width="255.686" height="57.843" rx="13.923" fill="#2F9BFF"/>
-                  </g>
-                  <g filter="url(#b)">
-                    <rect x="191.653" y="64.493" width="16.707" height="32.212" rx="8.354" fill="#88BAFF"
-                          fill-opacity=".5"/>
-                  </g>
-                  <g filter="url(#c)">
-                    <circle cx="200" cy="56.825" r="19.222" fill="#2F9BFF"/>
-                  </g>
-                  <rect x="99.695" y="94.581" width="202.257" height="156.355" rx="46.387" fill="#fff"
-                        fill-opacity=".89" stroke="#2F9BFF" stroke-width="16.707"/>
-                  <g filter="url(#d)">
-                    <rect x="104.991" y="99.111" width="191.668" height="147.882" rx="43.799" fill="#88BAFF"
-                          fill-opacity=".3"/>
-                  </g>
-                  <g filter="url(#e)">
-                    <rect x="148.723" y="138.463" width="34.826" height="56.592" rx="17.413" fill="#fff"/>
-                  </g>
-                  <g filter="url(#f)">
-                    <rect x="216.359" y="138.462" width="34.9" height="56.713" rx="17.45" fill="#fff"/>
-                  </g>
-                  <defs>
-                    <filter id="a" x="56.561" y="128.245" width="286.869" height="89.026" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                      <feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/>
-                      <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/>
-                      <feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dx="2.495" dy="6.237"/>
-                      <feGaussianBlur stdDeviation="4.114"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/>
-                      <feBlend in2="shape" result="effect2_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/>
-                      <feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="-1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/>
-                      <feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/>
-                    </filter>
-                    <filter id="b" x="176.062" y="48.901" width="47.891" height="63.395" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                      <feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/>
-                      <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/>
-                      <feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dx="2.495" dy="6.237"/>
-                      <feGaussianBlur stdDeviation="4.114"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/>
-                      <feBlend in2="shape" result="effect2_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/>
-                      <feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="-1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/>
-                      <feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/>
-                    </filter>
-                    <filter id="c" x="165.187" y="22.011" width="69.627" height="69.627" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                      <feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/>
-                      <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/>
-                      <feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dx="2.495" dy="6.237"/>
-                      <feGaussianBlur stdDeviation="4.114"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/>
-                      <feBlend in2="shape" result="effect2_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/>
-                      <feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="-1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/>
-                      <feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/>
-                    </filter>
-                    <filter id="d" x="89.4" y="83.519" width="222.852" height="179.066" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                      <feGaussianBlur in="BackgroundImage" stdDeviation="7.796"/>
-                      <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_35_2168"/>
-                      <feBlend in="SourceGraphic" in2="effect1_backgroundBlur_35_2168" result="shape"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dx="2.495" dy="6.237"/>
-                      <feGaussianBlur stdDeviation="4.114"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/>
-                      <feBlend in2="shape" result="effect2_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/>
-                      <feBlend in2="effect2_innerShadow_35_2168" result="effect3_innerShadow_35_2168"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="-1.559"/>
-                      <feGaussianBlur stdDeviation="1.559"/>
-                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                      <feColorMatrix values="0 0 0 0 0.103594 0 0 0 0 0.52793 0 0 0 0 0.920833 0 0 0 0.16 0"/>
-                      <feBlend in2="effect3_innerShadow_35_2168" result="effect4_innerShadow_35_2168"/>
-                    </filter>
-                    <filter id="e" x="130.249" y="126.147" width="71.774" height="93.54" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="6.158"/>
-                      <feGaussianBlur stdDeviation="9.237"/>
-                      <feColorMatrix values="0 0 0 0 0.184314 0 0 0 0 0.607843 0 0 0 0 1 0 0 0 0.4 0"/>
-                      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_35_2168"/>
-                      <feBlend in="SourceGraphic" in2="effect1_dropShadow_35_2168" result="shape"/>
-                    </filter>
-                    <filter id="f" x="197.885" y="126.146" width="71.848" height="93.661" filterUnits="userSpaceOnUse"
-                            color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                     result="hardAlpha"/>
-                      <feOffset dy="6.158"/>
-                      <feGaussianBlur stdDeviation="9.237"/>
-                      <feColorMatrix values="0 0 0 0 0.184314 0 0 0 0 0.607843 0 0 0 0 1 0 0 0 0.4 0"/>
-                      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_35_2168"/>
-                      <feBlend in="SourceGraphic" in2="effect1_dropShadow_35_2168" result="shape"/>
-                    </filter>
-                  </defs>
-                </svg>
+                <img src="./assets/ai-bot.svg" alt="AI"/>
               </div>
               <div v-else-if="msg.messageType === 'user'"
                    class="cp flex-shrink-0 w-10 h-10 shadow flex items-center justify-center order-3"
@@ -928,7 +821,7 @@ onBeforeUnmount(() => {
           <div class="max-w-4xl mx-auto">
             <div class="relative">
               <textarea
-                  class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
+                  class="w-full fs1rem px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
                   rows="2"
                   placeholder="输入您的消息或指令..."
                   @keyup.enter="sendMessage"
@@ -989,7 +882,7 @@ onBeforeUnmount(() => {
   animation: fade-in 0.3s ease forwards;
 }
 
-.title-color-white h3{
+.title-color-white h3 {
   color: white;
 }
 </style>
