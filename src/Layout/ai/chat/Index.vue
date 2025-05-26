@@ -227,7 +227,7 @@ const processContent = (prev, newData) => {
 const sendChatRequest = async (conversationId, content, botMessage) => {
   controller.value = new AbortController()
 
-  await fetchEventSource('http://localhost:9101/chat/stream', {
+  await fetchEventSource('http://localhost:9101/web-api/chat/stream', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
