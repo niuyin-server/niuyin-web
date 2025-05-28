@@ -2,7 +2,8 @@
 const aiRouters = [
   {id: 1, name: "聊天", class: "fa-robot", link: "/ai/chat"},
   {id: 2, name: "绘画", class: "fa-image", link: "/ai/image"},
-  {id: 3, name: "视频", class: "fa-video", link: "/ai/video"}
+  {id: 3, name: "视频", class: "fa-video", link: "/ai/video"},
+  {id: 4, name: "知识库", class: "fa-book", link: "/ai/knowledge"}
 ]
 </script>
 <!-- ai助手引导页 todo 后续需要在引导页完成订阅才能调用对应功能 -->

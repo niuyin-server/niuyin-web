@@ -106,7 +106,7 @@
     <div class="aside-bottom flex-center"
          style="overflow:hidden;height: 60px;position:sticky;bottom: 0;left: 0;z-index: 1;">
       <button
-          class="w-8 h-8 rounded-full bg-gray-100 hover:bg-[var(--niuyin-primary-color-5)] flex items-center justify-center text-gray-600 transition-colors bg-[var(--niuyin-custom-bg)]"
+          class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-gray-600 transition-colors"
           @click="handleClickAsideExpand"
       >
         <el-tooltip v-if="asideExpand" content="折叠菜单" placement="top">

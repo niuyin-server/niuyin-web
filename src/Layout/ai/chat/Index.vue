@@ -7,13 +7,14 @@ import {userInfoX} from "@/store/userInfoX"
 import {MoreFilled} from "@element-plus/icons-vue"
 import {ElMessage} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
-import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete, EditTwo, LoadingOne} from '@icon-park/vue-next'
+import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete, EditTwo, LoadingOne, Brain} from '@icon-park/vue-next'
 import {debounce, parseTime} from "@/utils/roydon"
 
 // Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
 import 'vue-element-plus-x/styles/prism.min.css'
 // 1. Coy 主题（简约浅色风格，适合日常阅读）
 import 'vue-element-plus-x/styles/prism-coy.min.css'
+import Role from "@/Layout/ai/chat/Role.vue";
 
 const scrollbarRef = ref()
 const max = ref(0)
@@ -500,6 +501,11 @@ onMounted(() => {
 onBeforeUnmount(() => {
   controller.value?.abort()
 })
+
+const drawer = ref(false)
+const emitDrawerUpdate = (val) => {
+  drawer.value = val
+}
 </script>
 
 <template>
@@ -903,16 +909,22 @@ onBeforeUnmount(() => {
                 AI助手 1.0-Beta • 联网搜索已开启
               </div>
             </div>
-            <div class="text-xs text-gray-500">
+            <div class="text-xs text-gray-500 flex flex-row space-x-4">
               <el-button type="text" class="hover:text-gray-700"><i class="fas fa-magic mr-1"/>快捷指令</el-button>
               <span class="mx-2">•</span>
               <el-button type="text" class="hover:text-gray-700"><i class="fas fa-cog mr-1"/>设置</el-button>
+              <button
+                  @click="drawer = !drawer"
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                <Brain theme="outline" size="16"/>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <Role :drawer="drawer" @update:drawer="emitDrawerUpdate"/>
 </template>
 
 <style>

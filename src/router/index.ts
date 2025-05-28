@@ -74,6 +74,7 @@ const router = createRouter({
                         {path: "/ai/chat", component: () => import("@/Layout/ai/chat/Index.vue")},
                         {path: "/ai/image", component: () => import("@/Layout/ai/image/Index.vue")},
                         {path: "/ai/video", component: () => import("@/Layout/ai/Video.vue")},
+                        {path: "/ai/knowledge", component: () => import("@/Layout/ai/knowledge/Index.vue")},
                     ]
                 },
             ],
