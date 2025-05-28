@@ -7,8 +7,8 @@ import {userInfoX} from "@/store/userInfoX"
 import {MoreFilled} from "@element-plus/icons-vue"
 import {ElMessage} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
-import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete, EditTwo} from '@icon-park/vue-next'
-import {parseTime} from "@/utils/roydon"
+import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete, EditTwo, LoadingOne} from '@icon-park/vue-next'
+import {debounce, parseTime} from "@/utils/roydon"
 
 // Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
 import 'vue-element-plus-x/styles/prism.min.css'
@@ -24,8 +24,9 @@ const requestBody = reactive({
   pageSize: 20
 })
 const conversationExpand = ref(false)
-const conversationList = ref()
+const conversationList = ref([])
 const conversationListLoading = ref(true) // 0 is empty, 1 is request failed
+const loadingMore = ref(false);
 const conversationListTotal = ref(0)
 const conversationListGroups = ref({
   today: [],
@@ -50,14 +51,23 @@ const getGroupTitle = (group) => {
 }
 
 const getConversationList = () => {
+  if (!hasMore.value) return
   listConversation(requestBody).then(res => {
     if (res?.code === 200) {
-      conversationList.value = res?.rows
+      if (!res.rows || res.rows.length === 0) {
+        hasMore.value = false
+        loadingMore.value = false
+        return
+      }
+      // 增量添加数据
+      conversationList.value = [...conversationList.value, ...res?.rows]
       conversationListTotal.value = res?.total
       // Process conversations, group them
       handleConversationGroup()
-      conversationListLoading.value = false
+      requestBody.pageNum += 1
     }
+    conversationListLoading.value = false
+    loadingMore.value = false
   })
 }
 
@@ -437,7 +447,7 @@ const loading = ref(false);
 const scrollContainer = ref(null);
 const hasMore = ref(true); // 是否还有更多数据可加载
 // el-scroll的另一种解决办法 https://blog.csdn.net/qq_62262918/article/details/140273735
-const handleScroll = () => {
+const handleScroll = debounce(() => {
   const container = scrollContainer.value;
   if (!container) return;
 
@@ -448,14 +458,19 @@ const handleScroll = () => {
   console.log(scrollTop, scrollHeight, clientHeight)
 
   // 距离底部一定阈值(如50px)时触发加载
-  const threshold = 0;
+  const threshold = 50;
   if (scrollHeight - (scrollTop + clientHeight) <= threshold) {
     loadMore();
   }
-};
+}, 100, false)
+
 
 const loadMore = () => {
+  if (!hasMore.value) return
   console.log('loadMore')
+  loadingMore.value = true
+  getConversationList()
+
 };
 
 // 模拟加载数据
@@ -562,6 +577,10 @@ onBeforeUnmount(() => {
                     </el-popover>
                   </div>
                 </div>
+              </div>
+              <div ref="loadingRef" class="flex justify-center items-center py-4">
+                <LoadingOne v-if="loadingMore" class="animate-spin"/>
+                <p v-if="!hasMore" class="text-gray-500">没有更多内容了</p>
               </div>
             </template>
           </el-skeleton>
