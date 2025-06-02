@@ -506,6 +506,44 @@ const drawer = ref(false)
 const emitDrawerUpdate = (val) => {
   drawer.value = val
 }
+
+const emitCreateConversation = (val) => {
+  // 创建对话
+  addConversation({roleId: val.id}).then(res => {
+    if (res?.code === 200) {
+      conversationListGroups.value.today.unshift(res.data)
+      selectedConversationId.value = res.data.id
+
+      // ui聚焦
+      drawer.value = false
+      conversationExpand.value = true
+      inputRef.value?.focus()
+
+      messages.value = [
+        {
+          id: 'bot-1',
+          content: '你好，有什么可以帮到你的吗？',
+          isBot: true,
+          timestamp: Date.now(),
+          status: MessageStatus.Complete,
+          conversationId: '1',
+          messageType: 'assistant',
+          createTime: '2023-07-01 12:00:00Z',
+          replayId: '0',
+          updateTime: '2023-07-01 12:00:00Z',
+          useContext: '0',
+          userId: '1'
+        }
+      ]
+    } else {
+      ElMessage.error('创建对话失败')
+      return
+    }
+  })
+
+  // selectedConversationId.value =
+  // console.log(val)
+}
 </script>
 
 <template>
@@ -924,7 +962,7 @@ const emitDrawerUpdate = (val) => {
       </div>
     </div>
   </div>
-  <Role :drawer="drawer" @update:drawer="emitDrawerUpdate"/>
+  <Role v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate" @create:conversation="emitCreateConversation"/>
 </template>
 
 <style>

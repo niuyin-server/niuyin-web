@@ -491,7 +491,7 @@ a {
 
 /*el抽屉drawer*/
 .el-drawer {
-  --el-drawer-bg-color: rgba(0, 0, 0, 0.5);
+  --el-drawer-bg-color: var(--el-drawer-bg-color);
   backdrop-filter: blur(10px);
 }
 
