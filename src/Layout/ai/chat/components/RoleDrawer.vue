@@ -9,7 +9,12 @@ const props = defineProps({
     default: false
   }
 })
-const emit = defineEmits(['update:drawer'], ['create:conversation'])
+
+const emit = defineEmits([
+  'update:drawer',
+  'create:conversation'
+])
+
 const drawerProxy = computed({
   get: () => props.drawer,
   set: (newValue) => emit('update:drawer', newValue)

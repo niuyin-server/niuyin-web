@@ -7,14 +7,29 @@ import {userInfoX} from "@/store/userInfoX"
 import {MoreFilled} from "@element-plus/icons-vue"
 import {ElMessage} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
-import {Copy, Check, Refresh, ThumbsUp, ThumbsDown, Delete, EditTwo, LoadingOne, Brain} from '@icon-park/vue-next'
+import {
+  Copy,
+  Check,
+  Refresh,
+  ThumbsUp,
+  ThumbsDown,
+  Delete,
+  EditTwo,
+  LoadingOne,
+  Brain,
+  Blockchain,
+  Earth,
+  Transform,
+  WeixinTopStories, DocumentFolder
+} from '@icon-park/vue-next'
 import {debounce, parseTime} from "@/utils/roydon"
 
 // Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
 import 'vue-element-plus-x/styles/prism.min.css'
 // 1. Coy 主题（简约浅色风格，适合日常阅读）
 import 'vue-element-plus-x/styles/prism-coy.min.css'
-import Role from "@/Layout/ai/chat/Role.vue";
+import RoleDrawer from "@/Layout/ai/chat/components/RoleDrawer.vue";
+import KnowledgeDrawer from "@/Layout/ai/chat/components/KnowledgeDrawer.vue";
 
 const scrollbarRef = ref()
 const max = ref(0)
@@ -320,7 +335,6 @@ const sendMessage = async () => {
     messageType: 'user',
     createTime: createTime,
     replayId: '',
-    updateTime: createTime,
     useContext: '1',
     userId: userInfoX().userInfo?.userId
   })
@@ -337,7 +351,6 @@ const sendMessage = async () => {
     messageType: 'assistant',
     createTime: createTime,
     replayId: '',
-    updateTime: createTime,
     useContext: '1',
     userId: userInfoX().userInfo?.userId
   })
@@ -544,6 +557,15 @@ const emitCreateConversation = (val) => {
   // selectedConversationId.value =
   // console.log(val)
 }
+// 深度思考开关
+const deepThinking = ref(false)
+// 联网搜索开关
+const internetSearch = ref(false)
+// 上下文开关
+const useContext = ref(true)
+// 知识库drawer
+const knowledgeDrawer = ref(false)
+
 </script>
 
 <template>
@@ -943,18 +965,49 @@ const emitCreateConversation = (val) => {
                   @click="handleClickConversationExpand">
                 <i class="fas fa-archive"/>
               </button>
+              <div class="mx-4 flex flex-row space-x-2">
+                <div class="cp border py-1 px-2 rounded-full text-[var(--niuyin-text-color7)] transition-all"
+                     :class="[deepThinking ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
+                     @click.stop="deepThinking = !deepThinking">
+                  <div class="space-x-1 flex justify-center">
+                    <Brain theme="outline" size="16"/>
+                    <span>深度思考</span>
+                  </div>
+                </div>
+                <div class="cp border py-1 px-2 rounded-full text-[var(--niuyin-text-color7)] transition-all"
+                     :class="[internetSearch ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
+                     @click.stop="internetSearch = !internetSearch">
+                  <div class="space-x-1 flex justify-center">
+                    <Earth theme="outline" size="16"/>
+                    <span>联网搜索</span>
+                  </div>
+                </div>
+                <div class="cp border py-1 px-2 rounded-full text-[var(--niuyin-text-color7)] transition-all"
+                     :class="[useContext ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
+                     @click.stop="useContext = !useContext">
+                  <div class="space-x-1 flex justify-center">
+                    <Transform theme="outline" size="16"/>
+                    <span>上下文</span>
+                  </div>
+                </div>
+              </div>
               <div class="mx-4">
                 AI助手 1.0-Beta • 联网搜索已开启
               </div>
             </div>
-            <div class="text-xs text-gray-500 flex flex-row space-x-4">
+            <div class="text-xs text-gray-500 flex flex-row space-x-2">
               <el-button type="text" class="hover:text-gray-700"><i class="fas fa-magic mr-1"/>快捷指令</el-button>
               <span class="mx-2">•</span>
               <el-button type="text" class="hover:text-gray-700"><i class="fas fa-cog mr-1"/>设置</el-button>
               <button
+                  @click="knowledgeDrawer = !knowledgeDrawer"
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                <DocumentFolder theme="outline" size="16"/>
+              </button>
+              <button
                   @click="drawer = !drawer"
                   class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
-                <Brain theme="outline" size="16"/>
+                <WeixinTopStories theme="outline" size="16"/>
               </button>
             </div>
           </div>
@@ -962,7 +1015,8 @@ const emitCreateConversation = (val) => {
       </div>
     </div>
   </div>
-  <Role v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate" @create:conversation="emitCreateConversation"/>
+  <KnowledgeDrawer v-if="knowledgeDrawer" :drawer="knowledgeDrawer" @update:drawer="emitKnowledgeDrawerUpdate"/>
+  <RoleDrawer v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate" @create:conversation="emitCreateConversation"/>
 </template>
 
 <style>
