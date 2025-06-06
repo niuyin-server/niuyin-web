@@ -114,7 +114,7 @@ const handleConversationGroup = () => {
 
   // Group conversations
   conversationList.value?.forEach(conversation => {
-    const convDate = new Date(conversation.createTime)
+    const convDate = new Date(conversation.updateTime)
 
     if (convDate >= todayStart) {
       conversationListGroups.value.today.push(conversation)
@@ -487,25 +487,6 @@ const loadMore = () => {
 
 };
 
-// 模拟加载数据
-// const loadMore = async () => {
-//   if (loading.value || !hasMore.value) return;
-//
-//   loading.value = true;
-//   try {
-//     // 这里替换为你的实际数据获取逻辑
-//     const newItems = await fetchMoreData();
-//     items.value = [...items.value, ...newItems];
-//
-//     // 如果没有更多数据了
-//     if (newItems.length === 0) {
-//       hasMore.value = false;
-//     }
-//   } finally {
-//     loading.value = false;
-//   }
-// };
-
 onMounted(() => {
   inputRef.value?.focus()
   getConversationList()
@@ -565,6 +546,9 @@ const internetSearch = ref(false)
 const useContext = ref(true)
 // 知识库drawer
 const knowledgeDrawer = ref(false)
+const emitKnowledgeDrawerUpdate = (val) => {
+  knowledgeDrawer.value = val
+}
 
 </script>
 

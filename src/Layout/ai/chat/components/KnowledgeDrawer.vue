@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue'
 import {getModelRolePage} from "@/api/ai/model/role.js";
-import {UserFilled} from "@element-plus/icons-vue";
+import {UserFilled,Plus} from "@element-plus/icons-vue";
 
 const props = defineProps({
   drawer: {
@@ -11,8 +11,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'update:drawer',
-  'create:conversation'
+  'update:drawer'
 ])
 
 const drawerProxy = computed({
@@ -23,55 +22,45 @@ const drawerProxy = computed({
 const queryDTO = ref({
   pageNum: 1,
   pageSize: 10,
-  name: null,
-  category: null,
+  name: null
 })
 
 const loading = ref(false)
 
-const modelRoleList = ref([])
-const modelRoleTotal = ref(0)
+const knowledgeList = ref([])
+const knowledgeTotal = ref(0)
 
-const initModelRolePage = async () => {
+const initKnowledgePage = async () => {
   loading.value = true
   const res = await getModelRolePage(queryDTO.value)
-  modelRoleList.value = res.data.rows
-  modelRoleTotal.value = res.data.total
+  knowledgeList.value = res.data.rows
+  knowledgeTotal.value = res.data.total
   loading.value = false
 }
 
 const handleCurrentChange = (v) => {
   queryDTO.pageNum = v
-  initModelRolePage()
+  initKnowledgePage()
 }
 const handleSizeChange = (v) => {
   queryDTO.pageSize = v
-  initModelRolePage()
+  initKnowledgePage()
 }
 
-const activeName = ref('1')
-
-const handleClick = (tab, event) => {
-  console.log(tab, event);
-}
-
-const handleClickRoleToConversation = (item) => {
-  emit('create:conversation', item)
-}
-
+const dialogVisible = ref(false)
 onMounted(() => {
-  initModelRolePage()
+  initKnowledgePage()
 })
 </script>
 
 <template>
   <div class="drawer-container">
     <el-drawer v-model="drawerProxy" title="知识库" destroy-on-close>
-      <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane lazy label="我的角色" name="2">我的角色
-        </el-tab-pane>
-      </el-tabs>
+      <el-button @click="dialogVisible = true" :icon="Plus"> 添加知识库 </el-button>
     </el-drawer>
+    <el-dialog v-model="dialogVisible">
+
+    </el-dialog>
   </div>
 </template>
 

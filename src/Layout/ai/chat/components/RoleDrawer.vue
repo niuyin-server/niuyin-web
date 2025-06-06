@@ -66,9 +66,9 @@ onMounted(() => {
 
 <template>
   <div class="drawer-container">
-    <el-drawer v-model="drawerProxy" title="角色仓库" destroy-on-close>
+    <el-drawer v-model="drawerProxy" title="智能体" destroy-on-close>
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane lazy label="公共角色" name="1">
+        <el-tab-pane lazy label="公共智能体" name="1">
           <!-- 数据 -->
           <el-skeleton :loading="loading" animated>
             <template #template>
@@ -120,7 +120,7 @@ onMounted(() => {
                          @size-change="handleSizeChange"
                          @current-change="handleCurrentChange"/>
         </el-tab-pane>
-        <el-tab-pane lazy label="我的角色" name="2">我的角色
+        <el-tab-pane lazy label="我的智能体" name="2">我的智能体
         </el-tab-pane>
       </el-tabs>
     </el-drawer>
