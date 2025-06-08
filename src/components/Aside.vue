@@ -161,9 +161,11 @@ export default {
       ],
       videoCategoryParentList: localStorage.getItem("videoCategoryParentList") ? JSON.parse(localStorage.getItem("videoCategoryParentList")) : null,
       tabsBottomList: [
-        {id: 1, name: "AI", '--color': "red", class: "#icon-deepseek", link: "/ai"},
+        {id: 1, name: "AI", '--color': "red", class: "#icon-DeepSeek", link: "/ai"},
         {id: 2, name: "商务合作", '--color': "red", class: "#icon-cooperation", link: "/cooperation"},
         {id: 3, name: "源码地址", '--color': "red", class: "#icon-github", link: "/niuyinGithub"},
+        {id: 3, name: "未来展望", '--color': "red", class: "#icon-github", link: "/future"},
+        {id: 3, name: "功能测试", '--color': "red", class: "#", link: "/scrollDownToRefresh"},
       ],
       asideExpand: true
     }

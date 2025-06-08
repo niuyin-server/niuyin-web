@@ -134,7 +134,11 @@ html.dark {
   --niuyin-icon-bg: #e5e7eb;
   --niuyin-icon-bg-5: rgb(214, 216, 220);
 
-  --el-drawer-bg-color: rgba(229, 231, 235, 0.66)
+  --el-drawer-bg-color: rgba(229, 231, 235, 0.66);
+  --tag-bg-color: rgba(194, 195, 198, 0.66);
+
+  --neon-blue: #00f3ff;
+  --neon-purple: #bd00ff;
 }
 
 /*空状态颜色填充*/
@@ -423,4 +427,9 @@ html.dark {
 
 .el-popper.is-pure {
   overflow: hidden !important;
+}
+
+.el-tag.el-tag--info{
+  --el-tag-bg-color: var(--niuyin-primary-color-2);
+  --el-tag-text-color: var(--niuyin-text-color)
 }

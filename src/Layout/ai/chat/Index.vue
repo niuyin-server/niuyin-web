@@ -1,26 +1,26 @@
 <script setup>
 import {nextTick, onBeforeUnmount, onMounted, reactive, ref} from 'vue'
 import {fetchEventSource} from '@microsoft/fetch-event-source'
-import {addConversation, listConversation} from "@/api/ai/chat/conversation"
+import {addConversation, listConversation, updateConversation} from "@/api/ai/chat/conversation"
 import {listMessageByCid} from "@/api/ai/chat/message"
 import {userInfoX} from "@/store/userInfoX"
 import {MoreFilled} from "@element-plus/icons-vue"
 import {ElMessage} from 'element-plus'
 import {Typewriter} from 'vue-element-plus-x'
 import {
-  Copy,
+  Brain,
   Check,
-  Refresh,
-  ThumbsUp,
-  ThumbsDown,
+  Copy,
   Delete,
+  DocumentFolder,
+  Earth,
   EditTwo,
   LoadingOne,
-  Brain,
-  Blockchain,
-  Earth,
+  Refresh,
+  ThumbsDown,
+  ThumbsUp,
   Transform,
-  WeixinTopStories, DocumentFolder
+  WeixinTopStories
 } from '@icon-park/vue-next'
 import {debounce, parseTime} from "@/utils/roydon"
 
@@ -30,6 +30,7 @@ import 'vue-element-plus-x/styles/prism.min.css'
 import 'vue-element-plus-x/styles/prism-coy.min.css'
 import RoleDrawer from "@/Layout/ai/chat/components/RoleDrawer.vue";
 import KnowledgeDrawer from "@/Layout/ai/chat/components/KnowledgeDrawer.vue";
+import {getModelList} from "@/api/ai/model/model.js";
 
 const scrollbarRef = ref()
 const max = ref(0)
@@ -52,7 +53,7 @@ const conversationListGroups = ref({
   lastYear: [],
   older: [],
 })
-const selectedConversationId = ref('')
+const selectedConversationId = ref(null)
 
 const getGroupTitle = (group) => {
   const titles = {
@@ -132,11 +133,12 @@ const handleConversationGroup = () => {
   })
 }
 
-const handleSelectConversation = (id) => {
-  if (selectedConversationId.value === id) {
+const handleSelectConversation = (row) => {
+  console.log(row)
+  if (selectedConversationId.value === row.id) {
     return
   }
-  selectedConversationId.value = id
+  selectedConversationId.value = row.id
   // Clear message list
   messages.value = []
   // Focus input
@@ -150,6 +152,15 @@ const handleSelectConversation = (id) => {
         max.value = messageContainer.value.clientHeight
         scrollbarRef.value.setScrollTop(max.value)
       })
+    }
+  })
+  // 加载模型选择器
+  console.log(row.modelId)
+  modelSelected.value = row.modelId
+  // 选择模型后更新对话的模型id
+  modelOptions.value.forEach(item => {
+    if (item.id === row.modelId) {
+      modelIconSelected.value = item.icon
     }
   })
 }
@@ -305,6 +316,7 @@ const handleRequestError = (botMessage, error) => {
 
 // Main send logic
 const sendMessage = async () => {
+  // todo 先选择模型
   if (!inputMessage.value.trim() || isLoading.value) return
 
   const userContent = inputMessage.value.trim()
@@ -395,7 +407,7 @@ const handleClickConversationExpand = () => {
 
 // Create new conversation
 const handleCreateNewConversation = () => {
-  addConversation({title: '新对话'}).then(res => {
+  addConversation({title: '新对话', modelId: modelSelected.value}).then(res => {
     if (res?.code === 200) {
       // Insert into conversation list
       conversationListGroups.value.today.unshift(res.data)
@@ -476,7 +488,7 @@ const handleScroll = debounce(() => {
   if (scrollHeight - (scrollTop + clientHeight) <= threshold) {
     loadMore();
   }
-}, 100, false)
+}, 200, false)
 
 
 const loadMore = () => {
@@ -490,6 +502,7 @@ const loadMore = () => {
 onMounted(() => {
   inputRef.value?.focus()
   getConversationList()
+  initModelList()
 })
 
 onBeforeUnmount(() => {
@@ -550,11 +563,58 @@ const emitKnowledgeDrawerUpdate = (val) => {
   knowledgeDrawer.value = val
 }
 
+const knowledgeOptions = reactive([
+  {
+    label: '八股文',
+    value: '1'
+  },
+  {
+    label: '文学作品赏析',
+    value: '2'
+  },
+  {
+    label: '历史事件记录',
+    value: '3'
+  }
+])
+
+const knowledgeSelected = ref([knowledgeOptions[0].value])
+
+const modelOptions = ref([])
+
+const initModelList = async () => {
+  const res = await getModelList()
+  modelOptions.value = res.data
+  if (modelOptions.value.length > 0) {
+    modelSelected.value = modelOptions.value[0].id
+    modelIconSelected.value = modelOptions.value[0].icon
+  }
+}
+
+const modelSelected = ref(null)
+const modelIconSelected = ref(null)
+const inputDisable = ref(false)
+
+const changeModel = (id) => {
+  // 选择模型后更新对话的模型id
+  modelOptions.value.forEach(item => {
+    if (item.id === id) {
+      modelIconSelected.value = item.icon
+    }
+  })
+  // todo 调用接口更新对话的模型id
+  if (selectedConversationId.value) {
+    inputDisable.value = true
+    updateConversation({id: selectedConversationId.value, modelId: id}).then(res => {
+      inputDisable.value = false
+    })
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-1 w100" style="flex-direction: row">
-    <div v-if="conversationExpand" class="flex flex-col w-64 border-r border-[var(--niuyin-border-color)]">
+    <div v-show="conversationExpand" class="flex flex-col w-64 border-r border-[var(--niuyin-border-color)]">
       <div class="p-4 border-b border-[var(--niuyin-border-color)]">
         <button
             @click="handleCreateNewConversation"
@@ -568,16 +628,11 @@ const emitKnowledgeDrawerUpdate = (val) => {
         <div class="px-4 pb-2">
           <el-skeleton :loading="conversationListLoading" animated>
             <template #template>
-              <div class="space-y-4 mb-6">
-                <el-skeleton-item variant="h3" style="width: 70%"/>
-                <el-skeleton-item variant="text" style="width: 90%"/>
-              </div>
-              <div class="space-y-4 mb-6">
-                <el-skeleton-item variant="h3" style="width: 70%"/>
-                <el-skeleton-item variant="text" style="width: 90%"/>
-              </div>
-              <div class="space-y-4 mb-6">
-                <el-skeleton-item variant="h3" style="width: 70%"/>
+              <div v-for="item in 5" class="space-y-4 my-4">
+                <div class="flex flex-row space-x-4">
+                  <el-skeleton-item variant="image" style="width: 64px; height: 64px"/>
+                  <el-skeleton-item variant="h3" style="width: 50%"/>
+                </div>
                 <el-skeleton-item variant="text" style="width: 90%"/>
               </div>
             </template>
@@ -588,7 +643,7 @@ const emitKnowledgeDrawerUpdate = (val) => {
                   }}</h2>
                 <div v-for="conversation in group"
                      :key="conversation.id"
-                     @click="handleSelectConversation(conversation.id)"
+                     @click="handleSelectConversation(conversation)"
                      class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
                      :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
                   <div class="flex items-center justify-between">
@@ -799,6 +854,7 @@ const emitKnowledgeDrawerUpdate = (val) => {
             </section>
           </div>
         </el-scrollbar>
+        <!--        聊天列表-->
         <el-scrollbar v-else ref="scrollbarRef">
           <div ref="messageContainer" class="overflow-y-auto px-4 pt1rem">
             <div v-for="msg in messages" :key="msg.id" :class="[
@@ -807,9 +863,12 @@ const emitKnowledgeDrawerUpdate = (val) => {
                 { '!opacity-100': msg.status === MessageStatus.Streaming }
             ]">
               <div v-if="msg.messageType === 'assistant'"
-                   class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-5)] shadow flex items-center justify-center"
+                   class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-1)] shadow flex items-center justify-center"
                    style="border-radius: 50%">
-                <img src="./assets/ai-bot.svg" alt="AI"/>
+                <!--                <img src="./assets/ai-bot.svg" alt="AI"/>-->
+                <svg class="icon operate-svg" aria-hidden="true">
+                  <use :xlink:href="`#${modelIconSelected}`"></use>
+                </svg>
               </div>
               <div v-else-if="msg.messageType === 'user'"
                    class="cp flex-shrink-0 w-10 h-10 shadow flex items-center justify-center order-3"
@@ -912,7 +971,58 @@ const emitKnowledgeDrawerUpdate = (val) => {
         </el-scrollbar>
         <!-- 输入区域 -->
         <div class="border-t border-[var(--niuyin-border-color)] p-4">
-          <div class="max-w-4xl mx-auto">
+          <div class="max-w-[60%] mx-auto flex flex-between  mb-2">
+            <div class="flex-row gap-2">
+              <div>
+                <svg class="icon operate-svg" aria-hidden="true">
+                  <use :xlink:href="`#${modelIconSelected}`"></use>
+                </svg>
+              </div>
+              <div>
+                <el-select v-model="modelSelected" style="width: 180px" placement="top" @change="changeModel">
+                  <!--                  <template #label="{ label, value }">-->
+                  <!--                    <svg class="icon operate-svg" aria-hidden="true">-->
+                  <!--                      <use :xlink:href="`#${label.icon}`"></use>-->
+                  <!--                    </svg>-->
+                  <!--                    <span style="font-weight: bold">{{ label.name }}</span>-->
+                  <!--                  </template>-->
+                  <el-option
+                      v-for="item in modelOptions"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    <div class="flex flex-row gap-2">
+                      <div>
+                        <svg class="icon operate-svg" aria-hidden="true">
+                          <use :xlink:href="`#${item.icon}`"></use>
+                        </svg>
+                      </div>
+                      <div>{{ item.name }}</div>
+                    </div>
+                  </el-option>
+                </el-select>
+              </div>
+              <div>
+                🤓
+              </div>
+              <div>
+                <el-select v-model="knowledgeSelected"
+                           style="width: 180px"
+                           multiple
+                           collapse-tags
+                           collapse-tags-tooltip
+                           placement="top">
+                  <el-option
+                      v-for="item in knowledgeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+          </div>
+          <div class="max-w-[60%] mx-auto">
             <div class="relative">
               <textarea
                   class="w-full fs1rem px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
@@ -920,9 +1030,9 @@ const emitKnowledgeDrawerUpdate = (val) => {
                   placeholder="输入您的消息或指令..."
                   @keyup.enter="sendMessage"
                   ref="inputRef"
-                  style="min-height: 74px"
+                  style="min-height: 74px;max-height: 370px;transition: all 0.04s ease-in-out"
                   v-model="inputMessage"
-                  :disabled="isLoading"></textarea>
+                  :disabled="isLoading || inputDisable"></textarea>
               <div class="absolute right-3 bottom-3 flex gap-2">
                 <button
                     class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
@@ -942,7 +1052,7 @@ const emitKnowledgeDrawerUpdate = (val) => {
               </div>
             </div>
           </div>
-          <div class="max-w-4xl mx-auto flex flex-between gap-2 mt-4">
+          <div class="max-w-[60%] mx-auto flex flex-between gap-2 mt-2">
             <div class="text-xs text-gray-500 flex-row">
               <button
                   class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors"
@@ -975,9 +1085,6 @@ const emitKnowledgeDrawerUpdate = (val) => {
                   </div>
                 </div>
               </div>
-              <div class="mx-4">
-                AI助手 1.0-Beta • 联网搜索已开启
-              </div>
             </div>
             <div class="text-xs text-gray-500 flex flex-row space-x-2">
               <el-button type="text" class="hover:text-gray-700"><i class="fas fa-magic mr-1"/>快捷指令</el-button>
@@ -1000,7 +1107,8 @@ const emitKnowledgeDrawerUpdate = (val) => {
     </div>
   </div>
   <KnowledgeDrawer v-if="knowledgeDrawer" :drawer="knowledgeDrawer" @update:drawer="emitKnowledgeDrawerUpdate"/>
-  <RoleDrawer v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate" @create:conversation="emitCreateConversation"/>
+  <RoleDrawer v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate"
+              @create:conversation="emitCreateConversation"/>
 </template>
 
 <style>

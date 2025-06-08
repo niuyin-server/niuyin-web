@@ -66,7 +66,7 @@ onMounted(() => {
 
 <template>
   <div class="drawer-container">
-    <el-drawer v-model="drawerProxy" title="智能体" destroy-on-close>
+    <el-drawer v-model="drawerProxy" title="🪼智能体" destroy-on-close size="42%">
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane lazy label="公共智能体" name="1">
           <!-- 数据 -->
@@ -85,7 +85,7 @@ onMounted(() => {
             <template #default>
               <div class="grid grid-cols-2 gap-4">
                 <div v-for="item in modelRoleList"
-                     class="flex flex-col p-4 space-y-4 border border-[var(--niuyin-border-color)] bg-[var(--bg-video-card)] rounded-xl shadow-md transition-all duration-300 hover:shadow-lg">
+                     class="flex flex-col p-4 space-y-4 hover:-translate-y-0.5 border border-[var(--niuyin-border-color)] bg-[var(--bg-video-card)] rounded-xl shadow-md transition-all duration-300 hover:shadow-lg">
                   <div class="flex space-x-4">
                     <div>
                       <el-avatar :size="50" :src="item.avatar">

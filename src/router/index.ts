@@ -67,6 +67,8 @@ const router = createRouter({
                 },
                 {path: "cooperation", component: () => import("@/Layout/Cooperation.vue")},
                 {path: "niuyinGithub", component: () => import("@/Layout/NiuyinGithub.vue")},
+                {path: "future", component: () => import("@/Layout/Future.vue")},
+                {path: "scrollDownToRefresh", component: () => import("@/Layout/test/ScrollDownToRefresh.vue")},
                 {
                     path: "ai", component: () => import("@/Layout/ai/Index.vue"),
                     redirect: '/ai/chat',
