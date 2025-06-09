@@ -24,10 +24,11 @@ import {
 } from '@icon-park/vue-next'
 import {debounce, parseTime} from "@/utils/roydon"
 
-// Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
-import 'vue-element-plus-x/styles/prism.min.css'
 // 1. Coy 主题（简约浅色风格，适合日常阅读）
 import 'vue-element-plus-x/styles/prism-coy.min.css'
+// Prism 核心基础样式（必须导入，包含语法高亮的基础样式和结构）
+import 'vue-element-plus-x/styles/prism.min.css'
+
 import RoleDrawer from "@/Layout/ai/chat/components/RoleDrawer.vue";
 import KnowledgeDrawer from "@/Layout/ai/chat/components/KnowledgeDrawer.vue";
 import {getModelList} from "@/api/ai/model/model.js";
@@ -218,53 +219,10 @@ const scrollToBottom = () => {
   })
 }
 
-// Character type detection
-const getCharType = (char) => {
-  if (/[\u4e00-\u9fa5\u3000-\u303F\uFF00-\uFFEF]/.test(char)) {
-    return 'chinese'
-  }
-  if (/[a-zA-Z]/.test(char)) {
-    return 'english'
-  }
-  return 'other'
-}
-
-// Smart space processing core logic
-const processContent = (prev, newData) => {
-  if (prev.length === 0) return newData
-
-  const lastChar = prev.slice(-1)
-  const newFirstChar = newData[0] || ''
-
-  const prevType = getCharType(lastChar)
-  const newType = getCharType(newFirstChar)
-
-  let processed = newData
-
-  // Cases where space should be added
-  const shouldAddSpace =
-      (prevType === 'english' && newType === 'english') || // English followed by English
-      (prevType === 'chinese' && newType === 'english') || // Chinese followed by English
-      (prevType === 'english' && newType === 'chinese' && !/[!?,.]$/.test(lastChar)) // English followed by Chinese (not ending with punctuation)
-
-  // Cases where space should be removed
-  const shouldRemoveSpace =
-      (prevType === 'chinese' && newType === 'chinese') || // Chinese followed by Chinese
-      (prevType === 'other' && /^[\u4e00-\u9fa5]/.test(newData)) // Special character followed by Chinese
-
-  if (shouldAddSpace && !lastChar.match(/\s/) && !newFirstChar.match(/\s/)) {
-    processed = ' ' + processed
-  } else if (shouldRemoveSpace) {
-    processed = processed.replace(/^\s+/, '')
-  }
-
-  return processed
-}
-
-const sendChatRequest = async (conversationId, content, botMessage) => {
+const sendChatRequest = async (conversationId, userMessage, assistantMessage, useContext) => {
   controller.value = new AbortController()
-
-  await fetchEventSource('http://localhost:9101/web-api/chat/stream', {
+  let isFirstChunk = true // 是否是第一个 chunk 消息段
+  await fetchEventSource('http://localhost:9101/web-api/v1/chat/stream', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -273,8 +231,9 @@ const sendChatRequest = async (conversationId, content, botMessage) => {
     },
     body: JSON.stringify({
       conversationId: conversationId,
-      message: content,
-      userId: userInfoX().userInfo?.userId
+      message: userMessage.content,
+      userId: userInfoX().userInfo?.userId,
+      useContext: useContext
     }),
     signal: controller.value?.signal,
     openWhenHidden: true,
@@ -284,14 +243,24 @@ const sendChatRequest = async (conversationId, content, botMessage) => {
     },
 
     onmessage: event => {
-      if (event.data === '[DONE]') {
-        botMessage.status = MessageStatus.Complete
+      const {code, data, msg} = JSON.parse(event.data)
+      // if (event.data === '[DONE]') {
+      //   botMessage.status = MessageStatus.Complete
+      //   return
+      // }
+      if(code!==200){
+        assistantMessage.content = msg
         return
       }
-
-      const processedData = processContent(botMessage.content, event.data)
-      botMessage.content += processedData
-      botMessage.timestamp = Date.now()
+      // 首次返回需要添加一个 message 到页面，后面的都是更新
+      if (isFirstChunk) {
+        isFirstChunk = false
+        // 更新消息的id
+        userMessage.id = data.send.id
+        assistantMessage.id = data.receive.id
+        assistantMessage.content = ''
+      }
+      assistantMessage.content += data.receive.content
 
       scrollToBottom()
     },
@@ -322,9 +291,10 @@ const sendMessage = async () => {
   const userContent = inputMessage.value.trim()
   inputMessage.value = ''
 
+  // 未选择对话则创建对话
   if (!selectedConversationId.value) {
     // First create conversation
-    await addConversation({title: userContent}).then(res => {
+    await addConversation({title: '新对话'}).then(res => {
       if (res?.code === 200) {
         // Insert into conversation list
         conversationListGroups.value.today.unshift(res.data)
@@ -340,40 +310,32 @@ const sendMessage = async () => {
   const userMessage = reactive({
     id: `user-${Date.now()}`,
     content: userContent,
-    isBot: false,
-    timestamp: Date.now(),
-    status: MessageStatus.Complete,
     conversationId: selectedConversationId.value,
     messageType: 'user',
     createTime: createTime,
-    replayId: '',
     useContext: '1',
     userId: userInfoX().userInfo?.userId
   })
   messages.value.push(userMessage)
 
   // Create bot message
-  const botMessage = reactive({
-    id: `bot-${Date.now()}`,
-    content: '',
-    isBot: true,
-    status: MessageStatus.Streaming,
-    timestamp: Date.now(),
+  const assistantMessage = reactive({
+    id: `assistant-${Date.now()}`,
+    content: '思考中...',
     conversationId: selectedConversationId.value,
     messageType: 'assistant',
     createTime: createTime,
-    replayId: '',
     useContext: '1',
     userId: userInfoX().userInfo?.userId
   })
-  messages.value.push(botMessage)
+  messages.value.push(assistantMessage)
 
   isLoading.value = true
   const conversationId = selectedConversationId.value
   // Move scroller
   scrollToBottom()
   try {
-    await sendChatRequest(conversationId, userContent, botMessage)
+    await sendChatRequest(conversationId, userMessage, assistantMessage, useContext.value)
   } catch (err) {
     handleRequestError(botMessage, err)
   } finally {
@@ -884,7 +846,7 @@ const changeModel = (id) => {
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                 </div>
                 <div :class="[
-                        'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words',
+                        'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words text-sm',
                         msg.messageType === 'assistant'
                             ? 'bg-[var(--bg-video-card)] border border-[var(--niuyin-border-color)] text-[var(--niuyin-text-color)]'
                             : 'bg-[var(--niuyin-primary-color)] text-white rounded-tr-none'
@@ -979,13 +941,8 @@ const changeModel = (id) => {
                 </svg>
               </div>
               <div>
-                <el-select v-model="modelSelected" style="width: 180px" placement="top" @change="changeModel">
-                  <!--                  <template #label="{ label, value }">-->
-                  <!--                    <svg class="icon operate-svg" aria-hidden="true">-->
-                  <!--                      <use :xlink:href="`#${label.icon}`"></use>-->
-                  <!--                    </svg>-->
-                  <!--                    <span style="font-weight: bold">{{ label.name }}</span>-->
-                  <!--                  </template>-->
+                <el-select v-model="modelSelected" style="width: 180px" placement="top" @change="changeModel"
+                           placeholder="选择模型">
                   <el-option
                       v-for="item in modelOptions"
                       :key="item.id"
@@ -1011,6 +968,7 @@ const changeModel = (id) => {
                            multiple
                            collapse-tags
                            collapse-tags-tooltip
+                           placeholder="选择知识库"
                            placement="top">
                   <el-option
                       v-for="item in knowledgeOptions"
