@@ -23,6 +23,9 @@ import {
   WeixinTopStories
 } from '@icon-park/vue-next'
 import {debounce, parseTime} from "@/utils/roydon"
+// 打字器 vue3-markdown-it
+import Markdown from 'vue3-markdown-it';
+import 'highlight.js/styles/atom-one-light.css';
 
 // 1. Coy 主题（简约浅色风格，适合日常阅读）
 import 'vue-element-plus-x/styles/prism-coy.min.css'
@@ -248,7 +251,7 @@ const sendChatRequest = async (conversationId, userMessage, assistantMessage, us
       //   botMessage.status = MessageStatus.Complete
       //   return
       // }
-      if(code!==200){
+      if (code !== 200) {
         assistantMessage.content = msg
         return
       }
@@ -357,9 +360,33 @@ const handleClickConversationMore = (id) => {
 const handleDeleteConversation = (id) => {
   console.log(id)
 }
+const editConversationDialogVisible = ref(false)
+const editConversationForm = ref(null)
+const editConversationFormRef = ref()
+const handleEditConversation = (conversation) => {
+  console.log(conversation)
+  editConversationForm.value = conversation
+  editConversationDialogVisible.value = true
 
-const handleEditConversation = (id) => {
-  console.log(id)
+}
+
+const submitEditConversationForm = async () => {
+  await editConversationFormRef.value.validate()
+  updateConversation(editConversationForm.value).then(res => {
+    if (res?.code === 200) {
+      ElMessage.success('修改成功')
+      editConversationDialogVisible.value = false
+      // 重新加载对话列表
+      // const nowData =   conversationList.value.find( item  => item.id === editConversationForm.id)
+      const index = conversationList.value.findIndex(item => item.id === editConversationForm.value.id);
+      // 替换数据
+      if (index !== -1) {
+        conversationList.value[index] = { ...editConversationForm.value };
+      }
+    } else {
+      ElMessage.error('修改失败')
+    }
+  })
 }
 
 // Expand/collapse conversation list
@@ -488,22 +515,32 @@ const emitCreateConversation = (val) => {
       conversationExpand.value = true
       inputRef.value?.focus()
 
-      messages.value = [
-        {
-          id: 'bot-1',
-          content: '你好，有什么可以帮到你的吗？',
-          isBot: true,
-          timestamp: Date.now(),
-          status: MessageStatus.Complete,
-          conversationId: '1',
-          messageType: 'assistant',
-          createTime: '2023-07-01 12:00:00Z',
-          replayId: '0',
-          updateTime: '2023-07-01 12:00:00Z',
-          useContext: '0',
-          userId: '1'
+      // messages.value = [
+      //   {
+      //     id: 'bot-1',
+      //     content: '你好，有什么可以帮到你的吗？',
+      //     isBot: true,
+      //     timestamp: Date.now(),
+      //     status: MessageStatus.Complete,
+      //     conversationId: '1',
+      //     messageType: 'assistant',
+      //     createTime: '2023-07-01 12:00:00Z',
+      //     replayId: '0',
+      //     updateTime: '2023-07-01 12:00:00Z',
+      //     useContext: '0',
+      //     userId: '1'
+      //   }
+      // ]
+      listMessageByCid({cid: selectedConversationId.value}).then(res => {
+        if (res?.code === 200) {
+          messages.value = res?.data
+          // Scroll to bottom of conversation
+          nextTick(() => {
+            max.value = messageContainer.value.clientHeight
+            scrollbarRef.value.setScrollTop(max.value)
+          })
         }
-      ]
+      })
     } else {
       ElMessage.error('创建对话失败')
       return
@@ -629,7 +666,7 @@ const changeModel = (id) => {
                         <div class="p-4 flex flex-col">
                           <button
                               class="text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
-                              @click="handleEditConversation(conversation.id)">
+                              @click="handleEditConversation(conversation)">
                             <i class="fas fa-italic text-white"></i>
                             <span class="fs8 text-white">重命名</span>
                           </button>
@@ -848,7 +885,7 @@ const changeModel = (id) => {
                 <div :class="[
                         'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words text-sm',
                         msg.messageType === 'assistant'
-                            ? 'bg-[var(--bg-video-card)] border border-[var(--niuyin-border-color)] text-[var(--niuyin-text-color)]'
+                            ? 'bg-[var(--bg-video-card)] border border-[var(--niuyin-border-color)] text-[var(--niuyin-text-color)] pb-0'
                             : 'bg-[var(--niuyin-primary-color)] text-white rounded-tr-none'
                     ]"
                      style="overflow: auto">
@@ -859,7 +896,8 @@ const changeModel = (id) => {
 
                   </div>
                   <div v-else-if="msg.messageType === 'assistant'">
-                    <Typewriter :content="msg.content" :is-markdown="true"/>
+<!--                    <Typewriter :content="msg.content" :is-markdown="true"/>-->
+                    <Markdown :source="msg.content" />
                   </div>
                 </div>
                 <!-- 对话框下方操作栏 -->
@@ -1067,6 +1105,36 @@ const changeModel = (id) => {
   <KnowledgeDrawer v-if="knowledgeDrawer" :drawer="knowledgeDrawer" @update:drawer="emitKnowledgeDrawerUpdate"/>
   <RoleDrawer v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate"
               @create:conversation="emitCreateConversation"/>
+  <el-dialog title="编辑对话" v-model="editConversationDialogVisible" :destroy-on-close="true" width="50%">
+    <el-form :model="editConversationForm" ref="editConversationFormRef" label-width="100px">
+      <el-form-item label="对话名称" prop="title" :rules="[{ required: true, message: '请输入对话名称', trigger: 'blur' },
+        { min:3,max: 20, message: '对话名称字符长度在3~20个字符', trigger: 'blur' }]">
+        <el-input v-model="editConversationForm.title" placeholder="请输入对话名称"/>
+      </el-form-item>
+      <el-row :gutter="16">
+        <el-col :span="12">
+          <el-form-item label="max token" prop="maxTokens"
+                        :rules="[{ required: true, message: '请输入token', trigger: 'blur' }]">
+            <el-input-number style="width: 100%" :min="0" :max="4096" v-model="editConversationForm.maxTokens"
+                             placeholder="请输入token"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="上下文" prop="maxContexts"
+                        :rules="[{ required: true, message: '请输入上下文', trigger: 'blur' }]">
+            <el-input-number style="width: 100%" :min="0" :max="20" v-model="editConversationForm.maxContexts"
+                             placeholder="请输入上下文"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="editConversationDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitEditConversationForm">确 定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style>
@@ -1083,4 +1151,5 @@ const changeModel = (id) => {
 .title-color-white h3 {
   color: white;
 }
+
 </style>
