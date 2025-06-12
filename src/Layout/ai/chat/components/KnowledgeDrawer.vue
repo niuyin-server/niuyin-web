@@ -4,6 +4,7 @@ import {LoadingOne} from "@icon-park/vue-next";
 import {getKnowledgeList} from "@/api/ai/knowledge/knowledge.js";
 import {smartDateFormat} from "../../../../utils/roydon.js";
 import {getModelList} from "@/api/ai/model/model.js";
+import {Check, Close} from "@element-plus/icons-vue";
 
 const props = defineProps({
   drawer: {
@@ -64,7 +65,6 @@ const observeIntersection = (entries) => {
 onMounted(() => {
   observerRef.value = new IntersectionObserver(observeIntersection, {threshold: 0.1}) // 调整阈值
   nextTick(() => {
-    console.log(loadingRef.value)
     if (loadingRef.value) {
       observerRef.value.observe(loadingRef.value)
     }
@@ -83,28 +83,45 @@ const clickKnowledgeInfo = (item) => {
 }
 
 const dialogVisible = ref(false)
-const form = ref()
+const createKnowledgeForm = ref({
+  name: null,
+  description: null,
+  embeddingModelId: null,
+  topK: null,
+  similarityThreshold: null,
+  stateFlag: '1',
+})
+const createKnowledgeRules = ref({
+  name: [
+    {required: true, message: '请输入知识库名称', trigger: 'blur'},
+    {min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur'}
+  ],
+})
 
 const clickCreateKnowledge = () => {
-  console.log("创建知识库")
   loadModelOptions()
-  dialogVisible.value = true
+  nextTick(() => {
+    dialogVisible.value = true
+  })
 }
 
 const modelOptions = ref([])
 const loadModelOptions = async () => {
   const res = await getModelList({type: "5"})
-  modelOptions.value = res.data.data
+  modelOptions.value = res.data
 }
 
 const submitForm = () => {
-  console.log("提交表单", form.value)
+  console.log("提交表单", createKnowledgeForm.value)
+  // 填充模型标识
+  createKnowledgeForm.value.embeddingModel = modelOptions.value.find(item => item.name === createKnowledgeForm.value.embeddingModelId)?.model
+
 }
 </script>
 
 <template>
   <div class="drawer-container">
-    <el-drawer v-model="drawerProxy" title="🤓知识库" destroy-on-close size="45%">
+    <el-drawer v-model="drawerProxy" title="🤓知识库" size="45%">
       <!-- 知识库列表 -->
       <div class="w-full max-h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto">
         <!-- 知识库卡片 -->
@@ -164,23 +181,64 @@ const submitForm = () => {
         <p v-if="!knowledgeHasMore" class="text-gray-500">没有更多内容了</p>
       </div>
     </el-drawer>
-    <el-dialog title="创建知识库" v-model="dialogVisible" destroy-on-close>
-      <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="知识库名称">
-          <el-input v-model="form.name" placeholder="请输入知识库名称"></el-input>
+    <el-dialog title="创建知识库" v-model="dialogVisible">
+      <el-form ref="createKnowledgeFormRef" :rules="createKnowledgeRules" :model="createKnowledgeForm" label-width="100px">
+        <el-form-item label="知识库名称" prop="name">
+          <el-input v-model="createKnowledgeForm.name" placeholder="请输入知识库名称" maxlength="20" show-word-limit clearable></el-input>
         </el-form-item>
-        <el-form-item label="知识库描述">
-          <el-input v-model="form.description" placeholder="请输入知识库描述"></el-input>
+        <el-form-item label="知识库描述" prop="description">
+          <el-input v-model="createKnowledgeForm.description" type="textarea" placeholder="请输入知识库描述" maxlength="200" show-word-limit></el-input>
         </el-form-item>
-        <el-form-item label="向量模型">
-          <el-input v-model="form.embeddingModelId" placeholder="请选择向量模型"></el-input>
-        </el-form-item>
-        <el-form-item label="知识库类型"></el-form-item>
+        <el-row :gutter="16">
+          <el-col :span="12">
+            <el-form-item label="向量模型" prop="embeddingModelId">
+              <el-select v-model="createKnowledgeForm.embeddingModelId" style="width: 100%"
+                         clearable
+                         placeholder="请选择向量模型">
+                <el-option v-for="item in modelOptions"
+                           :key="item.id"
+                           :label="item.name"
+                           :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="top-k" prop="topK">
+              <el-input-number v-model="createKnowledgeForm.topK" style="width: 100%" :min="1" :max="10"
+                               placeholder="请输入topK"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="16">
+          <el-col :span="12">
+            <el-form-item label="相似度阈值" prop="similarityThreshold">
+              <el-input-number v-model="createKnowledgeForm.similarityThreshold" style="width: 100%" :min="0"
+                               :precision="2" :step="0.1"
+                               :max="1"
+                               placeholder="请输入相似度阈值"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="启用" prop="stateFlag">
+              <el-switch
+                  v-model="createKnowledgeForm.stateFlag"
+                  inline-prompt
+                  :active-value="'1'"
+                  :inactive-value="'0'"
+                  :active-icon="Check"
+                  :inactive-icon="Close"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-      <div class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
-      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="submitForm">确定</el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>
