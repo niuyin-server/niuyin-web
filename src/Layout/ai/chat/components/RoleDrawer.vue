@@ -66,7 +66,7 @@ onMounted(() => {
 
 <template>
   <div class="drawer-container">
-    <el-drawer v-model="drawerProxy" title="🪼智能体" destroy-on-close size="42%">
+    <el-drawer v-model="drawerProxy" title="🪼智能体" destroy-on-close size="45%">
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane lazy label="公共智能体" name="1">
           <!-- 数据 -->

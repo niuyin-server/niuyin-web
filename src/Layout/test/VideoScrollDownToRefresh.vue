@@ -30,7 +30,6 @@ const loadMore = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     // const res = await recommendVideoFeed(page.value)
     const res = videoMockData.data
-    console.log(res)
     const newItems = res
     console.log('New items:', newItems)
     if (newItems.length === 0) {

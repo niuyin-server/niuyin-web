@@ -368,10 +368,8 @@ const videoMockData = {
 
 <template>
   <div class="p-4">
-    <div
-        class="grid gap-4"
-        :style="{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` }"
-    >
+    <div class="grid gap-4"
+         :style="{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` }">
       <!-- foreach items video card-->
       <div
           v-for="item in items"

@@ -22,7 +22,7 @@ import {
   Transform,
   WeixinTopStories
 } from '@icon-park/vue-next'
-import {debounce, parseTime} from "@/utils/roydon"
+import {debounce, parseTime, smartDateFormat} from "@/utils/roydon"
 // 打字器 vue3-markdown-it
 import Markdown from 'vue3-markdown-it';
 import 'highlight.js/styles/atom-one-light.css';
@@ -138,7 +138,6 @@ const handleConversationGroup = () => {
 }
 
 const handleSelectConversation = (row) => {
-  console.log(row)
   if (selectedConversationId.value === row.id) {
     return
   }
@@ -159,7 +158,6 @@ const handleSelectConversation = (row) => {
     }
   })
   // 加载模型选择器
-  console.log(row.modelId)
   modelSelected.value = row.modelId
   // 选择模型后更新对话的模型id
   modelOptions.value.forEach(item => {
@@ -167,36 +165,6 @@ const handleSelectConversation = (row) => {
       modelIconSelected.value = item.icon
     }
   })
-}
-
-// Format relative time
-const formatRelativeTime = (dateStr) => {
-  const now = new Date()
-  const date = new Date(dateStr)
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-
-  const minute = 60
-  const hour = minute * 60
-  const day = hour * 24
-  const week = day * 7
-  const month = day * 30
-  const year = day * 365
-
-  if (diffInSeconds < minute) {
-    return '刚刚'
-  } else if (diffInSeconds < hour) {
-    return `${Math.floor(diffInSeconds / minute)}分钟前`
-  } else if (diffInSeconds < day) {
-    return `${Math.floor(diffInSeconds / hour)}小时前`
-  } else if (diffInSeconds < week) {
-    return `${Math.floor(diffInSeconds / day)}天前`
-  } else if (diffInSeconds < month) {
-    return `${Math.floor(diffInSeconds / week)}周前`
-  } else if (diffInSeconds < year) {
-    return `${Math.floor(diffInSeconds / month)}个月前`
-  } else {
-    return `${Math.floor(diffInSeconds / year)}年前`
-  }
 }
 
 const MessageStatus = {
@@ -247,10 +215,6 @@ const sendChatRequest = async (conversationId, userMessage, assistantMessage, us
 
     onmessage: event => {
       const {code, data, msg} = JSON.parse(event.data)
-      // if (event.data === '[DONE]') {
-      //   botMessage.status = MessageStatus.Complete
-      //   return
-      // }
       if (code !== 200) {
         assistantMessage.content = msg
         return
@@ -381,7 +345,7 @@ const submitEditConversationForm = async () => {
       const index = conversationList.value.findIndex(item => item.id === editConversationForm.value.id);
       // 替换数据
       if (index !== -1) {
-        conversationList.value[index] = { ...editConversationForm.value };
+        conversationList.value[index] = {...editConversationForm.value};
       }
     } else {
       ElMessage.error('修改失败')
@@ -515,22 +479,6 @@ const emitCreateConversation = (val) => {
       conversationExpand.value = true
       inputRef.value?.focus()
 
-      // messages.value = [
-      //   {
-      //     id: 'bot-1',
-      //     content: '你好，有什么可以帮到你的吗？',
-      //     isBot: true,
-      //     timestamp: Date.now(),
-      //     status: MessageStatus.Complete,
-      //     conversationId: '1',
-      //     messageType: 'assistant',
-      //     createTime: '2023-07-01 12:00:00Z',
-      //     replayId: '0',
-      //     updateTime: '2023-07-01 12:00:00Z',
-      //     useContext: '0',
-      //     userId: '1'
-      //   }
-      // ]
       listMessageByCid({cid: selectedConversationId.value}).then(res => {
         if (res?.code === 200) {
           messages.value = res?.data
@@ -647,7 +595,7 @@ const changeModel = (id) => {
                      :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
                   <div class="flex items-center justify-between">
                     <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>
-                    <span class="text-xs text-gray-500">{{ formatRelativeTime(conversation.updateTime) }}</span>
+                    <span class="text-xs text-gray-500">{{ smartDateFormat(conversation.updateTime) }}</span>
                   </div>
                   <div class="flex-row flex-between mt-1 flex-nowrap">
                     <p v-if="conversation.lastMessage" class="text-xs text-gray-400 mt-1 truncate">
@@ -878,9 +826,13 @@ const changeModel = (id) => {
                     'max-w-[80%] min-w-[200px]',
                     msg.messageType === 'assistant' ? 'order-1' : 'order-2'
                 ]">
-                <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
-                  <span>{{ msg.messageType === 'assistant' ? 'AI' : userInfoX().userInfo?.nickName }}</span>
+                <div v-if="msg.messageType === 'assistant'" class="flex items-center gap-2 mb-2 text-sm text-gray-500">
+                  <span>{{ msg.model }}</span>
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
+                </div>
+                <div v-if="msg.messageType === 'user'" class="flex items-center justify-end gap-2 mb-2 text-sm text-gray-500">
+                  <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
+                  <span>{{ userInfoX().userInfo?.nickName }}</span>
                 </div>
                 <div :class="[
                         'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words text-sm',
@@ -896,8 +848,8 @@ const changeModel = (id) => {
 
                   </div>
                   <div v-else-if="msg.messageType === 'assistant'">
-<!--                    <Typewriter :content="msg.content" :is-markdown="true"/>-->
-                    <Markdown :source="msg.content" />
+                    <!--                    <Typewriter :content="msg.content" :is-markdown="true"/>-->
+                    <Markdown :source="msg.content"/>
                   </div>
                 </div>
                 <!-- 对话框下方操作栏 -->
