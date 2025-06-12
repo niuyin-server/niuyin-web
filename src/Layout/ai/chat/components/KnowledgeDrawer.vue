@@ -5,6 +5,8 @@ import {getKnowledgeList} from "@/api/ai/knowledge/knowledge.js";
 import {smartDateFormat} from "../../../../utils/roydon.js";
 import {getModelList} from "@/api/ai/model/model.js";
 import {Check, Close} from "@element-plus/icons-vue";
+import {getToken} from "@/utils/auth.js";
+import {ElMessage} from "element-plus";
 
 const props = defineProps({
   drawer: {
@@ -114,9 +116,27 @@ const loadModelOptions = async () => {
 const submitForm = () => {
   console.log("提交表单", createKnowledgeForm.value)
   // 填充模型标识
-  createKnowledgeForm.value.embeddingModel = modelOptions.value.find(item => item.name === createKnowledgeForm.value.embeddingModelId)?.model
+  createKnowledgeForm.value.embeddingModel = modelOptions.value.find(item => item.id === createKnowledgeForm.value.embeddingModelId)?.model
 
 }
+
+const uploadUrl = import.meta.env.VITE_API_BASE_URL + 'ai/web-api/knowledge/upload'
+const headers = {
+  Authorization: 'Bearer ' + getToken(),
+}
+//上传成功回调
+const handleUploadSuccess = (res) => {
+  if (res.code === 200) {
+    createKnowledgeForm.value.coverImg = res.data
+  } else {
+    ElMessage.error(res.msg)
+  }
+}
+// 上传失败回调
+const handleUploadError = (res) => {
+
+}
+
 </script>
 
 <template>
@@ -182,12 +202,28 @@ const submitForm = () => {
       </div>
     </el-drawer>
     <el-dialog title="创建知识库" v-model="dialogVisible">
-      <el-form ref="createKnowledgeFormRef" :rules="createKnowledgeRules" :model="createKnowledgeForm" label-width="100px">
+      <el-form ref="createKnowledgeFormRef" :rules="createKnowledgeRules" :model="createKnowledgeForm"
+               label-width="100px">
+        <el-form-item label="知识库封面" prop="coverImg">
+          <el-tooltip content="上传知识库封面" placement="top" effect="customized">
+            <el-upload class="avatar-uploader"
+                       :action="uploadUrl"
+                       :headers="headers"
+                       :show-file-list="false"
+                       :on-error="handleUploadError"
+                       :on-success="handleUploadSuccess">
+              <img v-if="createKnowledgeForm.coverImg" :src="createKnowledgeForm.coverImg" class="cover" alt="cover"/>
+              <i v-else class="iconfont icon-camera avatar-uploader-icon"/>
+            </el-upload>
+          </el-tooltip>
+        </el-form-item>
         <el-form-item label="知识库名称" prop="name">
-          <el-input v-model="createKnowledgeForm.name" placeholder="请输入知识库名称" maxlength="20" show-word-limit clearable></el-input>
+          <el-input v-model="createKnowledgeForm.name" placeholder="请输入知识库名称" maxlength="20" show-word-limit
+                    clearable></el-input>
         </el-form-item>
         <el-form-item label="知识库描述" prop="description">
-          <el-input v-model="createKnowledgeForm.description" type="textarea" placeholder="请输入知识库描述" maxlength="200" show-word-limit></el-input>
+          <el-input v-model="createKnowledgeForm.description" type="textarea" placeholder="请输入知识库描述"
+                    maxlength="200" show-word-limit></el-input>
         </el-form-item>
         <el-row :gutter="16">
           <el-col :span="12">
