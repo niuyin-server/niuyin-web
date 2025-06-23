@@ -9,6 +9,14 @@ export async function getKnowledgeList(param) {
     })
 }
 
+// 知识库精简列表
+export async function getKnowledgeSimpleList() {
+    return await request({
+        url: '/ai/web-api/v1/knowledge/simple-list',
+        method: 'get'
+    })
+}
+
 // 创建知识库
 export async function createKnowledge(data) {
     return await request({

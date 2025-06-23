@@ -6,7 +6,6 @@ import {listMessageByCid} from "@/api/ai/chat/message"
 import {userInfoX} from "@/store/userInfoX"
 import {MoreFilled} from "@element-plus/icons-vue"
 import {ElMessage} from 'element-plus'
-import {Typewriter} from 'vue-element-plus-x'
 import {
   Brain,
   Check,
@@ -35,6 +34,7 @@ import 'vue-element-plus-x/styles/prism.min.css'
 import RoleDrawer from "@/Layout/ai/chat/components/RoleDrawer.vue";
 import KnowledgeDrawer from "@/Layout/ai/chat/components/KnowledgeDrawer.vue";
 import {getModelList} from "@/api/ai/model/model.js";
+import {getKnowledgeSimpleList} from "@/api/ai/knowledge/knowledge.js";
 
 const scrollbarRef = ref()
 const max = ref(0)
@@ -456,6 +456,7 @@ onMounted(() => {
   inputRef.value?.focus()
   getConversationList()
   initModelList()
+  loadKnowledgeOptions()
 })
 
 onBeforeUnmount(() => {
@@ -510,22 +511,13 @@ const emitKnowledgeDrawerUpdate = (val) => {
   knowledgeDrawer.value = val
 }
 
-const knowledgeOptions = reactive([
-  {
-    label: '八股文',
-    value: '1'
-  },
-  {
-    label: '文学作品赏析',
-    value: '2'
-  },
-  {
-    label: '历史事件记录',
-    value: '3'
-  }
-])
+const knowledgeOptions = ref([])
+const loadKnowledgeOptions = async () => {
+  const res = await getKnowledgeSimpleList()
+  knowledgeOptions.value = res.data
+}
 
-const knowledgeSelected = ref([knowledgeOptions[0].value])
+const knowledgeSelected = ref(null)
 
 const modelOptions = ref([])
 
@@ -555,6 +547,14 @@ const changeModel = (id) => {
     updateConversation({id: selectedConversationId.value, modelId: id}).then(res => {
       inputDisable.value = false
     })
+  }
+}
+
+const changeKnowledge = (idArr) => {
+  console.log(idArr)
+  // todo 更新对话知识库
+  if (selectedConversationId.value) {
+
   }
 }
 </script>
@@ -830,7 +830,8 @@ const changeModel = (id) => {
                   <span>{{ msg.model }}</span>
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                 </div>
-                <div v-if="msg.messageType === 'user'" class="flex items-center justify-end gap-2 mb-2 text-sm text-gray-500">
+                <div v-if="msg.messageType === 'user'"
+                     class="flex items-center justify-end gap-2 mb-2 text-sm text-gray-500">
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                   <span>{{ userInfoX().userInfo?.nickName }}</span>
                 </div>
@@ -958,13 +959,20 @@ const changeModel = (id) => {
                            multiple
                            collapse-tags
                            collapse-tags-tooltip
+                           @change="changeKnowledge"
                            placeholder="选择知识库"
                            placement="top">
                   <el-option
                       v-for="item in knowledgeOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    <div class="flex flex-row gap-2">
+                      <div>
+                        {{ item.coverImg }}
+                      </div>
+                      <div>{{ item.name }}</div>
+                    </div>
                   </el-option>
                 </el-select>
               </div>
