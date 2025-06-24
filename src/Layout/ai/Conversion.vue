@@ -224,7 +224,7 @@ const connectSSE = async (userId, message) => {
     }
 
     try {
-        const response = await fetch('http://localhost:9101/chat/stream', {
+        const response = await fetch('http://localhost:9090/ai/web-api/chat/stream', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
