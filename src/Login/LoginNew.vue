@@ -9,7 +9,7 @@
       <div class="field">
         <!-- [移动端]标题 -->
         <h2 class="mobile-title">
-          <div class="title" style="padding: 10px;">欢迎使用芝士芝士学爆</div>
+          <div class="title" style="padding: 10px;">欢迎使用芝士学爆</div>
         </h2>
         <!-- 表单 -->
         <div class="form-cont">
@@ -146,6 +146,7 @@ export default {
       },
       loading: false,
       redirect: undefined,
+      loginBtnLoading: false,
     };
   },
   watch: {
@@ -162,6 +163,7 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
+          this.loading = true
           if(this.loginType==="up"){
             new Promise((resolve, reject) => {
               userLogin(this.loginForm.username, this.loginForm.password).then(res => {
@@ -169,6 +171,7 @@ export default {
                   setToken(res.data.token)
                   this.$message.success(res.msg)
                   this.$router.push('/')
+                  this.loading = false
                   resolve()
                 } else {
                   this.$message.error(res.msg)
@@ -184,6 +187,7 @@ export default {
                   setToken(res.data.token)
                   this.$message.success(res.msg)
                   this.$router.push('/')
+                  this.loading = false
                   resolve()
                 } else {
                   this.$message.error(res.msg)

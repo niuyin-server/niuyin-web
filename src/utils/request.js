@@ -19,6 +19,7 @@ instance.interceptors.request.use(config => {
 }, error => {
     return Promise.reject(error);
 });
+
 let loginDialog = true
 
 // 解决后端返回Long类型数据过大
@@ -31,6 +32,7 @@ instance.defaults.transformResponse = [
         return res
     }
 ]
+
 // 添加响应拦截器
 instance.interceptors.response.use(res => {
     // 未设置状态码则默认成功状态
@@ -65,6 +67,22 @@ instance.interceptors.response.use(res => {
         return res.data
     }
 }, function (error) {
+    const errorCode =  error.response.status
+    // 未认证
+    if (errorCode === 401) {
+        // 展示重新登陆逻辑
+        if (loginDialog) {
+            loginDialog = false
+            ElMessageBox.confirm('登录状态已过期，是否选择重新登录', '提示', {
+                confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning'
+            }).then(() => {
+                location.href = '/login';
+            }).catch(() => {
+                loginDialog = true
+            });
+            return Promise.reject('请重新登录。')
+        }
+    }
     return Promise.reject(error);
 });
 

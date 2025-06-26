@@ -76,8 +76,15 @@ npm i js-cookie
 
 ![ai-chat.png](docs/images/niuyin-ai-chat.png)
 
+### 智能体
+
+
+### 知识库
+
+
 ### 绘画
 
 ![ai-image.png](docs/images/niuyin-ai-image.png)
 
 [//]: #
+

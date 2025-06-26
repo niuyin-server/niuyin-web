@@ -812,7 +812,6 @@ const changeKnowledge = (idArr) => {
               <div v-if="msg.messageType === 'assistant'"
                    class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-1)] shadow flex items-center justify-center"
                    style="border-radius: 50%">
-                <!--                <img src="./assets/ai-bot.svg" alt="AI"/>-->
                 <svg class="icon operate-svg" aria-hidden="true">
                   <use :xlink:href="`#${modelIconSelected}`"></use>
                 </svg>
