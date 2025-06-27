@@ -1,11 +1,11 @@
 <script setup>
-import {nextTick, onBeforeUnmount, onMounted, reactive, ref} from 'vue'
-import {fetchEventSource} from '@microsoft/fetch-event-source'
-import {addConversation, listConversation, updateConversation} from "@/api/ai/chat/conversation"
-import {listMessageByCid} from "@/api/ai/chat/message"
-import {userInfoX} from "@/store/userInfoX"
-import {MoreFilled} from "@element-plus/icons-vue"
-import {ElMessage} from 'element-plus'
+import { nextTick, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
+import { addConversation, listConversation, updateConversation } from "@/api/ai/chat/conversation"
+import { listMessageByCid } from "@/api/ai/chat/message"
+import { userInfoX } from "@/store/userInfoX"
+import { MoreFilled } from "@element-plus/icons-vue"
+import { ElMessage } from 'element-plus'
 import {
   Brain,
   Check,
@@ -21,7 +21,7 @@ import {
   Transform,
   WeixinTopStories
 } from '@icon-park/vue-next'
-import {debounce, parseTime, smartDateFormat} from "@/utils/roydon"
+import { debounce, parseTime, smartDateFormat } from "@/utils/roydon"
 // 打字器 vue3-markdown-it
 import Markdown from 'vue3-markdown-it';
 import 'highlight.js/styles/atom-one-light.css';
@@ -33,8 +33,9 @@ import 'vue-element-plus-x/styles/prism.min.css'
 
 import RoleDrawer from "@/Layout/ai/chat/components/RoleDrawer.vue";
 import KnowledgeDrawer from "@/Layout/ai/chat/components/KnowledgeDrawer.vue";
-import {getModelList} from "@/api/ai/model/model.js";
-import {getKnowledgeSimpleList} from "@/api/ai/knowledge/knowledge.js";
+import { getModelList } from "@/api/ai/model/model.js";
+import { getKnowledgeSimpleList } from "@/api/ai/knowledge/knowledge.js";
+import { getToken } from "@/utils/auth.js";
 
 const scrollbarRef = ref()
 const max = ref(0)
@@ -147,7 +148,7 @@ const handleSelectConversation = (row) => {
   // Focus input
   inputRef.value?.focus()
   // Request message list
-  listMessageByCid({cid: selectedConversationId.value}).then(res => {
+  listMessageByCid({ cid: selectedConversationId.value }).then(res => {
     if (res?.code === 200) {
       messages.value = res?.data
       // Scroll to bottom of conversation
@@ -198,12 +199,12 @@ const sendChatRequest = async (conversationId, userMessage, assistantMessage, us
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'text/event-stream',
-      'X-Content-Lang': 'zh-CN'
+      'X-Content-Lang': 'zh-CN',
+      'Authorization': 'Bearer ' + getToken()
     },
     body: JSON.stringify({
       conversationId: conversationId,
       message: userMessage.content,
-      userId: userInfoX().userInfo?.userId,
       useContext: useContext
     }),
     signal: controller.value?.signal,
@@ -214,7 +215,7 @@ const sendChatRequest = async (conversationId, userMessage, assistantMessage, us
     },
 
     onmessage: event => {
-      const {code, data, msg} = JSON.parse(event.data)
+      const { code, data, msg } = JSON.parse(event.data)
       if (code !== 200) {
         assistantMessage.content = msg
         return
@@ -241,10 +242,10 @@ const sendChatRequest = async (conversationId, userMessage, assistantMessage, us
 // Error handling
 const handleRequestError = (botMessage, error) => {
   const errorMessage = error instanceof Error
-      ? navigator.onLine
-          ? error.message
-          : '网络连接不可用'
-      : '请求发生未知错误'
+    ? navigator.onLine
+      ? error.message
+      : '网络连接不可用'
+    : '请求发生未知错误'
 
   botMessage.status = MessageStatus.Error
   botMessage.content = errorMessage
@@ -261,7 +262,7 @@ const sendMessage = async () => {
   // 未选择对话则创建对话
   if (!selectedConversationId.value) {
     // First create conversation
-    await addConversation({title: '新对话'}).then(res => {
+    await addConversation({ title: '新对话' }).then(res => {
       if (res?.code === 200) {
         // Insert into conversation list
         conversationListGroups.value.today.unshift(res.data)
@@ -345,7 +346,7 @@ const submitEditConversationForm = async () => {
       const index = conversationList.value.findIndex(item => item.id === editConversationForm.value.id);
       // 替换数据
       if (index !== -1) {
-        conversationList.value[index] = {...editConversationForm.value};
+        conversationList.value[index] = { ...editConversationForm.value };
       }
     } else {
       ElMessage.error('修改失败')
@@ -360,7 +361,7 @@ const handleClickConversationExpand = () => {
 
 // Create new conversation
 const handleCreateNewConversation = () => {
-  addConversation({title: '新对话', modelId: modelSelected.value}).then(res => {
+  addConversation({ title: '新对话', modelId: modelSelected.value }).then(res => {
     if (res?.code === 200) {
       // Insert into conversation list
       conversationListGroups.value.today.unshift(res.data)
@@ -470,7 +471,7 @@ const emitDrawerUpdate = (val) => {
 
 const emitCreateConversation = (val) => {
   // 创建对话
-  addConversation({roleId: val.id}).then(res => {
+  addConversation({ roleId: val.id }).then(res => {
     if (res?.code === 200) {
       conversationListGroups.value.today.unshift(res.data)
       selectedConversationId.value = res.data.id
@@ -480,7 +481,7 @@ const emitCreateConversation = (val) => {
       conversationExpand.value = true
       inputRef.value?.focus()
 
-      listMessageByCid({cid: selectedConversationId.value}).then(res => {
+      listMessageByCid({ cid: selectedConversationId.value }).then(res => {
         if (res?.code === 200) {
           messages.value = res?.data
           // Scroll to bottom of conversation
@@ -525,7 +526,7 @@ const initModelList = async () => {
   const res = await getModelList()
   modelOptions.value = res.data
   if (modelOptions.value.length > 0) {
-    modelSelected.value = modelOptions.value[0].id
+    // modelSelected.value = modelOptions.value[0].id
     modelIconSelected.value = modelOptions.value[0].icon
   }
 }
@@ -533,6 +534,12 @@ const initModelList = async () => {
 const modelSelected = ref(null)
 const modelIconSelected = ref(null)
 const inputDisable = ref(false)
+
+// 新增：输入区域宽度控制
+const inputAreaFullWidth = ref(false)
+const toggleInputAreaWidth = () => {
+  inputAreaFullWidth.value = !inputAreaFullWidth.value
+}
 
 const changeModel = (id) => {
   // 选择模型后更新对话的模型id
@@ -544,7 +551,7 @@ const changeModel = (id) => {
   // todo 调用接口更新对话的模型id
   if (selectedConversationId.value) {
     inputDisable.value = true
-    updateConversation({id: selectedConversationId.value, modelId: id}).then(res => {
+    updateConversation({ id: selectedConversationId.value, modelId: id }).then(res => {
       inputDisable.value = false
     })
   }
@@ -563,9 +570,8 @@ const changeKnowledge = (idArr) => {
   <div class="flex flex-1 w100" style="flex-direction: row">
     <div v-show="conversationExpand" class="flex flex-col w-64 border-r border-[var(--niuyin-border-color)]">
       <div class="p-4 border-b border-[var(--niuyin-border-color)]">
-        <button
-            @click="handleCreateNewConversation"
-            class="w-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] text-white py-2 px-4 rounded-2xl flex items-center justify-center gap-2 transition-all">
+        <button @click="handleCreateNewConversation"
+          class="w-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] text-white py-2 px-4 rounded-2xl flex items-center justify-center gap-2 transition-all">
           <i class="fas fa-plus"></i>
           <span>新对话</span>
         </button>
@@ -577,22 +583,21 @@ const changeKnowledge = (idArr) => {
             <template #template>
               <div v-for="item in 5" class="space-y-4 my-4">
                 <div class="flex flex-row space-x-4">
-                  <el-skeleton-item variant="image" style="width: 64px; height: 64px"/>
-                  <el-skeleton-item variant="h3" style="width: 50%"/>
+                  <el-skeleton-item variant="image" style="width: 64px; height: 64px" />
+                  <el-skeleton-item variant="h3" style="width: 50%" />
                 </div>
-                <el-skeleton-item variant="text" style="width: 90%"/>
+                <el-skeleton-item variant="text" style="width: 90%" />
               </div>
             </template>
             <template #default>
-              <div class="space-y-2" v-for="(group,index) in conversationListGroups">
-                <h2 class="text-sm font-semibold text-gray-500 my-2" v-if="group.length>0">{{
-                    getGroupTitle(index)
-                  }}</h2>
-                <div v-for="conversation in group"
-                     :key="conversation.id"
-                     @click="handleSelectConversation(conversation)"
-                     class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
-                     :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
+              <div class="space-y-2" v-for="(group, index) in conversationListGroups">
+                <h2 class="text-sm font-semibold text-gray-500 my-2" v-if="group.length > 0">{{
+                  getGroupTitle(index)
+                }}</h2>
+                <div v-for="conversation in group" :key="conversation.id"
+                  @click="handleSelectConversation(conversation)"
+                  class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
+                  :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
                   <div class="flex items-center justify-between">
                     <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>
                     <span class="text-xs text-gray-500">{{ smartDateFormat(conversation.updateTime) }}</span>
@@ -601,26 +606,23 @@ const changeKnowledge = (idArr) => {
                     <p v-if="conversation.lastMessage" class="text-xs text-gray-400 mt-1 truncate">
                       {{ conversation.lastMessage || '······' }}</p>
                     <p v-else class="text-xs text-gray-500 mt-1 truncate">······</p>
-                    <el-popover
-                        placement="right"
-                        trigger="click"
-                    >
+                    <el-popover placement="right" trigger="click">
                       <template #reference>
                         <el-icon @click.stop="handleClickConversationMore(conversation.id)" class="ml-2">
-                          <MoreFilled class="" color="grey"/>
+                          <MoreFilled class="" color="grey" />
                         </el-icon>
                       </template>
                       <template #default>
                         <div class="p-4 flex flex-col">
                           <button
-                              class="text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
-                              @click="handleEditConversation(conversation)">
+                            class="text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
+                            @click="handleEditConversation(conversation)">
                             <i class="fas fa-italic text-white"></i>
                             <span class="fs8 text-white">重命名</span>
                           </button>
                           <button
-                              class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
-                              @click="handleDeleteConversation(conversation.id)">
+                            class="mt-2 text-sm border border-[var(--niuyin-border-color)] rounded-xl py-2 px-3 hover:bg-[var(--niuyin-primary-color-8)] bg-[var(--niuyin-primary-color)] transition-colors flex items-center justify-center gap-1"
+                            @click="handleDeleteConversation(conversation.id)">
                             <i class="fas fa-trash-alt text-white"></i>
                             <span class="fs8 text-white">删除</span>
                           </button>
@@ -631,7 +633,7 @@ const changeKnowledge = (idArr) => {
                 </div>
               </div>
               <div ref="loadingRef" class="flex justify-center items-center py-4">
-                <LoadingOne v-if="loadingMore" class="animate-spin"/>
+                <LoadingOne v-if="loadingMore" class="animate-spin" />
                 <p v-if="!hasMore" class="text-gray-500">没有更多内容了</p>
               </div>
             </template>
@@ -656,13 +658,12 @@ const changeKnowledge = (idArr) => {
                   无论是工作问题、学习辅导还是创意灵感，都能为您提供帮助。
                 </p>
                 <div class="flex space-x-4">
-                  <button
-                      @click="handleClickConversationExpand"
-                      class="px-8 py-3 bg-[var(--niuyin-primary-color)] text-white rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all shadow-md hover:shadow-lg">
+                  <button @click="handleClickConversationExpand"
+                    class="px-8 py-3 bg-[var(--niuyin-primary-color)] text-white rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all shadow-md hover:shadow-lg">
                     立即体验
                   </button>
                   <button
-                      class="px-8 py-3 border border-[var(--niuyin-border-color)] text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-text-color)] rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all">
+                    class="px-8 py-3 border border-[var(--niuyin-border-color)] text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-text-color)] rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all">
                     观看演示
                   </button>
                 </div>
@@ -671,20 +672,20 @@ const changeKnowledge = (idArr) => {
                 <div class="relative w-96 h-96">
                   <!-- 聊天气泡示例 -->
                   <div
-                      class="absolute top-0 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-64 rounded-2xl cp hover:scale-105 transition-all">
+                    class="absolute top-0 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-64 rounded-2xl cp hover:scale-105 transition-all">
                     <p class=" ">你好！今天有什么我可以帮助你的吗？</p>
                   </div>
                   <div
-                      class="absolute top-24 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-72 rounded-2xl cp hover:scale-105 transition-all">
+                    class="absolute top-24 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-72 rounded-2xl cp hover:scale-105 transition-all">
                     <p>我想学习关于机器学习的基础知识，有什么推荐的学习路径吗？</p>
                   </div>
                   <div
-                      class="absolute top-48 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-80 rounded-2xl cp hover:scale-105 transition-all">
+                    class="absolute top-48 left-0 bg-[var(--bg-video-card)] p-4 chat-bubble w-80 rounded-2xl cp hover:scale-105 transition-all">
                     <p class=" ">
                       当然可以！机器学习入门可以从Python编程和线性代数开始，然后学习基础算法如线性回归和决策树...</p>
                   </div>
                   <div
-                      class="absolute top-72 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-64 rounded-2xl cp hover:scale-105 transition-all">
+                    class="absolute top-72 right-0 bg-[var(--niuyin-primary-color)] p-4 chat-bubble ai w-64 rounded-2xl cp hover:scale-105 transition-all">
                     <p>太好了！能推荐一些具体的学习资源吗？</p>
                   </div>
                 </div>
@@ -701,7 +702,7 @@ const changeKnowledge = (idArr) => {
               <div class="grid grid-cols-3 gap-8">
                 <!-- 功能卡片1 -->
                 <div
-                    class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
+                  class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
                   <div class="text-blue-500 mb-4">
                     <i class="fas fa-comment-dots text-4xl"></i>
                   </div>
@@ -713,7 +714,7 @@ const changeKnowledge = (idArr) => {
 
                 <!-- 功能卡片2 -->
                 <div
-                    class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
+                  class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
                   <div class="text-blue-500 mb-4">
                     <i class="fas fa-brain text-4xl"></i>
                   </div>
@@ -725,7 +726,7 @@ const changeKnowledge = (idArr) => {
 
                 <!-- 功能卡片3 -->
                 <div
-                    class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
+                  class="feature-card bg-[var(--bg-video-card)] p-8 rounded-xl shadow-md transition-all duration-300 border border-[var(--niuyin-border-color)] cp hover:scale-105">
                   <div class="text-blue-500 mb-4">
                     <i class="fas fa-bolt text-4xl"></i>
                   </div>
@@ -747,7 +748,7 @@ const changeKnowledge = (idArr) => {
               <div class="grid grid-cols-4 gap-6">
                 <!-- 场景1 -->
                 <div
-                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                  class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-laptop-code text-2xl"></i>
                   </div>
@@ -757,7 +758,7 @@ const changeKnowledge = (idArr) => {
 
                 <!-- 场景2 -->
                 <div
-                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                  class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-book text-2xl"></i>
                   </div>
@@ -767,7 +768,7 @@ const changeKnowledge = (idArr) => {
 
                 <!-- 场景3 -->
                 <div
-                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                  class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-lightbulb text-2xl"></i>
                   </div>
@@ -777,7 +778,7 @@ const changeKnowledge = (idArr) => {
 
                 <!-- 场景4 -->
                 <div
-                    class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
+                  class="bg-[var(--bg-video-card)] p-6 rounded-2xl shadow-sm border border-[var(--niuyin-border-color)] cp hover:scale-105 transition-all">
                   <div class="text-blue-500 mb-3">
                     <i class="fas fa-briefcase text-2xl"></i>
                   </div>
@@ -793,9 +794,8 @@ const changeKnowledge = (idArr) => {
               <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
                 立即注册，开启您的AI对话之旅。无需信用卡，免费试用我们的高级功能。
               </p>
-              <button
-                  @click="handleClickConversationExpand"
-                  class="px-10 py-4 bg-[var(--niuyin-primary-color)] text-white rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all shadow-lg hover:shadow-xl text-lg">
+              <button @click="handleClickConversationExpand"
+                class="px-10 py-4 bg-[var(--niuyin-primary-color)] text-white rounded-full font-medium hover:bg-[var(--niuyin-primary-color-8)] transition-all shadow-lg hover:shadow-xl text-lg">
                 开始免费试用
               </button>
             </section>
@@ -805,42 +805,41 @@ const changeKnowledge = (idArr) => {
         <el-scrollbar v-else ref="scrollbarRef">
           <div ref="messageContainer" class="overflow-y-auto px-4 pt1rem">
             <div v-for="msg in messages" :key="msg.id" :class="[
-                'flex gap-4 mb-6 opacity-0 animate-fade-in',
-                msg.messageType === 'assistant' ? 'justify-start' : 'justify-end',
-                { '!opacity-100': msg.status === MessageStatus.Streaming }
+              'flex gap-4 mb-6 opacity-0 animate-fade-in',
+              msg.messageType === 'assistant' ? 'justify-start' : 'justify-end',
+              { '!opacity-100': msg.status === MessageStatus.Streaming }
             ]">
               <div v-if="msg.messageType === 'assistant'"
-                   class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-1)] shadow flex items-center justify-center"
-                   style="border-radius: 50%">
+                class="cp flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--niuyin-primary-color-1)] shadow flex items-center justify-center"
+                style="border-radius: 50%">
                 <svg class="icon operate-svg" aria-hidden="true">
                   <use :xlink:href="`#${modelIconSelected}`"></use>
                 </svg>
               </div>
               <div v-else-if="msg.messageType === 'user'"
-                   class="cp flex-shrink-0 w-10 h-10 shadow flex items-center justify-center order-3"
-                   style="border-radius: 50%">
-                <el-avatar :src="userInfoX().userInfo?.avatar" :alt="userInfoX().userInfo?.nickName"/>
+                class="cp flex-shrink-0 w-10 h-10 shadow flex items-center justify-center order-3"
+                style="border-radius: 50%">
+                <el-avatar :src="userInfoX().userInfo?.avatar" :alt="userInfoX().userInfo?.nickName" />
               </div>
               <div :class="[
-                    'max-w-[80%] min-w-[200px]',
-                    msg.messageType === 'assistant' ? 'order-1' : 'order-2'
-                ]">
+                'max-w-[80%] min-w-[200px]',
+                msg.messageType === 'assistant' ? 'order-1' : 'order-2'
+              ]">
                 <div v-if="msg.messageType === 'assistant'" class="flex items-center gap-2 mb-2 text-sm text-gray-500">
                   <span>{{ msg.model }}</span>
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                 </div>
                 <div v-if="msg.messageType === 'user'"
-                     class="flex items-center justify-end gap-2 mb-2 text-sm text-gray-500">
+                  class="flex items-center justify-end gap-2 mb-2 text-sm text-gray-500">
                   <span>{{ new Date(msg.createTime).toLocaleTimeString() }}</span>
                   <span>{{ userInfoX().userInfo?.nickName }}</span>
                 </div>
                 <div :class="[
-                        'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words text-sm',
-                        msg.messageType === 'assistant'
-                            ? 'bg-[var(--bg-video-card)] border border-[var(--niuyin-border-color)] text-[var(--niuyin-text-color)] pb-0'
-                            : 'bg-[var(--niuyin-primary-color)] text-white rounded-tr-none'
-                    ]"
-                     style="overflow: auto">
+                  'p-4 rounded-xl shadow-sm whitespace-pre-wrap break-words text-sm',
+                  msg.messageType === 'assistant'
+                    ? 'bg-[var(--bg-video-card)] border border-[var(--niuyin-border-color)] text-[var(--niuyin-text-color)] pb-0'
+                    : 'bg-[var(--niuyin-primary-color)] text-white rounded-tr-none'
+                ]" style="overflow: auto">
                   <div v-if="msg.messageType === 'user'">
                     <div>
                       {{ msg.content }}
@@ -849,37 +848,27 @@ const changeKnowledge = (idArr) => {
                   </div>
                   <div v-else-if="msg.messageType === 'assistant'">
                     <!--                    <Typewriter :content="msg.content" :is-markdown="true"/>-->
-                    <Markdown :source="msg.content"/>
+                    <Markdown :source="msg.content" />
                   </div>
                 </div>
                 <!-- 对话框下方操作栏 -->
                 <div class="flex items-center mt-2">
-                  <el-tooltip
-                      content="复制"
-                      placement="top">
-                    <button
-                        @click="handleCopyMessage(msg.id,msg.content)"
-                        class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-green-900 transition-colors">
-                      <Check v-if="copyFlag && copyMessageId===msg.id" theme="outline" size="16"/>
-                      <Copy v-else theme="outline" size="16"/>
+                  <el-tooltip content="复制" placement="top">
+                    <button @click="handleCopyMessage(msg.id, msg.content)"
+                      class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-green-900 transition-colors">
+                      <Check v-if="copyFlag && copyMessageId === msg.id" theme="outline" size="16" />
+                      <Copy v-else theme="outline" size="16" />
                     </button>
                   </el-tooltip>
-                  <el-tooltip
-                      content="编辑"
-                      v-if="msg.messageType === 'user'"
-                      placement="top">
-                    <button
-                        @click="handleClickMessageEdit(msg.id,msg.content)"
-                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
+                  <el-tooltip content="编辑" v-if="msg.messageType === 'user'" placement="top">
+                    <button @click="handleClickMessageEdit(msg.id, msg.content)"
+                      class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
                       <EditTwo theme="outline" size="16"></EditTwo>
                     </button>
                   </el-tooltip>
-                  <el-tooltip
-                      content="重新生成"
-                      v-if="msg.messageType === 'assistant'"
-                      placement="top">
+                  <el-tooltip content="重新生成" v-if="msg.messageType === 'assistant'" placement="top">
                     <button
-                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
+                      class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-blue-900 transition-colors">
                       <Refresh theme="outline" size="16"></Refresh>
                     </button>
                   </el-tooltip>
@@ -887,32 +876,23 @@ const changeKnowledge = (idArr) => {
                   <!--                      class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors">-->
                   <!--                    <i class="fas fa-download"></i>-->
                   <!--                  </button>-->
-                  <el-tooltip
-                      v-if="msg.messageType === 'assistant'"
-                      content="喜欢"
-                      placement="top">
+                  <el-tooltip v-if="msg.messageType === 'assistant'" content="喜欢" placement="top">
                     <button
-                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
-                      <ThumbsUp theme="outline" size="16"/>
+                      class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
+                      <ThumbsUp theme="outline" size="16" />
                     </button>
                   </el-tooltip>
-                  <el-tooltip
-                      v-if="msg.messageType === 'assistant'"
-                      content="不喜欢"
-                      placement="top">
+                  <el-tooltip v-if="msg.messageType === 'assistant'" content="不喜欢" placement="top">
                     <button
-                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-yellow-900 transition-colors">
-                      <ThumbsDown theme="outline" size="16"/>
+                      class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-yellow-900 transition-colors">
+                      <ThumbsDown theme="outline" size="16" />
                     </button>
                   </el-tooltip>
-                  <el-popconfirm
-                      title="确认删除该条消息？"
-                      placement="top"
-                      @confirm="handleDeleteMessage(msg.id)">
+                  <el-popconfirm title="确认删除该条消息？" placement="top" @confirm="handleDeleteMessage(msg.id)">
                     <template #reference>
                       <button
-                          class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
-                        <Delete theme="outline" size="16"/>
+                        class="ml-2 w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] border border-[var(--niuyin-border-color)] flex items-center justify-center text-gray-500 hover:text-red-900 transition-colors">
+                        <Delete theme="outline" size="16" />
                       </button>
                     </template>
                   </el-popconfirm>
@@ -923,7 +903,7 @@ const changeKnowledge = (idArr) => {
         </el-scrollbar>
         <!-- 输入区域 -->
         <div class="border-t border-[var(--niuyin-border-color)] p-4">
-          <div class="max-w-[60%] mx-auto flex flex-between  mb-2">
+          <div :class="['mx-auto', inputAreaFullWidth ? 'max-w-full' : 'max-w-[60%]', 'flex flex-between transition-all mb-2']">
             <div class="flex-row gap-2">
               <div>
                 <svg class="icon operate-svg" aria-hidden="true">
@@ -932,12 +912,8 @@ const changeKnowledge = (idArr) => {
               </div>
               <div>
                 <el-select v-model="modelSelected" style="width: 180px" placement="top" @change="changeModel"
-                           placeholder="选择模型">
-                  <el-option
-                      v-for="item in modelOptions"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id">
+                  placeholder="选择模型">
+                  <el-option v-for="item in modelOptions" :key="item.id" :label="item.name" :value="item.id">
                     <div class="flex flex-row gap-2">
                       <div>
                         <svg class="icon operate-svg" aria-hidden="true">
@@ -953,19 +929,9 @@ const changeKnowledge = (idArr) => {
                 🤓
               </div>
               <div>
-                <el-select v-model="knowledgeSelected"
-                           style="width: 180px"
-                           multiple
-                           collapse-tags
-                           collapse-tags-tooltip
-                           @change="changeKnowledge"
-                           placeholder="选择知识库"
-                           placement="top">
-                  <el-option
-                      v-for="item in knowledgeOptions"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id">
+                <el-select v-model="knowledgeSelected" style="width: 180px" multiple collapse-tags collapse-tags-tooltip
+                  @change="changeKnowledge" placeholder="选择知识库" placement="top">
+                  <el-option v-for="item in knowledgeOptions" :key="item.id" :label="item.name" :value="item.id">
                     <div class="flex flex-row gap-2">
                       <div>
                         {{ item.coverImg }}
@@ -976,84 +942,85 @@ const changeKnowledge = (idArr) => {
                 </el-select>
               </div>
             </div>
+            <div>
+              <!-- 展开/收缩按钮 -->
+              <button
+                class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors"
+                @click="toggleInputAreaWidth">
+                <i :class="inputAreaFullWidth ? 'fas fa-compress-arrows-alt' : 'fas fa-expand-arrows-alt'"></i>
+              </button>
+            </div>
           </div>
-          <div class="max-w-[60%] mx-auto">
+          <div :class="['mx-auto', inputAreaFullWidth ? 'max-w-full' : 'max-w-[60%]']" class="transition-all">
             <div class="relative">
               <textarea
-                  class="w-full fs1rem px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
-                  rows="2"
-                  placeholder="输入您的消息或指令..."
-                  @keyup.enter="sendMessage"
-                  ref="inputRef"
-                  style="min-height: 74px;max-height: 370px;transition: all 0.04s ease-in-out"
-                  v-model="inputMessage"
-                  :disabled="isLoading || inputDisable"></textarea>
+                class="w-full fs1rem px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
+                rows="2" placeholder="输入您的消息或指令..." @keyup.enter="sendMessage" ref="inputRef"
+                style="min-height: 74px;max-height: 370px;transition: all 0.04s ease-in-out" v-model="inputMessage"
+                :disabled="isLoading || inputDisable"></textarea>
               <div class="absolute right-3 bottom-3 flex gap-2">
                 <button
-                    class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
                   <i class="fas fa-microphone"></i>
                 </button>
                 <button
-                    class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
                   <i class="fas fa-image"></i>
                 </button>
                 <button
-                    class="w-8 h-8 rounded-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-white transition-colors"
-                    :class="{ 'bg-red-500 hover:bg-red-600': isLoading }"
-                    @click="sendMessage">
-                  <i v-if="isLoading" @click="stopGeneration" class="fas fa-pause"/>
+                  class="w-8 h-8 rounded-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-white transition-colors"
+                  :class="{ 'bg-red-500 hover:bg-red-600': isLoading }" @click="sendMessage">
+                  <i v-if="isLoading" @click="stopGeneration" class="fas fa-pause" />
                   <i v-else class="fas fa-paper-plane"></i>
                 </button>
               </div>
             </div>
           </div>
-          <div class="max-w-[60%] mx-auto flex flex-between gap-2 mt-2">
+          <div :class="['mx-auto', inputAreaFullWidth ? 'max-w-full' : 'max-w-[60%]', 'flex flex-between gap-2 mt-2 transition-all']">
             <div class="text-xs text-gray-500 flex-row">
               <button
-                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors"
-                  @click="handleClickConversationExpand">
-                <i class="fas fa-archive"/>
+                class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors"
+                @click="handleClickConversationExpand">
+                <i class="fas fa-archive" />
               </button>
               <div class="mx-4 flex flex-row space-x-2">
                 <div class="cp border py-1 px-2 rounded-full text-[var(--niuyin-text-color7)] transition-all"
-                     :class="[deepThinking ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
-                     @click.stop="deepThinking = !deepThinking">
+                  :class="[deepThinking ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
+                  @click.stop="deepThinking = !deepThinking">
                   <div class="space-x-1 flex justify-center">
-                    <Brain theme="outline" size="16"/>
+                    <Brain theme="outline" size="16" />
                     <span>深度思考</span>
                   </div>
                 </div>
                 <div class="cp border py-1 px-2 rounded-full text-[var(--niuyin-text-color7)] transition-all"
-                     :class="[internetSearch ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
-                     @click.stop="internetSearch = !internetSearch">
+                  :class="[internetSearch ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
+                  @click.stop="internetSearch = !internetSearch">
                   <div class="space-x-1 flex justify-center">
-                    <Earth theme="outline" size="16"/>
+                    <Earth theme="outline" size="16" />
                     <span>联网搜索</span>
                   </div>
                 </div>
                 <div class="cp border py-1 px-2 rounded-full text-[var(--niuyin-text-color7)] transition-all"
-                     :class="[useContext ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
-                     @click.stop="useContext = !useContext">
+                  :class="[useContext ? 'border-[var(--niuyin-primary-color)] bg-[var(--niuyin-primary-color-2)]' : 'border-[var(--niuyin-icon-bg)]']"
+                  @click.stop="useContext = !useContext">
                   <div class="space-x-1 flex justify-center">
-                    <Transform theme="outline" size="16"/>
+                    <Transform theme="outline" size="16" />
                     <span>上下文</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="text-xs text-gray-500 flex flex-row space-x-2">
-              <el-button type="text" class="hover:text-gray-700"><i class="fas fa-magic mr-1"/>快捷指令</el-button>
+              <el-button type="text" class="hover:text-gray-700"><i class="fas fa-magic mr-1" />快捷指令</el-button>
               <span class="mx-2">•</span>
-              <el-button type="text" class="hover:text-gray-700"><i class="fas fa-cog mr-1"/>设置</el-button>
-              <button
-                  @click="knowledgeDrawer = !knowledgeDrawer"
-                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
-                <DocumentFolder theme="outline" size="16"/>
+              <el-button type="text" class="hover:text-gray-700"><i class="fas fa-cog mr-1" />设置</el-button>
+              <button @click="knowledgeDrawer = !knowledgeDrawer"
+                class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                <DocumentFolder theme="outline" size="16" />
               </button>
-              <button
-                  @click="drawer = !drawer"
-                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
-                <WeixinTopStories theme="outline" size="16"/>
+              <button @click="drawer = !drawer"
+                class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                <WeixinTopStories theme="outline" size="16" />
               </button>
             </div>
           </div>
@@ -1061,28 +1028,28 @@ const changeKnowledge = (idArr) => {
       </div>
     </div>
   </div>
-  <KnowledgeDrawer v-if="knowledgeDrawer" :drawer="knowledgeDrawer" @update:drawer="emitKnowledgeDrawerUpdate"/>
+  <KnowledgeDrawer v-if="knowledgeDrawer" :drawer="knowledgeDrawer" @update:drawer="emitKnowledgeDrawerUpdate" />
   <RoleDrawer v-if="drawer" :drawer="drawer" @update:drawer="emitDrawerUpdate"
-              @create:conversation="emitCreateConversation"/>
+    @create:conversation="emitCreateConversation" />
   <el-dialog title="编辑对话" v-model="editConversationDialogVisible" :destroy-on-close="true" width="50%">
     <el-form :model="editConversationForm" ref="editConversationFormRef" label-width="100px">
       <el-form-item label="对话名称" prop="title" :rules="[{ required: true, message: '请输入对话名称', trigger: 'blur' },
-        { min:3,max: 20, message: '对话名称字符长度在3~20个字符', trigger: 'blur' }]">
-        <el-input v-model="editConversationForm.title" placeholder="请输入对话名称"/>
+      { min: 3, max: 20, message: '对话名称字符长度在3~20个字符', trigger: 'blur' }]">
+        <el-input v-model="editConversationForm.title" placeholder="请输入对话名称" />
       </el-form-item>
       <el-row :gutter="16">
         <el-col :span="12">
           <el-form-item label="max token" prop="maxTokens"
-                        :rules="[{ required: true, message: '请输入token', trigger: 'blur' }]">
+            :rules="[{ required: true, message: '请输入token', trigger: 'blur' }]">
             <el-input-number style="width: 100%" :min="0" :max="4096" v-model="editConversationForm.maxTokens"
-                             placeholder="请输入token"/>
+              placeholder="请输入token" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="上下文" prop="maxContexts"
-                        :rules="[{ required: true, message: '请输入上下文', trigger: 'blur' }]">
+            :rules="[{ required: true, message: '请输入上下文', trigger: 'blur' }]">
             <el-input-number style="width: 100%" :min="0" :max="20" v-model="editConversationForm.maxContexts"
-                             placeholder="请输入上下文"/>
+              placeholder="请输入上下文" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -1110,5 +1077,4 @@ const changeKnowledge = (idArr) => {
 .title-color-white h3 {
   color: white;
 }
-
 </style>
