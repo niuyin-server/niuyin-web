@@ -1,7 +1,7 @@
 <script setup>
 import {computed, nextTick, onMounted, onUnmounted, ref} from 'vue'
 import {LoadingOne, Edit, Delete, Data, Reload} from "@icon-park/vue-next";
-import {getKnowledgeList} from "@/api/ai/knowledge/knowledge.js";
+import {createKnowledge, editKnowledge, getKnowledge, getKnowledgeList} from "@/api/ai/knowledge/knowledge.js";
 import {smartDateFormat} from "../../../../utils/roydon.js";
 import {getModelList} from "@/api/ai/model/model.js";
 import {Check, Close} from "@element-plus/icons-vue";
@@ -237,19 +237,6 @@ const updateDialogVisible = ref(false)
     <el-dialog title="创建知识库" v-model="dialogVisible">
       <el-form ref="createKnowledgeFormRef" :rules="createKnowledgeRules" :model="createKnowledgeForm"
                label-width="100px">
-        <!--        <el-form-item label="知识库封面" prop="coverImg">-->
-        <!--          <el-tooltip content="上传知识库封面" placement="top" effect="customized">-->
-        <!--            <el-upload class="avatar-uploader"-->
-        <!--                       :action="uploadUrl"-->
-        <!--                       :headers="headers"-->
-        <!--                       :show-file-list="false"-->
-        <!--                       :on-error="handleUploadError"-->
-        <!--                       :on-success="handleUploadSuccess">-->
-        <!--              <img v-if="createKnowledgeForm.coverImg" :src="createKnowledgeForm.coverImg" class="cover" alt="cover"/>-->
-        <!--              <i v-else class="iconfont icon-camera avatar-uploader-icon"/>-->
-        <!--            </el-upload>-->
-        <!--          </el-tooltip>-->
-        <!--        </el-form-item>-->
         <el-row :gutter="16">
           <el-col :span="12">
             <el-form-item label="图标" prop="coverImg">

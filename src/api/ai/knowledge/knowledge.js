@@ -34,3 +34,11 @@ export async function editKnowledge(data) {
         data: data
     })
 }
+
+// 获取知识库
+export async function getKnowledge(id) {
+    return await request({
+        url: '/ai/web-api/v1/knowledge/get?id=' + id,
+        method: 'get'
+    })
+}
