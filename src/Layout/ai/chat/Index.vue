@@ -532,7 +532,7 @@ const initModelList = async () => {
 }
 
 const modelSelected = ref(null)
-const modelIconSelected = ref(null)
+const modelIconSelected = ref('icon-OpenAI')
 const inputDisable = ref(false)
 
 // 新增：输入区域宽度控制

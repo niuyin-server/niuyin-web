@@ -71,7 +71,6 @@ onMounted(() => {
       observerRef.value.observe(loadingRef.value)
     }
   })
-
 })
 
 onUnmounted(() => {
@@ -141,6 +140,7 @@ const submitForm = () => {
 
 import EmojiPicker from "vue3-emoji-picker";
 import "vue3-emoji-picker/css";
+import {getDocumentList} from "@/api/ai/knowledge/document.js";
 
 const onVue3EmojiPicker = (emoji) => {
   createKnowledgeForm.value.coverImg = emoji.i
@@ -168,12 +168,92 @@ const handleEditKnowledge = (item) => {
   console.log("编辑知识库", item)
   loadModelOptions()
   editKnowledgeForm.value = item
+  documentUploadData.value.knowledgeId = item.id
+  documentQueryDTO.value.knowledgeId = item.id
   updateDialogVisible.value = true
+  documentObserverRef.value = new IntersectionObserver(observeIntersectionDocument, {threshold: 0.1}) // 调整阈值
+  nextTick(() => {
+    if (documentLoadingRef.value) {
+      documentObserverRef.value.observe(documentLoadingRef.value)
+    }
+  })
+}
 
+const updateDialogClose = ()=>{
+  updateDialogVisible.value = false
+  documentUploadList.value = null
+  documentList.value = []
+  documentLoading.value = false
+  documentHasMore.value = true
+
+  if (documentObserverRef.value) {
+    documentObserverRef.value.disconnect()
+  }
 }
 
 const updateDialogVisible = ref(false)
 
+const documentUploadList = ref(null)
+const documentUploadUrl = import.meta.env.VITE_API_BASE_URL + "/ai/web-api/v1/knowledge/document/upload"
+const headers = {
+  Authorization: 'Bearer ' + getToken(),
+}
+const documentUploadData = ref({
+  knowledgeId: null,
+  segmentMaxTokens: 800
+})
+//上传成功回调
+const handleUploadDocumentSuccess = (res) => {
+  if (res.code === 200) {
+    documentUploadList.value = res.data
+    console.log(res.data)
+  } else {
+    ElMessage.error(res.msg)
+  }
+}
+// 上传失败回调
+const handleUploadDocumentError = (res) => {
+  ElMessage.error(res.msg)
+}
+
+// 加载文档分页
+const documentQueryDTO = ref({
+  pageNum: 1,
+  pageSize: 10,
+  knowledgeId: null
+})
+const documentLoading = ref(false)
+
+const documentList = ref([])
+const documentTotal = ref(0)
+const documentHasMore = ref(true)
+
+const documentObserverRef = ref(null)
+const documentLoadingRef = ref(null)
+
+const loadMoreDocument = async () => {
+  if (documentLoading.value || !documentHasMore.value) return
+  documentLoading.value = true
+  const res = await getDocumentList(documentQueryDTO.value)
+  documentList.value = [...documentList.value, ...res.data.rows]
+  documentTotal.value = res.data.total
+  documentHasMore.value = res.data.hasMore
+  documentQueryDTO.value.pageNum += 1
+  // 重新计算页面高度
+  await nextTick(() => {
+    if (documentLoadingRef.value) {
+      documentObserverRef.value.unobserve(documentLoadingRef.value)
+      documentObserverRef.value.observe(documentLoadingRef.value)
+    }
+  })
+  documentLoading.value = false
+}
+
+const observeIntersectionDocument = (entries) => {
+  if (entries[0].isIntersecting) {
+    loadMoreDocument()
+  }
+}
 </script>
 
 <template>
@@ -317,7 +397,7 @@ const updateDialogVisible = ref(false)
         </div>
       </template>
     </el-dialog>
-    <el-dialog v-if="updateDialogVisible" :title="editKnowledgeForm.name" v-model="updateDialogVisible" width="72%">
+    <el-dialog v-if="updateDialogVisible" :title="editKnowledgeForm.name" v-model="updateDialogVisible" width="72%" @close="updateDialogClose">
       <template #header="{ titleId, titleClass }">
         <div class="flex flex-row align-center">
           <div class="text-xl mr-2">{{ editKnowledgeForm.coverImg }}</div>
@@ -421,10 +501,22 @@ const updateDialogVisible = ref(false)
           <div class="lg:col-span-7">
             <div class="flex justify-between items-center mb-4">
               <div class="font-bold text-gray-900 mb-4 fs1rem">文档列表</div>
-              <button
-                  class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-1.5 px-3 rounded-lg flex items-center transition duration-200">
-                <i class="ri-add-line mr-1"></i> 添加文档
-              </button>
+              <!--              <button-->
+              <!--                  class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-1.5 px-3 rounded-lg flex items-center transition duration-200">-->
+              <!--                <i class="ri-add-line mr-1"></i> 添加文档-->
+              <!--              </button>-->
+              <el-upload
+                  :action="documentUploadUrl"
+                  :headers="headers"
+                  :on-success="handleUploadDocumentSuccess"
+                  :on-error="handleUploadDocumentError"
+                  :limit="1"
+                  :data="documentUploadData"
+                  :show-file-list="false"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.md"
+              >
+                <el-button type="primary"><i class="ri-add-line mr-1"></i> 添加文档</el-button>
+              </el-upload>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -566,6 +658,10 @@ const updateDialogVisible = ref(false)
                   </div>
                 </div>
               </div>
+            </div>
+            <div ref="documentLoadingRef" id="documentLoadingRef" class="flex justify-center items-center py-4">
+              <LoadingOne v-if="documentLoading" class="animate-spin"/>
+              <p v-if="!documentHasMore" class="text-gray-500">没有更多内容了</p>
             </div>
           </div>
         </div>
