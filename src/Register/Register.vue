@@ -1,5 +1,5 @@
 <template xmlns="">
-  <div class="container">
+  <div class="login-page">
     <!-- <div class="logo"></div> -->
     <!-- 登录区域 -->
     <div class="content">

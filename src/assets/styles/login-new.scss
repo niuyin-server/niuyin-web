@@ -35,7 +35,7 @@ $rowHeight: $rowH * 1px;
 $buttonHeight: $buttonH * 1px;
 
 // - - - - - 页面基础设置
-.container {
+.login-page {
   .login-code {
     width: 33%;
     height: 38px;
@@ -56,7 +56,7 @@ $buttonHeight: $buttonH * 1px;
   min-width: 1080px;
   min-height: 620px;
   background-color: $containerBgColor;
-  background-image: url($containerBgImage);
+  //background-image: url($containerBgImage);
   background-size: cover;
   // 定位
   position: relative;
@@ -265,7 +265,7 @@ $buttonHeight: $buttonH * 1px;
 
 // - - - - - PC 最小尺寸设置
 @media screen and (min-width: 599px) and (max-width: 1366px) {
-  .container {
+  .login-page {
     .content {
       width: 710px;
       height: 397px;
@@ -317,7 +317,7 @@ $iconBgImage: "../assets/images/icon.png";
 
 // - - - - - 移动端设置
 @media screen and (max-width: 599px) {
-  .container {
+  .login-page {
     // 元素
     background-image: url($mobileContainerBgImage);
     min-width: 280px;
