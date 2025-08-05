@@ -194,7 +194,7 @@ const scrollToBottom = () => {
 const sendChatRequest = async (conversationId, userMessage, assistantMessage, useContext) => {
   controller.value = new AbortController()
   let isFirstChunk = true // 是否是第一个 chunk 消息段
-  await fetchEventSource('http://localhost:9090/ai/web-api/v1/chat/stream', {
+  await fetchEventSource(import.meta.env.VITE_API_BASE_URL + '/ai/web-api/v1/chat/stream', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
