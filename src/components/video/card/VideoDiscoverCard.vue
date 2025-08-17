@@ -36,7 +36,6 @@
         <ImagePlayer v-if="video.publishType === '1'" :image-list="video.imageList" :height="playerHeight"
           class="image-player" />
         <VideoPlayer v-else :video="video" class="video-player" />
-
       </div>
     </div>
 
@@ -48,7 +47,7 @@
 
       <div class="video-meta">
         <div class="author-info">
-          <el-avatar :src="video.userAvatar" :size="24" class="author-avatar">
+          <el-avatar :src="video.userAvatar" :size="36" class="author-avatar">
             <el-icon>
               <User />
             </el-icon>
@@ -361,8 +360,7 @@ const smartDateFormat = (dateString) => {
   gap: 12px;
 }
 
-.video-title {
-  font-size: 14px;
+.video-title { 
   font-weight: 600;
   line-height: 1.4;
   color: var(--el-text-color-primary);
@@ -394,7 +392,7 @@ const smartDateFormat = (dateString) => {
 }
 
 .author-name {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--el-color-primary);
   font-weight: 500;
   overflow: hidden;
