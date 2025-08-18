@@ -49,7 +49,7 @@
           </template>
         </el-empty>
       </div>
-      
+
       <!-- 底部状态 -->
       <div v-if="!error">
         <div v-if="dataNotMore && videoList.length > 0">
@@ -121,10 +121,10 @@ const loadVideoData = async (isLoadMore = false) => {
     }
 
     const response = await pushVideo()
-    
+
     if (response.code === 200) {
       const newData = response.data || []
-      
+
       if (newData.length === 0) {
         dataNotMore.value = true
         return
@@ -139,14 +139,14 @@ const loadVideoData = async (isLoadMore = false) => {
       // 成功后重置错误状态
       error.value = null
       retryCount.value = 0
-      
+
     } else {
       throw new Error(response.msg || '获取数据失败')
     }
   } catch (err) {
     console.error('Error loading video data:', err)
     error.value = err.message || '获取视频数据失败'
-    
+
     // 自动重试机制
     if (retryCount.value < maxRetries) {
       retryCount.value++
@@ -160,7 +160,7 @@ const loadVideoData = async (isLoadMore = false) => {
   } finally {
     loading.value = false
     loadingIcon.value = false
-    
+
     if (isLoadMore) {
       setTimeout(() => {
         loadingData.value = true
@@ -172,7 +172,7 @@ const loadVideoData = async (isLoadMore = false) => {
 // 初始化数据
 const initPushVideo = async () => {
   await loadVideoData(false)
-  
+
   // 初始加载后再加载一页数据
   if (videoList.value.length > 0 && !error.value) {
     await nextTick()
@@ -183,7 +183,7 @@ const initPushVideo = async () => {
 // 滚动处理
 const handleScroll = debounce((e) => {
   const { scrollTop, clientHeight, scrollHeight } = e.target
-  
+
   if (scrollTop + clientHeight >= scrollHeight - 200) {
     if (loadingData.value && !dataNotMore.value && !error.value) {
       loadVideoData(true)
