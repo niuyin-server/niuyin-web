@@ -35,6 +35,13 @@
             <span v-if="curPlayUserId===item.userId" class="cur-play-dot pa"></span>
           </div>
         </div>
+        <!-- 无限滚动观察目标元素 -->
+        <div ref="loadMoreTrigger" v-if="!followListDataNotMore" class="load-more-trigger">
+          <div v-if="followListLoading" class="loading-indicator">
+            <el-icon class="is-loading"><Loading /></el-icon>
+            <span>加载中...</span>
+          </div>
+        </div>
         <div v-if="followListDataNotMore">
           <el-divider>到底了</el-divider>
         </div>
@@ -57,15 +64,19 @@
 
 <script>
 import VideoPlayerCarousel from "@/components/video/VideoPlayerCarousel.vue";
-import {UserFilled} from "@element-plus/icons-vue";
+import {UserFilled, Loading} from "@element-plus/icons-vue";
 import {videoUserpage} from "@/api/video"
 import {followPageList, followVideoFeed, initUserInBox} from '@/api/social'
+import {useIntersectionObserver} from '@/composables/useIntersectionObserver'
 
 export default {
   name: "Follow",
   computed: {
     UserFilled() {
       return UserFilled
+    },
+    Loading() {
+      return Loading
     }
   },
   components: {VideoPlayerCarousel},
@@ -97,6 +108,7 @@ export default {
       followListWidth: '208px',
       curPlayUserId: null,
       curPlayUserVideoNotMore: false,
+      intersectionObserver: null, // IntersectionObserver实例
     };
   },
   created() {
@@ -105,8 +117,8 @@ export default {
     this.getFollowVideoFeed()
   },
   mounted() {
-    // 事件监听
-    window.addEventListener('scroll', this.listenFollowListScroll, true)
+    // 初始化IntersectionObserver
+    this.initIntersectionObserver()
   },
   methods: {
     getInitUserInBox() {
@@ -192,24 +204,44 @@ export default {
         this.followListWidth = '76px'
       }
     },
-    listenFollowListScroll(e) {
-      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 10) {
-        if (this.loadingFollowListData) {
-          this.followQueryParams.pageNum++;
+    // 初始化IntersectionObserver
+    initIntersectionObserver() {
+      if (this.intersectionObserver) {
+        this.intersectionObserver.disconnect()
+      }
+      
+      this.intersectionObserver = new IntersectionObserver((entries) => {
+        const entry = entries[0]
+        if (entry.isIntersecting && !this.followListDataNotMore && this.loadingFollowListData) {
+          this.followQueryParams.pageNum++
           this.getFollowList()
           this.loadingFollowListData = false
           setTimeout(() => {
             // 流控
             this.loadingFollowListData = true
-          }, 1000);
+          }, 1000)
         }
+      }, {
+        root: null,
+        rootMargin: '20px',
+        threshold: 0.1
+      })
 
-      }
+      // 观察目标元素
+      this.$nextTick(() => {
+        const target = this.$refs.loadMoreTrigger
+        if (target) {
+          this.intersectionObserver.observe(target)
+        }
+      })
     },
   },
   destroyed() {
-    // 离开页面取消监听
-    window.removeEventListener('scroll', this.listenFollowListScroll)
+    // 清理IntersectionObserver
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect()
+      this.intersectionObserver = null
+    }
   }
 };
 </script>
@@ -271,5 +303,20 @@ export default {
   height: 10px;
   border-radius: 50%;
   background-color: var(--niuyin-primary-color);
+}
+
+.load-more-trigger {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
 }
 </style>

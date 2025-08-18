@@ -234,7 +234,7 @@ const smartDateFormat = (dateString) => {
   background: var(--el-bg-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   display: flex;
@@ -242,7 +242,7 @@ const smartDateFormat = (dateString) => {
   height: 100%;
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.15);
   }
 
   &.is-playing {
@@ -303,10 +303,10 @@ const smartDateFormat = (dateString) => {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.3);
   color: white;
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 11px;
   font-weight: 500;
   backdrop-filter: blur(10px);
