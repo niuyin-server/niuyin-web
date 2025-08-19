@@ -5,8 +5,8 @@
     </div>
     <videoPlay
         v-bind="options"
-        :ref="'videoPlay'+video.videoId"
-        :id="video.videoId"
+        :ref="generateUniqueVideoId(video.videoId, index)"
+        :id="generateUniqueVideoId(video.videoId, index)"
         @play="onPlay"
         @pause="onPause"
         @ended="onEnded"
@@ -27,18 +27,22 @@ export default {
   },
   props: {
     video: Object,
-    videoAutoPlay:{
+    videoAutoPlay: {
       type: Boolean,
       default: false,
     },
-    videoMuted:{
+    videoMuted: {
       type: Boolean,
       default: false,
     },
-    videoControl:{
+    videoControl: {
       type: Boolean,
       default: true,
-    }
+    },
+    index: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -123,6 +127,10 @@ export default {
 
         }
       })
+    },
+    // 生成唯一视频ID
+    generateUniqueVideoId(videoId, index) {
+      return `${videoId}-${index}`
     }
   },
   beforeDestroy() {
@@ -180,5 +188,17 @@ export default {
   max-height: 100%;
   transition: none !important;
   z-index: 10;
+}
+
+:deep(.d-play-btn) {
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(10, 10, 10, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+:deep(.d-play-btn .icon-play) {
+  font-size: 1.5rem;
+  padding-left: 3px;
 }
 </style>
