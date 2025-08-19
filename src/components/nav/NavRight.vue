@@ -2,7 +2,7 @@
   <div class="nav-right">
     <div class="flex-center">
       <!--移动端 -->
-      <el-popover :width="240" ref="lightingPopover" trigger="hover" :offset="9" :show-arrow="false">
+      <el-popover :width="240" ref="lightingPopover" trigger="hover" :offset="8" :show-arrow="false">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="link-div icon-click cg plr10px">
@@ -19,14 +19,14 @@
         </template>
         <template #default>
           <div class="mobile-popover">
-            <div class="mobile-download-container">
+            <div class="mobile-download-container flex flex-col align-center">
               <img class="niuyin-mobile-download-qrcode" src="@/assets/images/niuyinMobileDownloadQRCode.png"
                    alt="移动端下载二维码"/>
-              <h4 class="one-line mb5px">扫码下载安卓端</h4>
+              <h4 class="one-line m-1">扫码下载安卓端</h4>
               <p class="fs8 cg one-line">扫码即可前往百度网盘下载安装包</p>
             </div>
             <div>
-              <div class="flex-row p1rem">
+              <div class="flex-row px-4 mb-4">
                 <svg class="icon2rem" aria-hidden="true">
                   <use xlink:href="#icon-lightning"></use>
                 </svg>
@@ -40,7 +40,7 @@
         </template>
       </el-popover>
       <!--通知-->
-      <el-popover :width="320" ref="noticePopover" :offset="9">
+      <el-popover :width="320" ref="noticePopover" :offset="8">
         <template #reference>
           <div class="link-type cp" @mousemove="handleNoticeShow" @mouseleave="handleNoticeHide">
             <div class="link-div icon-click cg plr10px">
