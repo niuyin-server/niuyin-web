@@ -103,8 +103,8 @@ const loadMoreImages = async () => {
 }
 
 const { targetRef: loadMoreRef, isLoading: infiniteLoading } = useInfiniteScroll(
-  loadMoreImages,
-  { threshold: 0.1, rootMargin: '100px' }
+    loadMoreImages,
+    { threshold: 0.1, rootMargin: '100px' }
 )
 
 // 数据管理
@@ -231,18 +231,18 @@ onUnmounted(() => {
 
           <!-- 瀑布流图片卡片 -->
           <div
-            v-for="(item, index) in imageListData"
-            :key="item.id || index"
-            class="waterfall-item transition-all duration-300 ease-out waterfall-item-enter"
+              v-for="(item, index) in imageListData"
+              :key="item.id || index"
+              class="waterfall-item transition-all duration-300 ease-out waterfall-item-enter"
           >
             <div class="image-card relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] cp">
               <img
-                v-if="item.status==='1'"
-                :src="item.picUrl"
-                :alt="item.prompt"
-                class="w-full h-auto"
-                @load="onImageLoad(item, index)"
-                @error="onImageError(item, index)"
+                  v-if="item.status==='1'"
+                  :src="item.picUrl"
+                  :alt="item.prompt"
+                  class="w-full h-auto"
+                  @load="onImageLoad(item, index)"
+                  @error="onImageError(item, index)"
               />
               <img v-else-if="item.status==='2'" src="./assets/image-preview-error.svg"/>
               <div v-else class="flex items-center justify-center p-8">
@@ -269,9 +269,9 @@ onUnmounted(() => {
 
         <!-- 无限滚动触发器 -->
         <div
-          ref="loadMoreRef"
-          class="load-more-trigger flex items-center justify-center py-8"
-          v-if="!imageListNotMore"
+            ref="loadMoreRef"
+            class="load-more-trigger flex items-center justify-center py-8"
+            v-if="!imageListNotMore"
         >
           <div v-if="infiniteLoading || imageListLoading" class="flex items-center space-x-2">
             <i class="fas fa-spinner animate-spin text-[var(--niuyin-primary-color)]"></i>
@@ -519,7 +519,7 @@ onUnmounted(() => {
   .waterfall-container {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
-  
+
   .waterfall-skeleton {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
