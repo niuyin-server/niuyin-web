@@ -954,7 +954,7 @@ const changeKnowledge = (idArr) => {
           <div :class="['mx-auto', inputAreaFullWidth ? 'max-w-full' : 'max-w-[60%]']" class="transition-all">
             <div class="relative">
               <textarea
-                class="w-full fs1rem px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
+                class="w-full fs1rem px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50 bg-[var(--bg-textarea)]"
                 rows="2" placeholder="输入您的消息或指令..." @keyup.enter="sendMessage" ref="inputRef"
                 style="min-height: 74px;max-height: 370px;transition: all 0.04s ease-in-out" v-model="inputMessage"
                 :disabled="isLoading || inputDisable"></textarea>

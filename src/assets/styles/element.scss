@@ -55,7 +55,9 @@ html.dark {
   --niuyin-icon-bg-5: rgba(34, 34, 77, 0.5);
 
   --el-drawer-bg-color: rgba(0, 0, 0, 0.5);
-  --bg-common-bg: rgba(27, 30, 73, 0.68)
+  --bg-common-bg: rgba(27, 30, 73, 0.68);
+  --bg-textarea: #181b28 !important;
+  --bg-textarea-5: rgba(24, 27, 40, 0.5) !important;
 }
 
 :root {
@@ -141,7 +143,9 @@ html.dark {
   --neon-blue: #00f3ff;
   --neon-purple: #bd00ff;
 
-  --bg-common-bg: #f9fafb
+  --bg-common-bg: #f9fafb;
+  --bg-textarea: #fff !important;
+  --bg-textarea-5: rgba(255, 255, 255, 0.5) !important;
 }
 
 /*空状态颜色填充*/

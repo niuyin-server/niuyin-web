@@ -395,7 +395,7 @@ onUnmounted(() => {
           </div>
           <div class="relative">
             <textarea
-                class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
+                class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50 bg-[var(--bg-textarea-5)]"
                 rows="3"
                 placeholder="请输入您想要生成的图片描述，例如：'一只坐在太空中的猫，戴着宇航员头盔，背景是星云和行星'"
                 @keyup.enter="sendMessage"
