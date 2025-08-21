@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, Ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 export function useIntersectionObserver(
   callback: () => void,
@@ -38,7 +38,7 @@ export function useIntersectionObserver(
     observer = new IntersectionObserver((entries) => {
       const entry = entries[0]
       isIntersecting.value = entry.isIntersecting
-      
+
       if (entry.isIntersecting) {
         callback()
       }

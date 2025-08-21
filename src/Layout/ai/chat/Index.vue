@@ -596,7 +596,7 @@ const changeKnowledge = (idArr) => {
                 }}</h2>
                 <div v-for="conversation in group" :key="conversation.id"
                   @click="handleSelectConversation(conversation)"
-                  class="p-3 rounded-2xl hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
+                  class="p-3 rounded-2xl bg-[var(--bg-video-card)] hover:bg-[var(--niuyin-primary-color-8)] hover:text-white cursor-pointer border hover:border-[var(--niuyin-border-color)] transition-all mb-2"
                   :class="selectedConversationId === conversation.id ? 'bg-[var(--niuyin-primary-color)] border-[var(--niuyin-border-color)] title-color-white' : 'border-[var(--niuyin-border-color)]'">
                   <div class="flex items-center justify-between">
                     <h3 class="text-sm font-medium truncate">{{ conversation.title }}</h3>

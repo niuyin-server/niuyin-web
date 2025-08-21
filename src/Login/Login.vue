@@ -211,23 +211,23 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="验证码" prop="smsCode">
-          <el-input v-model="registerForm.smsCode" placeholder="请输入验证码" class="h-12">
-            <template #prefix>
-              <el-icon>
-                <Key/>
-              </el-icon>
-            </template>
-            <template #suffix>
-              <el-button v-if="registerCodeTimer <= 0" type="primary" link @click="getRegisterSmsCode" class="text-sm">
-                获取验证码
-              </el-button>
-              <span v-else class="text-sm text-gray-500">
-                {{ registerCodeTimer }}s后重试
-              </span>
-            </template>
-          </el-input>
-        </el-form-item>
+<!--        <el-form-item label="验证码" prop="smsCode">-->
+<!--          <el-input v-model="registerForm.smsCode" placeholder="请输入验证码" class="h-12">-->
+<!--            <template #prefix>-->
+<!--              <el-icon>-->
+<!--                <Key/>-->
+<!--              </el-icon>-->
+<!--            </template>-->
+<!--            <template #suffix>-->
+<!--              <el-button v-if="registerCodeTimer <= 0" type="primary" link @click="getRegisterSmsCode" class="text-sm">-->
+<!--                获取验证码-->
+<!--              </el-button>-->
+<!--              <span v-else class="text-sm text-gray-500">-->
+<!--                {{ registerCodeTimer }}s后重试-->
+<!--              </span>-->
+<!--            </template>-->
+<!--          </el-input>-->
+<!--        </el-form-item>-->
 
         <el-form-item label="密码" prop="password">
           <el-input v-model="registerForm.password" type="password" placeholder="请设置6-20位密码" class="h-12"
@@ -375,9 +375,9 @@ export default {
           {required: true, trigger: "blur", message: "请再次输入密码"},
           {validator: validateConfirmPassword, trigger: "blur"}
         ],
-        smsCode: [
-          {required: true, trigger: "blur", message: "请输入验证码"},
-        ]
+        // smsCode: [
+        //   {required: true, trigger: "blur", message: "请输入验证码"},
+        // ]
       }
     };
   },

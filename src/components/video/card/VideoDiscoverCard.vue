@@ -40,12 +40,12 @@
     </div>
 
     <!-- 视频信息区域 -->
-    <div class="video-info">
+    <div class="video-info items-start">
       <h3 class="video-title" :title="video.videoTitle" @click="handleVideoPlayDialog">
         {{ video.videoTitle }}
       </h3>
 
-      <div class="video-meta">
+      <div class="video-meta w-full">
         <div class="author-info">
           <el-avatar :src="video.userAvatar" :size="36" class="author-avatar">
             <el-icon>
@@ -231,7 +231,7 @@ const smartDateFormat = (dateString) => {
 
 <style scoped>
 .video-card {
-  background: var(--el-bg-color);
+  background: var(--bg-video-card);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -456,27 +456,6 @@ const smartDateFormat = (dateString) => {
 
   .interaction-stats {
     gap: 12px;
-  }
-}
-
-/* 深色模式适配 */
-@media (prefers-color-scheme: dark) {
-  .video-card {
-    background: var(--el-bg-color-page);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-
-    &:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-  }
-
-  .play-button {
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.9);
-    }
   }
 }
 

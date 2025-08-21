@@ -4,70 +4,58 @@
       <div class="p5-10 flex-between tac">
         <span v-if="followExpand" class="fs9 fw600 flex-center" style="flex: 1 1">我的关注（{{ followTotal }}）</span>
         <span class="cp flex-center" style="margin: 0 auto" @click="handleExpandFold()">
-          <el-tooltip
-              class="box-item"
-              effect="dark"
-              :auto-close="1000"
-              content="展开/收起"
-              placement="top">
-         <svg v-if="followExpand" class="icon" aria-hidden="true">
+          <el-tooltip class="box-item" effect="dark" :auto-close="1000" content="展开/收起" placement="top">
+            <svg v-if="followExpand" class="icon" aria-hidden="true">
               <use xlink:href="#icon-fold"></use>
-          </svg>
-          <svg v-else class="icon" aria-hidden="true">
+            </svg>
+            <svg v-else class="icon" aria-hidden="true">
               <use xlink:href="#icon-expand"></use>
-          </svg></el-tooltip>
+            </svg></el-tooltip>
         </span>
       </div>
       <el-scrollbar class="p5-10" v-loading="followListLoading">
-        <div
-            :class="{'user-card user-card-cur': item.userId===curPlayUserId, 'user-card':true}"
-            v-for="item in followList"
-            :key="item.userId">
+        <div :class="{ 'user-card user-card-cur': item.userId === curPlayUserId, 'user-card': true }"
+          v-for="item in followList" :key="item.userId">
           <div class="user-info flex-start pr" @click="getFollowedVideoList(item.userId)">
-            <el-avatar class="user-avatar"
-                       v-if="item.avatar"
-                       :src="item.avatar"
-                       lazy/>
-            <el-avatar v-else :icon="UserFilled"/>
+            <el-avatar class="user-avatar" v-if="item.avatar" :src="item.avatar" lazy />
+            <el-avatar v-else :icon="UserFilled" />
             <div v-if="followExpand" class="user-nickname">
               <p class="nickname one-line">{{ item.nickName }}</p>
             </div>
-            <span v-if="curPlayUserId===item.userId" class="cur-play-dot pa"></span>
+            <span v-if="curPlayUserId === item.userId" class="cur-play-dot pa"></span>
           </div>
         </div>
         <!-- 无限滚动观察目标元素 -->
         <div ref="loadMoreTrigger" v-if="!followListDataNotMore" class="load-more-trigger">
           <div v-if="followListLoading" class="loading-indicator">
-            <el-icon class="is-loading"><Loading /></el-icon>
+            <el-icon class="is-loading">
+              <Loading />
+            </el-icon>
             <span>加载中...</span>
           </div>
         </div>
         <div v-if="followListDataNotMore">
           <el-divider>到底了</el-divider>
         </div>
-        <el-empty v-show="followTotal<=0" description="暂无数据"/>
+        <el-empty v-show="followTotal <= 0" description="暂无数据" />
       </el-scrollbar>
     </div>
     <!--    <div class="video-container"-->
     <!--         :style="'width:calc(100% - '+followListWidth+');'"> -->
-    <div class="video-container"
-         style="flex: 1;width: 100%"><!--width: 100%不会有动画效果-->
-      <VideoPlayerCarousel
-          v-if="showVideoPlayer"
-          :loading="loading"
-          :video-list="videoList"
-          @reloadVideoFeed="reloadVideoFeedEmit"/>
-      <el-empty v-if="dataNotMore" description="暂无关注视频动态"/>
+    <div class="video-container" style="flex: 1;width: 100%"><!--width: 100%不会有动画效果-->
+      <VideoPlayerCarousel v-if="showVideoPlayer" :loading="loading" :video-list="videoList"
+        @reloadVideoFeed="reloadVideoFeedEmit" />
+      <el-empty v-if="dataNotMore" description="暂无关注视频动态" />
     </div>
   </div>
 </template>
 
 <script>
 import VideoPlayerCarousel from "@/components/video/VideoPlayerCarousel.vue";
-import {UserFilled, Loading} from "@element-plus/icons-vue";
-import {videoUserpage} from "@/api/video"
-import {followPageList, followVideoFeed, initUserInBox} from '@/api/social'
-import {useIntersectionObserver} from '@/composables/useIntersectionObserver'
+import { UserFilled, Loading } from "@element-plus/icons-vue";
+import { videoUserpage } from "@/api/video"
+import { followPageList, followVideoFeed, initUserInBox } from '@/api/social'
+import { useIntersectionObserver } from '@/composables/useIntersectionObserver'
 
 export default {
   name: "Follow",
@@ -79,7 +67,7 @@ export default {
       return Loading
     }
   },
-  components: {VideoPlayerCarousel},
+  components: { VideoPlayerCarousel },
   data() {
     return {
       loading: true,
@@ -209,7 +197,7 @@ export default {
       if (this.intersectionObserver) {
         this.intersectionObserver.disconnect()
       }
-      
+
       this.intersectionObserver = new IntersectionObserver((entries) => {
         const entry = entries[0]
         if (entry.isIntersecting && !this.followListDataNotMore && this.loadingFollowListData) {

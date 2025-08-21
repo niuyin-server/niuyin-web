@@ -44,18 +44,18 @@ const loadMore = async () => {
     // 调用真实的pushVideo接口
     const response = await pushVideo()
     console.log('API Response:', response)
-    
+
     // 检查响应格式并提取数据
     const newItems = response.data?.data || response.data || []
     console.log('New items:', newItems)
-    
+
     if (newItems.length === 0) {
       hasMore.value = false
     } else {
       // 成功获取数据时重置错误状态
       error.value = null
       retryCount.value = 0
-      
+
       items.value = [...items.value, ...newItems]
       page.value += 1
       // 重新计算页面高度
@@ -69,7 +69,7 @@ const loadMore = async () => {
   } catch (err) {
     console.error('Error fetching items:', err)
     error.value = err.message || '获取视频数据失败，请稍后重试'
-    
+
     // 自动重试机制
     if (retryCount.value < maxRetries) {
       retryCount.value++
@@ -117,20 +117,20 @@ const debouncedUpdateHeight = debounce(updateHeight, 100)
 onMounted(async () => {
   // 初始化高度计算
   updateHeight()
-  
+
   // 监听窗口大小变化
   window.addEventListener('resize', debouncedUpdateHeight)
-  
+
   // 初始化IntersectionObserver
   observerRef.value = new IntersectionObserver(observeIntersection, {
     threshold: 0.1,
     rootMargin: '50px' // 提前50px开始加载
   })
-  
+
   if (loadingRef.value) {
     observerRef.value.observe(loadingRef.value)
   }
-  
+
   // 自动加载第一页数据
   await loadMore()
 })
@@ -138,7 +138,7 @@ onMounted(async () => {
 onUnmounted(() => {
   // 清理事件监听器
   window.removeEventListener('resize', debouncedUpdateHeight)
-  
+
   // 断开IntersectionObserver
   if (observerRef.value) {
     observerRef.value.disconnect()
@@ -153,7 +153,7 @@ watch(() => props.columnCount, (newColumnCount) => {
 const playVideo = (item) => {
   console.log("hover")
   item.showVideo = true
-  
+
   if (item.publishType === '0') {
     // 视频类型
     const videoElement = document.querySelector(`video[src="${item.videoUrl}"]`)
@@ -179,7 +179,7 @@ const pauseVideo = (item) => {
     videoElement.pause()
     videoElement.currentTime = 0
   }
-  
+
   // 停止图文轮播
   if (item.carouselTimer) {
     clearInterval(item.carouselTimer)
@@ -201,17 +201,17 @@ const prevImage = (item) => {
 // 启动自动轮播
 const startCarousel = (item) => {
   if (!item.imageList || item.imageList.length <= 1) return
-  
+
   // 初始化当前图片索引
   if (item.currentImageIndex === undefined) {
     item.currentImageIndex = 0
   }
-  
+
   // 清除已存在的定时器
   if (item.carouselTimer) {
     clearInterval(item.carouselTimer)
   }
-  
+
   // 启动自动轮播，每3秒切换一张图片
   item.carouselTimer = setInterval(() => {
     nextImage(item)
@@ -268,41 +268,41 @@ const startCarousel = (item) => {
             <div class="absolute inset-0 bg-cover bg-center rounded-t-lg"
                  :style="{ backgroundImage: `url(${item.coverImage})` }">
               <!-- backdrop滤镜 -->
-              <div class="absolute inset-0 bg-black/20 backdrop-blur-sm rounded-t-lg"></div>
+              <div class="absolute inset-0 bg-black/20 backdrop-blur-xl rounded-t-lg"></div>
             </div>
             <div class="relative w-full h-full z-10">
               <!-- 轮播图片 -->
               <div class="w-full h-full transition-transform duration-500 ease-in-out"
                    :style="{ transform: `translateX(-${(item.currentImageIndex || 0) * 100}%)`, display: 'flex' }">
-                <img v-for="(image, index) in item.imageList" 
+                <img v-for="(image, index) in item.imageList"
                      :key="index"
-                     :src="image" 
+                     :src="image"
                      :alt="`${item.videoTitle} - 图片${index + 1}`"
                      class="w-full h-full object-contain flex-shrink-0"
                      :style="{ minWidth: '100%' }" />
               </div>
-              
+
               <!-- 轮播指示器 -->
               <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1"
                    v-if="item.imageList && item.imageList.length > 1">
-                <div v-for="(image, index) in item.imageList" 
+                <div v-for="(image, index) in item.imageList"
                      :key="index"
                      class="w-2 h-2 rounded-full transition-colors duration-300"
                      :class="(item.currentImageIndex || 0) === index ? 'bg-white' : 'bg-white/50'">
                 </div>
               </div>
-              
+
               <!-- 左右切换按钮 -->
               <div class="absolute inset-y-0 left-0 flex items-center"
                    v-if="item.imageList && item.imageList.length > 1">
-                <button @click="prevImage(item)" 
+                <button @click="prevImage(item)"
                         class="ml-2 p-1 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors">
                   ‹
                 </button>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center"
                    v-if="item.imageList && item.imageList.length > 1">
-                <button @click="nextImage(item)" 
+                <button @click="nextImage(item)"
                         class="mr-2 p-1 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors">
                   ›
                 </button>
@@ -329,8 +329,8 @@ const startCarousel = (item) => {
       <LoadingOne v-if="loading" class="animate-spin"/>
       <div v-if="error" class="flex flex-col items-center space-y-2">
         <p class="text-red-500 text-center">{{ error }}</p>
-        <button 
-          @click="retryLoad" 
+        <button
+          @click="retryLoad"
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
         >
           重试
