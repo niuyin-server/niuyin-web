@@ -1,20 +1,18 @@
 <script setup>
-import {onMounted, onUnmounted, ref, nextTick, computed, watch} from 'vue'
+import {nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
 import {imageGenerate, imageList} from "@/api/ai/image/message";
-import { useInfiniteScroll } from '@/composables/useInfiniteScroll'
-import { useWaterfallLayout } from '@/composables/useWaterfallLayout'
-
-const inputMessage = ref('')
-const isLoading = ref(false)
-
+import {useInfiniteScroll} from '@/composables/useInfiniteScroll'
+import {useWaterfallLayout} from '@/composables/useWaterfallLayout'
 import img11 from '@/Layout/ai/image/assets/image-size-1-1.svg'
 import img12 from '@/Layout/ai/image/assets/image-size-1-2.svg'
-import img21 from '@/Layout/ai/image/assets/image-size-2-1.svg'
 import img34 from '@/Layout/ai/image/assets/image-size-3-4.svg'
 import img43 from '@/Layout/ai/image/assets/image-size-4-3.svg'
 import img169 from '@/Layout/ai/image/assets/image-size-16-9.svg'
 import img916 from '@/Layout/ai/image/assets/image-size-9-16.svg'
 import {parseTime, smartDateFormat} from "@/utils/roydon";
+
+const inputMessage = ref('')
+const isLoading = ref(false)
 
 // 图片生成比例
 const genRadio = ref('1:1')
@@ -102,9 +100,9 @@ const loadMoreImages = async () => {
   }
 }
 
-const { targetRef: loadMoreRef, isLoading: infiniteLoading } = useInfiniteScroll(
+const {targetRef: loadMoreRef, isLoading: infiniteLoading} = useInfiniteScroll(
     loadMoreImages,
-    { threshold: 0.1, rootMargin: '100px' }
+    {threshold: 0.1, rootMargin: '100px'}
 )
 
 // 数据管理
@@ -138,29 +136,12 @@ const initImageList = async () => {
   }
 }
 
-// 简化布局逻辑，使用CSS Grid代替复杂的绝对定位
-const itemHeights = ref(new Map())
-
-// 获取卡片样式 - 使用简单的相对定位
-const getItemStyle = (item, index) => {
-  return {
-    width: '280px',
-    opacity: 1,
-    transform: 'translateY(0)'
-  }
-}
-
-// 计算每个项目应该放在哪一列
-const getColumnIndex = (index) => {
-  return index % columns.value
-}
-
 // 监听数据变化，重新计算布局
 watch(imageListData, () => {
   nextTick(() => {
     resetLayout()
   })
-}, { deep: true })
+}, {deep: true})
 
 // 监听列数变化，重新计算布局
 watch(columns, () => {
@@ -235,7 +216,8 @@ onUnmounted(() => {
               :key="item.id || index"
               class="waterfall-item transition-all duration-300 ease-out waterfall-item-enter"
           >
-            <div class="image-card relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] cp">
+            <div
+                class="image-card relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] cp">
               <img
                   v-if="item.status==='1'"
                   :src="item.picUrl"

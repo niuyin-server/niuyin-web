@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 export interface WaterfallItem {
   id: string | number
@@ -33,7 +33,7 @@ export function useWaterfallLayout(options: UseWaterfallLayoutOptions = {}) {
     const containerWidth = containerRef.value.clientWidth
     const availableWidth = containerWidth - gap
     const possibleColumns = Math.floor(availableWidth / (columnWidth + gap))
-    
+
     columns.value = Math.max(minColumns, Math.min(maxColumns, possibleColumns))
     columnHeights.value = new Array(columns.value).fill(0)
   }
@@ -58,7 +58,7 @@ export function useWaterfallLayout(options: UseWaterfallLayoutOptions = {}) {
     if (columnHeights.value.length === 0) {
       columnHeights.value = new Array(columns.value).fill(0)
     }
-    
+
     const columnIndex = getShortestColumnIndex()
     const x = columnIndex * (columnWidth + gap)
     const y = columnHeights.value[columnIndex]
@@ -94,7 +94,7 @@ export function useWaterfallLayout(options: UseWaterfallLayoutOptions = {}) {
   onMounted(() => {
     if (containerRef.value) {
       calculateColumns()
-      
+
       // 使用 ResizeObserver 监听容器大小变化
       resizeObserver = new ResizeObserver(() => {
         handleResize()
