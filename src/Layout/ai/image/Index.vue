@@ -1,6 +1,8 @@
 <script setup>
-import {onMounted, onUnmounted, ref, nextTick} from 'vue'
+import {onMounted, onUnmounted, ref, nextTick, computed, watch} from 'vue'
 import {imageGenerate, imageList} from "@/api/ai/image/message";
+import { useInfiniteScroll } from '@/composables/useInfiniteScroll'
+import { useWaterfallLayout } from '@/composables/useWaterfallLayout'
 
 const inputMessage = ref('')
 const isLoading = ref(false)
@@ -61,7 +63,51 @@ const sendMessage = () => {
   })
 }
 
-// 不能用分页，要用游标
+// 瀑布流布局
+const {
+  containerRef,
+  columns,
+  itemPositions,
+  calculateItemPosition,
+  resetLayout,
+  getContainerHeight
+} = useWaterfallLayout({
+  columnWidth: 280,
+  gap: 16,
+  minColumns: 1,
+  maxColumns: 4
+})
+
+// 无限滚动
+const loadMoreImages = async () => {
+  if (imageListNotMore.value || imageListLoading.value) return
+
+  imageListLoading.value = true
+  imageListPageDTO.value.pageNum++
+
+  try {
+    const res = await imageList(imageListPageDTO.value)
+    if (res?.code === 200) {
+      imageListData.value = [...imageListData.value, ...res.rows]
+      imageListTotal.value = res.total
+
+      if (imageListTotal.value === imageListData.value.length) {
+        imageListNotMore.value = true
+      }
+    }
+  } catch (error) {
+    console.error('加载图片失败:', error)
+  } finally {
+    imageListLoading.value = false
+  }
+}
+
+const { targetRef: loadMoreRef, isLoading: infiniteLoading } = useInfiniteScroll(
+  loadMoreImages,
+  { threshold: 0.1, rootMargin: '100px' }
+)
+
+// 数据管理
 const imageListPageDTO = ref({
   pageNum: 1,
   pageSize: 10,
@@ -70,28 +116,58 @@ const imageListData = ref([])
 const imageListTotal = ref(0)
 const imageListLoading = ref(true)
 const imageListEmpty = ref(false)
-const imageListNotMore = ref(true)
+const imageListNotMore = ref(false)
 
-const initImageList = () => {
-  imageList(imageListPageDTO.value).then((res) => {
+const initImageList = async () => {
+  imageListLoading.value = true
+  try {
+    const res = await imageList(imageListPageDTO.value)
     if (res?.code === 200) {
-      imageListData.value = [...imageListData.value, ...res.rows]
+      imageListData.value = res.rows
       imageListTotal.value = res.total
-      imageListLoading.value = false
-      imageListNotMore.value = false
+      imageListEmpty.value = res.rows.length === 0
+
       if (imageListTotal.value === imageListData.value.length) {
         imageListNotMore.value = true
       }
-    } else {
-
     }
-  })
+  } catch (error) {
+    console.error('初始化图片列表失败:', error)
+  } finally {
+    imageListLoading.value = false
+  }
 }
 
-const handleLoadMore = () => {
-  imageListPageDTO.value.pageNum++
-  initImageList()
+// 简化布局逻辑，使用CSS Grid代替复杂的绝对定位
+const itemHeights = ref(new Map())
+
+// 获取卡片样式 - 使用简单的相对定位
+const getItemStyle = (item, index) => {
+  return {
+    width: '280px',
+    opacity: 1,
+    transform: 'translateY(0)'
+  }
 }
+
+// 计算每个项目应该放在哪一列
+const getColumnIndex = (index) => {
+  return index % columns.value
+}
+
+// 监听数据变化，重新计算布局
+watch(imageListData, () => {
+  nextTick(() => {
+    resetLayout()
+  })
+}, { deep: true })
+
+// 监听列数变化，重新计算布局
+watch(columns, () => {
+  nextTick(() => {
+    resetLayout()
+  })
+})
 
 const imageRouter = ref([
   {
@@ -140,58 +216,78 @@ onUnmounted(() => {
         <i class="fas fa-image mr-2 text-[var(--niuyin-primary-color)]"></i> 图片生成记录/图片广场
       </div>
       <el-scrollbar v-if="imageRouterActive===imageRouter[0].value" class="overflow-y-auto flex-1" ref="scrollbarRef">
-        <div class="waterfall-grid p-4">
-          <!-- 生成的图片卡片 -->
-          <el-skeleton class="w100" :loading="imageListLoading" animated>
-            <template #template>
-              <div class="loading-container" v-for="i in 2">
-                <div class="loading-item" v-for="i in 5">
-                  <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
-                  <div class="p1rem">
-                    <el-skeleton-item variant="h1" style="width: 80%"/>
-                    <div>
-                      <el-skeleton-item variant="text"/>
-                    </div>
-                  </div>
+        <!-- 瀑布流容器 -->
+        <div class="waterfall-container p-4">
+          <!-- 初始加载骨架屏 -->
+          <div v-if="imageListLoading && imageListData.length === 0" class="waterfall-skeleton">
+            <div v-for="i in 8" :key="i" class="skeleton-item">
+              <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
+              <div class="p-3">
+                <el-skeleton-item variant="h1" style="width: 80%"/>
+                <el-skeleton-item variant="text"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- 瀑布流图片卡片 -->
+          <div
+            v-for="(item, index) in imageListData"
+            :key="item.id || index"
+            class="waterfall-item transition-all duration-300 ease-out waterfall-item-enter"
+          >
+            <div class="image-card relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] cp">
+              <img
+                v-if="item.status==='1'"
+                :src="item.picUrl"
+                :alt="item.prompt"
+                class="w-full h-auto"
+                @load="onImageLoad(item, index)"
+                @error="onImageError(item, index)"
+              />
+              <img v-else-if="item.status==='2'" src="./assets/image-preview-error.svg"/>
+              <div v-else class="flex items-center justify-center p-8">
+                <i class="fas fa-spinner animate-spin text-yellow-500 text-7xl"/>
+              </div>
+              <span class="absolute top-0 text-gray-500 text-xs p-2"
+                    v-if="item.status==='2'">{{ item.errorMessage }}</span>
+              <div class="p-3">
+                <p class="text-sm">{{ item.prompt }}</p>
+                <div v-if="item.status === '0'" class="mt-1">
+                  <i class="fas fa-spinner animate-spin text-yellow-500"/>
+                  <span class="text-xs text-yellow-500 mt-1 ml-2">进行中</span>
+                </div>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-xs text-gray-500">{{ smartDateFormat(item.createTime) }}</span>
+                  <button class="text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-primary-color-8)]">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
                 </div>
               </div>
-            </template>
-            <template #default>
-              <div v-for="item in imageListData"
-                   class="waterfall-item relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] image-card cp">
-                <img
-                    v-if="item.status==='1'"
-                    :src="item.picUrl"
-                    :alt="item.prompt"
-                    style="min-height: 120px"
-                    class="w-full h-auto">
-                <img v-else-if="item.status==='2'" src="./assets/image-preview-error.svg"/>
-                <div v-else class="flex items-center justify-center p-8">
-                  <i class="fas fa-spinner animate-spin text-yellow-500 text-7xl"/>
-                </div>
-                <span class="absolute top-0 text-gray-500 text-xs p-2"
-                      v-if="item.status==='2'">{{ item.errorMessage }}</span>
-                <div class="p-3">
-                  <p class="text-sm">{{ item.prompt }}</p>
-                  <div v-if="item.status === '0'" class="mt-1  ">
-                    <i class="fas fa-spinner animate-spin text-yellow-500"/>
-                    <span class="text-xs text-yellow-500 mt-1 ml-2">进行中</span>
-                  </div>
-                  <div class="flex justify-between items-center mt-1">
-                    <span class="text-xs text-gray-500">{{ smartDateFormat(item.createTime) }}</span>
-                    <button class="text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-primary-color-8)]">
-                      <i class="fas fa-share-alt"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </el-skeleton>
-          <!-- 更多图片卡片... -->
+            </div>
+          </div>
         </div>
-        <div class="mb-4 flex items-center justify-center">
-          <!--          加载更多按钮-->
-          <el-button v-if="!imageListNotMore" class=" " @click="handleLoadMore">加载更多</el-button>
+
+        <!-- 无限滚动触发器 -->
+        <div
+          ref="loadMoreRef"
+          class="load-more-trigger flex items-center justify-center py-8"
+          v-if="!imageListNotMore"
+        >
+          <div v-if="infiniteLoading || imageListLoading" class="flex items-center space-x-2">
+            <i class="fas fa-spinner animate-spin text-[var(--niuyin-primary-color)]"></i>
+            <span class="text-sm text-gray-500">加载中...</span>
+          </div>
+        </div>
+
+        <!-- 加载完成提示 -->
+        <div v-if="imageListNotMore && imageListData.length > 0" class="text-center py-8">
+          <span class="text-sm text-gray-500">已加载全部内容</span>
+        </div>
+
+        <!-- 空状态 -->
+        <div v-if="imageListEmpty && !imageListLoading" class="text-center py-16">
+          <i class="fas fa-image text-6xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500">暂无图片记录</p>
         </div>
       </el-scrollbar>
       <el-scrollbar v-else-if="imageRouterActive===imageRouter[1].value" class="overflow-y-auto flex-1"
@@ -357,21 +453,109 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.waterfall-grid {
-  column-count: 5;
-  column-gap: 1rem;
+/* 瀑布流容器 - 使用CSS Grid */
+.waterfall-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  width: 100%;
 }
 
+/* 瀑布流项目 */
 .waterfall-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 卡片进入动画 */
+.waterfall-item-enter {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 图片卡片样式 */
 .image-card {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
 }
 
 .image-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* 骨架屏布局 */
+.waterfall-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.skeleton-item {
+  background: var(--bg-video-card);
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--niuyin-border-color);
+}
+
+/* 加载触发器 */
+.load-more-trigger {
+  min-height: 60px;
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+  .waterfall-container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  
+  .waterfall-skeleton {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .waterfall-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .waterfall-skeleton {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .waterfall-container {
+    grid-template-columns: 1fr;
+  }
+
+  .waterfall-skeleton {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 加载状态动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 </style>
