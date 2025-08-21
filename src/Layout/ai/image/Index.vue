@@ -1,15 +1,15 @@
 <script setup>
-import {nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
-import {imageGenerate, imageList} from "@/api/ai/image/message";
-import {useInfiniteScroll} from '@/composables/useInfiniteScroll'
-import {useWaterfallLayout} from '@/composables/useWaterfallLayout'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { imageGenerate, imageList } from "@/api/ai/image/message";
+import { useInfiniteScroll } from '@/composables/useInfiniteScroll'
+import { useWaterfallLayout } from '@/composables/useWaterfallLayout'
 import img11 from '@/Layout/ai/image/assets/image-size-1-1.svg'
 import img12 from '@/Layout/ai/image/assets/image-size-1-2.svg'
 import img34 from '@/Layout/ai/image/assets/image-size-3-4.svg'
 import img43 from '@/Layout/ai/image/assets/image-size-4-3.svg'
 import img169 from '@/Layout/ai/image/assets/image-size-16-9.svg'
 import img916 from '@/Layout/ai/image/assets/image-size-9-16.svg'
-import {parseTime, smartDateFormat} from "@/utils/roydon";
+import { parseTime, smartDateFormat } from "@/utils/roydon";
 
 const inputMessage = ref('')
 const isLoading = ref(false)
@@ -17,13 +17,13 @@ const isLoading = ref(false)
 // 图片生成比例
 const genRadio = ref('1:1')
 const genRatioOptions = [
-  {label: '1:1', value: '1:1', image: img11},
-  {label: '1:2', value: '1:2', image: img12},
+  { label: '1:1', value: '1:1', image: img11 },
+  { label: '1:2', value: '1:2', image: img12 },
   // {label: '2:1', value: '2:1', image: img21},
-  {label: '3:4', value: '3:4', image: img34},
-  {label: '4:3', value: '4:3', image: img43},
-  {label: '16:9', value: '16:9', image: img169},
-  {label: '9:16', value: '9:16', image: img916},
+  { label: '3:4', value: '3:4', image: img34 },
+  { label: '4:3', value: '4:3', image: img43 },
+  { label: '16:9', value: '16:9', image: img169 },
+  { label: '9:16', value: '9:16', image: img916 },
 ]
 const handleClickGenRadio = (item) => {
   genRadio.value = item.value
@@ -100,9 +100,9 @@ const loadMoreImages = async () => {
   }
 }
 
-const {targetRef: loadMoreRef, isLoading: infiniteLoading} = useInfiniteScroll(
-    loadMoreImages,
-    {threshold: 0.1, rootMargin: '100px'}
+const { targetRef: loadMoreRef, isLoading: infiniteLoading } = useInfiniteScroll(
+  loadMoreImages,
+  { threshold: 0.1, rootMargin: '100px' }
 )
 
 // 数据管理
@@ -141,7 +141,7 @@ watch(imageListData, () => {
   nextTick(() => {
     resetLayout()
   })
-}, {deep: true})
+}, { deep: true })
 
 // 监听列数变化，重新计算布局
 watch(columns, () => {
@@ -184,63 +184,57 @@ onUnmounted(() => {
     <div class="w-3/4 relative h100 flex flex-column">
       <!-- 顶部切换【历史记录/图片广场】-->
       <div class="flex space-x-4 justify-center items-center absolute left-1/2 -translate-x-1/2 top-2 z-10">
-        <button
-            v-for="item in imageRouter"
-            :class="[item.value===imageRouterActive?'bg-[var(--niuyin-primary-color)]':'']"
-            class="px-4 py-2 hover:bg-[var(--niuyin-primary-color-8)] transition-all text-[var(--niuyin-text-color)] border border-[var(--niuyin-border-color)] rounded-full text-sm flex items-center"
-            @click="handleClickImageRouter(item)"
-        >
+        <button v-for="item in imageRouter"
+          :class="[item.value === imageRouterActive ? 'bg-[var(--niuyin-primary-color)]' : '']"
+          class="px-4 py-2 hover:bg-[var(--niuyin-primary-color-8)] transition-all text-[var(--niuyin-text-color)] border border-[var(--niuyin-border-color)] rounded-full text-sm flex items-center"
+          @click="handleClickImageRouter(item)">
           <i class="fas mr-2" :class="item.fas"></i>{{ item.name }}
         </button>
       </div>
       <div class="text-l font-semibold flex items-center mt-4 mb-2">
         <i class="fas fa-image mr-2 text-[var(--niuyin-primary-color)]"></i> 图片生成记录/图片广场
       </div>
-      <el-scrollbar v-if="imageRouterActive===imageRouter[0].value" class="overflow-y-auto flex-1" ref="scrollbarRef">
+      <el-scrollbar v-if="imageRouterActive === imageRouter[0].value" class="overflow-y-auto flex-1" ref="scrollbarRef">
         <!-- 瀑布流容器 -->
         <div class="waterfall-container p-4">
           <!-- 初始加载骨架屏 -->
           <div v-if="imageListLoading && imageListData.length === 0" class="waterfall-skeleton">
-            <div v-for="i in 8" :key="i" class="skeleton-item">
-              <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
+            <div v-for="i in 4" :key="i" class="skeleton-item">
+              <el-skeleton-item variant="image" style="width: 100%; height: 240px" />
               <div class="p-3">
-                <el-skeleton-item variant="h1" style="width: 80%"/>
-                <el-skeleton-item variant="text"/>
+                <el-skeleton-item variant="h1" style="width: 80%" />
+                <el-skeleton-item variant="text" />
               </div>
             </div>
           </div>
 
           <!-- 瀑布流图片卡片 -->
-          <div
-              v-for="(item, index) in imageListData"
-              :key="item.id || index"
-              class="waterfall-item transition-all duration-300 ease-out waterfall-item-enter"
-          >
+          <div v-for="(item, index) in imageListData" :key="item.id || index"
+            class="waterfall-item transition-all duration-300 ease-out waterfall-item-enter">
             <div
-                class="image-card relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] cp">
-              <img
-                  v-if="item.status==='1'"
-                  :src="item.picUrl"
-                  :alt="item.prompt"
-                  class="w-full h-auto"
-                  @load="onImageLoad(item, index)"
-                  @error="onImageError(item, index)"
-              />
-              <img v-else-if="item.status==='2'" src="./assets/image-preview-error.svg"/>
-              <div v-else class="flex items-center justify-center p-8">
-                <i class="fas fa-spinner animate-spin text-yellow-500 text-7xl"/>
-              </div>
-              <span class="absolute top-0 text-gray-500 text-xs p-2"
-                    v-if="item.status==='2'">{{ item.errorMessage }}</span>
-              <div class="p-3">
-                <p class="text-sm">{{ item.prompt }}</p>
-                <div v-if="item.status === '0'" class="mt-1">
-                  <i class="fas fa-spinner animate-spin text-yellow-500"/>
-                  <span class="text-xs text-yellow-500 mt-1 ml-2">进行中</span>
+              class="image-card relative hover:bg-[var(--bg-video-card-5)] card-hover bg-[var(--bg-video-card)] rounded-2xl overflow-hidden shadow-sm border border-[var(--niuyin-border-color)] cp">
+              <!-- 图片容器 -->
+              <div class="image-container">
+                <img v-if="item.status === '1'" :src="item.picUrl" :alt="item.prompt" class="image-content" />
+                <img v-else-if="item.status === '2'" src="./assets/image-preview-error.svg" class="image-content" />
+                <div v-else class="image-loading">
+                  <i class="fas fa-spinner animate-spin text-yellow-500 text-4xl" />
                 </div>
-                <div class="flex justify-between items-center mt-1">
+              </div>
+
+              <span class="absolute top-2 left-2 text-white text-xs bg-black bg-opacity-50 px-2 py-1 rounded"
+                v-if="item.status === '2'">{{ item.errorMessage }}</span>
+
+              <div class="p-3">
+                <p class="prompt-text">{{ item.prompt }}</p>
+                <div v-if="item.status === '0'" class="mt-2">
+                  <i class="fas fa-spinner animate-spin text-yellow-500" />
+                  <span class="text-xs text-yellow-500 ml-2">进行中</span>
+                </div>
+                <div class="flex justify-between items-center mt-2">
                   <span class="text-xs text-gray-500">{{ smartDateFormat(item.createTime) }}</span>
-                  <button class="text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-primary-color-8)]">
+                  <button
+                    class="text-[var(--niuyin-primary-color)] hover:text-[var(--niuyin-primary-color-8)] transition-colors">
                     <i class="fas fa-share-alt"></i>
                   </button>
                 </div>
@@ -250,11 +244,7 @@ onUnmounted(() => {
         </div>
 
         <!-- 无限滚动触发器 -->
-        <div
-            ref="loadMoreRef"
-            class="load-more-trigger flex items-center justify-center py-8"
-            v-if="!imageListNotMore"
-        >
+        <div ref="loadMoreRef" class="load-more-trigger flex items-center justify-center py-8" v-if="!imageListNotMore">
           <div v-if="infiniteLoading || imageListLoading" class="flex items-center space-x-2">
             <i class="fas fa-spinner animate-spin text-[var(--niuyin-primary-color)]"></i>
             <span class="text-sm text-gray-500">加载中...</span>
@@ -272,19 +262,19 @@ onUnmounted(() => {
           <p class="text-gray-500">暂无图片记录</p>
         </div>
       </el-scrollbar>
-      <el-scrollbar v-else-if="imageRouterActive===imageRouter[1].value" class="overflow-y-auto flex-1"
-                    ref="scrollbarRef">
+      <el-scrollbar v-else-if="imageRouterActive === imageRouter[1].value" class="overflow-y-auto flex-1"
+        ref="scrollbarRef">
         <div class="waterfall-grid p-4">
           <!-- 生成的图片卡片 -->
           <el-skeleton class="w100" :loading="imageListLoading" animated>
             <template #template>
               <div class="loading-container" v-for="i in 2">
                 <div class="loading-item" v-for="i in 5">
-                  <el-skeleton-item variant="image" style="width: 100%; height: 240px"/>
+                  <el-skeleton-item variant="image" style="width: 100%; height: 240px" />
                   <div class="p1rem">
-                    <el-skeleton-item variant="h1" style="width: 80%"/>
+                    <el-skeleton-item variant="h1" style="width: 80%" />
                     <div>
-                      <el-skeleton-item variant="text"/>
+                      <el-skeleton-item variant="text" />
                     </div>
                   </div>
                 </div>
@@ -320,11 +310,11 @@ onUnmounted(() => {
           <div>
             <label class="block text-sm font-medium mb-2">画幅比例</label>
             <div
-                class="flex flex-row flex-between overflow-hidden border border-[var(--niuyin-border-color)] rounded-2xl">
+              class="flex flex-row flex-between overflow-hidden border border-[var(--niuyin-border-color)] rounded-2xl">
               <div v-for="item in genRatioOptions"
-                   class="flex content-center items-center hover:bg-[var(--niuyin-primary-color-8)] flex-col cp px-4 py-2 w-1/6 transition-all"
-                   :class="[item.value === genRadio ? 'bg-[var(--niuyin-primary-color)]' : 'bg-[var(--niuyin-icon-bg)]']"
-                   @click="handleClickGenRadio(item)">
+                class="flex content-center items-center hover:bg-[var(--niuyin-primary-color-8)] flex-col cp px-4 py-2 w-1/6 transition-all"
+                :class="[item.value === genRadio ? 'bg-[var(--niuyin-primary-color)]' : 'bg-[var(--niuyin-icon-bg)]']"
+                @click="handleClickGenRadio(item)">
                 <img :src="item.image" :alt="item.label" width="32" height="32">
                 <span class="text-sm">{{ item.label }}</span>
               </div>
@@ -334,7 +324,7 @@ onUnmounted(() => {
           <div>
             <label class="block text-sm font-medium mb-2">风格</label>
             <select
-                class="w-full border border-[var(--niuyin-border-color)] rounded-lg p-2 text-sm focus:ring-1 focus:ring-[var(--niuyin-primary-color)]">
+              class="w-full border border-[var(--niuyin-border-color)] rounded-lg p-2 text-sm focus:ring-1 focus:ring-[var(--niuyin-primary-color)]">
               <option>写实风格</option>
               <option>卡通风格</option>
               <option>赛博朋克</option>
@@ -345,7 +335,7 @@ onUnmounted(() => {
           <div>
             <label class="block text-sm font-medium mb-2">生成质量</label>
             <select
-                class="w-full border border-[var(--niuyin-border-color)] rounded-lg p-2 text-sm focus:ring-1 focus:ring-[var(--niuyin-primary-color)]">
+              class="w-full border border-[var(--niuyin-border-color)] rounded-lg p-2 text-sm focus:ring-1 focus:ring-[var(--niuyin-primary-color)]">
               <option>标准</option>
               <option selected>高性能</option>
               <option>高质量</option>
@@ -392,25 +382,19 @@ onUnmounted(() => {
             </button>
           </div>
           <div class="relative">
-              <textarea
-                  class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
-                  rows="3"
-                  placeholder="请输入您想要生成的图片描述，例如：'一只坐在太空中的猫，戴着宇航员头盔，背景是星云和行星'"
-                  @keyup.enter="sendMessage"
-                  ref="inputRef"
-                  style="min-height: 104px"
-                  v-model="inputMessage"
-                  :disabled="isLoading"></textarea>
+            <textarea
+              class="w-full px-3 py-2 border border-[var(--niuyin-border-color)] rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--niuyin-primary-color)] focus:border-[var(--niuyin-primary-color)] disabled:opacity-50"
+              rows="3" placeholder="请输入您想要生成的图片描述，例如：'一只坐在太空中的猫，戴着宇航员头盔，背景是星云和行星'" @keyup.enter="sendMessage"
+              ref="inputRef" style="min-height: 104px" v-model="inputMessage" :disabled="isLoading"></textarea>
             <div class="absolute right-3 bottom-3 flex gap-2">
               <button
-                  class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
+                class="w-8 h-8 rounded-full bg-[var(--niuyin-icon-bg)] hover:bg-[var(--niuyin-icon-bg-5)] flex items-center justify-center text-gray-500 transition-colors">
                 <i class="fas fa-image"></i>
               </button>
               <button
-                  class="w-8 h-8 rounded-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-white transition-colors"
-                  :class="{ 'bg-red-500 hover:bg-red-600': isLoading }"
-                  @click="sendMessage">
-                <i v-if="isLoading" class="fas fa-spinner animate-spin"/>
+                class="w-8 h-8 rounded-full bg-[var(--niuyin-primary-color)] hover:bg-[var(--niuyin-primary-color-8)] flex items-center justify-center text-white transition-colors"
+                :class="{ 'bg-red-500 hover:bg-red-600': isLoading }" @click="sendMessage">
+                <i v-if="isLoading" class="fas fa-spinner animate-spin" />
                 <i v-else class="fas fa-paper-plane"></i>
               </button>
             </div>
@@ -457,12 +441,57 @@ onUnmounted(() => {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* 图片容器 */
+.image-container {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea3b 0%, #764ba22e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 图片内容 */
+.image-content {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* 图片加载状态 */
+.image-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* 提示词文本样式 */
+.prompt-text {
+  font-size: 0.95rem;
+  line-height: 1.25rem;
+  color: var(--niuyin-text-color);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 /* 图片卡片样式 */
@@ -472,8 +501,12 @@ onUnmounted(() => {
 }
 
 .image-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: scale(1.01);
+  box-shadow: 0 10px 15px -2px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+}
+
+.image-card:hover .image-content {
+  transform: scale(1.01);
 }
 
 /* 骨架屏布局 */
@@ -529,9 +562,12 @@ onUnmounted(() => {
 
 /* 加载状态动画 */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
